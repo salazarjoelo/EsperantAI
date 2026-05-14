@@ -1,0 +1,30 @@
+name: Backend Tests
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-tests.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install backend deps
+        working-directory: backend
+        # npm install (not npm ci) because backend/.gitignore excludes
+        # package-lock.json by design. Dependencies are pinned via ^
+        # ranges in backend/package.json — acceptable trade-off for
+        # a small backend with 3 direct dependencies.
+        run: npm install --no-audit --no-fund
+      - name: Run backend tests
+        working-directory: backend
+        run: npm test
