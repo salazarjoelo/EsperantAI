@@ -3,7 +3,8 @@
     "language": "日本語",
     "code": "ja-JP",
     "rtl": false,
-    "completion": 100,
+    "completion": 194,
+    "note": "v2.0 — gassho key added per Joel decision 2026-05-14",
     "translator": "AI-generated — needs native Japanese speaker review (critical for VTuber market)"
   },
   "app": {
@@ -78,6 +79,7 @@
     "fist": "握りこぶし",
     "open_palm": "手のひらを開く",
     "point": "指差し",
+    "gassho": "合掌（感謝）",
     "scene_unassigned": "—（無効）—"
   },
   "categories": {
@@ -107,7 +109,11 @@
     "gaze_strength": "最小視線強度",
     "emotion_confidence": "最小感情信頼度",
     "stable_frames": "安定フレーム数",
-    "cooldown_ms": "クールダウン（ms）"
+    "cooldown_ms": "クールダウン（ms）",
+    "dead_zone_yaw": "ヨーデッドゾーン",
+    "dead_zone_pitch": "ピッチデッドゾーン",
+    "dead_zone_roll": "ロールデッドゾーン",
+    "return_to_center": "中央復帰遅延（ms）"
   },
   "metrics": {
     "yaw_label": "ヨー（←/→）",
@@ -151,7 +157,7 @@
     "distance_hint": "顔の近さを測定します。頭が正面を向いている時のみトリガーされます。",
     "emotion_hint": "感情は高い信頼度で安定している必要があります。感情変化間のクールダウンは2秒です。",
     "blink_hint": "ダブルブリンク＝両目を素早く2回閉じる（700ms以内）。クールダウン1秒。",
-    "hand_hint": "ハンドジェスチャー検出。検出されるジェスチャー：サムズアップ、ピース、ロック、OK、握りこぶし、手のひらを開く、指差し。",
+    "hand_hint": "ハンドジェスチャー検出。検出されるジェスチャー：サムズアップ、ピース、ロック、OK、握りこぶし、手のひらを開く、指差し、合掌。",
     "platform_hint": "配信プラットフォームに接続して、イベントでアクションをトリガー：投げ銭、サブスク、レイド、チャンネルポイント。"
   },
   "platforms": {
@@ -179,5 +185,58 @@
     "video_info": "video={width}x{height} · backend={backend} · detect={ms}ms · frames={count}",
     "silent_mode_on": "サイレントモード稼働中。イベントとエラーのみログ出力。",
     "verbose_mode_on": "詳細モード稼働中：{frames}フレームに顔が検出されませんでした。"
+  },
+  "history": {
+    "title": "トリガー履歴",
+    "clear": "クリア",
+    "export_csv": "CSVエクスポート",
+    "no_triggers": "トリガー履歴はまだありません。",
+    "source_gesture": "ジェスチャー",
+    "source_platform": "プラットフォーム",
+    "source_combo": "コンボ"
+  },
+  "license": {
+    "required_title": "アクティベーションが必要です",
+    "required_desc": "EsperantAIを使用するには有効なライセンスが必要です。既にご購入済みの場合は、下にライセンスキーを貼り付けてください。まだの場合は esperantai.com でご購入ください。",
+    "key_label": "ライセンスキー",
+    "activate_button": "ライセンスをアクティベート",
+    "no_license": "まだライセンスをお持ちでないですか？",
+    "buy_button": "EsperantAIを入手",
+    "upgrade_hint": "より多くのトリガーと機能のためにアップグレード",
+    "tier_free": "無料",
+    "tier_pro": "プロ",
+    "tier_pro_plus": "プロ＋ディレクター",
+    "feature_locked": "{tier} プランで利用可能です",
+    "triggers_remaining": "{count}/{max} トリガー使用中（{tier} プラン）"
+  },
+  "actions": {
+    "scene_switch": "シーン切替",
+    "source_visibility": "ソース表示切替",
+    "source_filter_toggle": "ソースフィルター切替",
+    "audio_mute": "オーディオミュート/ミュート解除",
+    "source_transform": "ソース変形（移動/拡大縮小/回転）",
+    "source_crop": "ソースクロップ",
+    "recording_start": "録画開始",
+    "recording_stop": "録画停止",
+    "play_sound": "サウンド再生",
+    "speak_tts": "テキスト読み上げ",
+    "notification": "ブラウザ通知",
+    "flash_screen": "画面フラッシュ",
+    "vibrate": "バイブレーション",
+    "chat_message": "チャットメッセージ送信",
+    "create_clip": "クリップ作成",
+    "sequence": "シーケンス実行",
+    "random_choice": "ランダムアクション",
+    "delay_then": "遅延アクション"
+  },
+  "profiles": {
+    "label": "プロファイル：",
+    "save": "保存",
+    "new": "新規",
+    "delete": "削除",
+    "new_name": "プロファイル名：",
+    "switch_confirm": "プロファイルを切り替えますか？現在の設定が先に保存されます。",
+    "delete_confirm": "このプロファイルを削除しますか？",
+    "cannot_delete_default": "デフォルトプロファイルは削除できません。"
   }
 }
