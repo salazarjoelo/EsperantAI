@@ -18,11 +18,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: backend/package-lock.json
       - name: Install backend deps
         working-directory: backend
-        run: npm ci
+        # npm install (not npm ci) because backend/.gitignore excludes
+        # package-lock.json by design. Dependencies are pinned via ^
+        # ranges in backend/package.json — acceptable trade-off for
+        # a small backend with 3 direct dependencies.
+        run: npm install --no-audit --no-fund
       - name: Run backend tests
         working-directory: backend
         run: npm test

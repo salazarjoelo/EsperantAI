@@ -73,7 +73,16 @@ export function createApp(deps = {}) {
     } = deps;
 
     const app = express();
-    app.use(express.json({ limit: '10kb' }));
+
+    // express.json() debe aplicarse SOLO a rutas non-webhook.
+    // /webhook necesita el body crudo (Buffer) para verificar la firma HMAC.
+    // Si express.json() corriera global, req.body llegaría como objeto JS
+    // parseado y createHmac.update() lanzaría TypeError.
+    // Por eso aplicamos json() condicionalmente, excluyendo /webhook.
+    app.use((req, res, next) => {
+        if (req.path === '/webhook') return next();
+        express.json({ limit: '10kb' })(req, res, next);
+    });
 
     // CORS — solo permitir origen del cliente EsperantAI
     const ALLOWED_ORIGINS = [

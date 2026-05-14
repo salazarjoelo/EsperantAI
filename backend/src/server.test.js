@@ -5,7 +5,7 @@
  *
  * Ejecutar: cd backend && npm test
  */
-import { describe, it, before } from 'node:test';
+import { describe, it, before, after } from 'node:test';
 import { strictEqual, ok } from 'node:assert';
 import { generateKeyPair, exportSPKI, jwtVerify, importSPKI } from 'jose';
 import { createApp } from './server.js';
@@ -16,6 +16,9 @@ let publicKey;
 let app;
 let baseURL;
 let listeningServer;
+// Servers extra creados dentro de tests; los cerramos en after() para que
+// node --test termine el proceso limpio en CI.
+const extraServers = [];
 
 before(async () => {
     const kp = await generateKeyPair('EdDSA', { crv: 'Ed25519' });
@@ -42,6 +45,14 @@ before(async () => {
             resolve();
         });
     });
+});
+
+after(async () => {
+    // Cerrar el server global + cualquier server extra para que node --test
+    // termine el proceso. Sin esto, el event loop sigue vivo y CI cuelga.
+    const closeServer = (s) => new Promise(resolve => s.close(resolve));
+    await closeServer(listeningServer);
+    await Promise.all(extraServers.map(closeServer));
 });
 
 // ─── Mock de LemonSqueezy ────────────────────────────────────────────────
