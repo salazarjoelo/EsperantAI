@@ -2,6 +2,83 @@
    Extraído de index.html para TASK-105 CSP hardening Fase 1.
    Sin cambios funcionales. */
 
+/* ─── TASK-105 fase 2: clases que reemplazan los style="..." inline ─────── */
+
+.profile-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.profile-label {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.profile-select {
+    padding: 6px 10px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 12px;
+    min-width: 120px;
+}
+
+.profile-btn {
+    padding: 4px 12px;
+    font-size: 11px;
+}
+
+.profile-btn-danger {
+    padding: 4px 12px;
+    font-size: 11px;
+    color: var(--danger);
+}
+
+.panel-mt {
+    margin-top: 16px;
+}
+
+.muted-small {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.legal-list {
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.hidden {
+    display: none;
+}
+
+.history-area {
+    max-height: 300px;
+    overflow-y: auto;
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+}
+
+.history-empty {
+    color: var(--text-muted);
+}
+
+.row-mt {
+    margin-top: 8px;
+}
+
+.btn-small {
+    font-size: 11px;
+}
+
+/* ──────────────────────────────────────────────────────────────────────── */
+
 :root {
             --bg: #0d1117;
             --panel: #161b22;

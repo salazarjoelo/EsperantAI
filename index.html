@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.socket.io; connect-src 'self' wss://eventsub.wss.twitch.tv https://api.twitch.tv https://www.googleapis.com https://api.kick.com https://id.kick.com https://api.streamelements.com https://realtime.streamelements.com https://api.lemonsqueezy.com https://vladmandic.github.io ws://127.0.0.1:* http://127.0.0.1:*; img-src 'self' data: https://vladmandic.github.io; media-src 'self'; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.socket.io; connect-src 'self' wss://eventsub.wss.twitch.tv https://api.twitch.tv https://www.googleapis.com https://api.kick.com https://id.kick.com https://api.streamelements.com https://realtime.streamelements.com https://api.lemonsqueezy.com https://vladmandic.github.io ws://127.0.0.1:* http://127.0.0.1:*; img-src 'self' data: https://vladmandic.github.io; media-src 'self'; style-src 'self'; worker-src 'self' blob:;">
     <title>EsperantAI — Honest gestures</title>
     <link rel="icon" type="image/svg+xml" href="assets/branding/logo.svg">
 
@@ -55,14 +55,14 @@
     <div class="brand-subtitle" data-i18n="app.subtitle">Universal AI gesture controller for streamers</div>
 
     <!-- Profile selector -->
-    <div id="profile-bar" style="display: flex; gap: 8px; margin-bottom: 12px; align-items: center; justify-content: center; flex-wrap: wrap;">
-        <label style="margin:0; font-size: 12px; color: var(--text-muted);" data-i18n="profiles.label">Profile:</label>
-        <select id="profile-select" style="padding: 6px 10px; background: var(--panel); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 12px; min-width: 120px;">
+    <div id="profile-bar" class="profile-bar">
+        <label class="profile-label" data-i18n="profiles.label">Profile:</label>
+        <select id="profile-select" class="profile-select">
             <option value="default">Default</option>
         </select>
-        <button id="btn-profile-save" class="secondary" style="padding: 4px 12px; font-size: 11px;" data-i18n="profiles.save">Save</button>
-        <button id="btn-profile-new" class="secondary" style="padding: 4px 12px; font-size: 11px;" data-i18n="profiles.new">New</button>
-        <button id="btn-profile-delete" class="secondary" style="padding: 4px 12px; font-size: 11px; color: var(--danger);" data-i18n="profiles.delete">Delete</button>
+        <button id="btn-profile-save" class="secondary profile-btn" data-i18n="profiles.save">Save</button>
+        <button id="btn-profile-new" class="secondary profile-btn" data-i18n="profiles.new">New</button>
+        <button id="btn-profile-delete" class="secondary profile-btn-danger" data-i18n="profiles.delete">Delete</button>
     </div>
 
     <!-- Status bar -->
@@ -138,7 +138,7 @@
             </div>
 
             <!-- Platform Events -->
-            <div class="panel" style="margin-top: 16px;">
+            <div class="panel panel-mt">
                 <h2 data-i18n="ui.platform_events">Platform Events</h2>
                 <div class="hint" data-i18n="hints.platform_hint">Connect to streaming platforms to trigger actions on events.</div>
                 <details>
@@ -176,15 +176,15 @@
             </div>
 
             <!-- Trigger → Scene Mapping (populated by TriggerUIBuilder) -->
-            <div class="panel" style="margin-top: 16px;">
+            <div class="panel panel-mt">
                 <h2 data-i18n="ui.triggers">Triggers</h2>
                 <div id="trigger-mapping-area">
-                    <p style="font-size:12px; color:var(--text-muted);">Loading trigger panel...</p>
+                    <p class="muted-small">Loading trigger panel...</p>
                 </div>
             </div>
 
             <!-- Sensitivity (placeholder, JS will populate sliders) -->
-            <div class="panel" style="margin-top: 16px;">
+            <div class="panel panel-mt">
                 <h2 data-i18n="ui.sensitivity">Sensitivity</h2>
                 <details open>
                     <summary>🎚️ Thresholds</summary>
@@ -193,11 +193,11 @@
             </div>
 
             <!-- Advanced -->
-            <div class="panel" style="margin-top: 16px;">
+            <div class="panel panel-mt">
                 <h2 data-i18n="ui.advanced">Advanced</h2>
                 <details>
                     <summary data-i18n="advanced.keyboard_shortcuts">Keyboard Shortcuts</summary>
-                    <p style="font-size: 12px; line-height: 1.8;">
+                    <p class="legal-list">
                         <span class="kbd">Space</span> <span data-i18n="advanced.kbd_space">Pause / Resume</span><br>
                         <span class="kbd">C</span> <span data-i18n="advanced.kbd_c">Manual jump to CENTER</span><br>
                         <span class="kbd">R</span> <span data-i18n="advanced.kbd_r">Reload scene list</span><br>
@@ -211,19 +211,19 @@
                         <button id="btn-import" class="secondary" data-i18n="advanced.import_config">Import</button>
                         <button id="btn-reset" class="danger" data-i18n="advanced.reset_config">Reset</button>
                     </div>
-                    <input type="file" id="import-file" accept=".json" style="display:none;">
+                    <input type="file" id="import-file" accept=".json" class="hidden">
                 </details>
             </div>
 
             <!-- Trigger History -->
-            <div class="panel" style="margin-top: 16px;">
+            <div class="panel panel-mt">
                 <h2 data-i18n="history.title">Trigger History</h2>
-                <div id="trigger-history-area" style="max-height: 300px; overflow-y: auto; font-family: 'Consolas', monospace; font-size: 11px;">
-                    <p style="color: var(--text-muted);">No triggers yet.</p>
+                <div id="trigger-history-area" class="history-area">
+                    <p class="history-empty">No triggers yet.</p>
                 </div>
-                <div class="row" style="margin-top: 8px;">
-                    <button id="btn-history-clear" class="secondary" style="font-size: 11px;" data-i18n="history.clear">Clear</button>
-                    <button id="btn-history-export" class="secondary" style="font-size: 11px;" data-i18n="history.export_csv">Export CSV</button>
+                <div class="row row-mt">
+                    <button id="btn-history-clear" class="secondary btn-small" data-i18n="history.clear">Clear</button>
+                    <button id="btn-history-export" class="secondary btn-small" data-i18n="history.export_csv">Export CSV</button>
                 </div>
             </div>
         </div>
