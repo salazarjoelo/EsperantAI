@@ -2,7 +2,7 @@
 
 > Documento de gobernanza para que 4 IAs trabajen juntas en este repo hasta entregar producto 100% funcional comercial.
 
-**Repo privado**: https://github.com/salazarjoelo/EsperantAI
+**Repo público** (mientras se construye): https://github.com/salazarjoelo/EsperantAI
 **Owner humano (último decisor)**: Joel Salazar Ramírez (joel@edugame.digital)
 **Estado**: trabajo en curso. NO está listo para venta comercial todavía.
 
