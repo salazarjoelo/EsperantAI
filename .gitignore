@@ -43,3 +43,6 @@ src-tauri/Cargo.lock
 
 # Local launch config (puerto puede variar por dev)
 .claude/launch.json
+
+# VPS deploy workspace (local — no debe ir al repo)
+.vps-work/
