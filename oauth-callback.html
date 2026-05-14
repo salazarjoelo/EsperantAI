@@ -6,7 +6,7 @@
     <!-- CSP Fase 1 (TASK-105): script-src 'self' SIN unsafe-inline para scripts.
          style-src todavía con 'unsafe-inline' por compatibilidad con SVG inline
          (-webkit-background-clip en gradientes). Fase 2 eliminará también. -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' https://id.twitch.tv https://accounts.google.com https://id.kick.com; style-src 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' https://id.twitch.tv https://accounts.google.com https://id.kick.com; style-src 'self'; frame-ancestors 'none';">
     <title>EsperantAI — OAuth Callback</title>
     <link rel="stylesheet" href="css/oauth-callback.css">
 </head>
