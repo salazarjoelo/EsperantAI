@@ -3,8 +3,9 @@
     "language": "Español (España)",
     "code": "es-ES",
     "rtl": false,
-    "completion": 100,
-    "translator": "Joel Salazar (native)"
+    "completion": 307,
+    "translator": "Joel Salazar (native)",
+    "note": "es-ES parity fill 2026-05-14"
   },
   "app": {
     "title": "EsperantAI",
@@ -111,7 +112,11 @@
     "gaze_strength": "Intensidad mínima",
     "emotion_confidence": "Confianza mínima emoción",
     "stable_frames": "Frames estables",
-    "cooldown_ms": "Cooldown (ms)"
+    "cooldown_ms": "Cooldown (ms)",
+    "dead_zone_yaw": "Zona muerta yaw",
+    "dead_zone_pitch": "Zona muerta pitch",
+    "dead_zone_roll": "Zona muerta roll",
+    "return_to_center": "Retardo al volver al centro (ms)"
   },
   "metrics": {
     "yaw_label": "Yaw (←/→)",
@@ -255,7 +260,9 @@
       "delayMs": "Espera (ms)",
       "actions": "Acciones JSON",
       "action": "Acción JSON"
-    }
+    },
+    "source_crop": "Recortar fuente",
+    "source_transform": "Transformar fuente (mover/escalar/rotar)"
   },
   "license": {
     "guided_title": "Activa EsperantAI",
@@ -279,7 +286,15 @@
     "error_activation_limit": "Esta licencia ya alcanzó su límite de dispositivos. Desactiva un equipo anterior o contacta soporte.",
     "error_network": "No pudimos validar la licencia por conexión. Revisa internet e inténtalo otra vez.",
     "error_invalid": "La license key no coincide. Revisa guiones, espacios o copia la key completa desde tu correo.",
-    "error_generic": "No pudimos activar esta licencia. Revisa la key o intenta de nuevo en unos minutos."
+    "error_generic": "No pudimos activar esta licencia. Revisa la key o intenta de nuevo en unos minutos.",
+    "required_desc": "EsperantAI necesita una licencia válida para funcionar. Si ya la has comprado, pega abajo tu clave de licencia. Si no, consíguela en esperantai.com",
+    "no_license": "¿Aún no tienes licencia?",
+    "upgrade_hint": "Mejora tu plan para tener más disparadores y funciones",
+    "tier_free": "Free",
+    "tier_pro": "Pro",
+    "tier_pro_plus": "Pro+ Director",
+    "feature_locked": "Disponible en el plan {tier}",
+    "triggers_remaining": "{count}/{max} disparadores usados (plan {tier})"
   },
   "calibration": {
     "kicker": "Configuración personalizada",
@@ -323,5 +338,24 @@
       "hand_title": "Paso 4 · Comprobación de mano",
       "confirm_title": "Paso 5 · Confirma tu configuración"
     }
+  },
+  "history": {
+    "title": "Historial de disparos",
+    "clear": "Borrar",
+    "export_csv": "Exportar CSV",
+    "no_triggers": "Aún no hay disparos.",
+    "source_gesture": "Gesto",
+    "source_platform": "Plataforma",
+    "source_combo": "Combo"
+  },
+  "profiles": {
+    "label": "Perfil:",
+    "save": "Guardar",
+    "new": "Nuevo",
+    "delete": "Eliminar",
+    "new_name": "Nombre del perfil:",
+    "switch_confirm": "¿Cambiar de perfil? Los ajustes actuales se guardarán antes.",
+    "delete_confirm": "¿Eliminar este perfil?",
+    "cannot_delete_default": "No se puede eliminar el perfil por defecto."
   }
 }
