@@ -135,7 +135,10 @@
     "kbd_space": "Pausar / Reanudar detección",
     "kbd_c": "Salto manual a escena CENTRO",
     "kbd_r": "Recargar lista de escenas desde el software",
-    "kbd_esc": "Desconectar"
+    "kbd_esc": "Desconectar",
+    "calibration": "Calibración",
+    "calibration_desc": "Personaliza los umbrales de gestos según el ángulo de tu cámara y tu rango natural de movimiento.",
+    "recalibrate": "Recalibrar"
   },
   "errors": {
     "camera_denied": "La cámara está bloqueada. Abre los permisos del navegador y permite la cámara para que EsperantAI detecte tus gestos.",
@@ -277,5 +280,48 @@
     "error_network": "No pudimos validar la licencia por conexión. Revisa internet e inténtalo otra vez.",
     "error_invalid": "La license key no coincide. Revisa guiones, espacios o copia la key completa desde tu correo.",
     "error_generic": "No pudimos activar esta licencia. Revisa la key o intenta de nuevo en unos minutos."
+  },
+  "calibration": {
+    "kicker": "Configuración personalizada",
+    "subtitle": "Vamos a personalizar la sensibilidad gestual según tu rostro y tu rango de movimiento.",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "start": "Comenzar",
+    "skip": "Omitir por ahora",
+    "apply": "Aplicar calibración",
+    "capturing": "Capturando",
+    "capture_done": "Captura completada",
+    "ready_when_you_are": "Listo cuando tú lo estés.",
+    "what_you_will_do": "Qué harás",
+    "why_it_matters": "Por qué importa",
+    "intro_item_1": "Mantén una pose neutra frente a la cámara durante dos segundos.",
+    "intro_item_2": "Gira a izquierda/derecha y mira arriba/abajo para aprender tu rango cómodo.",
+    "intro_item_3": "Muestra un gesto con la mano para verificar el tracking manual.",
+    "why_it_matters_desc": "EsperantAI usará el 60% de tu rango personal como zona muerta segura. Así reduce falsos disparos y mantiene tus gestos responsivos.",
+    "baseline_title": "Captura tu pose neutra",
+    "baseline_desc": "Mira al frente, relaja los hombros y mantén la cabeza centrada.",
+    "capture_baseline": "Capturar baseline",
+    "left_right_title": "Medir movimiento izquierda y derecha",
+    "left_right_desc": "Gira suavemente a la izquierda y a la derecha varias veces. Usa tu postura natural de streaming.",
+    "capture_left_right": "Capturar rango izquierda/derecha",
+    "pitch_tilt_title": "Medir rango arriba/abajo e inclinación",
+    "pitch_tilt_desc": "Mira arriba, mira abajo e inclina la cabeza de forma natural hacia ambos lados.",
+    "capture_pitch_tilt": "Capturar pitch/inclinación",
+    "hand_title": "Comprobar un gesto de mano",
+    "hand_desc": "Levanta una mano y muestra pulgar arriba, palma abierta o señal de paz.",
+    "capture_hand": "Iniciar comprobación de mano",
+    "hand_detected": "Gesto detectado",
+    "hand_saved": "Tracking de mano verificado con",
+    "summary_title": "Tus umbrales personalizados",
+    "outcome_title": "Qué cambiará",
+    "outcome_desc": "Estos valores crean una zona muerta personalizada. Los movimientos naturales pequeños se mantienen centrados y los gestos intencionales cruzan el umbral antes.",
+    "steps": {
+      "welcome_title": "Asistente de calibración",
+      "baseline_title": "Paso 1 · Baseline",
+      "left_right_title": "Paso 2 · Rango izquierda y derecha",
+      "pitch_tilt_title": "Paso 3 · Rango arriba/abajo e inclinación",
+      "hand_title": "Paso 4 · Comprobación de mano",
+      "confirm_title": "Paso 5 · Confirma tu configuración"
+    }
   }
 }

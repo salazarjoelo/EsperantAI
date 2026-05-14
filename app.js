@@ -56,6 +56,7 @@
         btnExport: document.getElementById('btn-export'),
         btnImport: document.getElementById('btn-import'),
         btnReset: document.getElementById('btn-reset'),
+        btnRecalibrate: document.getElementById('btn-recalibrate'),
         importFile: document.getElementById('import-file')
     };
 
@@ -82,6 +83,16 @@
         });
     };
     triggerUI.render();
+
+    // ====== 3.5. Calibration Wizard (TASK-102) ======
+    // Pro+ feature. Auto-launches on first run for Pro licenses.
+    const calibrationWizard = new CalibrationWizard({
+        config,
+        detector,
+        i18n: window.i18n,
+        licenseManager: lic
+    });
+    calibrationWizard.onApplied = () => renderSliders();
 
     // ====== 4. Detector init ======
     detector.on('ai_loading', () => setStatusBadge(DOM.statusAi, 'warn', 'status.ai_loading'));
@@ -164,6 +175,16 @@
             location.reload();
         }
     });
+
+    // Recalibrate button — manual re-launch of the wizard (TASK-102)
+    DOM.btnRecalibrate?.addEventListener('click', () => {
+        calibrationWizard.open({ auto: false });
+    });
+
+    // Auto-launch wizard on first run for Pro+ licenses
+    if (calibrationWizard.isAvailable() && !calibrationWizard.hasCompletedBefore()) {
+        setTimeout(() => calibrationWizard.open({ auto: true }), 1500);
+    }
 
     // ====== 9.1. Trigger History panel ======
     setupTriggerHistoryPanel();
