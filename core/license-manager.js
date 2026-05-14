@@ -38,7 +38,7 @@ const JWT_ISSUER = 'license.edugame.digital';
  * validar y los usuarios deben re-verificar online.
  */
 const PUBLIC_KEY_PEM = `-----BEGIN PUBLIC KEY-----
-REPLACE_WITH_PUB_PEM_FROM_BACKEND_KEYGEN_BEFORE_DEPLOY
+MCowBQYDK2VwAyEAiiFaUOEG7ys6VrnfG0L7i/PVXMGs30XrtnL9hcdnDT4=
 -----END PUBLIC KEY-----`;
 
 const TIER_FEATURES = {
