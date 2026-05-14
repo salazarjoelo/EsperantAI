@@ -1,6 +1,13 @@
 /* ============================================================================
  * EsperantAI — Detector
  * Wrapper alrededor de Human.js 3.3.6 + gestión de cámara.
+ *
+ * TASK-104 (2026-05-14): puede ejecutar Human.js en un Web Worker
+ * (core/detector-worker.js) cuando OffscreenCanvas + Worker están soportados.
+ * Auto-fallback a main thread (comportamiento legacy) si no.
+ *
+ * API pública NO cambia: class Detector + window.Detector + on() + startCamera()
+ * + startLoop() + setPaused() + reload() + backend() — todo igual que antes.
  * ========================================================================== */
 
 'use strict';
@@ -8,7 +15,7 @@
 class Detector {
     constructor(config) {
         this.config = config;
-        this.human = null;
+        this.human = null;                  // Solo poblado en main-thread mode
         this.currentStream = null;
         this.videoElement = null;
         this.canvasElement = null;
@@ -23,6 +30,26 @@ class Detector {
         this.firstGoodFrameTime = 0;
         this.VERBOSE_TIMEOUT_MS = 60000;
         this.SILENT_FRAMES_LOST = 15;
+
+        // TASK-104: Web Worker fields. _useWorker se decide en init() según
+        // soporte de OffscreenCanvas + Worker.
+        this._useWorker = false;
+        this._worker = null;
+        this._workerReady = false;
+        this._workerFrameId = 0;
+        this._pendingWorkerFrames = 0;
+        this._workerOnFrame = null;  // Set en startLoop() para entregar results
+    }
+
+    /** Detecta si podemos usar Web Worker + OffscreenCanvas. */
+    _supportsWorker() {
+        try {
+            return typeof Worker !== 'undefined'
+                && typeof OffscreenCanvas !== 'undefined'
+                && typeof createImageBitmap === 'function';
+        } catch {
+            return false;
+        }
     }
 
     buildHumanConfig() {
@@ -56,23 +83,114 @@ class Detector {
         this.videoElement = videoEl;
         this.canvasElement = canvasEl;
         this.ctx = canvasEl.getContext('2d');
+        this._useWorker = this._supportsWorker();
 
+        if (this._useWorker) {
+            // TASK-104: intentar inicializar worker. Si falla, fallback a main thread.
+            try {
+                await this._initWorker();
+                this.emit('ai_ready');
+                console.log('[Detector] Running in Web Worker mode, backend:', this._workerBackend);
+                return;
+            } catch (e) {
+                console.warn('[Detector] Worker init failed, falling back to main thread:', e.message);
+                this._useWorker = false;
+                if (this._worker) {
+                    try { this._worker.terminate(); } catch {}
+                    this._worker = null;
+                }
+            }
+        }
+
+        // Main-thread fallback (comportamiento legacy)
         this.human = new Human.Human(this.buildHumanConfig());
         try {
             await this.human.load();
             this.emit('ai_ready');
+            console.log('[Detector] Running in main thread mode');
         } catch (e) {
             this.emit('ai_error', e);
             throw e;
         }
     }
 
+    /** TASK-104: Inicializar el Web Worker. */
+    async _initWorker() {
+        return new Promise((resolve, reject) => {
+            this._worker = new Worker('core/detector-worker.js');
+            const initTimeout = setTimeout(() => reject(new Error('Worker init timeout (10s)')), 10000);
+
+            this._worker.onmessage = (event) => {
+                const msg = event.data || {};
+                switch (msg.type) {
+                    case 'WORKER_READY': {
+                        // Enviar INIT con OffscreenCanvas transferido
+                        const offscreen = this.canvasElement.transferControlToOffscreen();
+                        this._worker.postMessage({
+                            type: 'INIT',
+                            config: this.buildHumanConfig(),
+                            offscreenCanvas: offscreen,
+                        }, [offscreen]);
+                        break;
+                    }
+                    case 'INIT_DONE':
+                        clearTimeout(initTimeout);
+                        this._workerReady = true;
+                        this._workerBackend = msg.backend;
+                        resolve();
+                        break;
+                    case 'INIT_ERROR':
+                        clearTimeout(initTimeout);
+                        reject(new Error(msg.error || 'worker init error'));
+                        break;
+                    case 'RESULT':
+                        this._pendingWorkerFrames = Math.max(0, this._pendingWorkerFrames - 1);
+                        if (this._workerOnFrame) {
+                            this.frameCount++;
+                            try { this._workerOnFrame(msg.result, this.frameCount); } catch (e) {
+                                console.error('[Detector] onFrame callback threw:', e);
+                            }
+                        }
+                        break;
+                    case 'ERROR':
+                        console.error('[Detector] Worker error:', msg.error);
+                        this.emit('ai_error', new Error(msg.error));
+                        if (msg.fatal) {
+                            this._useWorker = false;
+                        }
+                        break;
+                    case 'BACKEND_LOSS':
+                        console.warn('[Detector] WebGL context lost in worker');
+                        this.emit('ai_loading');
+                        break;
+                }
+            };
+
+            this._worker.onerror = (e) => {
+                clearTimeout(initTimeout);
+                reject(new Error('Worker script error: ' + e.message));
+            };
+        });
+    }
+
     /** Recargar Human con nueva config (cuando user toggle categorías). */
     async reload() {
         try {
             this.emit('ai_loading');
-            this.human = new Human.Human(this.buildHumanConfig());
-            await this.human.load();
+            if (this._useWorker) {
+                // En worker mode: terminar el worker y re-init (más simple que
+                // mensaje RELOAD; Human.js no soporta cambiar config caliente).
+                if (this._worker) {
+                    try { this._worker.terminate(); } catch {}
+                    this._worker = null;
+                }
+                this._workerReady = false;
+                this._pendingWorkerFrames = 0;
+                await this._initWorker();
+            } else {
+                this.human = new Human.Human(this.buildHumanConfig());
+                await this.human.load();
+            }
             this.emit('ai_ready');
         } catch (e) {
             this.emit('ai_error', e);
@@ -135,6 +253,14 @@ class Detector {
      * @param {Function} onFrame (result, framesSinceFace, ms) => void
      */
     startLoop(onFrame) {
+        if (this._useWorker && this._workerReady) {
+            return this._startLoopWorker(onFrame);
+        }
+        return this._startLoopMainThread(onFrame);
+    }
+
+    /** Loop legacy: ejecuta human.detect() en main thread cada frame. */
+    _startLoopMainThread(onFrame) {
         let running = true;
         const loop = async () => {
             if (!running) return;
@@ -158,8 +284,48 @@ class Detector {
             requestAnimationFrame(loop);
         };
         requestAnimationFrame(loop);
-        // Return stop function
         return () => { running = false; };
+    }
+
+    /** TASK-104: Loop worker-mode. Envía frames vía postMessage. */
+    _startLoopWorker(onFrame) {
+        this._workerOnFrame = onFrame;
+        let running = true;
+        const MAX_PENDING = 2;
+
+        const loop = async () => {
+            if (!running) return;
+            if (this.videoElement.paused || this.videoElement.ended || this.isPaused) {
+                setTimeout(() => requestAnimationFrame(loop), 100);
+                return;
+            }
+            // Backpressure: si el worker está saturado, descartar este frame
+            if (this._pendingWorkerFrames >= MAX_PENDING) {
+                requestAnimationFrame(loop);
+                return;
+            }
+            try {
+                const bitmap = await createImageBitmap(this.videoElement);
+                const frameId = ++this._workerFrameId;
+                this._pendingWorkerFrames++;
+                this._worker.postMessage({
+                    type: 'FRAME',
+                    frameId,
+                    timestamp: performance.now(),
+                    bitmap,
+                    width: this.videoElement.videoWidth || 640,
+                    height: this.videoElement.videoHeight || 480,
+                }, [bitmap]);
+            } catch (e) {
+                console.error('[Detector] createImageBitmap failed:', e);
+            }
+            requestAnimationFrame(loop);
+        };
+        requestAnimationFrame(loop);
+        return () => {
+            running = false;
+            this._workerOnFrame = null;
+        };
     }
 
     _logIfVerbose(result) {
@@ -184,7 +350,12 @@ class Detector {
         }
     }
 
-    setPaused(p) { this.isPaused = p; }
+    setPaused(p) {
+        this.isPaused = p;
+        if (this._useWorker && this._worker) {
+            this._worker.postMessage({ type: p ? 'PAUSE' : 'RESUME' });
+        }
+    }
 
     on(event, fn) {
         if (!this.listeners[event]) this.listeners[event] = [];
@@ -196,7 +367,21 @@ class Detector {
     }
 
     backend() {
+        if (this._useWorker) return this._workerBackend || 'worker-unknown';
         return this.human?.tf?.getBackend?.() || 'unknown';
+    }
+
+    /** TASK-104: terminar worker limpiamente. Llamar al destruir. */
+    terminate() {
+        if (this._worker) {
+            try { this._worker.postMessage({ type: 'TERMINATE' }); } catch {}
+            try { this._worker.terminate(); } catch {}
+            this._worker = null;
+        }
+        if (this.currentStream) {
+            this.currentStream.getTracks().forEach((t) => t.stop());
+            this.currentStream = null;
+        }
     }
 }
 
