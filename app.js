@@ -75,6 +75,12 @@
             await detector.reload();
         }
     };
+    triggerUI.onTestAction = async (action) => {
+        await handleAction({
+            actions: [action],
+            label: window.i18n.t('actions.test_run_label', {}, 'test action')
+        });
+    };
     triggerUI.render();
 
     // ====== 4. Detector init ======
@@ -866,100 +872,97 @@
  * ========================================================================== */
 
 function showLicenseLockout() {
-    const lic = window.licenseManager;
-    const t = window.i18n ? (k, fb) => window.i18n.t(k, {}, fb) : (k, fb) => fb || k;
+    const t = window.i18n ? (k, fb, vars = {}) => window.i18n.t(k, vars, fb) : (k, fb) => fb || k;
 
     const wrap = document.createElement('div');
     wrap.id = 'license-lockout';
-    wrap.style.cssText = `
-        position: fixed; inset: 0;
-        background: rgba(13,17,23,0.97);
-        backdrop-filter: blur(10px);
-        z-index: 100000;
-        display: flex; align-items: center; justify-content: center;
-        padding: 20px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #c9d1d9;
-    `;
+    wrap.className = 'license-lockout';
     wrap.innerHTML = `
-        <div style="max-width: 480px; width: 100%; background: #161b22; border: 1px solid #30363d; border-radius: 16px; padding: 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
-            <div style="text-align: center; margin-bottom: 24px;">
-                <img src="assets/branding/logo.svg" alt="EsperantAI" style="width: 72px; height: 72px; margin-bottom: 12px;">
-                <h1 style="margin: 0; font-size: 2em; background: linear-gradient(135deg, #58a6ff, #bc8cff, #ff7b72); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -1px;">EsperantAI</h1>
-                <p style="margin: 4px 0 0 0; color: #8b949e; font-style: italic;">${t('app.tagline', 'Los gestos honestos.')}</p>
+        <div class="license-card" role="dialog" aria-modal="true" aria-labelledby="license-title" aria-describedby="license-desc" tabindex="-1">
+            <div class="license-hero">
+                <img src="assets/branding/logo.svg" alt="EsperantAI">
+                <h1 id="license-title">${t('license.guided_title', 'Activa EsperantAI')}</h1>
+                <p>${t('license.guided_subtitle', 'Tu licencia desbloquea el controlador de gestos para tu stream.')}</p>
             </div>
 
-            <div style="background: #1c2128; border-radius: 8px; padding: 16px; margin-bottom: 20px; border-left: 3px solid #58a6ff;">
-                <p style="margin: 0 0 12px 0; font-size: 14px; line-height: 1.5;">
-                    <strong>${t('license.required_title', 'Activación requerida')}</strong>
-                </p>
-                <p style="margin: 0; font-size: 13px; color: #8b949e; line-height: 1.5;">
-                    ${t('license.required_desc', 'EsperantAI requiere una licencia válida para funcionar. Si ya compraste, pega tu license key abajo. Si no, adquiérela en esperantai.com')}
+            <div class="license-body">
+                <ol class="activation-steps" aria-label="${t('license.steps_label', 'Activation steps')}">
+                    <li><strong>${t('license.step_buy_title', 'Compra')}</strong><br>${t('license.step_buy_desc', 'Adquiere una licencia única desde la web oficial.')}</li>
+                    <li><strong>${t('license.step_paste_title', 'Pega')}</strong><br>${t('license.step_paste_desc', 'Copia tu license key del correo de compra.')}</li>
+                    <li><strong>${t('license.step_stream_title', 'Transmite')}</strong><br>${t('license.step_stream_desc', 'Conecta OBS y asigna gestos a escenas/acciones.')}</li>
+                </ol>
+
+                <div id="license-desc" class="license-guidance">
+                    <strong>${t('license.required_title', 'Activación requerida')}</strong><br>
+                    ${t('license.required_desc_guided', 'Si ya compraste EsperantAI, pega tu license key. Si todavía no la tienes, abre la página de compra; esta ventana seguirá aquí para que regreses y actives sin perder el paso.')}
+                </div>
+
+                <div class="license-form-row">
+                    <label for="license-key-input">${t('license.key_label', 'License key')}</label>
+                    <input
+                        type="text"
+                        id="license-key-input"
+                        placeholder="XXXX-XXXX-XXXX-XXXX-XXXX"
+                        autocomplete="off"
+                        spellcheck="false"
+                        inputmode="text"
+                        aria-describedby="license-hint license-error"
+                    >
+                    <div id="license-hint" class="hint">${t('license.key_hint', 'Tip: puedes pegar la key completa; EsperantAI normaliza espacios y minúsculas automáticamente.')}</div>
+                </div>
+
+                <div id="license-error" class="license-error-box" role="status" aria-live="polite"></div>
+
+                <div class="license-actions">
+                    <button id="btn-activate-license" class="primary">${t('license.activate_button', 'Activar licencia')}</button>
+                    <a id="btn-buy-license" class="secondary" href="landing.html" target="_blank" rel="noopener">${t('license.buy_button', 'Comprar licencia')}</a>
+                </div>
+
+                <p class="license-legal">
+                    © 2026 EdugameDigital · <a href="docs/EULA.html">EULA</a> · <a href="docs/TERMS_OF_SERVICE.html">ToS</a> · <a href="docs/PURCHASE_AND_LICENSE_TERMS.html">Compra</a> · <a href="docs/REFUND_POLICY.html">Reembolsos</a> · <a href="docs/PRIVACY.html">Privacidad</a> · <a href="docs/COOKIE_POLICY.html">Cookies</a> · <a href="docs/THIRD_PARTY_LICENSES.html">Terceros</a>
                 </p>
             </div>
-
-            <label style="display: block; font-size: 12px; color: #8b949e; margin-bottom: 6px;">
-                ${t('license.key_label', 'License Key')}
-            </label>
-            <input
-                type="text"
-                id="license-key-input"
-                placeholder="XXXX-XXXX-XXXX-XXXX-XXXX"
-                autocomplete="off"
-                spellcheck="false"
-                style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #30363d; background: #0d1117; color: #c9d1d9; font-family: 'Consolas', monospace; font-size: 14px; outline: none; box-sizing: border-box; text-transform: uppercase;"
-            >
-
-            <div id="license-error" style="display:none; margin-top: 12px; padding: 10px 12px; background: rgba(218,54,51,0.1); border-left: 3px solid #da3633; border-radius: 4px; font-size: 12px; color: #ff7b72;"></div>
-
-            <button id="btn-activate-license" style="width: 100%; margin-top: 16px; padding: 12px; border: none; border-radius: 8px; background: linear-gradient(135deg, #58a6ff, #bc8cff, #ff7b72); color: #0d1117; font-weight: 700; font-size: 14px; cursor: pointer;">
-                ${t('license.activate_button', 'Activar licencia')}
-            </button>
-
-            <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #30363d;">
-                <p style="margin: 0 0 8px 0; font-size: 13px; color: #8b949e;">
-                    ${t('license.no_license', '¿Aún no tienes licencia?')}
-                </p>
-                <a id="btn-buy-license" href="landing.html" style="display: inline-block; padding: 10px 20px; border: 1px solid #58a6ff; border-radius: 8px; color: #58a6ff; text-decoration: none; font-weight: 600; font-size: 13px;">
-                    ${t('license.buy_button', 'Adquirir EsperantAI')}
-                </a>
-            </div>
-
-            <p style="text-align: center; margin: 16px 0 0 0; font-size: 11px; color: #6e7681;">
-                © 2026 EdugameDigital · <a href="docs/EULA.html" style="color: #6e7681;">EULA</a> · <a href="docs/TERMS_OF_SERVICE.html" style="color: #6e7681;">ToS</a> · <a href="docs/PURCHASE_AND_LICENSE_TERMS.html" style="color: #6e7681;">Compra</a> · <a href="docs/REFUND_POLICY.html" style="color: #6e7681;">Reembolsos</a> · <a href="docs/PRIVACY.html" style="color: #6e7681;">Privacidad</a> · <a href="docs/COOKIE_POLICY.html" style="color: #6e7681;">Cookies</a> · <a href="docs/THIRD_PARTY_LICENSES.html" style="color: #6e7681;">Terceros</a>
-            </p>
         </div>
     `;
     document.body.appendChild(wrap);
 
+    const card = wrap.querySelector('.license-card');
     const input = wrap.querySelector('#license-key-input');
     const btn = wrap.querySelector('#btn-activate-license');
     const errBox = wrap.querySelector('#license-error');
-    const buyBtn = wrap.querySelector('#btn-buy-license');
 
-    buyBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        // Abrir landing en nueva pestaña sin perder el modal
-        window.open('landing.html', '_blank');
-    });
+    const showErr = (msg) => {
+        errBox.textContent = msg;
+        errBox.classList.add('is-visible');
+    };
+
+    const friendlyLicenseError = (raw) => {
+        const msg = String(raw || '').toLowerCase();
+        if (msg.includes('expired')) return t('license.error_expired', 'Esta licencia expiró. Revisa tu correo de compra o contacta soporte.');
+        if (msg.includes('limit') || msg.includes('activation')) return t('license.error_activation_limit', 'Esta licencia ya alcanzó su límite de dispositivos. Desactiva un equipo anterior o contacta soporte.');
+        if (msg.includes('network') || msg.includes('fetch') || msg.includes('offline')) return t('license.error_network', 'No pudimos validar la licencia por conexión. Revisa internet e inténtalo otra vez.');
+        if (msg.includes('invalid') || msg.includes('not found')) return t('license.error_invalid', 'La license key no coincide. Revisa guiones, espacios o copia la key completa desde tu correo.');
+        return t('license.error_generic', 'No pudimos activar esta licencia. Revisa la key o intenta de nuevo en unos minutos.');
+    };
 
     btn.addEventListener('click', async () => {
-        const key = input.value.trim();
+        const key = input.value.replace(/\s+/g, '').trim().toUpperCase();
+        input.value = key;
         if (!key) {
-            showErr('License key vacía');
+            showErr(t('license.error_empty', 'Pega tu license key para activar EsperantAI.'));
+            input.focus();
             return;
         }
         btn.disabled = true;
-        btn.textContent = '...';
-        errBox.style.display = 'none';
+        btn.textContent = t('license.activating_button', 'Activando…');
+        errBox.classList.remove('is-visible');
         const result = await window.licenseManager.activate(key);
         if (result.ok) {
-            // Recargar la app para arrancar con license válida
             location.reload();
         } else {
-            showErr(result.error || 'Activation failed');
+            showErr(friendlyLicenseError(result.error));
             btn.disabled = false;
-            btn.textContent = window.i18n ? window.i18n.t('license.activate_button', {}, 'Activar licencia') : 'Activar licencia';
+            btn.textContent = t('license.activate_button', 'Activar licencia');
         }
     });
 
@@ -967,8 +970,23 @@ function showLicenseLockout() {
         if (e.key === 'Enter') btn.click();
     });
 
-    function showErr(msg) {
-        errBox.textContent = msg;
-        errBox.style.display = 'block';
-    }
+    wrap.addEventListener('keydown', (event) => {
+        if (event.key !== 'Tab') return;
+        const focusables = [...wrap.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')];
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+        }
+    });
+
+    requestAnimationFrame(() => {
+        card.focus();
+        input.focus();
+    });
 }

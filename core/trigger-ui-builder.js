@@ -1,7 +1,7 @@
 /* ============================================================================
  * EsperantAI — Trigger UI Builder
  *
- * Dibuja dinámicamente el panel de mapeo gesto → escena.
+ * Dibuja dinámicamente el panel de mapeo gesto → escena/acciones.
  * Las escenas se cargan en tiempo real del adapter conectado (OBS / Streamlabs /
  * vMix / PRISM).
  *
@@ -74,6 +74,8 @@ class TriggerUIBuilder {
         this.i18n = i18n;
         this.availableScenes = []; // poblado cuando un adapter se conecta
         this.adapterConnected = false;
+        this._activeModal = null;
+        this._lastFocusedElement = null;
     }
 
     /**
@@ -112,9 +114,9 @@ class TriggerUIBuilder {
         // Banner si no hay adapter conectado
         if (!this.adapterConnected) {
             html.push(`
-                <div class="tb-warning">
+                <div class="tb-warning" role="status">
                     <strong>${this.i18n.t('triggers.connect_first', {}, 'Conecta tu app de streaming primero')}</strong>
-                    <p style="margin: 6px 0 0 0; font-size: 12px;">${this.i18n.t('triggers.connect_first_hint', {}, 'Las escenas reales aparecerán en los dropdowns automáticamente.')}</p>
+                    <p class="tb-warning-hint">${this.i18n.t('triggers.connect_first_hint', {}, 'Las escenas reales aparecerán en los dropdowns automáticamente.')}</p>
                 </div>
             `);
         }
@@ -161,6 +163,7 @@ class TriggerUIBuilder {
             : '<span class="tb-cultural-marker tb-small">⚠️</span>';
 
         const rows = triggers.map(t => this._renderTriggerRow(t, enabled)).join('');
+        const toggleId = `tb-toggle-${cat.id}`;
 
         const shouldBeOpen = enabled || (openCategories && openCategories.has(cat.id));
         return `
@@ -169,8 +172,8 @@ class TriggerUIBuilder {
                     <span class="tb-cat-emoji">${cat.emoji}</span>
                     <span class="tb-cat-label">${label}</span>
                     ${universalBadge}
-                    <label class="tb-toggle" onclick="event.stopPropagation()">
-                        <input type="checkbox" data-category-toggle="${cat.id}" ${enabled ? 'checked' : ''}>
+                    <label class="tb-toggle" for="${toggleId}" data-stop-summary-toggle>
+                        <input id="${toggleId}" type="checkbox" data-category-toggle="${cat.id}" ${enabled ? 'checked' : ''}>
                         <span>${this.i18n.t('ui.enable', {}, 'Habilitar')}</span>
                     </label>
                 </summary>
@@ -184,49 +187,61 @@ class TriggerUIBuilder {
     _renderTriggerRow(t, categoryEnabled) {
         const triggerLabel = this.i18n.t(t.i18n) || t.key;
         const currentValue = this.config.get(`scenes.${t.key}`, '');
+        const explicitActions = this.config.get(`triggerActions.${t.key}`, []);
+        const actionCount = Array.isArray(explicitActions) ? explicitActions.length : 0;
         const isUniversal = t.universal;
-        const culturalTooltip = t.culturalNote ? `title="${this._escape(t.culturalNote)}"` : '';
+        const culturalTooltip = t.culturalNote ? `title="${this._escapeAttr(t.culturalNote)}"` : '';
+        const triggerId = this._safeId(t.key);
 
-        // Get multi-action count
-        const actions = this.config.getActionsForTrigger(t.key);
-        const actionCount = actions.length;
-        const actionBadge = actionCount > 1
-            ? `<span class="tb-action-count">${actionCount} actions</span>`
-            : '';
-
-        // Scene dropdown (kept as quick action)
+        // Construir options del dropdown
         const options = [`<option value="">${this.i18n.t('scenes.scene_unassigned', {}, '— sin asignar —')}</option>`];
         for (const scene of this.availableScenes) {
             const selected = scene.name === currentValue ? 'selected' : '';
-            options.push(`<option value="${this._escape(scene.name)}" ${selected}>${this._escape(scene.name)}</option>`);
+            options.push(`<option value="${this._escapeAttr(scene.name)}" ${selected}>${this._escape(scene.name)}</option>`);
         }
+
+        // Si la escena guardada ya no existe en el adapter actual, agregarla en el dropdown como "(no existe)"
         if (currentValue && !this.availableScenes.find(s => s.name === currentValue)) {
-            options.push(`<option value="${this._escape(currentValue)}" selected>${this._escape(currentValue)} ⚠️ (no existe)</option>`);
+            options.push(`<option value="${this._escapeAttr(currentValue)}" selected>${this._escape(currentValue)} ⚠️ ${this.i18n.t('actions.missing_scene_suffix', {}, '(missing)')}</option>`);
         }
 
         const universalIndicator = isUniversal
-            ? '<span class="tb-universal-marker tb-small" title="Universal: mismo significado en cualquier cultura">🌐</span>'
+            ? `<span class="tb-universal-marker tb-small" title="${this._escapeAttr(this.i18n.t('triggers.universal_label', {}, 'Universal'))}">🌐</span>`
             : `<span class="tb-cultural-marker tb-small" ${culturalTooltip}>⚠️</span>`;
 
+        const actionBadge = actionCount
+            ? `<span id="tb-action-summary-${triggerId}" class="tb-action-count">${this.i18n.t('actions.count', { count: actionCount }, `${actionCount} actions`)}</span>`
+            : `<span id="tb-action-summary-${triggerId}" class="tb-action-count tb-action-count-empty">${this.i18n.t('actions.quick_scene_only', {}, 'Quick scene')}</span>`;
+
         return `
-            <div class="tb-row" data-trigger="${t.key}">
-                <div class="tb-row-label">
-                    <span class="tb-icon">${t.icon}</span>
+            <div class="tb-row" data-trigger="${this._escapeAttr(t.key)}">
+                <label class="tb-row-label" id="tb-label-${triggerId}" for="tb-scene-${triggerId}">
+                    <span class="tb-icon" aria-hidden="true">${t.icon}</span>
                     <span class="tb-label">${triggerLabel}</span>
                     ${universalIndicator}
-                </div>
+                </label>
                 <div class="tb-row-actions">
-                    <select class="tb-scene-select" data-trigger="${t.key}" ${categoryEnabled ? '' : 'disabled'}>
+                    <select id="tb-scene-${triggerId}" class="tb-scene-select" data-trigger="${this._escapeAttr(t.key)}" aria-describedby="tb-action-summary-${triggerId}" ${categoryEnabled ? '' : 'disabled'}>
                         ${options.join('')}
                     </select>
                     ${actionBadge}
-                    <button class="tb-action-config-btn" data-trigger="${t.key}" title="Configure actions" ${categoryEnabled ? '' : 'disabled'}>⚙️</button>
+                    <button type="button" class="tb-action-config-btn" data-trigger="${this._escapeAttr(t.key)}" aria-haspopup="dialog" aria-label="${this._escapeAttr(this.i18n.t('actions.configure_for_trigger', { trigger: triggerLabel }, `Configure actions for ${triggerLabel}`))}" ${categoryEnabled ? '' : 'disabled'}>
+                        ⚙️ ${this.i18n.t('actions.configure_short', {}, 'Actions')}
+                    </button>
                 </div>
             </div>
         `;
     }
 
     _wireEvents() {
+        // Evitar que el toggle abra/cierre el <details> al marcar checkbox.
+        this.container.querySelectorAll('[data-stop-summary-toggle]').forEach(el => {
+            el.addEventListener('click', (event) => event.stopPropagation());
+            el.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') event.stopPropagation();
+            });
+        });
+
         // Selects de escena
         this.container.querySelectorAll('.tb-scene-select').forEach(sel => {
             sel.addEventListener('change', () => {
@@ -257,95 +272,319 @@ class TriggerUIBuilder {
     }
 
     /**
-     * Shows a modal for configuring multiple actions on a single trigger.
+     * Shows an accessible modal for configuring multiple actions on a trigger.
      * @param {string} triggerKey — ej. 'left', 'thumbs-up', 'happy'
      */
     _showActionConfigModal(triggerKey) {
-        const actions = this.config.getActionsForTrigger(triggerKey);
+        this._closeActiveModal();
+
         const catalogEntry = TRIGGER_CATALOG.find(t => t.key === triggerKey);
         const triggerLabel = catalogEntry ? (this.i18n.t(catalogEntry.i18n) || triggerKey) : triggerKey;
+        const modalId = `action-modal-${this._safeId(triggerKey)}`;
+        const actionTypes = window.ActionEngine?.getActionTypes ? window.ActionEngine.getActionTypes() : [];
+        const explicitActions = this._getExplicitActions(triggerKey);
+        const quickScene = this.config.get(`scenes.${triggerKey}`, '');
 
-        // Get available action types
-        const actionTypes = window.ActionEngine.getActionTypes();
-
-        // Build modal HTML
         const overlay = document.createElement('div');
         overlay.className = 'action-modal-overlay';
-
-        const actionItemsHtml = actions.map((a, i) => {
-            const typeDef = actionTypes.find(t => t.type === a.type);
-            const paramsStr = a.params ? Object.entries(a.params).map(([k,v]) => `${k}=${v}`).join(', ') : '';
-            return `<div class="action-item" data-action-index="${i}">
-                <span class="action-item-type">${a.type}</span>
-                <span class="action-item-params">${this._escape(paramsStr)}</span>
-                <button class="action-item-delete" data-delete-index="${i}" title="Remove">✕</button>
-            </div>`;
-        }).join('');
-
-        const addActionOptions = actionTypes.map(a =>
-            `<option value="${a.type}">${a.type.replace(/_/g, ' ')} (${a.target})</option>`
-        ).join('');
-
         overlay.innerHTML = `
-            <div class="action-modal">
-                <h3>⚙️ ${triggerLabel} — Actions</h3>
-                <div id="action-list">
-                    ${actionItemsHtml || '<p style="color:var(--text-muted);font-size:12px;">No actions configured. The scene dropdown above still works as a quick action.</p>'}
-                </div>
-                <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
-                    <label style="font-size: 12px; color: var(--text-muted);">Add action:</label>
-                    <div style="display: flex; gap: 8px; margin-top: 4px;">
-                        <select id="new-action-type" style="flex:1; padding:8px; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:6px; font-size:12px;">
-                            ${addActionOptions}
-                        </select>
-                        <button id="btn-add-action" class="primary" style="padding:8px 16px; font-size:12px;">+ Add</button>
+            <div class="action-modal" role="dialog" aria-modal="true" aria-labelledby="${modalId}-title" aria-describedby="${modalId}-desc" tabindex="-1">
+                <div class="action-modal-header">
+                    <div>
+                        <h3 id="${modalId}-title">⚙️ ${this._escape(triggerLabel)}</h3>
+                        <p id="${modalId}-desc">${this.i18n.t('actions.modal_desc', {}, 'Build the exact reaction this gesture should trigger while you stream.')}</p>
                     </div>
+                    <button type="button" class="action-modal-close" data-action-modal-close aria-label="${this._escapeAttr(this.i18n.t('ui.close', {}, 'Close'))}">×</button>
                 </div>
-                <div style="margin-top: 16px; display: flex; justify-content: flex-end; gap: 8px;">
-                    <button id="btn-close-action-modal" class="secondary" style="padding:8px 16px; font-size:12px;">Close</button>
+
+                <div class="action-modal-section">
+                    <h4>${this.i18n.t('actions.current_actions', {}, 'Current actions')}</h4>
+                    <div class="action-quick-scene" ${quickScene ? '' : 'hidden'}>
+                        <strong>${this.i18n.t('actions.quick_scene_title', {}, 'Quick scene selected')}:</strong>
+                        <span>${this._escape(quickScene)}</span>
+                        <small>${this.i18n.t('actions.quick_scene_hint', {}, 'If you add custom actions, EsperantAI will preserve this scene as the first action automatically.')}</small>
+                    </div>
+                    <ol class="action-list" id="${modalId}-list">
+                        ${this._renderActionItems(explicitActions)}
+                    </ol>
+                    ${explicitActions.length ? '' : `<p class="action-empty-state">${this.i18n.t('actions.empty_state', {}, 'No custom actions yet. The quick scene dropdown still works until you add custom actions.')}</p>`}
                 </div>
+
+                <form class="action-modal-section action-builder" id="${modalId}-form">
+                    <h4>${this.i18n.t('actions.add_action', {}, 'Add action')}</h4>
+                    <div class="action-builder-grid">
+                        <label for="${modalId}-type">${this.i18n.t('actions.type_label', {}, 'Action type')}</label>
+                        <select id="${modalId}-type" name="type" ${actionTypes.length ? '' : 'disabled'}>
+                            ${actionTypes.map(a => `<option value="${this._escapeAttr(a.type)}">${this._escape(this._actionLabel(a))}</option>`).join('')}
+                        </select>
+                    </div>
+                    <div class="action-param-grid" id="${modalId}-params"></div>
+                    <div class="action-modal-footer">
+                        <button type="button" class="secondary" data-action-modal-close>${this.i18n.t('ui.cancel', {}, 'Cancel')}</button>
+                        <button type="submit" class="primary">${this.i18n.t('actions.add_action_button', {}, '+ Add action')}</button>
+                    </div>
+                </form>
             </div>
         `;
+
         document.body.appendChild(overlay);
+        this._activeModal = overlay;
+        this._lastFocusedElement = document.activeElement;
 
-        // Wire events
-        overlay.querySelector('#btn-close-action-modal').addEventListener('click', () => overlay.remove());
-        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+        const modal = overlay.querySelector('.action-modal');
+        const typeSelect = overlay.querySelector(`#${modalId}-type`);
+        const paramsContainer = overlay.querySelector(`#${modalId}-params`);
+        const form = overlay.querySelector(`#${modalId}-form`);
 
-        // Delete action
-        overlay.querySelectorAll('.action-item-delete').forEach(btn => {
+        const close = () => this._closeActiveModal();
+        overlay.querySelectorAll('[data-action-modal-close]').forEach(btn => btn.addEventListener('click', close));
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+        overlay.addEventListener('keydown', (e) => this._handleModalKeydown(e, overlay, close));
+
+        const renderParams = () => this._renderActionParamFields(paramsContainer, typeSelect.value, modalId);
+        typeSelect?.addEventListener('change', renderParams);
+        renderParams();
+
+        overlay.querySelectorAll('[data-delete-index]').forEach(btn => {
             btn.addEventListener('click', () => {
-                const idx = parseInt(btn.dataset.deleteIndex);
+                const idx = Number.parseInt(btn.dataset.deleteIndex, 10);
                 this.config.removeActionFromTrigger(triggerKey, idx);
-                overlay.remove();
-                this._showActionConfigModal(triggerKey); // re-render
-                this.render(); // refresh main UI
+                close();
+                this.render();
+                this._showActionConfigModal(triggerKey);
             });
         });
 
-        // Add action
-        overlay.querySelector('#btn-add-action').addEventListener('click', () => {
-            const type = overlay.querySelector('#new-action-type').value;
-            const typeDef = actionTypes.find(a => a.type === type);
-            // Create action with default params
-            const newAction = { type, target: typeDef.target, params: {} };
+        overlay.querySelectorAll('[data-test-index]').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const idx = Number.parseInt(btn.dataset.testIndex, 10);
+                const action = this._getExplicitActions(triggerKey)[idx];
+                if (!action || !this.onTestAction) return;
+                btn.disabled = true;
+                btn.textContent = this.i18n.t('actions.testing', {}, 'Testing…');
+                try {
+                    await this.onTestAction(action);
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = this.i18n.t('actions.test', {}, 'Test');
+                }
+            });
+        });
 
-            // For scene_switch, use the scene from the dropdown if available
-            if (type === 'scene_switch') {
-                const currentScene = this.config.get(`scenes.${triggerKey}`, '');
-                if (currentScene) newAction.params.sceneName = currentScene;
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const selectedType = typeSelect.value;
+            const typeDef = actionTypes.find(a => a.type === selectedType);
+            if (!typeDef) return;
+
+            const newAction = {
+                type: selectedType,
+                target: typeDef.target,
+                params: this._readActionParams(paramsContainer, typeDef)
+            };
+
+            const currentExplicit = this._getExplicitActions(triggerKey);
+            const currentScene = this.config.get(`scenes.${triggerKey}`, '');
+            const nextActions = [...currentExplicit];
+
+            // UX fix: if the user already selected a quick scene, preserve it when the
+            // first custom action is added. Otherwise getActionsForTrigger() would stop
+            // using the legacy scene fallback as soon as triggerActions exists.
+            if (!nextActions.length && currentScene && selectedType !== 'scene_switch') {
+                nextActions.push({
+                    type: 'scene_switch',
+                    target: 'adapter',
+                    params: { sceneName: currentScene }
+                });
+            }
+            if (selectedType === 'scene_switch' && currentScene && !newAction.params.sceneName) {
+                newAction.params.sceneName = currentScene;
             }
 
-            this.config.addActionToTrigger(triggerKey, newAction);
-            overlay.remove();
-            this._showActionConfigModal(triggerKey); // re-render modal
-            this.render(); // refresh main UI
+            nextActions.push(newAction);
+            this.config.setActionsForTrigger(triggerKey, nextActions);
+            close();
+            this.render();
+            this._showActionConfigModal(triggerKey);
         });
+
+        requestAnimationFrame(() => {
+            modal.focus();
+            const firstInteractive = overlay.querySelector('button, select, input, textarea, [tabindex]:not([tabindex="-1"])');
+            firstInteractive?.focus();
+        });
+    }
+
+    _getExplicitActions(triggerKey) {
+        const actions = this.config.get(`triggerActions.${triggerKey}`, []);
+        return Array.isArray(actions) ? actions : [];
+    }
+
+    _renderActionItems(actions) {
+        if (!actions.length) return '';
+        return actions.map((action, index) => {
+            const summary = this._paramsSummary(action.params || {});
+            return `
+                <li class="action-item" data-action-index="${index}">
+                    <div class="action-item-main">
+                        <span class="action-item-type">${this._escape(this._actionLabel(action))}</span>
+                        <span class="action-item-params">${this._escape(summary || this.i18n.t('actions.no_params', {}, 'No parameters'))}</span>
+                    </div>
+                    <div class="action-item-controls">
+                        <button type="button" class="secondary" data-test-index="${index}">${this.i18n.t('actions.test', {}, 'Test')}</button>
+                        <button type="button" class="danger" data-delete-index="${index}" aria-label="${this._escapeAttr(this.i18n.t('actions.remove_action', { index: index + 1 }, `Remove action ${index + 1}`))}">✕</button>
+                    </div>
+                </li>
+            `;
+        }).join('');
+    }
+
+    _renderActionParamFields(container, type, modalId) {
+        const typeDef = window.ActionEngine?.getActionTypes().find(a => a.type === type);
+        const params = typeDef?.params || [];
+        if (!params.length) {
+            container.innerHTML = `<p class="action-empty-state">${this.i18n.t('actions.no_params_needed', {}, 'This action does not need extra settings.')}</p>`;
+            return;
+        }
+
+        container.innerHTML = params.map(param => {
+            const inputId = `${modalId}-param-${this._safeId(param)}`;
+            const label = this.i18n.t(`actions.params.${param}`, {}, this._humanize(param));
+            if (['visible', 'enabled', 'muted'].includes(param)) {
+                return `
+                    <label for="${inputId}">${this._escape(label)}</label>
+                    <select id="${inputId}" name="${this._escapeAttr(param)}" data-param="${this._escapeAttr(param)}" data-param-kind="boolean">
+                        <option value="true">${this.i18n.t('ui.yes', {}, 'Yes')}</option>
+                        <option value="false">${this.i18n.t('ui.no', {}, 'No')}</option>
+                    </select>
+                `;
+            }
+            const numericParams = ['volume', 'rate', 'pitch', 'duration', 'autoHideMs', 'delayMs'];
+            const isNumber = numericParams.includes(param);
+            const defaultValue = this._defaultParamValue(param);
+            const listAttr = param === 'sceneName' && this.availableScenes.length ? `list="${inputId}-list"` : '';
+            const datalist = param === 'sceneName' && this.availableScenes.length
+                ? `<datalist id="${inputId}-list">${this.availableScenes.map(s => `<option value="${this._escapeAttr(s.name)}"></option>`).join('')}</datalist>`
+                : '';
+            return `
+                <label for="${inputId}">${this._escape(label)}</label>
+                <input id="${inputId}" name="${this._escapeAttr(param)}" data-param="${this._escapeAttr(param)}" data-param-kind="${isNumber ? 'number' : 'string'}" type="${isNumber ? 'number' : 'text'}" value="${this._escapeAttr(defaultValue)}" ${listAttr}>
+                ${datalist}
+            `;
+        }).join('');
+    }
+
+    _readActionParams(container, typeDef) {
+        const params = {};
+        for (const param of typeDef.params || []) {
+            const input = container.querySelector(`[data-param="${CSS.escape(param)}"]`);
+            if (!input) continue;
+            if (input.dataset.paramKind === 'boolean') {
+                params[param] = input.value === 'true';
+            } else if (input.dataset.paramKind === 'number') {
+                const n = Number(input.value);
+                params[param] = Number.isFinite(n) ? n : this._defaultParamValue(param);
+            } else if (param === 'actions' || param === 'action') {
+                try {
+                    params[param] = input.value ? JSON.parse(input.value) : (param === 'actions' ? [] : null);
+                } catch {
+                    params[param] = param === 'actions' ? [] : null;
+                }
+            } else {
+                params[param] = input.value.trim();
+            }
+        }
+        return params;
+    }
+
+    _defaultParamValue(param) {
+        const defaults = {
+            sceneName: '',
+            sourceName: '',
+            filterName: '',
+            visible: true,
+            muted: true,
+            enabled: true,
+            autoHideMs: 0,
+            url: 'assets/sounds/gesture.mp3',
+            volume: 0.8,
+            title: 'EsperantAI',
+            body: '',
+            icon: 'assets/branding/logo.svg',
+            color: 'rgba(88,166,255,0.3)',
+            duration: 300,
+            pattern: '[100,50,100]',
+            text: '',
+            lang: navigator.language || 'en-US',
+            rate: 1,
+            pitch: 1,
+            platform: 'twitch',
+            delayMs: 1000,
+            actions: '[]',
+            action: '{}'
+        };
+        return defaults[param] ?? '';
+    }
+
+    _handleModalKeydown(event, overlay, close) {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            close();
+            return;
+        }
+        if (event.key !== 'Tab') return;
+
+        const focusables = [...overlay.querySelectorAll('button:not([disabled]), select:not([disabled]), input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+            .filter(el => el.offsetParent !== null || el === document.activeElement);
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+        }
+    }
+
+    _closeActiveModal() {
+        if (!this._activeModal) return;
+        const modal = this._activeModal;
+        this._activeModal = null;
+        modal.remove();
+        if (this._lastFocusedElement && typeof this._lastFocusedElement.focus === 'function') {
+            this._lastFocusedElement.focus();
+        }
+    }
+
+    _actionLabel(action) {
+        const key = action.label_i18n || `actions.${action.type}`;
+        return this.i18n.t(key, {}, this._humanize(action.type || 'action'));
+    }
+
+    _paramsSummary(params) {
+        return Object.entries(params || {})
+            .filter(([, value]) => value !== '' && value != null)
+            .map(([key, value]) => `${this._humanize(key)}=${Array.isArray(value) || typeof value === 'object' ? JSON.stringify(value) : value}`)
+            .join(' · ');
+    }
+
+    _humanize(s) {
+        return String(s || '').replace(/_/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2');
+    }
+
+    _safeId(s) {
+        return String(s || '').replace(/[^a-z0-9_-]+/gi, '-');
     }
 
     _escape(s) {
         if (s == null) return '';
         return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    _escapeAttr(s) {
+        return this._escape(s);
     }
 }
 
