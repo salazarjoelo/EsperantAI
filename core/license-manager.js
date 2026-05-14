@@ -89,6 +89,16 @@ const TIER_FEATURES = {
     }
 };
 
+// Z-SEC-02: congelar TIER_FEATURES profundamente para prevenir mutación
+// desde DevTools. Sin esto, un atacante podía hacer:
+//   Object.assign(LicenseManager.TIER_FEATURES.free, LicenseManager.TIER_FEATURES.pro_plus)
+// y desbloquear todos los features instantáneamente sin reload.
+// Nota: deep freeze. Object.freeze(TIER_FEATURES) solo sería shallow.
+Object.freeze(TIER_FEATURES.free);
+Object.freeze(TIER_FEATURES.pro);
+Object.freeze(TIER_FEATURES.pro_plus);
+Object.freeze(TIER_FEATURES);
+
 class LicenseManager {
     constructor() {
         this.state = this._loadState();
