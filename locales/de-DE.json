@@ -152,7 +152,7 @@
     "distance_hint": "Misst, wie nah dein Gesicht ist. Löst nur aus, wenn der Kopf zentriert ist.",
     "emotion_hint": "Emotion muss stabil mit hoher Konfidenz sein. 2 Sekunden Abklingzeit zwischen Emotionswechseln.",
     "blink_hint": "Doppelblinzeln = beide Augen schnell zweimal schließen (innerhalb von 700 ms). 1 Sekunde Abklingzeit.",
-    "hand_hint": "Handgestenerkennung. Erkannte Gesten: Daumen hoch, Friedenszeichen, Rock-Zeichen, OK-Zeichen, Faust, offene Handfläche, Zeigen.",
+    "hand_hint": "Handgestenerkennung. Erkannte Gesten: Daumen hoch, Friedenszeichen, Rock-Zeichen, OK-Zeichen, Faust, offene Handfläche, Zeigen, gassho.",
     "platform_hint": "Verbinde dich mit Streaming-Plattformen, um Aktionen bei Ereignissen auszulösen: Spenden, Abos, Raids, Kanalpunkte."
   },
   "platforms": {

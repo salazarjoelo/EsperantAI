@@ -152,7 +152,7 @@
     "distance_hint": "Mede o quão perto seu rosto está. Só aciona quando a cabeça está centralizada.",
     "emotion_hint": "A emoção deve ser estável com alta confiança. Intervalo de 2 segundos entre mudanças de emoção.",
     "blink_hint": "Piscada dupla = fechar ambos os olhos rapidamente duas vezes (em 700ms). Intervalo de 1 segundo.",
-    "hand_hint": "Detecção de gestos com as mãos. Gestos detectados: joinha, paz, rock, OK, punho, palma aberta, apontar.",
+    "hand_hint": "Detecção de gestos com as mãos. Gestos detectados: joinha, paz, rock, OK, punho, palma aberta, apontar, gassho.",
     "platform_hint": "Conecte a plataformas de streaming para acionar ações em eventos: doações, inscrições, raids, pontos do canal."
   },
   "platforms": {

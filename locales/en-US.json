@@ -167,7 +167,7 @@
     "distance_hint": "Measures how close your face is. Only triggers when head is centered.",
     "emotion_hint": "Emotion must be stable with high confidence. 2-second cooldown between emotion changes.",
     "blink_hint": "Double blink = close both eyes quickly twice (within 700ms). 1-second cooldown.",
-    "hand_hint": "Hand gestures detection. Detected gestures: thumbs up, peace, rock, OK, fist, open palm, point.",
+    "hand_hint": "Hand gestures detection. Detected gestures: thumbs up, peace, rock, OK, fist, open palm, point, gassho.",
     "platform_hint": "Connect to streaming platforms to trigger actions on events: donations, subs, raids, channel points."
   },
   "platforms": {

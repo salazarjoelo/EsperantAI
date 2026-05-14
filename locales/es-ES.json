@@ -163,7 +163,7 @@
     "distance_hint": "Mide cuán cerca tienes la cara. Sólo dispara cuando la cabeza está al centro.",
     "emotion_hint": "La emoción debe ser estable y con confianza alta. Cooldown de 2s entre cambios.",
     "blink_hint": "Parpadeo doble = cierras ambos ojos rápido dos veces (en menos de 700ms). Cooldown de 1s.",
-    "hand_hint": "Detección de gestos de mano. Gestos detectados: pulgar arriba, paz, cuernos, OK, puño, palma, apuntar.",
+    "hand_hint": "Detección de gestos de mano. Gestos detectados: pulgar arriba, paz, cuernos, OK, puño, palma, apuntar, gassho.",
     "platform_hint": "Conecta a plataformas de streaming para disparar acciones en eventos: donaciones, subs, raids, channel points."
   },
   "platforms": {
