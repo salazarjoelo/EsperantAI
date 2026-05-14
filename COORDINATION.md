@@ -223,7 +223,36 @@ Plan GitHub Free no permite branch protection en repos privados. Las salvaguarda
 
 ---
 
-## 10. Archivos clave de coordinación
+## 10. Decisiones estratégicas de Joel — Sesión 2026-05-14
+
+### Skip Korea en v1.0
+- **TASK-106 (SOOP + CHZZK)** pospuesta a v1.5
+- Razones: SOOP requiere partner registration con identidad coreana; CHZZK
+  requiere proxy backend para clientSecret; PIPA compliance costoso
+- ko-KR locale queda como stub. zh-CN y ja-JP siguen vigentes (China + Japón)
+- Marketing y onboarding en KR explícitamente NO antes de v1.5
+
+### Backend infrastructure: VPS propio (no Cloudflare Workers)
+- Cuando se desbloquee TASK-001 (backend licencias firmadas) y/o
+  CHZZK proxy (v1.5), usar el VPS Hostinger existente (187.77.23.49)
+  donde ya corre `edugame.digital` y otros proyectos
+- Razón: ya hay infraestructura paga, no agregar otra dependencia
+
+### Gesto 🙏 gassho aprobado para v1.0
+- TASK-208 nueva, asignada a Z/GLM-4 (primaria) + Claude (integración)
+- Universal positivo en toda Asia, no solo Korea
+- Bajo riesgo de ofender en cualquier mercado occidental también
+
+### LemonSqueezy cuenta abierta (2026-05-14)
+- TASK-003 destrabada parcialmente. Joel está creando el producto.
+- Precio final, store_id, variant_id, checkout_url pendientes
+- Cuando Joel entregue los datos: PR para llenar placeholders en
+  `landing.html`, `index.html` (paywall), `core/license-manager.js`,
+  y banner EsperantAI de edugame.digital landing
+
+---
+
+## 11. Archivos clave de coordinación
 
 | Archivo | Propósito |
 |---|---|
