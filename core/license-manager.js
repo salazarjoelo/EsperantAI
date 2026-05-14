@@ -422,6 +422,39 @@ class LicenseManager {
             try { l.fn(this.state); } catch {}
         });
     }
+
+    /**
+     * Programa revalidación periódica de la licencia contra el backend.
+     * Llamado desde app.js tras isValid() === true.
+     * Si la licencia expira o se revoca durante la sesión, el siguiente
+     * tick lo detecta y showLicenseLockout() se dispara via _notify().
+     *
+     * Fix Z-SEC-06: este método se llamaba desde app.js:31 pero no existía,
+     * causando TypeError que crasheaba el bootstrap para usuarios de pago.
+     */
+    startBackgroundRevalidation() {
+        // Limpiar timer previo si lo hubiera (re-arranque limpio)
+        if (this._revalidationTimer) {
+            clearInterval(this._revalidationTimer);
+            this._revalidationTimer = null;
+        }
+        // 7 días en milisegundos. La validación es silenciosa: si falla red,
+        // se respeta el grace period offline definido en validate().
+        const INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;
+        this._revalidationTimer = setInterval(() => {
+            this.validate().catch(err => {
+                console.warn('[License] Background revalidation failed:', err);
+            });
+        }, INTERVAL_MS);
+    }
+
+    /** Detiene el timer de revalidación. Útil en teardown / logout. */
+    stopBackgroundRevalidation() {
+        if (this._revalidationTimer) {
+            clearInterval(this._revalidationTimer);
+            this._revalidationTimer = null;
+        }
+    }
 }
 
 LicenseManager.TIER_FEATURES = TIER_FEATURES;
