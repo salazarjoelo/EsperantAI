@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.socket.io; connect-src 'self' wss://eventsub.wss.twitch.tv https://api.twitch.tv https://www.googleapis.com https://api.kick.com https://id.kick.com https://api.streamelements.com https://realtime.streamelements.com https://api.lemonsqueezy.com https://vladmandic.github.io ws://127.0.0.1:* http://127.0.0.1:*; img-src 'self' data: https://vladmandic.github.io; media-src 'self'; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self' wss://eventsub.wss.twitch.tv https://api.twitch.tv https://id.twitch.tv https://www.googleapis.com https://api.kick.com https://id.kick.com https://api.streamelements.com https://realtime.streamelements.com wss://realtime.streamelements.com https://api.lemonsqueezy.com https://open-api.trovo.live wss://open-chat.trovo.live ws://127.0.0.1:* http://127.0.0.1:*; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:;">
     <title>EsperantAI — Honest gestures</title>
     <link rel="icon" type="image/svg+xml" href="assets/branding/logo.svg">
 
@@ -17,6 +17,7 @@
     <script src="core/license-manager.js"></script>
     <script src="core/action-engine.js"></script>
     <script src="core/trigger-engine.js"></script>
+    <script src="core/trigger-history.js"></script>
     <script src="core/detector.js"></script>
     <script src="core/trigger-ui-builder.js"></script>
 
@@ -488,6 +489,13 @@
                 </div>
             </div>
 
+            <!-- Event Triggers Panel: mapeo evento de plataforma → escena (+ gesto opcional) -->
+            <div class="panel" style="margin-top: 16px;">
+                <h2>📡 Event Triggers (Plataformas)</h2>
+                <div class="hint" style="margin-bottom:12px;">Mapea eventos de Twitch/YouTube/Kick/etc. a escenas. Opcional: requerir un gesto de mano como confirmación.</div>
+                <div id="event-triggers-area"></div>
+            </div>
+
             <!-- Sensitivity (placeholder, JS will populate sliders) -->
             <div class="panel" style="margin-top: 16px;">
                 <h2 data-i18n="ui.sensitivity">Sensitivity</h2>
@@ -517,6 +525,21 @@
                         <button id="btn-reset" class="danger" data-i18n="advanced.reset_config">Reset</button>
                     </div>
                     <input type="file" id="import-file" accept=".json" style="display:none;">
+                </details>
+                <details>
+                    <summary>📜 Trigger History</summary>
+                    <div id="trigger-history-area" style="max-height:300px; overflow-y:auto; font-size:11px; font-family:'Consolas',monospace;"></div>
+                    <div class="row" style="margin-top:8px;">
+                        <button id="btn-history-csv" class="secondary">📥 Export CSV</button>
+                        <button id="btn-history-clear" class="secondary">🗑️ Clear</button>
+                    </div>
+                </details>
+                <details>
+                    <summary>🔑 License</summary>
+                    <div id="license-info" style="font-size:12px; color:var(--text-muted);"></div>
+                    <div class="row" style="margin-top:8px;">
+                        <button id="btn-deactivate-license" class="danger">Desactivar licencia en este dispositivo</button>
+                    </div>
                 </details>
             </div>
         </div>

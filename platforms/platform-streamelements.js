@@ -112,12 +112,19 @@ class PlatformStreamElements extends PlatformBase {
         });
     }
 
+    /**
+     * Fix audit H-05: Socket.IO empaquetado localmente, sin CDN externo.
+     * Elimina dependencia de supply chain + permite operación 100% offline después de la carga inicial.
+     */
     _loadSocketIO() {
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
-            script.src = 'https://cdn.socket.io/4.7.5/socket.io.min.js';
+            script.src = 'libs/socket.io.min.js';
             script.onload = resolve;
-            script.onerror = reject;
+            script.onerror = (e) => {
+                console.error('Failed to load local socket.io.min.js. ¿Está en libs/?');
+                reject(e);
+            };
             document.head.appendChild(script);
         });
     }

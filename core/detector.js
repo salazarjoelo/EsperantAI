@@ -28,7 +28,9 @@ class Detector {
     buildHumanConfig() {
         const enabled = this.config.get('enabled');
         return {
-            modelBasePath: 'https://vladmandic.github.io/human-models/models/',
+            // Fix audit H-04: modelos empaquetados localmente en /models/.
+            // Cero dependencia de supply chain externo, funciona 100% offline.
+            modelBasePath: 'models/',
             backend: 'webgl',
             warmup: 'face',
             face: {

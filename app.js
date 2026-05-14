@@ -159,6 +159,15 @@
         }
     });
 
+    // ====== 9.1. Trigger History panel ======
+    setupTriggerHistoryPanel();
+
+    // ====== 9.2. License info + deactivate ======
+    setupLicensePanel();
+
+    // ====== 9.3. Event Triggers UI (mapeo evento de plataforma → escena/gesto) ======
+    setupEventTriggersPanel();
+
     // ====== 9.5. Platform OAuth buttons + postMessage handler ======
     setupPlatformAuth();
 
@@ -259,40 +268,53 @@
         });
     }
 
+    /**
+     * Fix audit H-03: usar createElement + .value en lugar de innerHTML con interpolación.
+     * Previene XSS via configuración importada con strings maliciosos.
+     */
     function renderAdapterConfigForm(type) {
         const area = DOM.adapterConfigArea;
-        area.innerHTML = '';
+        // Vaciar de forma segura
+        while (area.firstChild) area.removeChild(area.firstChild);
+
+        const buildField = (labelText, inputId, inputType, defaultValue, placeholder) => {
+            const label = document.createElement('label');
+            label.textContent = labelText;
+            area.appendChild(label);
+            const input = document.createElement('input');
+            input.type = inputType;
+            input.id = inputId;
+            input.value = defaultValue ?? '';
+            if (placeholder) input.placeholder = placeholder;
+            input.autocomplete = inputType === 'password' ? 'new-password' : 'off';
+            input.spellcheck = false;
+            area.appendChild(input);
+            return input;
+        };
+
+        const buildHint = (text) => {
+            const hint = document.createElement('div');
+            hint.className = 'hint';
+            hint.textContent = text;
+            area.appendChild(hint);
+        };
+
         if (type === 'obs' || type === 'prism') {
             const cur = config.get(`adapter.${type}`, {});
-            area.innerHTML = `
-                <label>WebSocket URL</label>
-                <input type="text" id="adapter-url" value="${cur.url || 'ws://127.0.0.1:4455'}">
-                <label>Password</label>
-                <input type="password" id="adapter-password" placeholder="${window.i18n.t('ui.password_placeholder')}" value="${cur.password || ''}">
-            `;
+            buildField('WebSocket URL', 'adapter-url', 'text', cur.url || 'ws://127.0.0.1:4455');
+            buildField('Password', 'adapter-password', 'password', cur.password || '', window.i18n.t('ui.password_placeholder', {}, ''));
         } else if (type === 'streamlabs') {
             const cur = config.get('adapter.streamlabs', {});
-            area.innerHTML = `
-                <label>API Token (from Streamlabs Settings → Remote Control)</label>
-                <input type="password" id="adapter-token" value="${cur.token || ''}">
-                <label>Port</label>
-                <input type="text" id="adapter-port" value="${cur.port || 59650}">
-            `;
+            buildField('API Token (Streamlabs Settings → Remote Control)', 'adapter-token', 'password', cur.token || '');
+            buildField('Port', 'adapter-port', 'text', cur.port || 59650);
         } else if (type === 'vmix') {
             const cur = config.get('adapter.vmix', {});
-            area.innerHTML = `
-                <label>Host</label>
-                <input type="text" id="adapter-host" value="${cur.host || '127.0.0.1'}">
-                <label>Port</label>
-                <input type="text" id="adapter-port" value="${cur.port || 8088}">
-            `;
+            buildField('Host', 'adapter-host', 'text', cur.host || '127.0.0.1');
+            buildField('Port', 'adapter-port', 'text', cur.port || 8088);
         } else if (type === 'xsplit') {
             const cur = config.get('adapter.xsplit', {});
-            area.innerHTML = `
-                <label>Remote xjs Proxy URL</label>
-                <input type="text" id="adapter-proxy-url" value="${cur.proxyUrl || 'ws://127.0.0.1:5555/xjs'}">
-                <div class="hint" data-i18n="hints.xsplit_hint">Install "Remote xjs" extension in XSplit and enable Remote in preferences.</div>
-            `;
+            buildField('Remote xjs Proxy URL', 'adapter-proxy-url', 'text', cur.proxyUrl || 'ws://127.0.0.1:5555/xjs');
+            buildHint('Instala "Remote xjs" en XSplit y habilita Remote en preferencias.');
         }
     }
 
@@ -352,6 +374,10 @@
         activeAdapter.on('scene_list_changed', (scenes) => {
             console.log(`📡 ${activeAdapter.name}: ${scenes.length} scenes extraídas`);
             triggerUI.updateAvailableScenes(scenes);
+            // Repoblar también los dropdowns de event triggers
+            if (window.__esperantai_updateEventTriggerScenes) {
+                window.__esperantai_updateEventTriggerScenes(scenes);
+            }
         });
     }
 
@@ -461,6 +487,19 @@
         const results = await engine.execute(actions);
         const successCount = results.filter(r => r.success).length;
         DOM.currentPoseSub.textContent = `${action.label || 'action'} → ${successCount}/${actions.length} ✓`;
+
+        // Registrar en trigger history para auditoría visual sin DevTools
+        if (window.triggerHistory) {
+            const sceneTarget = actions.find(a => a.type === 'scene_switch')?.params?.sceneName || '';
+            window.triggerHistory.add({
+                trigger: action.trigger || (action.sourceEvent?.type || 'manual'),
+                label: action.label,
+                scene: sceneTarget,
+                actionsCount: actions.length,
+                success: successCount === actions.length,
+                source: action.sourceEvent ? 'event' : (action.trigger ? 'gesture' : 'manual')
+            });
+        }
     }
 
     // ====== Platform OAuth ======
@@ -631,6 +670,191 @@
             console.warn(`⚠️ ${providerName} auth error:`, e);
         });
     }
+
+    // ====== Trigger History Panel ======
+
+    function setupTriggerHistoryPanel() {
+        const area = document.getElementById('trigger-history-area');
+        const btnCSV = document.getElementById('btn-history-csv');
+        const btnClear = document.getElementById('btn-history-clear');
+        if (!area) return;
+
+        const escape = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+        const render = (entries) => {
+            if (!entries.length) {
+                area.innerHTML = '<div style="padding:8px;color:var(--text-muted);">Sin triggers todavía. Haz un gesto para empezar.</div>';
+                return;
+            }
+            area.innerHTML = entries.slice(0, 50).map(e => {
+                const t = new Date(e.ts).toLocaleTimeString();
+                const ok = e.success === true ? '✓' : (e.success === false ? '✗' : '·');
+                const okColor = e.success === true ? '#56d364' : (e.success === false ? '#ff7b72' : 'var(--text-muted)');
+                return `<div style="padding:4px 0; border-bottom:1px solid var(--border);">
+                    <span style="color:${okColor}; font-weight:700;">${ok}</span>
+                    <span style="color:var(--text-muted);">${escape(t)}</span>
+                    <span style="color:var(--brand-1);">${escape(e.trigger)}</span>
+                    ${e.scene ? `→ <span style="color:var(--brand-2);">${escape(e.scene)}</span>` : ''}
+                    <span style="color:var(--text-muted); font-size:10px;">(${escape(e.source)})</span>
+                </div>`;
+            }).join('');
+        };
+
+        if (window.triggerHistory) {
+            window.triggerHistory.onChange(render);
+            render(window.triggerHistory.getAll());
+        }
+
+        if (btnCSV) btnCSV.addEventListener('click', () => window.triggerHistory?.downloadCSV());
+        if (btnClear) btnClear.addEventListener('click', () => {
+            if (confirm('¿Limpiar el historial de triggers?')) window.triggerHistory?.clear();
+        });
+    }
+
+    // ====== License Panel (info + deactivate) ======
+
+    function setupLicensePanel() {
+        const info = document.getElementById('license-info');
+        const btnDeact = document.getElementById('btn-deactivate-license');
+        if (!info) return;
+
+        const lic = window.licenseManager;
+        const state = lic?.state || {};
+        const lastVal = state.lastValidatedAt ? new Date(state.lastValidatedAt).toLocaleString() : 'nunca';
+        info.innerHTML = '';
+        const lines = [
+            `Estado: ${state.valid ? '✓ Válida' : '✗ Inválida'}`,
+            state.customerEmail ? `Cliente: ${state.customerEmail}` : null,
+            state.productName ? `Producto: ${state.productName}` : null,
+            state.licenseKey ? `Key: ${state.licenseKey.slice(0, 8)}…${state.licenseKey.slice(-4)}` : null,
+            `Última validación: ${lastVal}`
+        ].filter(Boolean);
+        lines.forEach(line => {
+            const p = document.createElement('div');
+            p.textContent = line;
+            info.appendChild(p);
+        });
+
+        if (btnDeact) {
+            btnDeact.addEventListener('click', async () => {
+                if (!confirm('¿Desactivar la licencia en este dispositivo? Tendrás que activarla de nuevo si quieres usarla aquí, o activarla en otro dispositivo (máx 3).')) return;
+                btnDeact.disabled = true;
+                btnDeact.textContent = 'Desactivando...';
+                await lic.deactivate();
+                location.reload();
+            });
+        }
+    }
+
+    // ====== Event Triggers Panel ======
+    // Audit M-02: UI para configurar eventTriggers (sub, donation, raid, etc.)
+
+    function setupEventTriggersPanel() {
+        const area = document.getElementById('event-triggers-area');
+        if (!area) return;
+
+        const EVENT_TYPES = [
+            { key: 'sub', icon: '🎁', label: 'Nueva suscripción' },
+            { key: 'resub', icon: '🔁', label: 'Resuscripción' },
+            { key: 'gift_sub', icon: '🎀', label: 'Sub regalada' },
+            { key: 'follow', icon: '➕', label: 'Nuevo follower' },
+            { key: 'donation', icon: '💰', label: 'Donación' },
+            { key: 'cheer_bits', icon: '💎', label: 'Bits / Cheer' },
+            { key: 'raid', icon: '🚀', label: 'Raid recibido' },
+            { key: 'super_chat', icon: '⭐', label: 'Super Chat (YT)' },
+            { key: 'channel_points', icon: '🎯', label: 'Channel Points' },
+            { key: 'member_milestone', icon: '🏆', label: 'Milestone miembros' }
+        ];
+
+        const HAND_GESTURES = [
+            { value: '', label: '— ninguno (disparo automático) —' },
+            { value: 'thumbs-up', label: '👍 Pulgar arriba' },
+            { value: 'peace', label: '✌️ Paz' },
+            { value: 'rock', label: '🤘 Rock' },
+            { value: 'ok', label: '👌 OK' },
+            { value: 'open-palm', label: '🖐️ Palma abierta' }
+        ];
+
+        // Limpia y reconstruye
+        while (area.firstChild) area.removeChild(area.firstChild);
+
+        EVENT_TYPES.forEach(evt => {
+            const cur = config.get(`eventTriggers.${evt.key}`, {});
+            const row = document.createElement('div');
+            row.style.cssText = 'display:grid; grid-template-columns: 18px 130px 1fr 1fr 18px; gap:8px; align-items:center; padding:6px 0; border-bottom:1px solid var(--border); font-size:12px;';
+
+            // Checkbox enabled
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.checked = !!cur.enabled;
+            cb.title = 'Habilitar este evento';
+            cb.addEventListener('change', () => config.set(`eventTriggers.${evt.key}.enabled`, cb.checked));
+
+            // Label
+            const lab = document.createElement('span');
+            lab.textContent = `${evt.icon} ${evt.label}`;
+
+            // Scene select (poblado del adapter cuando esté conectado)
+            const sceneSel = document.createElement('select');
+            sceneSel.dataset.eventKey = evt.key;
+            sceneSel.className = 'event-trigger-scene-select';
+            const emptyOpt = document.createElement('option');
+            emptyOpt.value = '';
+            emptyOpt.textContent = '— escena —';
+            sceneSel.appendChild(emptyOpt);
+            sceneSel.value = cur.scene || '';
+            sceneSel.addEventListener('change', () => config.set(`eventTriggers.${evt.key}.scene`, sceneSel.value));
+
+            // Gesture requirement select
+            const gestSel = document.createElement('select');
+            HAND_GESTURES.forEach(g => {
+                const opt = document.createElement('option');
+                opt.value = g.value;
+                opt.textContent = g.label;
+                gestSel.appendChild(opt);
+            });
+            gestSel.value = cur.requireGesture || '';
+            gestSel.addEventListener('change', () => config.set(`eventTriggers.${evt.key}.requireGesture`, gestSel.value || null));
+
+            // Info
+            const info = document.createElement('span');
+            info.style.cssText = 'color:var(--text-muted); cursor:help;';
+            info.textContent = 'ⓘ';
+            info.title = 'Si seleccionas un gesto, debes hacerlo dentro de 5 segundos después del evento para confirmar la acción.';
+
+            row.appendChild(cb);
+            row.appendChild(lab);
+            row.appendChild(sceneSel);
+            row.appendChild(gestSel);
+            row.appendChild(info);
+            area.appendChild(row);
+        });
+    }
+
+    /**
+     * Llamado desde wireAdapterEvents cuando llegan escenas — repoblar dropdowns
+     * de event triggers también con las escenas disponibles.
+     */
+    function updateEventTriggerSceneOptions(scenes) {
+        document.querySelectorAll('.event-trigger-scene-select').forEach(sel => {
+            const eventKey = sel.dataset.eventKey;
+            const currentVal = config.get(`eventTriggers.${eventKey}.scene`, '');
+            while (sel.firstChild) sel.removeChild(sel.firstChild);
+            const emptyOpt = document.createElement('option');
+            emptyOpt.value = '';
+            emptyOpt.textContent = '— escena —';
+            sel.appendChild(emptyOpt);
+            scenes.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.name;
+                opt.textContent = s.name;
+                sel.appendChild(opt);
+            });
+            sel.value = currentVal;
+        });
+    }
+    // Exponer para wireAdapterEvents
+    window.__esperantai_updateEventTriggerScenes = updateEventTriggerSceneOptions;
 
 })().catch(err => {
     console.error('Bootstrap error:', err);

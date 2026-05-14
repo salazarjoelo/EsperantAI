@@ -23,6 +23,7 @@ if not exist "%DEST_DIR%\locales" mkdir "%DEST_DIR%\locales"
 if not exist "%DEST_DIR%\assets" mkdir "%DEST_DIR%\assets"
 if not exist "%DEST_DIR%\assets\branding" mkdir "%DEST_DIR%\assets\branding"
 if not exist "%DEST_DIR%\docs" mkdir "%DEST_DIR%\docs"
+if not exist "%DEST_DIR%\models" mkdir "%DEST_DIR%\models"
 
 echo [1/4] Copiando archivos del nucleo...
 copy /Y "%~dp0index.html" "%DEST_DIR%\index.html" >nul
@@ -33,17 +34,19 @@ copy /Y "%~dp0README.md" "%DEST_DIR%\README.md" >nul
 copy /Y "%~dp0LICENSE.txt" "%DEST_DIR%\LICENSE.txt" >nul 2>&1
 copy /Y "%~dp0Lanzar_EsperantAI.bat" "%DEST_DIR%\Lanzar_EsperantAI.bat" >nul
 
-echo [2/4] Copiando libs (Human.js + obs-websocket)...
+echo [2/4] Copiando libs (Human.js + obs-websocket + Socket.IO)...
 copy /Y "%~dp0libs\human.js" "%DEST_DIR%\libs\human.js" >nul
 copy /Y "%~dp0libs\obs-ws.min.js" "%DEST_DIR%\libs\obs-ws.min.js" >nul
+copy /Y "%~dp0libs\socket.io.min.js" "%DEST_DIR%\libs\socket.io.min.js" >nul
 
-echo [3/4] Copiando modulos core/adapters/platforms/locales/assets + docs legales...
+echo [3/4] Copiando modulos core/adapters/platforms/locales/assets/models + docs legales...
 xcopy /Y /E /Q "%~dp0core\*" "%DEST_DIR%\core\" >nul
 xcopy /Y /E /Q "%~dp0adapters\*" "%DEST_DIR%\adapters\" >nul
 xcopy /Y /E /Q "%~dp0platforms\*" "%DEST_DIR%\platforms\" >nul
 xcopy /Y /E /Q "%~dp0locales\*" "%DEST_DIR%\locales\" >nul
 xcopy /Y /E /Q "%~dp0assets\*" "%DEST_DIR%\assets\" >nul
 xcopy /Y /E /Q "%~dp0docs\*" "%DEST_DIR%\docs\" >nul
+xcopy /Y /E /Q "%~dp0models\*" "%DEST_DIR%\models\" >nul
 
 echo [4/4] Creando accesos directos de Windows...
 set "WSCRIPT_FILE=%TEMP%\CreateShortcutEsperantAI.vbs"

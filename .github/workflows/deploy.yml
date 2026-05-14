@@ -37,6 +37,8 @@ jobs:
           cp -r locales _site/locales
           cp -r assets _site/assets
           cp -r docs _site/docs
+          # Fix audit H-04: modelos Human.js empaquetados localmente
+          cp -r models _site/models
           cp README.md _site/README.md || true
 
       - name: Setup Pages

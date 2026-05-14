@@ -146,6 +146,15 @@ class TriggerEngine {
         const T = this.config.get('thresholds');
 
         if (this.config.get('enabled.head')) {
+            // Feature #8 audit: Dead Zone anti-fatiga.
+            // Si todos los ejes están dentro de su dead zone, forzar trigger='center'.
+            // Evita que micro-movimientos dispare triggers cuando el streamer está "quieto".
+            const inDeadZone =
+                Math.abs(yaw) < (T.deadZoneYaw ?? 0.05) &&
+                Math.abs(pitch) < (T.deadZonePitch ?? 0.05) &&
+                Math.abs(roll) < (T.deadZoneRoll ?? 0.08);
+            if (inDeadZone) return { trigger: 'center', label: 'center (dead zone)' };
+
             if (Math.abs(roll) > T.roll) return { trigger: roll > 0 ? 'tilt-right' : 'tilt-left', label: 'tilt' };
             if (pitch < T.pitchUp) return { trigger: 'up', label: 'up' };
             if (pitch > T.pitchDown) return { trigger: 'down', label: 'down' };

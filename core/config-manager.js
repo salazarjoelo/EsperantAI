@@ -79,7 +79,14 @@ const DEFAULT_CONFIG = {
         gazeStrength: 0.35,
         emotion: 0.60,
         stableFrames: 5,
-        cooldownMs: 500
+        cooldownMs: 500,
+        // Dead Zone (anti-fatigue) — dentro de este rango NADA dispara.
+        // Permite al streamer relajarse sin que micro-movimientos disparen triggers.
+        deadZoneYaw: 0.05,
+        deadZonePitch: 0.05,
+        deadZoneRoll: 0.08,
+        // Después de un trigger, ignorar nuevos triggers de "center" por este tiempo.
+        returnToCenterMs: 1000
     },
 
     // Behavior
@@ -91,14 +98,42 @@ class ConfigManager {
     constructor() {
         this.config = this._load();
         this.listeners = [];
+        // Fix audit P0.3: debounce de save() para evitar lag con sliders rápidos
+        this._saveDebounceMs = 300;
+        this._saveDebounceTimer = null;
+    }
+
+    /**
+     * Save debounceado — coalesce escrituras rápidas (típico de sliders en input event).
+     */
+    _saveDebounced() {
+        if (this._saveDebounceTimer) clearTimeout(this._saveDebounceTimer);
+        this._saveDebounceTimer = setTimeout(() => {
+            this._saveDebounceTimer = null;
+            this.save();
+        }, this._saveDebounceMs);
     }
 
     _load() {
         try {
             const raw = localStorage.getItem(CONFIG_KEY);
-            if (!raw) return this._clone(DEFAULT_CONFIG);
-            const saved = JSON.parse(raw);
-            return this._merge(this._clone(DEFAULT_CONFIG), saved);
+            const base = this._clone(DEFAULT_CONFIG);
+            const merged = raw ? this._merge(base, JSON.parse(raw)) : base;
+
+            // Fix audit H-01: restaurar tokens OAuth desde sessionStorage (más volátil = menos riesgo)
+            try {
+                const sessTokens = sessionStorage.getItem('esperantai-oauth-tokens');
+                if (sessTokens && merged.platforms) {
+                    const tokens = JSON.parse(sessTokens);
+                    for (const p of Object.keys(tokens)) {
+                        if (merged.platforms[p]) {
+                            if (tokens[p].token) merged.platforms[p].token = tokens[p].token;
+                            if (tokens[p].jwt) merged.platforms[p].jwt = tokens[p].jwt;
+                        }
+                    }
+                }
+            } catch {}
+            return merged;
         } catch (e) {
             console.warn('Config load failed:', e);
             return this._clone(DEFAULT_CONFIG);
@@ -141,7 +176,24 @@ class ConfigManager {
                 if (toSave.adapter?.obs) toSave.adapter.obs.password = '';
                 if (toSave.adapter?.prism) toSave.adapter.prism.password = '';
                 if (toSave.adapter?.streamlabs) toSave.adapter.streamlabs.token = '';
-                // OAuth tokens van guardados en sessionStorage, no localStorage
+            }
+            // Fix audit H-01: tokens OAuth NUNCA persisten en localStorage.
+            // Se mueven a sessionStorage al hacer save() y se restauran al load().
+            if (toSave.platforms) {
+                const tokens = {};
+                for (const p of ['twitch', 'youtube', 'kick', 'trovo', 'streamelements']) {
+                    if (toSave.platforms[p]?.token) {
+                        tokens[p] = { token: toSave.platforms[p].token };
+                        toSave.platforms[p].token = '';
+                    }
+                    if (toSave.platforms[p]?.jwt) {
+                        tokens[p] = { ...(tokens[p] || {}), jwt: toSave.platforms[p].jwt };
+                        toSave.platforms[p].jwt = '';
+                    }
+                }
+                if (Object.keys(tokens).length) {
+                    try { sessionStorage.setItem('esperantai-oauth-tokens', JSON.stringify(tokens)); } catch {}
+                }
             }
             localStorage.setItem(CONFIG_KEY, JSON.stringify(toSave));
             this._notify();
@@ -160,7 +212,7 @@ class ConfigManager {
         return cur ?? fallback;
     }
 
-    set(path, value) {
+    set(path, value, immediate = false) {
         const parts = path.split('.');
         let cur = this.config;
         for (let i = 0; i < parts.length - 1; i++) {
@@ -168,7 +220,13 @@ class ConfigManager {
             cur = cur[parts[i]];
         }
         cur[parts[parts.length - 1]] = value;
-        this.save();
+        // Fix audit P0.3: por default debounce (~300ms). immediate=true para casos críticos.
+        if (immediate) {
+            if (this._saveDebounceTimer) { clearTimeout(this._saveDebounceTimer); this._saveDebounceTimer = null; }
+            this.save();
+        } else {
+            this._saveDebounced();
+        }
     }
 
     reset() {
