@@ -45,6 +45,8 @@ class AdapterOBS extends AdapterBase {
             previewScene: true,
             transition: true,
             sourceVisibility: true,
+            sourceTransform: true,
+            sourceCrop: true,
             audioControl: true,
             recordingControl: true,
             streamingControl: true
@@ -173,6 +175,50 @@ class AdapterOBS extends AdapterBase {
         if (!this.connected) return false;
         try {
             await this.obs.call('SetSourceFilterEnabled', { sourceName, filterName, filterEnabled: !!enabled });
+            return true;
+        } catch (e) { this.emit('error', e); return false; }
+    }
+
+    async setSourceTransform(sceneName, sourceName, transform) {
+        if (!this.connected) return false;
+        try {
+            const list = await this.obs.call('GetSceneItemList', { sceneName });
+            const item = (list.sceneItems || []).find(i => i.sourceName === sourceName);
+            if (!item) {
+                console.warn(`Source "${sourceName}" not found in scene "${sceneName}"`);
+                return false;
+            }
+            await this.obs.call('SetSceneItemTransform', {
+                sceneName,
+                sceneItemId: item.sceneItemId,
+                sceneItemTransform: {
+                    positionX: transform.positionX ?? 0,
+                    positionY: transform.positionY ?? 0,
+                    scaleX: transform.scaleX ?? 1,
+                    scaleY: transform.scaleY ?? 1,
+                    rotation: transform.rotation ?? 0
+                }
+            });
+            return true;
+        } catch (e) { this.emit('error', e); return false; }
+    }
+
+    async setSourceCrop(sceneName, sourceName, crop) {
+        if (!this.connected) return false;
+        try {
+            const list = await this.obs.call('GetSceneItemList', { sceneName });
+            const item = (list.sceneItems || []).find(i => i.sourceName === sourceName);
+            if (!item) return false;
+            await this.obs.call('SetSceneItemCrop', {
+                sceneName,
+                sceneItemId: item.sceneItemId,
+                sceneItemCrop: {
+                    top: crop.top ?? 0,
+                    bottom: crop.bottom ?? 0,
+                    left: crop.left ?? 0,
+                    right: crop.right ?? 0
+                }
+            });
             return true;
         } catch (e) { this.emit('error', e); return false; }
     }

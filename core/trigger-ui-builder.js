@@ -185,16 +185,21 @@ class TriggerUIBuilder {
         const triggerLabel = this.i18n.t(t.i18n) || t.key;
         const currentValue = this.config.get(`scenes.${t.key}`, '');
         const isUniversal = t.universal;
-        const culturalTooltip = t.culturalNote ? `title="${t.culturalNote}"` : '';
+        const culturalTooltip = t.culturalNote ? `title="${this._escape(t.culturalNote)}"` : '';
 
-        // Construir options del dropdown
+        // Get multi-action count
+        const actions = this.config.getActionsForTrigger(t.key);
+        const actionCount = actions.length;
+        const actionBadge = actionCount > 1
+            ? `<span class="tb-action-count">${actionCount} actions</span>`
+            : '';
+
+        // Scene dropdown (kept as quick action)
         const options = [`<option value="">${this.i18n.t('scenes.scene_unassigned', {}, '— sin asignar —')}</option>`];
         for (const scene of this.availableScenes) {
             const selected = scene.name === currentValue ? 'selected' : '';
             options.push(`<option value="${this._escape(scene.name)}" ${selected}>${this._escape(scene.name)}</option>`);
         }
-
-        // Si la escena guardada ya no existe en el adapter actual, agregarla en el dropdown como "(no existe)"
         if (currentValue && !this.availableScenes.find(s => s.name === currentValue)) {
             options.push(`<option value="${this._escape(currentValue)}" selected>${this._escape(currentValue)} ⚠️ (no existe)</option>`);
         }
@@ -210,9 +215,13 @@ class TriggerUIBuilder {
                     <span class="tb-label">${triggerLabel}</span>
                     ${universalIndicator}
                 </div>
-                <select class="tb-scene-select" data-trigger="${t.key}" ${categoryEnabled ? '' : 'disabled'}>
-                    ${options.join('')}
-                </select>
+                <div class="tb-row-actions">
+                    <select class="tb-scene-select" data-trigger="${t.key}" ${categoryEnabled ? '' : 'disabled'}>
+                        ${options.join('')}
+                    </select>
+                    ${actionBadge}
+                    <button class="tb-action-config-btn" data-trigger="${t.key}" title="Configure actions" ${categoryEnabled ? '' : 'disabled'}>⚙️</button>
+                </div>
             </div>
         `;
     }
@@ -226,6 +235,14 @@ class TriggerUIBuilder {
             });
         });
 
+        // Action config buttons
+        this.container.querySelectorAll('.tb-action-config-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const trigger = btn.dataset.trigger;
+                this._showActionConfigModal(trigger);
+            });
+        });
+
         // Toggles de categoría
         this.container.querySelectorAll('[data-category-toggle]').forEach(cb => {
             cb.addEventListener('change', () => {
@@ -236,6 +253,93 @@ class TriggerUIBuilder {
                 // Notify external listener (detector debe recargar Human.js si cambia gaze/emotion/blink/hand)
                 if (this.onCategoryToggle) this.onCategoryToggle(cat, cb.checked);
             });
+        });
+    }
+
+    /**
+     * Shows a modal for configuring multiple actions on a single trigger.
+     * @param {string} triggerKey — ej. 'left', 'thumbs-up', 'happy'
+     */
+    _showActionConfigModal(triggerKey) {
+        const actions = this.config.getActionsForTrigger(triggerKey);
+        const catalogEntry = TRIGGER_CATALOG.find(t => t.key === triggerKey);
+        const triggerLabel = catalogEntry ? (this.i18n.t(catalogEntry.i18n) || triggerKey) : triggerKey;
+
+        // Get available action types
+        const actionTypes = window.ActionEngine.getActionTypes();
+
+        // Build modal HTML
+        const overlay = document.createElement('div');
+        overlay.className = 'action-modal-overlay';
+
+        const actionItemsHtml = actions.map((a, i) => {
+            const typeDef = actionTypes.find(t => t.type === a.type);
+            const paramsStr = a.params ? Object.entries(a.params).map(([k,v]) => `${k}=${v}`).join(', ') : '';
+            return `<div class="action-item" data-action-index="${i}">
+                <span class="action-item-type">${a.type}</span>
+                <span class="action-item-params">${this._escape(paramsStr)}</span>
+                <button class="action-item-delete" data-delete-index="${i}" title="Remove">✕</button>
+            </div>`;
+        }).join('');
+
+        const addActionOptions = actionTypes.map(a =>
+            `<option value="${a.type}">${a.type.replace(/_/g, ' ')} (${a.target})</option>`
+        ).join('');
+
+        overlay.innerHTML = `
+            <div class="action-modal">
+                <h3>⚙️ ${triggerLabel} — Actions</h3>
+                <div id="action-list">
+                    ${actionItemsHtml || '<p style="color:var(--text-muted);font-size:12px;">No actions configured. The scene dropdown above still works as a quick action.</p>'}
+                </div>
+                <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border);">
+                    <label style="font-size: 12px; color: var(--text-muted);">Add action:</label>
+                    <div style="display: flex; gap: 8px; margin-top: 4px;">
+                        <select id="new-action-type" style="flex:1; padding:8px; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:6px; font-size:12px;">
+                            ${addActionOptions}
+                        </select>
+                        <button id="btn-add-action" class="primary" style="padding:8px 16px; font-size:12px;">+ Add</button>
+                    </div>
+                </div>
+                <div style="margin-top: 16px; display: flex; justify-content: flex-end; gap: 8px;">
+                    <button id="btn-close-action-modal" class="secondary" style="padding:8px 16px; font-size:12px;">Close</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+
+        // Wire events
+        overlay.querySelector('#btn-close-action-modal').addEventListener('click', () => overlay.remove());
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+
+        // Delete action
+        overlay.querySelectorAll('.action-item-delete').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.dataset.deleteIndex);
+                this.config.removeActionFromTrigger(triggerKey, idx);
+                overlay.remove();
+                this._showActionConfigModal(triggerKey); // re-render
+                this.render(); // refresh main UI
+            });
+        });
+
+        // Add action
+        overlay.querySelector('#btn-add-action').addEventListener('click', () => {
+            const type = overlay.querySelector('#new-action-type').value;
+            const typeDef = actionTypes.find(a => a.type === type);
+            // Create action with default params
+            const newAction = { type, target: typeDef.target, params: {} };
+
+            // For scene_switch, use the scene from the dropdown if available
+            if (type === 'scene_switch') {
+                const currentScene = this.config.get(`scenes.${triggerKey}`, '');
+                if (currentScene) newAction.params.sceneName = currentScene;
+            }
+
+            this.config.addActionToTrigger(triggerKey, newAction);
+            overlay.remove();
+            this._showActionConfigModal(triggerKey); // re-render modal
+            this.render(); // refresh main UI
         });
     }
 

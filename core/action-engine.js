@@ -49,18 +49,19 @@ const ACTION_REGISTRY = {
         params: ['sceneName', 'sourceName', 'visible', 'autoHideMs'],
         execute: async (action, ctx) => {
             if (!ctx.adapter?.isConnected()) return false;
+            // Cada adapter implementa setSourceVisibility de manera diferente
             if (typeof ctx.adapter.setSourceVisibility !== 'function') {
                 console.warn(`${ctx.adapter.name} doesn't support source_visibility`);
                 return false;
             }
-            // Fix audit M-01: devolver el resultado REAL del adapter, no siempre true
-            const ok = await ctx.adapter.setSourceVisibility(action.params.sceneName, action.params.sourceName, action.params.visible);
-            if (action.params.autoHideMs && action.params.visible && ok) {
+            await ctx.adapter.setSourceVisibility(action.params.sceneName, action.params.sourceName, action.params.visible);
+            // Auto-hide después de N ms
+            if (action.params.autoHideMs && action.params.visible) {
                 setTimeout(() => {
                     ctx.adapter.setSourceVisibility(action.params.sceneName, action.params.sourceName, false).catch(() => {});
                 }, action.params.autoHideMs);
             }
-            return ok !== false;
+            return true;
         }
     },
 
@@ -70,8 +71,8 @@ const ACTION_REGISTRY = {
         params: ['sourceName', 'filterName', 'enabled'],
         execute: async (action, ctx) => {
             if (!ctx.adapter?.isConnected() || typeof ctx.adapter.setSourceFilterEnabled !== 'function') return false;
-            const ok = await ctx.adapter.setSourceFilterEnabled(action.params.sourceName, action.params.filterName, action.params.enabled);
-            return ok !== false;
+            await ctx.adapter.setSourceFilterEnabled(action.params.sourceName, action.params.filterName, action.params.enabled);
+            return true;
         }
     },
 
@@ -81,8 +82,49 @@ const ACTION_REGISTRY = {
         params: ['sourceName', 'muted'],
         execute: async (action, ctx) => {
             if (!ctx.adapter?.isConnected() || typeof ctx.adapter.setSourceMuted !== 'function') return false;
-            const ok = await ctx.adapter.setSourceMuted(action.params.sourceName, action.params.muted);
-            return ok !== false;
+            await ctx.adapter.setSourceMuted(action.params.sourceName, action.params.muted);
+            return true;
+        }
+    },
+
+    source_transform: {
+        target: 'adapter',
+        label_i18n: 'actions.source_transform',
+        params: ['sceneName', 'sourceName', 'positionX', 'positionY', 'scaleX', 'scaleY', 'rotation'],
+        execute: async (action, ctx) => {
+            if (!ctx.adapter?.isConnected() || typeof ctx.adapter.setSourceTransform !== 'function') return false;
+            await ctx.adapter.setSourceTransform(
+                action.params.sceneName,
+                action.params.sourceName,
+                {
+                    positionX: action.params.positionX,
+                    positionY: action.params.positionY,
+                    scaleX: action.params.scaleX,
+                    scaleY: action.params.scaleY,
+                    rotation: action.params.rotation
+                }
+            );
+            return true;
+        }
+    },
+
+    source_crop: {
+        target: 'adapter',
+        label_i18n: 'actions.source_crop',
+        params: ['sceneName', 'sourceName', 'top', 'bottom', 'left', 'right'],
+        execute: async (action, ctx) => {
+            if (!ctx.adapter?.isConnected() || typeof ctx.adapter.setSourceCrop !== 'function') return false;
+            await ctx.adapter.setSourceCrop(
+                action.params.sceneName,
+                action.params.sourceName,
+                {
+                    top: action.params.top,
+                    bottom: action.params.bottom,
+                    left: action.params.left,
+                    right: action.params.right
+                }
+            );
+            return true;
         }
     },
 
@@ -92,8 +134,8 @@ const ACTION_REGISTRY = {
         params: [],
         execute: async (action, ctx) => {
             if (!ctx.adapter?.isConnected() || typeof ctx.adapter.startRecording !== 'function') return false;
-            const ok = await ctx.adapter.startRecording();
-            return ok !== false;
+            await ctx.adapter.startRecording();
+            return true;
         }
     },
 
@@ -103,8 +145,8 @@ const ACTION_REGISTRY = {
         params: [],
         execute: async (action, ctx) => {
             if (!ctx.adapter?.isConnected() || typeof ctx.adapter.stopRecording !== 'function') return false;
-            const ok = await ctx.adapter.stopRecording();
-            return ok !== false;
+            await ctx.adapter.stopRecording();
+            return true;
         }
     },
 
