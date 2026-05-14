@@ -84,6 +84,18 @@
     };
     triggerUI.render();
 
+    // ====== 3.4. Combo Triggers UI (Pro+ feature) ======
+    // Mapeo evento de plataforma + gesto físico → array de acciones.
+    // El engine ya soporta combos via _findCombosForEvent + _checkEventConfirmation.
+    // El modal de acciones se reusa del TriggerUIBuilder (mismo namespace triggerActions).
+    const comboArea = document.getElementById('combo-trigger-area');
+    const comboUI = new ComboTriggerUI(comboArea, config, window.i18n, lic, triggerUI);
+    comboUI.render();
+    // Re-validar license al cambiar tier (ej. tras activar Pro+) para refrescar el panel
+    if (typeof lic.on === 'function') {
+        lic.on('change', () => comboUI.render());
+    }
+
     // ====== 3.5. Calibration Wizard (TASK-102) ======
     // Pro+ feature. Auto-launches on first run for Pro licenses.
     const calibrationWizard = new CalibrationWizard({

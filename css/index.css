@@ -500,3 +500,78 @@ body.modal-open { overflow: hidden; }
     .cw-footer-right { width: 100%; justify-content: stretch; }
     .cw-footer-right > * { flex: 1; }
 }
+
+/* ============================================================================
+ * Combo Triggers UI (Pro+ feature)
+ * Panel para configurar evento de plataforma + gesto físico → acciones.
+ * ========================================================================== */
+.combo-hint {
+    color: var(--text-muted); font-size: 12px; margin-bottom: 12px;
+    line-height: 1.5;
+}
+.combo-list {
+    display: flex; flex-direction: column; gap: 8px;
+    margin-bottom: 12px;
+}
+.combo-empty {
+    color: var(--text-muted); font-size: 13px;
+    padding: 16px; border: 1px dashed var(--border);
+    border-radius: 8px; text-align: center;
+}
+.combo-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr auto auto auto;
+    gap: 8px; align-items: center;
+    padding: 10px 12px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+.combo-toggle {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--text-muted);
+    cursor: pointer; white-space: nowrap;
+}
+.combo-toggle input { cursor: pointer; }
+.combo-event-select, .combo-gesture-select {
+    width: 100%; min-width: 0;
+}
+.combo-arrow {
+    color: var(--brand-1); font-weight: bold;
+    user-select: none;
+}
+.combo-action-summary {
+    font-size: 11px; color: var(--text-muted);
+    white-space: nowrap; padding: 2px 8px;
+    background: rgba(88,166,255,0.08);
+    border-radius: 12px;
+}
+.combo-actions-btn {
+    padding: 4px 10px; font-size: 12px;
+}
+.combo-remove-btn {
+    padding: 2px 8px; font-size: 14px;
+    background: none; border: 1px solid var(--danger);
+    color: var(--danger);
+}
+.combo-remove-btn:hover {
+    background: var(--danger); color: white;
+}
+.combo-toolbar {
+    display: flex; justify-content: flex-end;
+}
+.combo-locked {
+    text-align: center; padding: 24px 16px;
+    background: rgba(88,166,255,0.05);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+}
+.combo-locked h3 { margin-top: 0; color: var(--brand-1); }
+.combo-locked p { color: var(--text-muted); margin: 8px 0; }
+@media (max-width: 760px) {
+    .combo-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+    .combo-arrow { display: none; }
+}

@@ -3,7 +3,7 @@
     "language": "Español (España)",
     "code": "es-ES",
     "rtl": false,
-    "completion": 307,
+    "completion": 322,
     "translator": "Joel Salazar (native)",
     "note": "es-ES parity fill 2026-05-14"
   },
@@ -45,7 +45,8 @@
     "enable": "Habilitar",
     "close": "Cerrar",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "combo_triggers": "Combos"
   },
   "triggers": {
     "universality_title": "Universalidad de gestos",
@@ -357,5 +358,21 @@
     "switch_confirm": "¿Cambiar de perfil? Los ajustes actuales se guardarán antes.",
     "delete_confirm": "¿Eliminar este perfil?",
     "cannot_delete_default": "No se puede eliminar el perfil por defecto."
+  },
+  "combo": {
+    "hint": "Combina un evento de plataforma con un gesto físico para confirmar celebraciones. Útil para evitar disparos accidentales durante el stream.",
+    "add": "Agregar combo",
+    "empty": "Aún no hay combos. Pulsa + Agregar combo para crear uno.",
+    "enabled": "Activo",
+    "event_label": "Evento",
+    "gesture_label": "Gesto de confirmación",
+    "select_event": "— evento —",
+    "select_gesture": "— gesto —",
+    "no_actions": "Sin acciones",
+    "remove": "Eliminar",
+    "confirm_delete": "¿Eliminar este combo?",
+    "locked_title": "Combos",
+    "locked_aria": "Combos bloqueados",
+    "locked_desc": "Los combos permiten requerir un gesto físico para confirmar eventos de plataforma antes de disparar la acción — ideal para evitar celebraciones accidentales en vivo."
   }
 }
