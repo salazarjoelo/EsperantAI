@@ -84,14 +84,23 @@ export function createApp(deps = {}) {
         express.json({ limit: '10kb' })(req, res, next);
     });
 
-    // CORS — solo permitir origen del cliente EsperantAI
-    const ALLOWED_ORIGINS = [
+    // CORS — solo permitir origen del cliente EsperantAI.
+    // Z-SEC-09: ALLOWED_ORIGINS configurable por env var. Eliminamos
+    // localhost del default de producción para evitar que un atacante
+    // levante un server local en localhost:8000 y abuse del backend
+    // via CORS desde la red de la víctima.
+    //
+    // En dev: export ALLOWED_ORIGINS="http://localhost:8000,http://127.0.0.1:8000"
+    // En prod: no setear (toma el default seguro abajo) o setear explícito.
+    const DEFAULT_PROD_ORIGINS = [
         'https://salazarjoelo.github.io',     // GitHub Pages (publicación oficial)
         'https://edugame.digital',             // Landing principal
         'https://esperantai.edugame.digital',  // Si Joel agrega subdominio app
-        'http://localhost:8000',               // Dev local
-        'http://127.0.0.1:8000',
     ];
+    const ALLOWED_ORIGINS = deps.allowedOrigins
+        ?? (process.env.ALLOWED_ORIGINS
+            ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim()).filter(Boolean)
+            : DEFAULT_PROD_ORIGINS);
     app.use((req, res, next) => {
         const origin = req.headers.origin;
         if (ALLOWED_ORIGINS.includes(origin)) {
