@@ -447,3 +447,56 @@
             padding: 2px 6px; border: none; background: none;
         }
         .action-item-delete:hover { opacity: 0.7; }
+
+/* ============================================================================
+ * Calibration Wizard (TASK-102)
+ * Imported from ChatGPT bundle, kept as plain CSS for CSP compliance.
+ * ========================================================================== */
+body.modal-open { overflow: hidden; }
+.modal-overlay[hidden] { display: none !important; }
+.modal-overlay {
+    position: fixed; inset: 0; z-index: 99999;
+    display: grid; place-items: center; padding: 20px;
+}
+.cw-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(6, 10, 18, 0.82);
+    backdrop-filter: blur(10px);
+}
+.cw-modal {
+    position: relative; z-index: 1; width: min(860px, 100%);
+    background: linear-gradient(180deg, rgba(22,27,34,0.98), rgba(13,17,23,0.98));
+    border: 1px solid var(--border); border-radius: 18px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+    padding: 24px;
+}
+.cw-header { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.cw-kicker { color: var(--brand-1); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+.cw-header h2 { margin: 0; font-size: 1.6em; }
+.cw-header p { color: var(--text-muted); margin: 8px 0 0 0; }
+.cw-close { background: transparent; color: var(--text-muted); border: 1px solid var(--border); border-radius: 10px; width: 40px; height: 40px; font-size: 24px; cursor: pointer; }
+.cw-progress { margin: 18px 0 22px; width: 100%; height: 8px; background: #0d1117; border-radius: 999px; overflow: hidden; border: 1px solid var(--border); }
+.cw-progress span, .cw-inline-progress span { display: block; height: 100%; background: var(--brand-gradient); border-radius: 999px; }
+.cw-step-body { min-height: 280px; }
+.cw-intro-grid, .cw-summary-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.cw-card { background: rgba(28, 33, 40, 0.85); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+.cw-card.tone { background: rgba(88, 166, 255, 0.08); }
+.cw-card h3 { margin-top: 0; }
+.cw-card ul { margin: 10px 0 0 18px; color: var(--text-muted); line-height: 1.6; }
+.cw-card p { color: var(--text-muted); line-height: 1.6; }
+.cw-actions-row { display: flex; align-items: center; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+.cw-capture-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #0d1117; border: 1px solid var(--border); color: var(--brand-1); font-size: 12px; font-weight: 700; }
+.cw-inline-progress { width: 100%; height: 8px; background: #0d1117; border-radius: 999px; overflow: hidden; border: 1px solid var(--border); margin-top: 12px; }
+.cw-status { margin-top: 14px; padding: 12px 14px; border-radius: 12px; border: 1px dashed var(--border); color: var(--text-muted); }
+.cw-status.ok { color: #d2f7dc; border-style: solid; border-color: rgba(35, 134, 54, 0.65); background: rgba(35, 134, 54, 0.12); }
+.cw-footer { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-top: 22px; }
+.cw-footer-right { display: flex; gap: 10px; align-items: center; }
+.cw-metric-list { list-style: none; padding: 0; margin: 12px 0 0 0; }
+.cw-metric-list li { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(48, 54, 61, 0.6); }
+.cw-metric-list li:last-child { border-bottom: none; }
+@media (max-width: 760px) {
+    .cw-intro-grid, .cw-summary-grid { grid-template-columns: 1fr; }
+    .cw-footer { flex-direction: column-reverse; align-items: stretch; }
+    .cw-footer-right { width: 100%; justify-content: stretch; }
+    .cw-footer-right > * { flex: 1; }
+}

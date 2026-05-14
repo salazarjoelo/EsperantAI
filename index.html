@@ -21,6 +21,7 @@
     <script src="core/detector.js"></script>
     <script src="core/trigger-ui-builder.js"></script>
     <script src="core/trigger-history.js"></script>
+    <script src="core/calibration-wizard.js"></script>
 
     <!-- Adapters (streaming software) -->
     <script src="adapters/adapter-base.js"></script>
@@ -213,6 +214,13 @@
                     </div>
                     <input type="file" id="import-file" accept=".json" class="hidden">
                 </details>
+                <details>
+                    <summary data-i18n="advanced.calibration">Calibration</summary>
+                    <p class="muted-small" data-i18n="advanced.calibration_desc">Personaliza los rangos de detección a tu cuerpo y tu cámara.</p>
+                    <div class="row">
+                        <button id="btn-recalibrate" class="secondary" data-i18n="advanced.recalibrate">Recalibrate</button>
+                    </div>
+                </details>
             </div>
 
             <!-- Trigger History -->
@@ -241,6 +249,9 @@
         <a href="docs/COOKIE_POLICY.html">Cookies</a> ·
         <a href="docs/THIRD_PARTY_LICENSES.html">OSS Licenses</a>
     </div>
+
+    <!-- Calibration Wizard modal overlay (TASK-102) -->
+    <div id="calibration-wizard-overlay" class="modal-overlay" hidden></div>
 
     <!-- Bootstrap -->
     <script src="app.js"></script>
