@@ -1,0 +1,23 @@
+{
+  "name": "esperantai-license-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Backend de licencias firmadas con JWT Ed25519 para EsperantAI. Valida contra LemonSqueezy y emite tokens server-signed que el cliente verifica con clave pública embebida.",
+  "license": "SEE LICENSE IN ../LICENSE.txt",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "keygen": "node scripts/generate-keypair.js",
+    "test": "node --test src/*.test.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "jose": "^5.10.0",
+    "rate-limiter-flexible": "^5.0.4"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

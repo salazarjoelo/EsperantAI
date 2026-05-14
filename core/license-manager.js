@@ -1,21 +1,45 @@
 /* ============================================================================
- * EsperantAI — License Manager
+ * EsperantAI — License Manager (TASK-001: backend de licencias firmadas)
  *
- * Validación de license keys contra LemonSqueezy License API (pública).
- * NO requiere servidor propio.
+ * Cambio 2026-05-14: la validación ya NO se hace directamente contra
+ * LemonSqueezy. Ahora pasa por el backend de Joel:
+ *   - URL: https://license.edugame.digital/verify
+ *   - Backend valida server-side con LEMONSQUEEZY_API_KEY (secreto)
+ *   - Emite JWT firmado con Ed25519
+ *   - Cliente verifica JWT con clave pública embebida (PUBLIC_KEY_PEM abajo)
  *
- * Modelo: sin tier gratuito, sin trial. El usuario activa license al primer
- * inicio. Sin license válida → la app no permite uso.
+ * Por qué: el modelo anterior (cliente → LemonSqueezy directo) era bypasseable
+ * editando el JS o localStorage (hallazgo C-05 auditoría). El JWT firmado NO
+ * se puede falsificar sin la clave privada que vive solo en el VPS de Joel.
  *
- * Docs: https://docs.lemonsqueezy.com/api/license-api
+ * Si el atacante modifica este archivo para skip la verificación: igual rompe
+ * la firma. El JWT sigue siendo inválido cuando Joel hace un upgrade del
+ * cliente y el atacante no recibe esos updates.
+ *
+ * Modelo: sin tier gratuito, sin trial. Sin license válida → app NO arranca.
  * ========================================================================== */
 
 'use strict';
 
-const LICENSE_STORAGE_KEY = 'esperantai-license-v1';
-const LS_API_BASE = 'https://api.lemonsqueezy.com/v1';
-const REVALIDATE_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000; // 7 días
-const OFFLINE_GRACE_MS = 30 * 24 * 60 * 60 * 1000;     // 30 días offline antes de bloquear
+const LICENSE_BACKEND_URL = 'https://license.edugame.digital';
+const LICENSE_STORAGE_KEY = 'esperantai-license-v2';
+const REVALIDATE_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;  // 7 días
+const OFFLINE_GRACE_MS = 30 * 24 * 60 * 60 * 1000;       // 30 días offline antes de bloquear
+const JWT_AUDIENCE = 'esperantai-client';
+const JWT_ISSUER = 'license.edugame.digital';
+
+/**
+ * Clave pública Ed25519 del backend de Joel.
+ * REEMPLAZAR con el contenido de backend/pub.pem tras ejecutar:
+ *   cd backend && node scripts/generate-keypair.js
+ *
+ * El cliente verifica que los JWT vengan firmados por la clave privada del
+ * backend. Si se cambia la clave pública aquí, los JWT existentes dejan de
+ * validar y los usuarios deben re-verificar online.
+ */
+const PUBLIC_KEY_PEM = `-----BEGIN PUBLIC KEY-----
+REPLACE_WITH_PUB_PEM_FROM_BACKEND_KEYGEN_BEFORE_DEPLOY
+-----END PUBLIC KEY-----`;
 
 const TIER_FEATURES = {
     free: {
@@ -49,7 +73,7 @@ const TIER_FEATURES = {
         triggerHistory: true
     },
     pro_plus: {
-        maxTriggers: -1, // unlimited
+        maxTriggers: -1,
         adapters: ['obs', 'streamlabs', 'vmix', 'prism', 'xsplit'],
         platforms: ['twitch', 'youtube', 'kick', 'trovo', 'streamelements'],
         handGestures: true,
@@ -70,6 +94,7 @@ class LicenseManager {
         this.state = this._loadState();
         this.listeners = [];
         this._operationLock = false;
+        this._publicKeyPromise = null;
     }
 
     _loadState() {
@@ -85,14 +110,12 @@ class LicenseManager {
     _defaultState() {
         return {
             licenseKey: null,
-            valid: false,
+            jwt: null,                  // JWT firmado por el backend
+            jwtExpires: 0,              // Unix epoch seconds
             tier: 'free',
-            customerId: null,
-            customerEmail: null,
-            productName: null,
+            instanceId: null,
             activatedAt: null,
-            lastValidatedAt: null,
-            instanceId: null
+            lastValidatedAt: 0,
         };
     }
 
@@ -105,68 +128,140 @@ class LicenseManager {
         }
     }
 
-    /**
-     * Fingerprint del dispositivo para identificar instalación.
-     */
-    async _getDeviceFingerprint() {
-        const parts = [
-            navigator.userAgent,
-            navigator.language,
-            navigator.platform,
-            screen.width + 'x' + screen.height,
-            new Date().getTimezoneOffset()
-        ].join('|');
-        try {
-            const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(parts));
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
-        } catch {
-            // Fallback for insecure contexts
-            return btoa(parts).slice(0, 32);
+    // ─── Public key handling (Ed25519 via crypto.subtle) ──────────────────
+
+    async _getPublicKey() {
+        if (this._publicKeyPromise) return this._publicKeyPromise;
+        if (PUBLIC_KEY_PEM.includes('REPLACE_WITH_PUB_PEM')) {
+            console.error('[license-manager] PUBLIC_KEY_PEM no fue reemplazado. Imposible verificar JWT.');
+            return null;
         }
+        this._publicKeyPromise = (async () => {
+            const pemBody = PUBLIC_KEY_PEM
+                .replace(/-----BEGIN PUBLIC KEY-----/, '')
+                .replace(/-----END PUBLIC KEY-----/, '')
+                .replace(/\s+/g, '');
+            const der = Uint8Array.from(atob(pemBody), c => c.charCodeAt(0));
+            try {
+                return await crypto.subtle.importKey(
+                    'spki',
+                    der.buffer,
+                    { name: 'Ed25519' },
+                    false,
+                    ['verify']
+                );
+            } catch (e) {
+                console.error('[license-manager] importKey failed (Ed25519 no soportado en este browser?):', e);
+                return null;
+            }
+        })();
+        return this._publicKeyPromise;
     }
 
     /**
-     * Activa license contra LemonSqueezy.
-     * @returns {{ok: boolean, error?: string, customerEmail?: string}}
+     * Verifica un JWT firmado por el backend.
+     * @returns {Promise<object|null>} payload del JWT si válido, null si no
+     */
+    async _verifyJWT(token) {
+        if (!token || typeof token !== 'string') return null;
+        const parts = token.split('.');
+        if (parts.length !== 3) return null;
+
+        const [headerB64, payloadB64, sigB64] = parts;
+
+        // Header — debe ser EdDSA
+        let header;
+        try {
+            header = JSON.parse(this._b64urlDecode(headerB64));
+        } catch { return null; }
+        if (header.alg !== 'EdDSA' && header.alg !== 'Ed25519') return null;
+
+        // Payload
+        let payload;
+        try {
+            payload = JSON.parse(this._b64urlDecode(payloadB64));
+        } catch { return null; }
+
+        // Issuer + audience + expiration
+        const now = Math.floor(Date.now() / 1000);
+        if (payload.iss !== JWT_ISSUER) return null;
+        if (payload.aud !== JWT_AUDIENCE) return null;
+        if (!payload.exp || payload.exp < now) return null;
+
+        // Verificar firma
+        const key = await this._getPublicKey();
+        if (!key) return null;
+        const signedData = new TextEncoder().encode(`${headerB64}.${payloadB64}`);
+        const sigBytes = this._b64urlToBytes(sigB64);
+        let valid;
+        try {
+            valid = await crypto.subtle.verify('Ed25519', key, sigBytes, signedData);
+        } catch (e) {
+            console.error('[license-manager] verify failed:', e);
+            return null;
+        }
+        if (!valid) return null;
+        return payload;
+    }
+
+    _b64urlDecode(str) {
+        const pad = '='.repeat((4 - (str.length % 4)) % 4);
+        const base64 = (str + pad).replace(/-/g, '+').replace(/_/g, '/');
+        return atob(base64);
+    }
+
+    _b64urlToBytes(str) {
+        const decoded = this._b64urlDecode(str);
+        return Uint8Array.from(decoded, c => c.charCodeAt(0)).buffer;
+    }
+
+    // ─── Activate / verify against backend ────────────────────────────────
+
+    /**
+     * Activa license consultando al backend.
+     * @returns {Promise<{ok: boolean, error?: string, tier?: string}>}
      */
     async activate(licenseKey) {
-        if (this._operationLock) return { ok: false, error: 'Operation in progress' };
+        if (this._operationLock) return { ok: false, error: 'in_progress' };
         this._operationLock = true;
         try {
-            if (!licenseKey || licenseKey.length < 10) {
-                return { ok: false, error: 'Invalid license key format' };
+            if (!licenseKey || licenseKey.trim().length < 10) {
+                return { ok: false, error: 'invalid_format' };
             }
+            const cleanKey = licenseKey.trim();
             const fingerprint = await this._getDeviceFingerprint();
             try {
-                const res = await fetch(`${LS_API_BASE}/licenses/activate`, {
+                const res = await fetch(`${LICENSE_BACKEND_URL}/verify`, {
                     method: 'POST',
-                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({
-                        license_key: licenseKey,
-                        instance_name: `EsperantAI-${fingerprint}`
-                    })
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        license_key: cleanKey,
+                        instance_name: `EsperantAI-${fingerprint}`,
+                    }),
                 });
                 const data = await res.json();
-                if (!res.ok || !data.activated) {
-                    return { ok: false, error: data.error || `Activation failed (${res.status})` };
+                if (!data.ok) {
+                    return { ok: false, error: data.error || 'invalid' };
+                }
+                // Verificar JWT antes de guardarlo
+                const payload = await this._verifyJWT(data.token);
+                if (!payload) {
+                    return { ok: false, error: 'jwt_invalid' };
                 }
                 this.state = {
-                    licenseKey,
-                    valid: true,
-                    tier: this._detectTier(data.meta?.product_name),
-                    customerId: data.meta?.customer_id,
-                    customerEmail: data.meta?.customer_email,
-                    productName: data.meta?.product_name,
+                    licenseKey: cleanKey,
+                    jwt: data.token,
+                    jwtExpires: payload.exp,
+                    tier: data.tier || payload.tier || 'pro',
+                    instanceId: payload.ls_instance || null,
                     activatedAt: Date.now(),
                     lastValidatedAt: Date.now(),
-                    instanceId: data.instance?.id
                 };
                 this._saveState();
-                return { ok: true, customerEmail: this.state.customerEmail };
+                return { ok: true, tier: this.state.tier };
             } catch (e) {
-                console.error('License activation error:', e);
-                return { ok: false, error: 'Network error during activation' };
+                console.error('[license-manager] activate fetch failed:', e);
+                return { ok: false, error: 'network_error' };
             }
         } finally {
             this._operationLock = false;
@@ -174,117 +269,164 @@ class LicenseManager {
     }
 
     /**
-     * Validate la license al inicio + cada 7 días.
-     * Offline grace 30 días.
+     * Valida el JWT actual. Si está cerca de expirar, intenta refrescar.
+     * Si offline y dentro del grace period, mantiene válido.
      */
     async validate() {
-        if (this._operationLock) {
-            // If locked, return current state rather than blocking
-            return this.state.valid;
+        if (!this.state.licenseKey || !this.state.jwt) {
+            this.state.tier = 'free';
+            return false;
+        }
+
+        // Verificar JWT criptográficamente
+        const payload = await this._verifyJWT(this.state.jwt);
+        if (!payload) {
+            // JWT inválido o expirado — intentar refrescar
+            return await this._refresh();
+        }
+
+        // JWT válido. Si está por expirar (< 7 días) Y hay conexión, refrescar.
+        const now = Math.floor(Date.now() / 1000);
+        const expiresIn = payload.exp - now;
+        if (expiresIn < REVALIDATE_INTERVAL_MS / 1000 && navigator.onLine) {
+            // Refrescar pero NO bloquear si falla (JWT actual sigue válido)
+            this._refresh().catch(() => {});
+        }
+
+        this.state.tier = payload.tier || 'pro';
+        this.state.lastValidatedAt = Date.now();
+        this._saveState();
+        return true;
+    }
+
+    /**
+     * Pide al backend un JWT nuevo.
+     */
+    async _refresh() {
+        if (this._operationLock) return this.state.tier !== 'free';
+        if (!navigator.onLine) {
+            // Offline grace: el JWT puede haber expirado pero respetamos los 30 días
+            const sinceValidated = Date.now() - this.state.lastValidatedAt;
+            if (sinceValidated < OFFLINE_GRACE_MS) {
+                return true; // Acepta provisionalmente
+            }
+            return false;
         }
         this._operationLock = true;
         try {
-            if (!this.state.licenseKey || !this.state.instanceId) {
-                this.state.valid = false;
+            const res = await fetch(`${LICENSE_BACKEND_URL}/verify`, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ license_key: this.state.licenseKey }),
+            });
+            const data = await res.json();
+            if (!data.ok) {
+                this.state.jwt = null;
+                this.state.tier = 'free';
                 this._saveState();
                 return false;
             }
-            try {
-                const res = await fetch(`${LS_API_BASE}/licenses/validate`, {
-                    method: 'POST',
-                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({
-                        license_key: this.state.licenseKey,
-                        instance_id: this.state.instanceId
-                    })
-                });
-                const data = await res.json();
-                const valid = !!(res.ok && data.valid);
-                this.state.valid = valid;
-                this.state.lastValidatedAt = Date.now();
-                this._saveState();
-                return valid;
-            } catch (e) {
-                // Offline grace period
-                const lastOk = this.state.lastValidatedAt || 0;
-                const offlineOk = (Date.now() - lastOk) < OFFLINE_GRACE_MS && this.state.valid;
-                console.warn('License validation offline; grace period:', offlineOk);
-                return offlineOk;
-            }
+            const payload = await this._verifyJWT(data.token);
+            if (!payload) return false;
+            this.state.jwt = data.token;
+            this.state.jwtExpires = payload.exp;
+            this.state.tier = data.tier || 'pro';
+            this.state.lastValidatedAt = Date.now();
+            this._saveState();
+            return true;
+        } catch (e) {
+            console.warn('[license-manager] refresh failed (network):', e);
+            // Offline grace si dentro del periodo
+            const sinceValidated = Date.now() - this.state.lastValidatedAt;
+            return sinceValidated < OFFLINE_GRACE_MS;
         } finally {
             this._operationLock = false;
         }
     }
 
     async deactivate() {
-        if (!this.state.licenseKey || !this.state.instanceId) return false;
+        if (!this.state.licenseKey || !this.state.instanceId) {
+            return { ok: false, error: 'no_active_license' };
+        }
         try {
-            await fetch(`${LS_API_BASE}/licenses/deactivate`, {
+            const res = await fetch(`${LICENSE_BACKEND_URL}/deactivate`, {
                 method: 'POST',
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({
+                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                body: JSON.stringify({
                     license_key: this.state.licenseKey,
-                    instance_id: this.state.instanceId
-                })
+                    instance_id: this.state.instanceId,
+                }),
             });
-        } catch {}
-        this.state = this._defaultState();
-        this._saveState();
-        return true;
+            const data = await res.json();
+            if (data.ok) {
+                this.state = this._defaultState();
+                this._saveState();
+            }
+            return data;
+        } catch (e) {
+            return { ok: false, error: 'network_error' };
+        }
     }
 
-    /**
-     * Re-validation cada 7 días en background.
-     */
-    startBackgroundRevalidation() {
-        if (!this.state.licenseKey) return;
-        const elapsed = Date.now() - (this.state.lastValidatedAt || 0);
-        if (elapsed > REVALIDATE_INTERVAL_MS) this.validate();
-        setInterval(() => this.validate(), REVALIDATE_INTERVAL_MS);
+    // ─── Fingerprint (anti-piratería suave + identificación de instance) ──
+
+    async _getDeviceFingerprint() {
+        const parts = [
+            navigator.userAgent,
+            navigator.language,
+            navigator.platform,
+            screen.width + 'x' + screen.height,
+            new Date().getTimezoneOffset(),
+        ].join('|');
+        try {
+            const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(parts));
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
+        } catch {
+            return btoa(parts).slice(0, 32);
+        }
     }
 
-    // ===== Public API =====
+    // ─── Public API consumida por app.js y core/* ─────────────────────────
 
     isValid() {
-        return this.state.valid === true;
+        return !!this.state.jwt && (this.state.jwtExpires * 1000) > Date.now();
     }
 
     getTier() {
-        // If tier is explicitly stored, use it; otherwise detect from productName
-        if (this.state.tier && this.state.tier !== 'free') return this.state.tier;
-        return this._detectTier(this.state.productName);
+        return this.state.tier || 'free';
     }
 
-    hasFeature(feature) {
+    getLicenseKey() {
+        return this.state.licenseKey;
+    }
+
+    hasFeature(name) {
         const tier = this.getTier();
         const features = TIER_FEATURES[tier] || TIER_FEATURES.free;
-        return !!features[feature];
+        return !!features[name];
     }
 
-    getFeatureLimit(feature) {
+    getFeatureLimit(name) {
         const tier = this.getTier();
         const features = TIER_FEATURES[tier] || TIER_FEATURES.free;
-        return features[feature];
+        return features[name] ?? 0;
     }
 
-    _detectTier(productName) {
-        const name = (productName || '').toLowerCase();
-        if (name.includes('pro+') || name.includes('director')) return 'pro_plus';
-        if (name.includes('pro')) return 'pro';
-        return 'free';
+    on(event, fn) {
+        this.listeners.push({ event, fn });
     }
 
-    customerEmail() {
-        return this.state.customerEmail || null;
+    _notify() {
+        this.listeners.forEach(l => {
+            try { l.fn(this.state); } catch {}
+        });
     }
-
-    licenseKey() {
-        return this.state.licenseKey || null;
-    }
-
-    onChange(fn) { this.listeners.push(fn); }
-    _notify() { this.listeners.forEach(fn => { try { fn(this.state); } catch {} }); }
 }
+
+LicenseManager.TIER_FEATURES = TIER_FEATURES;
+LicenseManager.PUBLIC_KEY_PEM = PUBLIC_KEY_PEM;
+LicenseManager.BACKEND_URL = LICENSE_BACKEND_URL;
 
 window.LicenseManager = LicenseManager;
 window.licenseManager = new LicenseManager();

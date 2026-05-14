@@ -1,0 +1,7 @@
+# NUNCA committear las claves privadas
+priv.pem
+*.key
+
+# Node modules
+node_modules/
+package-lock.json
