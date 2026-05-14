@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "language": "한국어",
+    "code": "ko-KR",
+    "rtl": false,
+    "completion": 0,
+    "translator": "TODO: native ko-KR speaker review needed"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "정직한 제스처",
+    "subtitle": "스트리머를 위한 범용 AI 제스처 컨트롤러"
+  },
+  "_NOTE": "Korean market migrated from Twitch (exited Feb 2024) to SOOP + CHZZK. Twitch ko-KR only 101 channels now. Target SOOP/CHZZK integration in future."
+}

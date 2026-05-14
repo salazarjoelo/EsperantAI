@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Privacy Policy — EsperantAI</title>
+    <style>
+        body { background:#0d1117; color:#c9d1d9; font-family: Segoe UI, sans-serif; line-height:1.6; max-width:780px; margin:0 auto; padding:40px 24px; }
+        h1 { background:linear-gradient(135deg,#58a6ff,#bc8cff,#ff7b72); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:4px; }
+        h2 { color:#58a6ff; margin-top:32px; border-bottom:1px solid #30363d; padding-bottom:8px; }
+        a { color:#58a6ff; }
+        .meta { color:#8b949e; font-size:13px; margin-bottom:24px; }
+        .warning { background:rgba(210,153,34,0.1); border-left:3px solid #d29922; padding:12px 16px; border-radius:4px; margin:16px 0; font-size:13px; }
+        .highlight { background:rgba(86,211,100,0.08); border-left:3px solid #56d364; padding:12px 16px; border-radius:4px; margin:16px 0; }
+    </style>
+</head>
+<body>
+    <h1>Política de Privacidad — EsperantAI</h1>
+    <p class="meta">EsperantAI v2.0 · Última actualización: 2026-05-13 · © EdugameDigital</p>
+
+    <div class="warning">
+        <strong>Importante:</strong> Plantilla legal genérica. Antes de publicación, revisar con abogado mexicano para cumplimiento de LFPDPPP (México) y GDPR (UE) específicamente. Generación profesional recomendada vía <a href="https://iubenda.com">Iubenda</a> o <a href="https://termsfeed.com">TermsFeed</a>.
+    </div>
+
+    <h2>Resumen rápido (TL;DR)</h2>
+    <div class="highlight">
+        <strong>EsperantAI no envía tu video, audio ni datos biométricos a ningún servidor.</strong>
+        El procesamiento de detección facial corre 100% local en tu dispositivo usando Human.js + WebGL.
+        Solo se envía a internet la validación periódica de tu License Key contra LemonSqueezy.
+    </div>
+
+    <h2>1. Responsable del tratamiento</h2>
+    <p>
+        Joel Salazar Ramírez, bajo la marca comercial <strong>EdugameDigital</strong>, con domicilio fiscal en México, es el responsable del tratamiento de los datos personales recogidos a través de EsperantAI y la web <a href="https://esperantai.com">esperantai.com</a>.
+    </p>
+    <p>
+        Email de contacto: <a href="mailto:soporte@edugame.digital">soporte@edugame.digital</a>
+    </p>
+
+    <h2>2. Datos que NO se recolectan</h2>
+    <p>EsperantAI <strong>NO</strong> recolecta, almacena, procesa ni transmite:</p>
+    <ul>
+        <li>Imágenes de video o frames de tu cámara web.</li>
+        <li>Grabaciones de audio.</li>
+        <li>Información biométrica (coordenadas faciales, mediciones de manos, datos de iris).</li>
+        <li>Contenido de tus streams (escenas, configuraciones de OBS / Streamlabs / vMix).</li>
+        <li>Mensajes de chat de Twitch / YouTube / Kick / Trovo / StreamElements.</li>
+        <li>Información de tus visualizadores o suscriptores.</li>
+    </ul>
+
+    <h2>3. Datos que SÍ se procesan (mínimos necesarios)</h2>
+    <p>Los siguientes datos se procesan únicamente para fines técnicos esenciales:</p>
+
+    <h3>3.1 Compra y License Key</h3>
+    <p>Al adquirir EsperantAI, LemonSqueezy (procesador de pago oficial) recolecta:</p>
+    <ul>
+        <li>Nombre y email de contacto.</li>
+        <li>Dirección de facturación (mínima para cumplimiento fiscal internacional).</li>
+        <li>Información de pago (procesada únicamente por LemonSqueezy, nunca por EsperantAI).</li>
+    </ul>
+    <p>EdugameDigital recibe de LemonSqueezy únicamente: nombre, email del cliente, y referencia de la License Key emitida. Ver <a href="https://www.lemonsqueezy.com/privacy">Política de Privacidad de LemonSqueezy</a>.</p>
+
+    <h3>3.2 Validación de licencia</h3>
+    <p>Al activar y validar tu License Key, EsperantAI transmite a LemonSqueezy:</p>
+    <ul>
+        <li>Tu License Key (alfanumérica).</li>
+        <li>Un fingerprint del dispositivo (hash basado en datos del navegador, sin información personal identificable).</li>
+        <li>Timestamp de la solicitud.</li>
+    </ul>
+    <p>Esto se hace al primer inicio y cada 7 días después. Sin estas validaciones, el Software bloquea su uso tras 30 días offline.</p>
+
+    <h3>3.3 Conexiones a streaming software local</h3>
+    <p>EsperantAI se conecta vía loopback (127.0.0.1) a tu OBS / Streamlabs / vMix / PRISM / XSplit. Estas conexiones <strong>nunca salen de tu computadora</strong>.</p>
+
+    <h3>3.4 Conexiones a plataformas de streaming (opcionales)</h3>
+    <p>Si conectas EsperantAI a Twitch / YouTube / Kick / Trovo / StreamElements vía OAuth, el token de autorización se guarda en localStorage de tu navegador (nunca enviado a EdugameDigital). EsperantAI usa ese token únicamente para suscribirse a eventos (subs, donaciones, raids) y disparar acciones configuradas por ti.</p>
+
+    <h2>4. Almacenamiento local (localStorage)</h2>
+    <p>EsperantAI guarda en el localStorage de tu navegador (sin enviarlo a ningún servidor):</p>
+    <ul>
+        <li>Tu configuración (idioma, mapeo de gestos, sensibilidad).</li>
+        <li>Tu License Key activada (encriptada).</li>
+        <li>Tokens OAuth de las plataformas que conectaste (si las conectaste).</li>
+    </ul>
+    <p>Puedes limpiar estos datos en cualquier momento desde "Reset" en el panel Avanzado de la app, o limpiando el storage del navegador.</p>
+
+    <h2>5. Tus derechos (ARCO / GDPR)</h2>
+    <p>Tienes derecho a:</p>
+    <ul>
+        <li><strong>Acceso:</strong> solicitar copia de los datos que tenemos sobre ti.</li>
+        <li><strong>Rectificación:</strong> corregir datos incorrectos.</li>
+        <li><strong>Cancelación:</strong> solicitar eliminación de tus datos (esto invalida tu License Key).</li>
+        <li><strong>Oposición:</strong> oponerte al tratamiento de tus datos.</li>
+        <li><strong>Portabilidad:</strong> recibir tus datos en formato estructurado.</li>
+    </ul>
+    <p>Para ejercer estos derechos, escribe a <a href="mailto:soporte@edugame.digital">soporte@edugame.digital</a>. Respondemos en 30 días naturales.</p>
+
+    <h2>6. Cookies</h2>
+    <p>EsperantAI y la landing en esperantai.com no usan cookies de tracking ni publicidad. Solo cookies técnicas estrictamente necesarias del navegador (sesión OAuth temporal con las plataformas que conectes).</p>
+
+    <h2>7. Terceros con los que compartimos datos</h2>
+    <ul>
+        <li><strong>LemonSqueezy</strong> (procesador de pago + emisor de License Keys). <a href="https://www.lemonsqueezy.com/privacy">Política</a></li>
+        <li><strong>Twitch / YouTube / Kick / Trovo / StreamElements</strong> — solo si tú decides conectarlos.</li>
+    </ul>
+    <p>EsperantAI NO comparte datos con anunciantes, brokers de datos, redes publicitarias ni terceros con fines comerciales.</p>
+
+    <h2>8. Menores de edad</h2>
+    <p>EsperantAI no está dirigido a menores de 18 años. Si eres menor, no compres el Software sin autorización de tus padres o tutores legales.</p>
+
+    <h2>9. Cambios en esta política</h2>
+    <p>Si actualizamos esta política, notificaremos a usuarios registrados vía email con 30 días de anticipación. La versión vigente siempre estará en esta URL.</p>
+
+    <h2>10. Contacto</h2>
+    <p>Email: <a href="mailto:soporte@edugame.digital">soporte@edugame.digital</a></p>
+    <p>Web: <a href="https://edugame.digital">edugame.digital</a></p>
+
+    <p style="margin-top:60px; color:#6e7681; font-size:12px;">
+        © 2026 Joel Salazar Ramírez / EdugameDigital. Todos los derechos reservados.
+    </p>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "language": "Русский",
+    "code": "ru-RU",
+    "rtl": false,
+    "completion": 0,
+    "translator": "TODO: native ru-RU speaker review needed"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "Честные жесты.",
+    "subtitle": "Универсальный AI-контроллер жестов для стримеров"
+  },
+  "_NOTE": "Russian Twitch market: 6,575 channels concurrent (3rd largest). Needs full translation."
+}

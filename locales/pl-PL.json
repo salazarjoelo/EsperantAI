@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "language": "Polski",
+    "code": "pl-PL",
+    "rtl": false,
+    "completion": 0,
+    "translator": "TODO: native pl-PL speaker review needed"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "Szczere gesty.",
+    "subtitle": "Uniwersalny kontroler gestów AI dla streamerów"
+  },
+  "_NOTE": "Polish market is strong on Kick (3 of top 10 HW). Polish Twitch: 622 channels."
+}

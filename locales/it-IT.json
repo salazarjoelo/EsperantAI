@@ -1,0 +1,14 @@
+{
+  "_meta": {
+    "language": "Italiano",
+    "code": "it-IT",
+    "rtl": false,
+    "completion": 0,
+    "translator": "TODO: native it-IT speaker review needed"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "Gesti onesti.",
+    "subtitle": "Controller AI universale a gesti per streamer"
+  }
+}

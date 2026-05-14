@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "language": "日本語",
+    "code": "ja-JP",
+    "rtl": false,
+    "completion": 0,
+    "translator": "TODO: native ja-JP speaker review needed (important for VTuber market)"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "正直なジェスチャー",
+    "subtitle": "ストリーマーのためのユニバーサルAIジェスチャーコントローラー"
+  },
+  "_NOTE": "Critical for VTuber market — 78-80% of VTubers worldwide use Japanese. Needs native review."
+}

@@ -1,0 +1,20 @@
+{
+  "_meta": {
+    "language": "Español (México / Latinoamérica)",
+    "code": "es-MX",
+    "rtl": false,
+    "completion": 50,
+    "translator": "Joel Salazar — basado en es-ES con localismos LATAM",
+    "fallback_to": "es-ES"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "Los gestos honestos.",
+    "subtitle": "Controlador AI universal por gestos para streamers"
+  },
+  "ui": {
+    "connect": "Conectar",
+    "disconnect": "Desconectar"
+  },
+  "_NOTE": "Localización LATAM. Diferencias con es-ES: 'computadora' (no 'ordenador'), 'video' (no 'vídeo'), 'jalar' (no 'tirar'). Heredar de es-ES para el resto."
+}

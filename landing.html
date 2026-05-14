@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EsperantAI — Los gestos honestos. Cambia escenas de OBS, Streamlabs, vMix y más con tu rostro y tus manos.</title>
+    <meta name="description" content="Controlador AI universal por gestos para streamers. Compatible con OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio y XSplit. Twitch, YouTube Live, Kick, Trovo y StreamElements.">
+    <link rel="icon" type="image/svg+xml" href="assets/branding/logo.svg">
+
+    <style>
+        :root {
+            --bg: #0d1117;
+            --panel: #161b22;
+            --text: #c9d1d9;
+            --muted: #8b949e;
+            --border: #30363d;
+            --brand-1: #58a6ff;
+            --brand-2: #bc8cff;
+            --brand-3: #ff7b72;
+            --gradient: linear-gradient(135deg, #58a6ff 0%, #bc8cff 50%, #ff7b72 100%);
+        }
+        * { box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; padding: 0;
+            line-height: 1.6;
+        }
+        a { color: var(--brand-1); }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+            background: radial-gradient(ellipse at top, rgba(88,166,255,0.1), transparent 70%);
+        }
+        .logo {
+            width: 96px; height: 96px;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        h1 {
+            margin: 0;
+            font-size: 4em;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: var(--gradient);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent;
+        }
+        .tagline {
+            margin: 8px 0 24px 0;
+            font-size: 1.5em;
+            font-style: italic;
+            color: var(--muted);
+        }
+        .subtitle {
+            max-width: 700px;
+            margin: 0 auto 40px;
+            font-size: 1.15em;
+            color: var(--text);
+        }
+        .cta-primary {
+            display: inline-block;
+            padding: 16px 32px;
+            background: var(--gradient);
+            color: #0d1117;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: transform 0.2s;
+        }
+        .cta-primary:hover { transform: translateY(-2px); }
+        .cta-secondary {
+            display: inline-block;
+            margin-left: 12px;
+            padding: 16px 24px;
+            border: 1px solid var(--brand-1);
+            color: var(--brand-1);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        /* Features */
+        .section { padding: 60px 0; }
+        .section-title {
+            text-align: center;
+            font-size: 2em;
+            font-weight: 700;
+            margin: 0 0 12px 0;
+            background: var(--gradient);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--muted);
+            margin: 0 0 40px 0;
+            font-size: 1.05em;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .feature {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .feature-icon { font-size: 2em; margin-bottom: 12px; }
+        .feature-title { font-weight: 700; color: var(--brand-1); margin: 0 0 8px 0; }
+        .feature-desc { font-size: 0.95em; color: var(--muted); margin: 0; }
+
+        /* Compatibility */
+        .compat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 30px;
+        }
+        @media (max-width: 700px) { .compat-grid { grid-template-columns: 1fr; } }
+        .compat-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .compat-card h3 {
+            margin: 0 0 16px 0;
+            color: var(--brand-1);
+            font-size: 1.1em;
+        }
+        .compat-list { list-style: none; padding: 0; margin: 0; }
+        .compat-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .compat-list li:last-child { border-bottom: none; }
+        .compat-list .check { color: #56d364; font-weight: 700; }
+
+        /* Pricing */
+        .pricing {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(88,166,255,0.05), rgba(255,123,114,0.05));
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .price-card {
+            max-width: 460px;
+            margin: 0 auto;
+            background: var(--panel);
+            border: 2px solid var(--brand-1);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(88,166,255,0.15);
+        }
+        .price-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--gradient);
+            color: #0d1117;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .price-amount {
+            font-size: 3em;
+            font-weight: 800;
+            color: var(--text);
+            margin: 8px 0;
+            line-height: 1;
+        }
+        .price-currency {
+            color: var(--muted);
+            font-size: 14px;
+        }
+        .price-features {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+        .price-features li {
+            padding: 8px 0;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 14px;
+        }
+        .price-features .check { color: #56d364; font-weight: 700; flex-shrink: 0; }
+
+        /* Cultural insight */
+        .insight {
+            background: var(--panel);
+            border-left: 4px solid var(--brand-2);
+            padding: 24px 28px;
+            margin: 0 0 30px 0;
+            border-radius: 8px;
+            font-style: italic;
+        }
+        .insight cite { color: var(--brand-2); font-weight: 600; font-style: normal; }
+
+        /* FAQ */
+        .faq-item {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+        }
+        .faq-item summary {
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--brand-1);
+            user-select: none;
+        }
+        .faq-item p { margin: 12px 0 0 0; color: var(--muted); font-size: 14px; }
+
+        /* Footer */
+        .footer {
+            padding: 40px 0 30px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            border-top: 1px solid var(--border);
+        }
+        .footer a { color: var(--muted); margin: 0 8px; }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <img src="assets/branding/logo.svg" class="logo" alt="EsperantAI">
+            <h1>EsperantAI</h1>
+            <p class="tagline">Los gestos honestos.</p>
+            <p class="subtitle">
+                Controla cualquier software de streaming con la rotación de tu cabeza,
+                tu mirada, tus emociones y tus manos. Sin Stream Deck. Sin hardware extra.
+                Sin tocar el teclado.
+            </p>
+            <a href="#comprar" class="cta-primary">Adquirir EsperantAI</a>
+            <a href="#features" class="cta-secondary">Ver demo</a>
+        </div>
+    </header>
+
+    <section class="section" id="features">
+        <div class="container">
+            <h2 class="section-title">¿Qué hace EsperantAI?</h2>
+            <p class="section-subtitle">Tu cara y tus manos se convierten en tu control de streaming.</p>
+
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-icon">🧠</div>
+                    <h3 class="feature-title">Detecta gestos universales</h3>
+                    <p class="feature-desc">Rotación de cabeza, emociones, mirada y parpadeo — los gestos universales (Ekman 1972) que significan lo mismo en cualquier cultura.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">✋</div>
+                    <h3 class="feature-title">Reconoce gestos de mano</h3>
+                    <p class="feature-desc">Pulgar arriba, paz, OK, puño, palma abierta, apuntar. Marcados como "culturales" porque su significado varía por país.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🎬</div>
+                    <h3 class="feature-title">5 software de streaming</h3>
+                    <p class="feature-desc">OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio y XSplit Broadcaster.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">📡</div>
+                    <h3 class="feature-title">5 plataformas integradas</h3>
+                    <p class="feature-desc">Twitch, YouTube Live, Kick, Trovo y StreamElements. Combo triggers: evento de plataforma + tu gesto = acción.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🌍</div>
+                    <h3 class="feature-title">13 idiomas auto-detectados</h3>
+                    <p class="feature-desc">La app detecta el idioma de tu sistema operativo y carga el locale correspondiente. Cambio manual también disponible.</p>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Privacy by design</h3>
+                    <p class="feature-desc">Todo el procesamiento de video corre 100% local en tu GPU. Cero video enviado a la nube. Cero tracking.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Compatibilidad verificada</h2>
+            <p class="section-subtitle">Hardware mínimo accesible. Funciona en cualquier OS moderno.</p>
+
+            <div class="compat-grid">
+                <div class="compat-card">
+                    <h3>🎮 Software de streaming</h3>
+                    <ul class="compat-list">
+                        <li><span class="check">✓</span> OBS Studio 28+</li>
+                        <li><span class="check">✓</span> Streamlabs Desktop</li>
+                        <li><span class="check">✓</span> vMix (Windows)</li>
+                        <li><span class="check">✓</span> PRISM Live Studio</li>
+                        <li><span class="check">✓</span> XSplit Broadcaster</li>
+                    </ul>
+                </div>
+                <div class="compat-card">
+                    <h3>📺 Plataformas de streaming</h3>
+                    <ul class="compat-list">
+                        <li><span class="check">✓</span> Twitch (EventSub WebSocket)</li>
+                        <li><span class="check">✓</span> YouTube Live</li>
+                        <li><span class="check">✓</span> Kick</li>
+                        <li><span class="check">✓</span> Trovo</li>
+                        <li><span class="check">✓</span> StreamElements (bridge multi-plataforma)</li>
+                    </ul>
+                </div>
+                <div class="compat-card">
+                    <h3>💻 Sistema operativo</h3>
+                    <ul class="compat-list">
+                        <li><span class="check">✓</span> Windows 10 / 11</li>
+                        <li><span class="check">✓</span> macOS 12+</li>
+                        <li><span class="check">✓</span> Linux (Ubuntu, Fedora, Arch)</li>
+                        <li><span class="check">✓</span> Cualquier navegador moderno (Chrome, Edge, Firefox)</li>
+                    </ul>
+                </div>
+                <div class="compat-card">
+                    <h3>🎥 Hardware mínimo</h3>
+                    <ul class="compat-list">
+                        <li><span class="check">✓</span> Cualquier webcam USB (1080p recomendado)</li>
+                        <li><span class="check">✓</span> CPU 6 cores+ (recomendado para streaming en paralelo)</li>
+                        <li><span class="check">✓</span> 16 GB RAM mínimo, 32 GB recomendado</li>
+                        <li><span class="check">✓</span> GPU con WebGL (cualquier GPU integrada moderna)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Por qué se llama EsperantAI</h2>
+
+            <div class="insight">
+                <p>"Las expresiones faciales son universales en todas las culturas humanas."</p>
+                <cite>— Paul Ekman, "Universals and Cultural Differences in Facial Expressions of Emotion", 1972</cite>
+            </div>
+
+            <p style="font-size: 1.05em; max-width: 800px; margin: 0 auto;">
+                El <strong>Esperanto</strong> fue un intento humano de crear un idioma universal en 1887.
+                Falló como idioma hablado, pero el ideal vive. <strong>Los gestos sí son universales</strong> —
+                pre-lingüísticos, biológicos, millones de años de evolución. EsperantAI es la inteligencia
+                artificial que finalmente <em>habla</em> el único lenguaje que todos los humanos compartimos.
+            </p>
+            <p style="font-size: 1.05em; max-width: 800px; margin: 16px auto 0;">
+                Por eso EsperantAI marca cada gesto como
+                <span style="color: #56d364; font-weight: 700;">🌐 Universal</span> o
+                <span style="color: #d29922; font-weight: 700;">⚠️ Cultural</span>.
+                Tú decides qué gestos usar según tu audiencia global.
+            </p>
+        </div>
+    </section>
+
+    <section class="pricing" id="comprar">
+        <div class="container">
+            <h2 class="section-title">Una sola licencia. Acceso completo.</h2>
+            <p class="section-subtitle">Sin suscripciones. Sin tier gratis. Sin trial. Compra una vez, úsalo siempre.</p>
+
+            <div class="price-card">
+                <span class="price-badge">EsperantAI · Licencia perpetua</span>
+                <div class="price-amount">$<!--PRECIO_MXN-->___<!--/PRECIO_MXN--></div>
+                <div class="price-currency">MXN · Conversión automática a tu moneda al pagar</div>
+
+                <ul class="price-features">
+                    <li><span class="check">✓</span> Todos los gestos universales + culturales</li>
+                    <li><span class="check">✓</span> 5 software de streaming compatibles</li>
+                    <li><span class="check">✓</span> 5 plataformas de eventos integradas</li>
+                    <li><span class="check">✓</span> 13 idiomas con auto-detección del SO</li>
+                    <li><span class="check">✓</span> 16 tipos de acciones configurables por gesto</li>
+                    <li><span class="check">✓</span> Combo triggers (evento + gesto)</li>
+                    <li><span class="check">✓</span> Actualizaciones futuras incluidas</li>
+                    <li><span class="check">✓</span> 1 licencia, hasta 3 dispositivos</li>
+                </ul>
+
+                <a id="cta-buy" href="#" class="cta-primary" style="display:block; text-align:center; margin-top: 20px;">
+                    Adquirir EsperantAI
+                </a>
+
+                <p style="font-size: 12px; color: var(--muted); margin: 16px 0 0 0; text-align: center;">
+                    Pago seguro vía LemonSqueezy · Devolución dentro de 14 días si no funciona como esperabas
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Preguntas frecuentes</h2>
+
+            <details class="faq-item">
+                <summary>¿Necesito instalar algo?</summary>
+                <p>No. EsperantAI es una web app. Después de comprar, recibes una license key y un enlace privado. Abres el enlace en tu navegador (Chrome, Edge o Firefox), pegas tu license key y empiezas. También puedes instalar EsperantAI localmente con el Instalador para Windows que viene en el paquete.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>¿Funciona en Mac y Linux?</summary>
+                <p>Sí. EsperantAI corre en cualquier sistema operativo con navegador moderno (Chrome / Edge / Firefox). En Mac y Linux usas la versión web. En Windows también puedes usar el instalador local.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>¿En cuántos dispositivos puedo usarlo?</summary>
+                <p>Una licencia se activa en hasta 3 dispositivos. Si pierdes uno (cambio de PC, reinstalación), puedes desactivarlo desde tu panel y activar el nuevo.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>¿Mis videos / cámara se envían a algún servidor?</summary>
+                <p>No. Todo el procesamiento de detección facial corre 100% local en tu navegador, usando tu GPU (Human.js + WebGL). Cero video / imágenes se envían fuera de tu computadora. La única conexión externa es la validación periódica de tu license key contra LemonSqueezy (~7 días entre validaciones).</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>¿Necesito internet siempre?</summary>
+                <p>No siempre. La license se valida online al activar y cada 7 días después. Si pierdes internet, EsperantAI sigue funcionando hasta 30 días sin reconexión (grace period). Pasados 30 días offline, se bloquea hasta reconectar.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>¿Cómo se compara con un Stream Deck?</summary>
+                <p>Un Stream Deck XL cuesta $249 USD y requiere espacio físico en tu escritorio + tener las manos disponibles para presionar botones. EsperantAI funciona con tu webcam (que ya tienes), no requiere espacio físico, y funciona aunque tus manos estén ocupadas con el control, la guitarra, el cuchillo de cocina o el lápiz de dibujo.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>¿Política de reembolsos?</summary>
+                <p>Garantía de satisfacción de 14 días desde la compra. Si EsperantAI no funciona como esperabas en tu setup, escribe a soporte@edugame.digital y procesamos el reembolso 100%. LemonSqueezy es el procesador oficial.</p>
+            </details>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>
+                EsperantAI v2.0 · © 2026 EdugameDigital · Joel Salazar Ramírez
+            </p>
+            <p>
+                <a href="docs/EULA.html">EULA</a> ·
+                <a href="docs/PRIVACY.html">Privacy</a> ·
+                <a href="mailto:soporte@edugame.digital">Soporte</a> ·
+                <a href="index.html">App</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Reemplazar URL de compra LemonSqueezy. Joel configura este URL después de
+        // crear el producto en LemonSqueezy Dashboard.
+        const LEMONSQUEEZY_CHECKOUT_URL = 'REEMPLAZAR_CON_URL_LEMONSQUEEZY_CHECKOUT';
+        document.getElementById('cta-buy').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (LEMONSQUEEZY_CHECKOUT_URL.startsWith('REEMPLAZAR')) {
+                console.warn('LemonSqueezy checkout URL no configurado. Edita landing.html línea 364.');
+                return;
+            }
+            window.location.href = LEMONSQUEEZY_CHECKOUT_URL;
+        });
+    </script>
+</body>
+</html>

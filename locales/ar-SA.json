@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "language": "العربية",
+    "code": "ar-SA",
+    "rtl": true,
+    "completion": 0,
+    "translator": "TODO: native Arabic speaker review needed (RTL layout testing required)"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "إيماءات صادقة",
+    "subtitle": "وحدة تحكم AI عالمية بالإيماءات للبث المباشر"
+  },
+  "_NOTE": "MENA region dominant on Kick. Arabic Twitch: 507 channels. RTL CSS required."
+}

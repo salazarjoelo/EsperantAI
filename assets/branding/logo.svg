@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- EsperantAI logo: gesto de mano con onda de AI -->
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#58a6ff"/>
+      <stop offset="50%" stop-color="#bc8cff"/>
+      <stop offset="100%" stop-color="#ff7b72"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#58a6ff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#bc8cff" stop-opacity="0.6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Círculo de fondo: la "señal AI" -->
+  <circle cx="100" cy="100" r="92" fill="url(#g2)" stroke="url(#g1)" stroke-width="3"/>
+
+  <!-- Mano estilizada haciendo señal "OK" / círculo (gesto universal) -->
+  <g transform="translate(100, 100)">
+    <!-- Pulgar e índice formando círculo -->
+    <circle cx="-12" cy="-12" r="22" fill="none" stroke="url(#g1)" stroke-width="6" stroke-linecap="round"/>
+    <!-- Tres dedos extendidos hacia arriba -->
+    <line x1="14" y1="-10" x2="14" y2="-42" stroke="url(#g1)" stroke-width="6" stroke-linecap="round"/>
+    <line x1="26" y1="-8" x2="28" y2="-38" stroke="url(#g1)" stroke-width="6" stroke-linecap="round"/>
+    <line x1="36" y1="-2" x2="40" y2="-28" stroke="url(#g1)" stroke-width="6" stroke-linecap="round"/>
+    <!-- Palma -->
+    <path d="M -28,18 Q -28,42 0,46 Q 36,46 36,18 L 36,0 Q 28,-2 14,-2 L -28,-2 Z" fill="url(#g1)" opacity="0.85"/>
+  </g>
+
+  <!-- Texto "AI" pequeño en esquina -->
+  <text x="100" y="178" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" fill="#c9d1d9" letter-spacing="2">
+    EsperantAI
+  </text>
+</svg>

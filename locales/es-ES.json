@@ -1,0 +1,183 @@
+{
+  "_meta": {
+    "language": "Español (España)",
+    "code": "es-ES",
+    "rtl": false,
+    "completion": 100,
+    "translator": "Joel Salazar (native)"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "Los gestos honestos.",
+    "subtitle": "Controlador AI universal por gestos para streamers"
+  },
+  "status": {
+    "ai_loading": "Cargando IA...",
+    "ai_ready": "IA Lista",
+    "ai_error": "Error de IA",
+    "obs_disconnected": "OBS Desconectado",
+    "obs_connecting": "Conectando...",
+    "obs_connected": "OBS Conectado",
+    "obs_reconnecting": "Reconectando ({attempt}/{max})...",
+    "detection_active": "Detección Activa",
+    "detection_paused": "Pausado",
+    "searching_face": "Buscando rostro..."
+  },
+  "ui": {
+    "camera_detector": "Cámara Detectora",
+    "select_camera": "Cámara que sigue tu rostro:",
+    "connection": "Conexión",
+    "url": "URL",
+    "password": "Contraseña",
+    "password_placeholder": "Deja vacío si no hay",
+    "connect": "Conectar",
+    "disconnect": "Desconectar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "reset": "Resetear",
+    "import": "Importar",
+    "export": "Exportar",
+    "advanced": "Avanzado",
+    "sensitivity": "Sensibilidad",
+    "triggers": "Triggers",
+    "platform_events": "Eventos de Plataforma",
+    "enable": "Habilitar"
+  },
+  "triggers": {
+    "universality_title": "Universalidad de gestos",
+    "universal_label": "Universal",
+    "universal_desc": "mismo significado en cualquier cultura (Ekman 1972 — emociones básicas, rotación de cabeza, mirada)",
+    "cultural_label": "Cultural",
+    "cultural_desc": "el significado puede variar según país/cultura (gestos de mano)",
+    "connect_first": "Conecta tu app de streaming primero",
+    "connect_first_hint": "Las escenas reales aparecerán en los dropdowns automáticamente al conectarte."
+  },
+  "scenes": {
+    "center": "Centro (default)",
+    "left": "Mirar Izquierda",
+    "right": "Mirar Derecha",
+    "up": "Mirar Arriba",
+    "down": "Mirar Abajo",
+    "tilt_left": "Inclinar Izq (roll)",
+    "tilt_right": "Inclinar Der (roll)",
+    "near": "Acercarse",
+    "far": "Alejarse",
+    "gaze_left": "Ojos Izquierda",
+    "gaze_right": "Ojos Derecha",
+    "gaze_up": "Ojos Arriba",
+    "gaze_down": "Ojos Abajo",
+    "happy": "Sonriendo",
+    "surprise": "Sorprendido",
+    "angry": "Enojado",
+    "neutral": "Neutral",
+    "blink": "Parpadeo Doble",
+    "thumbs_up": "Pulgar Arriba",
+    "peace": "Signo de Paz",
+    "rock": "Cuernos Rock",
+    "ok": "OK",
+    "fist": "Puño Cerrado",
+    "open_palm": "Palma Abierta",
+    "point": "Apuntando",
+    "scene_unassigned": "— (deshabilitado) —"
+  },
+  "categories": {
+    "head_rotation": "Rotación de Cabeza",
+    "distance": "Distancia al Rostro",
+    "gaze": "Mirada (gaze)",
+    "emotion": "Emociones",
+    "blink": "Parpadeo Doble",
+    "hand_gestures": "Gestos de Mano"
+  },
+  "categories_enable": {
+    "head": "Habilitar detección de cabeza",
+    "distance": "Habilitar detección de distancia",
+    "gaze": "Habilitar gaze tracking",
+    "emotion": "Habilitar detección de emociones",
+    "blink": "Habilitar parpadeo doble como atajo",
+    "hand": "Habilitar detección de gestos de mano"
+  },
+  "sensitivity": {
+    "yaw": "Yaw (giro lateral)",
+    "pitch_up": "Pitch arriba",
+    "pitch_down": "Pitch abajo",
+    "roll": "Roll (inclinar)",
+    "near": "Cerca (px)",
+    "far": "Lejos (px)",
+    "gaze_bearing": "Bearing gaze (rad)",
+    "gaze_strength": "Intensidad mínima",
+    "emotion_confidence": "Confianza mínima emoción",
+    "stable_frames": "Frames estables",
+    "cooldown_ms": "Cooldown (ms)"
+  },
+  "metrics": {
+    "yaw_label": "Yaw (←/→)",
+    "pitch_label": "Pitch (↑/↓)",
+    "roll_label": "Roll (tilt)",
+    "distance_label": "Distancia",
+    "gaze_label": "Mirada",
+    "emotion_label": "Emoción"
+  },
+  "advanced": {
+    "studio_mode": "Modo Estudio",
+    "use_preview": "Usar Preview + Transición en Modo Estudio",
+    "studio_mode_hint": "Si está desmarcado, la escena se cambia directo al Programa. Si lo activas, pone Preview primero y dispara la transición configurada en OBS.",
+    "persistence": "Persistencia",
+    "save_password": "Recordar contraseña OBS (¡cuidado en computadoras compartidas!)",
+    "export_config": "Exportar config",
+    "import_config": "Importar config",
+    "reset_config": "Resetear todo",
+    "persistence_hint": "Toda la configuración se guarda automáticamente en localStorage.",
+    "keyboard_shortcuts": "Atajos de Teclado",
+    "kbd_space": "Pausar / Reanudar detección",
+    "kbd_c": "Salto manual a escena CENTRO",
+    "kbd_r": "Recargar lista de escenas desde el software",
+    "kbd_esc": "Desconectar"
+  },
+  "errors": {
+    "camera_denied": "Acceso a cámara denegado. Permite la cámara en ajustes del navegador.",
+    "camera_error": "Error de cámara: {message}",
+    "obs_unreachable": "No se puede conectar a OBS. Verifica que OBS esté abierto y WebSocket habilitado (Herramientas → Configuración del servidor WebSocket).",
+    "obs_unreachable_short": "OBS no responde — Conecta manualmente",
+    "obs_wrong_password": "Contraseña de OBS WebSocket incorrecta.",
+    "file_protocol_warning": "Corriendo desde file://. Las cámaras pueden no aparecer. Usa el lanzador con Python o ejecuta 'npx serve .'",
+    "human_load_error": "No se pudo cargar el modelo de IA. Revisa tu conexión a internet y recarga.",
+    "import_error": "Error importando: {message}",
+    "reset_confirm": "¿Borrar TODA la configuración y volver al default?"
+  },
+  "hints": {
+    "scene_mapping_hint": "Selecciona la escena de OBS que se activará con cada gesto. Conéctate primero a OBS para que aparezcan las escenas reales.",
+    "head_priority_hint": "La rotación de cabeza tiene máxima prioridad. Si tu cabeza se mueve, gaze y distancia se ignoran.",
+    "gaze_hint": "Sólo activa cuando la cabeza está al centro. Si la cabeza también se mueve, gana la cabeza.",
+    "distance_hint": "Mide cuán cerca tienes la cara. Sólo dispara cuando la cabeza está al centro.",
+    "emotion_hint": "La emoción debe ser estable y con confianza alta. Cooldown de 2s entre cambios.",
+    "blink_hint": "Parpadeo doble = cierras ambos ojos rápido dos veces (en menos de 700ms). Cooldown de 1s.",
+    "hand_hint": "Detección de gestos de mano. Gestos detectados: pulgar arriba, paz, cuernos, OK, puño, palma, apuntar.",
+    "platform_hint": "Conecta a plataformas de streaming para disparar acciones en eventos: donaciones, subs, raids, channel points."
+  },
+  "platforms": {
+    "twitch": "Twitch",
+    "youtube": "YouTube Live",
+    "kick": "Kick",
+    "trovo": "Trovo",
+    "streamelements": "StreamElements (puente multi-plataforma)",
+    "facebook": "Facebook Gaming",
+    "events": {
+      "sub": "Nueva suscripción",
+      "resub": "Resuscripción",
+      "gift_sub": "Suscripción regalada",
+      "follow": "Nuevo follower",
+      "donation": "Donación",
+      "raid": "Raid recibido",
+      "cheer_bits": "Bits / Cheer",
+      "channel_points": "Channel Points",
+      "super_chat": "Super Chat (YouTube)",
+      "gift": "Regalo (TikTok / SOOP)",
+      "member_milestone": "Milestone de miembros"
+    }
+  },
+  "diagnostic": {
+    "video_info": "video={width}x{height} · backend={backend} · detect={ms}ms · frames={count}",
+    "silent_mode_on": "Modo silencioso activo. Solo loguea eventos y errores.",
+    "verbose_mode_on": "Modo verbose reactivado: {frames} frames sin cara."
+  }
+}

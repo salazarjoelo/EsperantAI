@@ -1,0 +1,58 @@
+name: Deploy EsperantAI to GitHub Pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare deploy folder
+        run: |
+          mkdir -p _site
+          # Copy all required files for the web app
+          cp index.html _site/index.html
+          cp index.html _site/index.html
+          cp app.js _site/app.js
+          cp oauth-callback.html _site/oauth-callback.html
+          cp -r libs _site/libs
+          cp -r core _site/core
+          cp -r adapters _site/adapters
+          cp -r platforms _site/platforms
+          cp -r locales _site/locales
+          cp -r assets _site/assets
+          cp -r docs _site/docs || true
+          cp README.md _site/README.md || true
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "language": "Português (Brasil)",
+    "code": "pt-BR",
+    "rtl": false,
+    "completion": 0,
+    "translator": "TODO: native pt-BR speaker review needed (machine pre-translation pending)"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "Gestos honestos.",
+    "subtitle": "Controlador AI universal por gestos para streamers"
+  },
+  "_NOTE": "Este arquivo precisa ser traduzido completamente. Use locales/en-US.json como referência."
+}

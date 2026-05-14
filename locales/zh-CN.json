@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "language": "中文(简体)",
+    "code": "zh-CN",
+    "rtl": false,
+    "completion": 0,
+    "translator": "TODO: native zh-CN speaker review needed"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "诚实的手势",
+    "subtitle": "面向主播的通用AI手势控制器"
+  },
+  "_NOTE": "China market: Bilibili/Huya/DouYu use proprietary Heat Index, not directly comparable. Twitch restricted in China."
+}

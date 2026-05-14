@@ -1,0 +1,15 @@
+{
+  "_meta": {
+    "language": "Deutsch",
+    "code": "de-DE",
+    "rtl": false,
+    "completion": 0,
+    "translator": "TODO: native de-DE speaker review needed"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "Ehrliche Gesten.",
+    "subtitle": "Universeller AI-Gestencontroller für Streamer"
+  },
+  "_NOTE": "This file needs full translation. Use locales/en-US.json as reference."
+}

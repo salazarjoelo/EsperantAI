@@ -1,0 +1,183 @@
+{
+  "_meta": {
+    "language": "English (US)",
+    "code": "en-US",
+    "rtl": false,
+    "completion": 100,
+    "translator": "native (source language)"
+  },
+  "app": {
+    "title": "EsperantAI",
+    "tagline": "Honest gestures.",
+    "subtitle": "Universal AI gesture controller for streamers"
+  },
+  "status": {
+    "ai_loading": "Loading AI...",
+    "ai_ready": "AI Ready",
+    "ai_error": "AI Error",
+    "obs_disconnected": "OBS Disconnected",
+    "obs_connecting": "Connecting...",
+    "obs_connected": "OBS Connected",
+    "obs_reconnecting": "Reconnecting ({attempt}/{max})...",
+    "detection_active": "Detection Active",
+    "detection_paused": "Paused",
+    "searching_face": "Searching for face..."
+  },
+  "ui": {
+    "camera_detector": "Detector Camera",
+    "select_camera": "Camera tracking your face:",
+    "connection": "Connection",
+    "url": "URL",
+    "password": "Password",
+    "password_placeholder": "Leave empty if none",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "save": "Save",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "import": "Import",
+    "export": "Export",
+    "advanced": "Advanced",
+    "sensitivity": "Sensitivity",
+    "triggers": "Triggers",
+    "platform_events": "Platform Events",
+    "enable": "Enable"
+  },
+  "triggers": {
+    "universality_title": "Gesture universality",
+    "universal_label": "Universal",
+    "universal_desc": "same meaning in any culture (Ekman 1972 — basic emotions, head rotation, gaze)",
+    "cultural_label": "Cultural",
+    "cultural_desc": "meaning may vary by country/culture (hand gestures)",
+    "connect_first": "Connect your streaming app first",
+    "connect_first_hint": "Real scenes will appear in dropdowns automatically once connected."
+  },
+  "scenes": {
+    "center": "Center (default)",
+    "left": "Look Left",
+    "right": "Look Right",
+    "up": "Look Up",
+    "down": "Look Down",
+    "tilt_left": "Tilt Left (roll)",
+    "tilt_right": "Tilt Right (roll)",
+    "near": "Move Closer",
+    "far": "Move Away",
+    "gaze_left": "Eyes Left",
+    "gaze_right": "Eyes Right",
+    "gaze_up": "Eyes Up",
+    "gaze_down": "Eyes Down",
+    "happy": "Smiling",
+    "surprise": "Surprised",
+    "angry": "Angry",
+    "neutral": "Neutral",
+    "blink": "Double Blink",
+    "thumbs_up": "Thumbs Up",
+    "peace": "Peace Sign",
+    "rock": "Rock Sign",
+    "ok": "OK Sign",
+    "fist": "Closed Fist",
+    "open_palm": "Open Palm",
+    "point": "Pointing",
+    "scene_unassigned": "— (disabled) —"
+  },
+  "categories": {
+    "head_rotation": "Head Rotation",
+    "distance": "Face Distance",
+    "gaze": "Gaze Tracking",
+    "emotion": "Emotions",
+    "blink": "Double Blink",
+    "hand_gestures": "Hand Gestures"
+  },
+  "categories_enable": {
+    "head": "Enable head rotation detection",
+    "distance": "Enable distance detection",
+    "gaze": "Enable gaze tracking",
+    "emotion": "Enable emotion detection",
+    "blink": "Enable double blink shortcut",
+    "hand": "Enable hand gesture detection"
+  },
+  "sensitivity": {
+    "yaw": "Yaw (side rotation)",
+    "pitch_up": "Pitch up",
+    "pitch_down": "Pitch down",
+    "roll": "Roll (tilt)",
+    "near": "Near (px)",
+    "far": "Far (px)",
+    "gaze_bearing": "Gaze bearing (rad)",
+    "gaze_strength": "Min gaze strength",
+    "emotion_confidence": "Min emotion confidence",
+    "stable_frames": "Stable frames",
+    "cooldown_ms": "Cooldown (ms)"
+  },
+  "metrics": {
+    "yaw_label": "Yaw (←/→)",
+    "pitch_label": "Pitch (↑/↓)",
+    "roll_label": "Roll (tilt)",
+    "distance_label": "Distance",
+    "gaze_label": "Gaze",
+    "emotion_label": "Emotion"
+  },
+  "advanced": {
+    "studio_mode": "Studio Mode",
+    "use_preview": "Use Preview + Transition in Studio Mode",
+    "studio_mode_hint": "If unchecked, scene switches directly to Program. If checked, sets Preview first then triggers the OBS configured transition.",
+    "persistence": "Persistence",
+    "save_password": "Remember OBS password (careful on shared computers!)",
+    "export_config": "Export config",
+    "import_config": "Import config",
+    "reset_config": "Reset all",
+    "persistence_hint": "All settings are automatically saved to localStorage.",
+    "keyboard_shortcuts": "Keyboard Shortcuts",
+    "kbd_space": "Pause / Resume detection",
+    "kbd_c": "Manual jump to CENTER scene",
+    "kbd_r": "Reload scene list from streaming app",
+    "kbd_esc": "Disconnect"
+  },
+  "errors": {
+    "camera_denied": "Camera access denied. Please allow camera in browser settings.",
+    "camera_error": "Camera error: {message}",
+    "obs_unreachable": "Cannot connect to OBS. Check that OBS is running and WebSocket is enabled (Tools → WebSocket Server Settings).",
+    "obs_unreachable_short": "OBS unreachable — Connect manually",
+    "obs_wrong_password": "Wrong OBS WebSocket password.",
+    "file_protocol_warning": "Running from file://. Cameras may not appear. Use the launcher script with Python, or run 'npx serve .'",
+    "human_load_error": "Could not load the AI model. Check your internet connection and reload.",
+    "import_error": "Import error: {message}",
+    "reset_confirm": "Delete ALL settings and reset to defaults?"
+  },
+  "hints": {
+    "scene_mapping_hint": "Select the OBS scene that activates with each gesture. Connect to OBS first so real scenes appear.",
+    "head_priority_hint": "Head rotation has highest priority. If your head moves, gaze and distance are ignored.",
+    "gaze_hint": "Only activates when your head is centered. If head also moves, head wins.",
+    "distance_hint": "Measures how close your face is. Only triggers when head is centered.",
+    "emotion_hint": "Emotion must be stable with high confidence. 2-second cooldown between emotion changes.",
+    "blink_hint": "Double blink = close both eyes quickly twice (within 700ms). 1-second cooldown.",
+    "hand_hint": "Hand gestures detection. Detected gestures: thumbs up, peace, rock, OK, fist, open palm, point.",
+    "platform_hint": "Connect to streaming platforms to trigger actions on events: donations, subs, raids, channel points."
+  },
+  "platforms": {
+    "twitch": "Twitch",
+    "youtube": "YouTube Live",
+    "kick": "Kick",
+    "trovo": "Trovo",
+    "streamelements": "StreamElements (multi-platform bridge)",
+    "facebook": "Facebook Gaming",
+    "events": {
+      "sub": "New subscription",
+      "resub": "Resubscription",
+      "gift_sub": "Gift subscription",
+      "follow": "New follower",
+      "donation": "Donation",
+      "raid": "Raid received",
+      "cheer_bits": "Bits / Cheer",
+      "channel_points": "Channel Points redemption",
+      "super_chat": "Super Chat (YouTube)",
+      "gift": "Gift (TikTok / SOOP)",
+      "member_milestone": "Member milestone"
+    }
+  },
+  "diagnostic": {
+    "video_info": "video={width}x{height} · backend={backend} · detect={ms}ms · frames={count}",
+    "silent_mode_on": "Silent mode active. Logging only events and errors.",
+    "verbose_mode_on": "Verbose mode active: {frames} frames without face."
+  }
+}
