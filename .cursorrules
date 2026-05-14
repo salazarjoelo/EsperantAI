@@ -1,0 +1,40 @@
+# EsperantAI — Cursor Rules
+
+## Project
+EsperantAI — AI gesture controller for streamers. Vanilla JS web app, no bundler, no React.
+
+## Code Style
+- Window globals (no ES modules): `window.ClassName`
+- IIFE pattern: `(async function() { ... })().catch()`
+- `'use strict'` at top of every file
+- All visible text goes through i18n: `data-i18n="key.path"` in HTML, `window.i18n.t('key')` in JS
+- `en-US.json` is the source of truth for translations
+
+## Architecture
+- `core/` — Main logic (detector, trigger-engine, action-engine, config, i18n, license, history)
+- `adapters/` — Streaming software (OBS, Streamlabs, vMix, XSplit) — extend `AdapterBase`
+- `platforms/` — Stream platforms (Twitch, YouTube, Kick, Trovo, StreamElements) — extend `PlatformBase`
+- `locales/` — 13 translation JSON files
+
+## Critical Rules
+1. Always use `_escape()` for dynamic HTML content (XSS prevention)
+2. `config.set()` is debounced — use `config.flush()` for immediate writes
+3. License tier gating: `window.licenseManager.hasFeature('featureName')` before showing/enabling features
+4. Never bypass TIER_FEATURES — check tier before exposing Pro/Pro+ features
+5. OAuth tokens should use sessionStorage, not localStorage
+6. Test any trigger-engine changes against both continuous AND punctual triggers
+7. Preserve backward compatibility: `getActionsForTrigger()` auto-converts legacy `scenes.{trigger}` to multi-action format
+
+## i18n
+- Add new keys to `locales/en-US.json` FIRST
+- Then update all 12 other locale files
+- Template variables: `{message}`, `{attempt}`, `{max}`, `{count}`, etc.
+- RTL support: ar-SA has `_meta.rtl: true`
+
+## Key Methods
+- `config.get('path.to.key', fallback)` — dot-notation config access
+- `config.set('path', value)` — debounced save
+- `config.flush()` — immediate save
+- `triggerEngine.process(result)` — main detection loop entry
+- `actionEngine.execute(actions)` — parallel action execution
+- `window.triggerHistory.add(entry)` — log trigger event

@@ -1,79 +1,93 @@
 /* ============================================================================
  * EsperantAI — Trigger History
- *
- * Buffer circular de los últimos N triggers disparados.
- * UI panel visible para debugging sin abrir DevTools (audit feature #9).
- * Export CSV para análisis offline.
+ * Ring buffer de los últimos N triggers para debugging y analytics.
  * ========================================================================== */
 
 'use strict';
 
 class TriggerHistory {
-    constructor(maxEntries = 50) {
-        this.maxEntries = maxEntries;
-        this.entries = []; // [{ ts, trigger, label, scene, actionsCount, success, source }]
-        this.listeners = [];
+    constructor(maxSize = 100) {
+        this.maxSize = maxSize;
+        this.entries = [];
     }
 
     /**
-     * @param {Object} entry { trigger, label, scene?, actionsCount?, success, source? }
+     * Registra un trigger disparado.
+     * @param {Object} entry { trigger, label, action, success, source }
      */
     add(entry) {
-        const record = {
-            ts: Date.now(),
-            trigger: entry.trigger || '?',
+        this.entries.unshift({
+            time: Date.now(),
+            trigger: entry.trigger || 'unknown',
             label: entry.label || '',
-            scene: entry.scene || '',
-            actionsCount: entry.actionsCount ?? 0,
-            success: entry.success ?? null,
-            source: entry.source || 'gesture' // 'gesture' | 'event' | 'manual'
-        };
-        this.entries.unshift(record); // más recientes primero
-        if (this.entries.length > this.maxEntries) {
-            this.entries.length = this.maxEntries;
+            action: entry.action || '',
+            success: entry.success !== false,
+            source: entry.source || 'gesture' // 'gesture' | 'platform' | 'combo'
+        });
+        if (this.entries.length > this.maxSize) {
+            this.entries.length = this.maxSize;
         }
-        this._notify();
-    }
-
-    getAll() {
-        return this.entries.slice();
-    }
-
-    clear() {
-        this.entries = [];
-        this._notify();
     }
 
     /**
-     * Devuelve CSV string para download.
+     * Devuelve los últimos N entries.
      */
-    toCSV() {
-        const header = 'timestamp,trigger,label,scene,actions_count,success,source\n';
-        const rows = this.entries.map(e => {
-            const iso = new Date(e.ts).toISOString();
-            const esc = (s) => `"${String(s ?? '').replace(/"/g, '""')}"`;
-            return [iso, esc(e.trigger), esc(e.label), esc(e.scene), e.actionsCount, e.success, esc(e.source)].join(',');
-        }).join('\n');
+    getRecent(count = 50) {
+        return this.entries.slice(0, count);
+    }
+
+    /**
+     * Devuelve entries filtrados por categoría de trigger.
+     */
+    getByCategory(category) {
+        // category: 'head', 'hand', 'emotion', 'blink', 'gaze', 'distance', 'platform'
+        const catMap = {
+            head: ['left', 'right', 'up', 'down', 'tilt-left', 'tilt-right', 'center'],
+            hand: ['thumbs-up', 'peace', 'rock', 'ok', 'fist', 'open-palm', 'point'],
+            emotion: ['happy', 'surprise', 'angry', 'neutral'],
+            blink: ['blink'],
+            gaze: ['gaze-left', 'gaze-right', 'gaze-up', 'gaze-down'],
+            distance: ['near', 'far'],
+            platform: ['sub', 'donation', 'raid', 'cheer_bits', 'super_chat', 'gift_sub', 'follow', 'channel_points', 'gift', 'member_milestone']
+        };
+        const triggers = catMap[category] || [];
+        return this.entries.filter(e => triggers.includes(e.trigger));
+    }
+
+    /**
+     * Exportar como CSV.
+     */
+    exportCsv() {
+        const header = 'time,trigger,label,action,success,source\n';
+        const rows = this.entries.map(e =>
+            `${new Date(e.time).toISOString()},"${e.trigger}","${e.label}","${e.action}",${e.success},${e.source}`
+        ).join('\n');
         return header + rows;
     }
 
     /**
-     * Disparar download del CSV en el navegador.
+     * Limpiar historial.
      */
-    downloadCSV() {
-        const csv = this.toCSV();
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `esperantai-history-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.csv`;
-        a.click();
-        URL.revokeObjectURL(url);
+    clear() {
+        this.entries = [];
     }
 
-    onChange(fn) { this.listeners.push(fn); }
-    _notify() { this.listeners.forEach(fn => { try { fn(this.entries); } catch {} }); }
+    /**
+     * Estadísticas rápidas.
+     */
+    stats() {
+        const total = this.entries.length;
+        const byTrigger = {};
+        const bySource = {};
+        let successCount = 0;
+        for (const e of this.entries) {
+            byTrigger[e.trigger] = (byTrigger[e.trigger] || 0) + 1;
+            bySource[e.source] = (bySource[e.source] || 0) + 1;
+            if (e.success) successCount++;
+        }
+        return { total, byTrigger, bySource, successRate: total ? (successCount / total * 100).toFixed(1) : 0 };
+    }
 }
 
 window.TriggerHistory = TriggerHistory;
-window.triggerHistory = new TriggerHistory(50);
+window.triggerHistory = new TriggerHistory(100);

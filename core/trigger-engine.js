@@ -31,9 +31,18 @@ class TriggerEngine {
         this.lastHandGestureTime = 0;
         this.HAND_COOLDOWN = 1500;
 
+        // Hysteresis: threshold to exit a zone is tighter than to enter it
+        this.hysteresisFactor = 0.6; // exit threshold = enterThreshold * 0.6
+        this.activeZones = { yaw: null, pitch: null, roll: null }; // track which zones are active
+
+        // returnToCenterMs: ignore 'center' for a period after a direction fires
+        this.lastNonCenterTime = 0;
+        this.RETURN_TO_CENTER_DELAY = 800; // ms before 'center' can re-trigger after a direction
+
         // Estado de combo events: evento que espera confirmación gestual
         this.pendingEventConfirmations = []; // [{event, expires, requireGesture}]
         this.EVENT_CONFIRMATION_WINDOW = 5000; // 5s para confirmar con gesto
+        this.MAX_PENDING_CONFIRMATIONS = 50;
     }
 
     /**
@@ -146,20 +155,68 @@ class TriggerEngine {
         const T = this.config.get('thresholds');
 
         if (this.config.get('enabled.head')) {
-            // Feature #8 audit: Dead Zone anti-fatiga.
-            // Si todos los ejes están dentro de su dead zone, forzar trigger='center'.
-            // Evita que micro-movimientos dispare triggers cuando el streamer está "quieto".
-            const inDeadZone =
-                Math.abs(yaw) < (T.deadZoneYaw ?? 0.05) &&
-                Math.abs(pitch) < (T.deadZonePitch ?? 0.05) &&
-                Math.abs(roll) < (T.deadZoneRoll ?? 0.08);
-            if (inDeadZone) return { trigger: 'center', label: 'center (dead zone)' };
+            // Roll with hysteresis + dead zone
+            const deadZoneRoll = T.deadZoneRoll ?? 0.08;
+            if (Math.abs(roll) < deadZoneRoll) {
+                this.activeZones.roll = null;
+            } else if (this.activeZones.roll) {
+                // Already in a roll zone: stay if above exit threshold
+                if (Math.abs(roll) > T.roll * this.hysteresisFactor) {
+                    return { trigger: roll > 0 ? 'tilt-right' : 'tilt-left', label: 'tilt' };
+                }
+                this.activeZones.roll = null;
+            } else {
+                // Not in a roll zone: enter if above enter threshold
+                if (Math.abs(roll) > T.roll) {
+                    this.activeZones.roll = roll > 0 ? 'tilt-right' : 'tilt-left';
+                    return { trigger: this.activeZones.roll, label: 'tilt' };
+                }
+            }
 
-            if (Math.abs(roll) > T.roll) return { trigger: roll > 0 ? 'tilt-right' : 'tilt-left', label: 'tilt' };
-            if (pitch < T.pitchUp) return { trigger: 'up', label: 'up' };
-            if (pitch > T.pitchDown) return { trigger: 'down', label: 'down' };
-            if (yaw > T.yaw) return { trigger: 'right', label: 'right' };
-            if (yaw < -T.yaw) return { trigger: 'left', label: 'left' };
+            // Pitch with hysteresis + dead zone
+            const deadZonePitch = T.deadZonePitch ?? 0.05;
+            if (Math.abs(pitch) < deadZonePitch) {
+                this.activeZones.pitch = null;
+            } else if (this.activeZones.pitch) {
+                // Already in a pitch zone: stay if above exit threshold
+                const exitUp = T.pitchUp * this.hysteresisFactor;
+                const exitDown = T.pitchDown * this.hysteresisFactor;
+                if (this.activeZones.pitch === 'up' && pitch < exitUp) {
+                    return { trigger: 'up', label: 'up' };
+                }
+                if (this.activeZones.pitch === 'down' && pitch > exitDown) {
+                    return { trigger: 'down', label: 'down' };
+                }
+                this.activeZones.pitch = null;
+            } else {
+                // Not in a pitch zone: enter if above enter threshold
+                if (pitch < T.pitchUp) {
+                    this.activeZones.pitch = 'up';
+                    return { trigger: 'up', label: 'up' };
+                }
+                if (pitch > T.pitchDown) {
+                    this.activeZones.pitch = 'down';
+                    return { trigger: 'down', label: 'down' };
+                }
+            }
+
+            // Yaw with hysteresis + dead zone
+            const deadZoneYaw = T.deadZoneYaw ?? 0.05;
+            if (Math.abs(yaw) < deadZoneYaw) {
+                this.activeZones.yaw = null;
+            } else if (this.activeZones.yaw) {
+                // Already in a yaw zone: stay if above exit threshold
+                if (Math.abs(yaw) > T.yaw * this.hysteresisFactor) {
+                    return { trigger: yaw > 0 ? 'right' : 'left', label: yaw > 0 ? 'right' : 'left' };
+                }
+                this.activeZones.yaw = null;
+            } else {
+                // Not in a yaw zone: enter if above enter threshold
+                if (Math.abs(yaw) > T.yaw) {
+                    this.activeZones.yaw = yaw > 0 ? 'right' : 'left';
+                    return { trigger: this.activeZones.yaw, label: this.activeZones.yaw };
+                }
+            }
         }
 
         if (this.config.get('enabled.distance') && face.box) {
@@ -174,6 +231,15 @@ class TriggerEngine {
                 const sec = this._bearingToSector(bearing);
                 return { trigger: `gaze-${sec}`, label: `gaze ${sec}` };
             }
+        }
+
+        // Returning center — apply returnToCenterMs delay
+        const returnToCenterMs = T.returnToCenterMs ?? 800;
+        if (this.lastNonCenterTime) {
+            if (Date.now() - this.lastNonCenterTime < returnToCenterMs) {
+                return null; // ignore center too soon after a direction
+            }
+            this.lastNonCenterTime = 0;
         }
 
         return { trigger: 'center', label: 'center' };
@@ -199,27 +265,28 @@ class TriggerEngine {
         if (!cfg || !cfg.enabled) return null;
 
         if (cfg.requireGesture) {
-            // Cap anti-DoS: máximo 50 confirmaciones pendientes
-            if (this.pendingEventConfirmations.length >= TriggerEngine.MAX_PENDING_CONFIRMATIONS) {
-                // Drop el más viejo
-                this.pendingEventConfirmations.shift();
+            // Clean expired entries first
+            const now = Date.now();
+            this.pendingEventConfirmations = this.pendingEventConfirmations.filter(p => p.expires > now);
+            // Cap check — remove oldest if at limit
+            if (this.pendingEventConfirmations.length >= this.MAX_PENDING_CONFIRMATIONS) {
+                this.pendingEventConfirmations.shift(); // remove oldest
             }
+            // Agregar a lista de pendientes
             this.pendingEventConfirmations.push({
                 eventType,
                 data,
                 requireGesture: cfg.requireGesture,
                 scene: cfg.scene,
-                actions: cfg.actions || null, // soporta multi-action en eventTrigger
-                expires: Date.now() + this.EVENT_CONFIRMATION_WINDOW
+                expires: now + this.EVENT_CONFIRMATION_WINDOW
             });
             return { type: 'pending_confirmation', eventType, requireGesture: cfg.requireGesture };
         }
 
-        // Disparo directo — incluir actions explícitas si existen, escena si no
+        // Disparo directo
         return {
             type: 'action',
             scene: cfg.scene,
-            actions: cfg.actions || null,
             sourceEvent: { type: eventType, data },
             label: `event: ${eventType}`
         };
@@ -232,15 +299,14 @@ class TriggerEngine {
 
         for (let i = 0; i < this.pendingEventConfirmations.length; i++) {
             const pending = this.pendingEventConfirmations[i];
+            // Detectar el gesto requerido
             const handGesture = this._mapHandGesture(gestures.find(g => g.hand !== undefined) || {});
             if (handGesture === pending.requireGesture) {
                 this.pendingEventConfirmations.splice(i, 1);
-                // CRÍTICO: ejecutar acciones DEL EVENTO, no del gesto.
-                // El gesto solo es confirmación; la escena/acciones vienen del eventTrigger config.
                 return {
                     type: 'action',
+                    trigger: pending.requireGesture,
                     scene: pending.scene,
-                    actions: pending.actions,
                     sourceEvent: { type: pending.eventType, data: pending.data },
                     label: `${pending.eventType} confirmed by ${handGesture}`
                 };
@@ -256,6 +322,12 @@ class TriggerEngine {
             return null;
         }
         this.lastSceneChangeTime = now;
+
+        // Track non-center triggers for returnToCenterMs delay
+        if (pose.trigger !== 'center') {
+            this.lastNonCenterTime = now;
+        }
+
         return {
             type: 'action',
             trigger: pose.trigger,
@@ -264,8 +336,5 @@ class TriggerEngine {
         };
     }
 }
-
-// Cap anti-DoS para confirmaciones pendientes
-TriggerEngine.MAX_PENDING_CONFIRMATIONS = 50;
 
 window.TriggerEngine = TriggerEngine;

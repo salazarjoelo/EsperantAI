@@ -107,7 +107,11 @@
     "gaze_strength": "Min gaze strength",
     "emotion_confidence": "Min emotion confidence",
     "stable_frames": "Stable frames",
-    "cooldown_ms": "Cooldown (ms)"
+    "cooldown_ms": "Cooldown (ms)",
+    "dead_zone_yaw": "Dead zone yaw",
+    "dead_zone_pitch": "Dead zone pitch",
+    "dead_zone_roll": "Dead zone roll",
+    "return_to_center": "Return to center delay (ms)"
   },
   "metrics": {
     "yaw_label": "Yaw (←/→)",
@@ -179,5 +183,58 @@
     "video_info": "video={width}x{height} · backend={backend} · detect={ms}ms · frames={count}",
     "silent_mode_on": "Silent mode active. Logging only events and errors.",
     "verbose_mode_on": "Verbose mode active: {frames} frames without face."
+  },
+  "history": {
+    "title": "Trigger History",
+    "clear": "Clear",
+    "export_csv": "Export CSV",
+    "no_triggers": "No triggers yet.",
+    "source_gesture": "Gesture",
+    "source_platform": "Platform",
+    "source_combo": "Combo"
+  },
+  "license": {
+    "required_title": "Activation Required",
+    "required_desc": "EsperantAI requires a valid license to operate. If you already purchased, paste your license key below. Otherwise, acquire one at esperantai.com",
+    "key_label": "License Key",
+    "activate_button": "Activate License",
+    "no_license": "Don't have a license yet?",
+    "buy_button": "Get EsperantAI",
+    "upgrade_hint": "Upgrade for more triggers & features",
+    "tier_free": "Free",
+    "tier_pro": "Pro",
+    "tier_pro_plus": "Pro+ Director",
+    "feature_locked": "Available in {tier} tier",
+    "triggers_remaining": "{count}/{max} triggers used ({tier} tier)"
+  },
+  "actions": {
+    "scene_switch": "Switch Scene",
+    "source_visibility": "Toggle Source Visibility",
+    "source_filter_toggle": "Toggle Source Filter",
+    "audio_mute": "Mute/Unmute Audio",
+    "source_transform": "Transform Source (Move/Scale/Rotate)",
+    "source_crop": "Crop Source",
+    "recording_start": "Start Recording",
+    "recording_stop": "Stop Recording",
+    "play_sound": "Play Sound",
+    "speak_tts": "Text-to-Speech",
+    "notification": "Browser Notification",
+    "flash_screen": "Flash Screen",
+    "vibrate": "Vibrate",
+    "chat_message": "Send Chat Message",
+    "create_clip": "Create Clip",
+    "sequence": "Run Sequence",
+    "random_choice": "Random Action",
+    "delay_then": "Delayed Action"
+  },
+  "profiles": {
+    "label": "Profile:",
+    "save": "Save",
+    "new": "New",
+    "delete": "Delete",
+    "new_name": "Profile name:",
+    "switch_confirm": "Switch profile? Current settings will be saved first.",
+    "delete_confirm": "Delete this profile?",
+    "cannot_delete_default": "Cannot delete the default profile."
   }
 }

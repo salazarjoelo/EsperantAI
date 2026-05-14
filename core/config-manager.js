@@ -80,60 +80,38 @@ const DEFAULT_CONFIG = {
         emotion: 0.60,
         stableFrames: 5,
         cooldownMs: 500,
-        // Dead Zone (anti-fatigue) — dentro de este rango NADA dispara.
-        // Permite al streamer relajarse sin que micro-movimientos disparen triggers.
         deadZoneYaw: 0.05,
         deadZonePitch: 0.05,
         deadZoneRoll: 0.08,
-        // Después de un trigger, ignorar nuevos triggers de "center" por este tiempo.
-        returnToCenterMs: 1000
+        returnToCenterMs: 800
     },
 
     // Behavior
     usePreviewInStudioMode: false,
-    silentMode: 'auto' // auto | always | never
+    silentMode: 'auto', // auto | always | never
+
+    // Profiles
+    profile: {
+        current: 'default',
+        list: {
+            'default': { name: 'Default' }
+        }
+    }
 };
 
 class ConfigManager {
     constructor() {
         this.config = this._load();
         this.listeners = [];
-        // Fix audit P0.3: debounce de save() para evitar lag con sliders rápidos
-        this._saveDebounceMs = 300;
-        this._saveDebounceTimer = null;
-    }
-
-    /**
-     * Save debounceado — coalesce escrituras rápidas (típico de sliders en input event).
-     */
-    _saveDebounced() {
-        if (this._saveDebounceTimer) clearTimeout(this._saveDebounceTimer);
-        this._saveDebounceTimer = setTimeout(() => {
-            this._saveDebounceTimer = null;
-            this.save();
-        }, this._saveDebounceMs);
+        this._saveTimer = null;
     }
 
     _load() {
         try {
             const raw = localStorage.getItem(CONFIG_KEY);
-            const base = this._clone(DEFAULT_CONFIG);
-            const merged = raw ? this._merge(base, JSON.parse(raw)) : base;
-
-            // Fix audit H-01: restaurar tokens OAuth desde sessionStorage (más volátil = menos riesgo)
-            try {
-                const sessTokens = sessionStorage.getItem('esperantai-oauth-tokens');
-                if (sessTokens && merged.platforms) {
-                    const tokens = JSON.parse(sessTokens);
-                    for (const p of Object.keys(tokens)) {
-                        if (merged.platforms[p]) {
-                            if (tokens[p].token) merged.platforms[p].token = tokens[p].token;
-                            if (tokens[p].jwt) merged.platforms[p].jwt = tokens[p].jwt;
-                        }
-                    }
-                }
-            } catch {}
-            return merged;
+            if (!raw) return this._clone(DEFAULT_CONFIG);
+            const saved = JSON.parse(raw);
+            return this._merge(this._clone(DEFAULT_CONFIG), saved);
         } catch (e) {
             console.warn('Config load failed:', e);
             return this._clone(DEFAULT_CONFIG);
@@ -145,21 +123,20 @@ class ConfigManager {
     }
 
     /**
-     * Merge seguro contra prototype pollution.
-     * Bloquea __proto__, prototype, constructor para prevenir contaminación de Object.prototype.
+     * Deep-merge source into target.
+     * Fix audit C-02: bloquea __proto__, prototype, constructor para prevenir
+     * contaminación de Object.prototype vía config malicioso (localStorage
+     * editado o import de archivo JSON externo).
      */
     _merge(target, source) {
         if (!source || typeof source !== 'object' || Array.isArray(source)) return target;
-
         for (const key of Object.keys(source)) {
             if (ConfigManager.BLOCKED_KEYS.has(key)) continue;
-
             const value = source[key];
             if (value && typeof value === 'object' && !Array.isArray(value)) {
                 const existing = Object.prototype.hasOwnProperty.call(target, key) &&
                     target[key] && typeof target[key] === 'object' && !Array.isArray(target[key])
-                        ? target[key]
-                        : {};
+                        ? target[key] : {};
                 target[key] = this._merge(existing, value);
             } else {
                 target[key] = value;
@@ -169,6 +146,18 @@ class ConfigManager {
     }
 
     save() {
+        this._scheduleSave();
+    }
+
+    _scheduleSave() {
+        if (this._saveTimer) clearTimeout(this._saveTimer);
+        this._saveTimer = setTimeout(() => {
+            this._saveNow();
+            this._saveTimer = null;
+        }, 300);
+    }
+
+    _saveNow() {
         try {
             const toSave = this._clone(this.config);
             // Higiene: no persistir passwords sin opt-in
@@ -176,30 +165,21 @@ class ConfigManager {
                 if (toSave.adapter?.obs) toSave.adapter.obs.password = '';
                 if (toSave.adapter?.prism) toSave.adapter.prism.password = '';
                 if (toSave.adapter?.streamlabs) toSave.adapter.streamlabs.token = '';
-            }
-            // Fix audit H-01: tokens OAuth NUNCA persisten en localStorage.
-            // Se mueven a sessionStorage al hacer save() y se restauran al load().
-            if (toSave.platforms) {
-                const tokens = {};
-                for (const p of ['twitch', 'youtube', 'kick', 'trovo', 'streamelements']) {
-                    if (toSave.platforms[p]?.token) {
-                        tokens[p] = { token: toSave.platforms[p].token };
-                        toSave.platforms[p].token = '';
-                    }
-                    if (toSave.platforms[p]?.jwt) {
-                        tokens[p] = { ...(tokens[p] || {}), jwt: toSave.platforms[p].jwt };
-                        toSave.platforms[p].jwt = '';
-                    }
-                }
-                if (Object.keys(tokens).length) {
-                    try { sessionStorage.setItem('esperantai-oauth-tokens', JSON.stringify(tokens)); } catch {}
-                }
+                // OAuth tokens van guardados en sessionStorage, no localStorage
             }
             localStorage.setItem(CONFIG_KEY, JSON.stringify(toSave));
             this._notify();
         } catch (e) {
             console.warn('Config save failed:', e);
         }
+    }
+
+    flush() {
+        if (this._saveTimer) {
+            clearTimeout(this._saveTimer);
+            this._saveTimer = null;
+        }
+        this._saveNow();
     }
 
     get(path, fallback = null) {
@@ -212,7 +192,7 @@ class ConfigManager {
         return cur ?? fallback;
     }
 
-    set(path, value, immediate = false) {
+    set(path, value) {
         const parts = path.split('.');
         let cur = this.config;
         for (let i = 0; i < parts.length - 1; i++) {
@@ -220,19 +200,13 @@ class ConfigManager {
             cur = cur[parts[i]];
         }
         cur[parts[parts.length - 1]] = value;
-        // Fix audit P0.3: por default debounce (~300ms). immediate=true para casos críticos.
-        if (immediate) {
-            if (this._saveDebounceTimer) { clearTimeout(this._saveDebounceTimer); this._saveDebounceTimer = null; }
-            this.save();
-        } else {
-            this._saveDebounced();
-        }
+        this.save();
     }
 
     reset() {
         localStorage.removeItem(CONFIG_KEY);
         this.config = this._clone(DEFAULT_CONFIG);
-        this._notify();
+        this.flush();
     }
 
     /**
@@ -284,28 +258,78 @@ class ConfigManager {
     }
 
     /**
-     * Sanitiza recursivamente eliminando secretos antes de exportar.
-     * Vacía: passwords, tokens, JWT, license keys, code verifiers, refresh tokens.
+     * Listar perfiles disponibles.
      */
-    _sanitizeForExport(obj) {
-        const walk = (value) => {
-            if (Array.isArray(value)) return value.map(walk);
-            if (!value || typeof value !== 'object') return value;
-            const out = {};
-            for (const [k, v] of Object.entries(value)) {
-                if (ConfigManager.SECRET_KEYS.has(k)) {
-                    out[k] = '';
-                } else {
-                    out[k] = walk(v);
-                }
-            }
-            return out;
-        };
-        return walk(obj);
+    getProfiles() {
+        return this.get('profile.list', { 'default': { name: 'Default' } });
+    }
+
+    /**
+     * Obtener el perfil activo actual.
+     */
+    getCurrentProfile() {
+        return this.get('profile.current', 'default');
+    }
+
+    /**
+     * Cambiar a un perfil existente.
+     * Guarda la config actual en el perfil previo, carga la del nuevo.
+     */
+    switchProfile(profileId) {
+        const currentId = this.getCurrentProfile();
+        if (profileId === currentId) return;
+
+        // Save current config into current profile
+        this.set(`profile.list.${currentId}.config`, this._clone(this.config));
+
+        // Load new profile config
+        const profiles = this.getProfiles();
+        const newConfig = profiles[profileId]?.config;
+
+        // Update current profile
+        this.set('profile.current', profileId);
+
+        if (newConfig) {
+            // Merge new profile config over defaults
+            this.config = this._merge(this._clone(DEFAULT_CONFIG), newConfig);
+            this.config.profile.current = profileId;
+            this.flush();
+        }
+        this._notify();
+    }
+
+    /**
+     * Crear un nuevo perfil con la config actual.
+     */
+    createProfile(profileId, name) {
+        this.set(`profile.list.${profileId}`, {
+            name: name || profileId,
+            config: this._clone(this.config)
+        });
+    }
+
+    /**
+     * Eliminar un perfil (no el actual).
+     */
+    deleteProfile(profileId) {
+        if (profileId === this.getCurrentProfile()) return false;
+        const profiles = this.getProfiles();
+        delete profiles[profileId];
+        this.set('profile.list', profiles);
+        return true;
+    }
+
+    /**
+     * Guardar la config actual en el perfil activo.
+     */
+    saveCurrentProfile() {
+        const currentId = this.getCurrentProfile();
+        this.set(`profile.list.${currentId}.config`, this._clone(this.config));
     }
 
     export() {
-        return JSON.stringify(this._sanitizeForExport(this.config), null, 2);
+        this.flush();
+        return JSON.stringify(this.config, null, 2);
     }
 
     import(jsonString) {
@@ -331,14 +355,8 @@ class ConfigManager {
     }
 }
 
-// Bloquea prototype pollution
+// Static set of keys que NUNCA se mergean (fix C-02 prototype pollution)
 ConfigManager.BLOCKED_KEYS = new Set(['__proto__', 'prototype', 'constructor']);
-
-// Secrets que NUNCA deben exportarse en JSON
-ConfigManager.SECRET_KEYS = new Set([
-    'password', 'token', 'jwt', 'accessToken', 'refreshToken',
-    'authorization', 'codeVerifier', 'licenseKey'
-]);
 
 window.ConfigManager = ConfigManager;
 window.configManager = new ConfigManager();

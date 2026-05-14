@@ -67,25 +67,15 @@ Los docs en `docs/EULA.html`, `docs/TERMS_OF_SERVICE.html`, etc. tienen placehol
 
 ### TASK-101 — UI Multi-Action Builder
 **Hallazgo**: M-03 de auditoría (claim no demostrable)
-**Estado**: `[ABIERTA]`
-**Asignada a**: ChatGPT (primario, UX) · Claude (consistencia técnica)
-**Estimación**: 3-4 días
-**Descripción**:
-`ActionEngine` soporta 16 tipos de acción pero la UI solo permite asignar 1 escena por gesto. Construir panel donde cada trigger row tenga:
-- Botón "+ Agregar acción"
-- Modal/dropdown para elegir tipo de acción (scene_switch, play_sound, source_visibility, audio_mute, notification, flash_screen, chat_message, etc.)
-- Form dinámico por tipo de acción (params específicos)
-- Lista de acciones configuradas con orden visual (drag-and-drop opcional)
-- Botón eliminar por acción
-- Test runtime (ejecutar acción una vez para verificar)
+**Estado**: `[CERRADA — merge de v2.1_collab por Z.ai, integrado 2026-05-14]`
+**Asignada a**: ~~ChatGPT~~ Z.ai (primario) · Claude (revisión integración)
+**Implementación final**:
+- `core/trigger-ui-builder.js:223` botón ⚙️ por trigger
+- `core/trigger-ui-builder.js:260+` modal con addAction/removeAction
+- `index.html` IDs `action-modal-overlay`, `action-list`, `btn-close-action-modal`
+- `locales/en-US.json` strings agregados
 
-**Archivos a tocar**:
-- `core/trigger-ui-builder.js` (expansion mayor)
-- `app.js` (handlers nuevos)
-- `index.html` (CSS para el modal)
-- `locales/*.json` (strings nuevas, mínimo en-US y es-ES)
-
-**Definition of Done**: Joel puede configurar "pulgar arriba = scene_switch + play_sound + notification" sin tocar JSON manualmente.
+**Pending para ChatGPT (UX polish)**: review del modal, dropdown de acción más visual, test runtime button, drag-and-drop. Crear TASK-101b si lo amerita.
 
 ---
 
@@ -107,11 +97,15 @@ Resultado: thresholds personalizados por persona en `config.thresholds`.
 ---
 
 ### TASK-103 — Sistema de Perfiles
-**Estado**: `[ABIERTA]`
-**Asignada a**: Claude (data) · ChatGPT (UX)
-**Estimación**: 3-5 días
-**Descripción**: ver feature #6 del análisis de Joel.
-Múltiples configuraciones bajo `profiles.list`. Switch rápido. Export/import por perfil.
+**Estado**: `[CERRADA — merge de v2.1_collab por Z.ai, integrado 2026-05-14]`
+**Asignada a**: ~~Claude~~ Z.ai (primario) · ChatGPT (UX polish pending)
+**Implementación final**:
+- `core/config-manager.js` métodos `saveProfile`, `switchProfile`, `createProfile`, `deleteProfile`
+- `app.js` profile-bar UI con dropdown + botones save/new/delete
+- `index.html` IDs `profile-bar`, `profile-select`, `btn-profile-save`, `btn-profile-new`, `btn-profile-delete`
+- Tier gating: profile-bar oculto si `lic.hasFeature('profiles')` es false
+
+**Pending para ChatGPT (UX polish)**: import/export JSON por perfil, preview del perfil al hover, modal de confirmación al delete.
 
 ---
 
@@ -176,8 +170,11 @@ Hoy `script-src 'self' 'unsafe-inline'` y `style-src 'self' 'unsafe-inline'`. Pa
 
 ### TASK-202 — Source Transform actions OBS
 **Hallazgo**: feature #13
-**Asignada a**: Claude (primario) · DeepSeek (review)
-**Descripción**: agregar `source_transform` (mover/escalar/rotar source) y `source_crop` al ActionEngine + adapter-obs.
+**Estado**: `[CERRADA — merge de v2.1_collab por Z.ai, integrado 2026-05-14]`
+**Asignada a**: ~~Claude~~ Z.ai (primario) · DeepSeek (review pending)
+**Implementación final**:
+- `adapters/adapter-obs.js` métodos `SetSceneItemTransform` y `SetSceneItemCrop`
+- `core/action-engine.js` tipos de acción `source_transform` y `source_crop`
 
 ### TASK-203 — Gestos secuenciales
 **Hallazgo**: feature #11
@@ -191,9 +188,15 @@ Hoy `script-src 'self' 'unsafe-inline'` y `style-src 'self' 'unsafe-inline'`. Pa
 
 ### TASK-205 — Tier-based gating (Free/Pro/Pro+)
 **Hallazgo**: feature #10
-**Asignada a**: Claude
-**Descripción**: matriz de features por tier en `license-manager.js`. Joel debe definir qué va en cada tier.
-**Bloqueador parcial**: requiere decisión de Joel sobre pricing tiers.
+**Estado**: `[PARCIAL — merge de v2.1_collab integrado 2026-05-14; bloqueado por pricing de Joel]`
+**Asignada a**: ~~Claude~~ Z.ai (primario) · Joel decide pricing final
+**Implementación técnica**:
+- `core/license-manager.js` `TIER_FEATURES` matriz con Free/Pro/Pro+
+- Métodos `hasFeature(name)`, `getTier()`, `getFeatureLimit(name)`
+- `app.js` aplica gating a categorías hand/gaze/emotion según tier
+- Bandera oculta features Pro/Pro+ en UI si tier no las permite
+
+**Bloqueador**: Joel debe definir precio X (Pro) y precio Y (Pro+) antes de publicar.
 
 ---
 
