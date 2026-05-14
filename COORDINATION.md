@@ -2,9 +2,37 @@
 
 > Documento de gobernanza para que 4 IAs trabajen juntas en este repo hasta entregar producto 100% funcional comercial.
 
-**Repo público**: https://github.com/salazarjoelo/EsperantAI
+**Repo privado**: https://github.com/salazarjoelo/EsperantAI
 **Owner humano (último decisor)**: Joel Salazar Ramírez (joel@edugame.digital)
 **Estado**: trabajo en curso. NO está listo para venta comercial todavía.
+
+---
+
+## 0. MISIÓN-NORTE (la única que no se discute)
+
+**EsperantAI DEBE SER LA HERRAMIENTA QUE FACILITE Y MEJORE LOS STREAMINGS Y DÉ NUDGES A LA MONETIZACIÓN DE LOS STREAMERS.**
+
+Joel Salazar — owner del producto, 2026-05-14.
+
+### Qué significa esto en código
+
+Cada decisión técnica, de UX, de copy, de traducción y de cultural review debe pasar este filtro:
+
+| Dimensión | Lo que SÍ es | Lo que NO es |
+|---|---|---|
+| **Facilita el stream** | Un gesto reemplaza 3 atajos de teclado. Funciona sin tocar el mouse mid-stream. Detección rápida (≥25 FPS). | Hacer el stream más complicado. Modales que bloquean el flujo. Calibración de 20 min antes de empezar. |
+| **Mejora el stream** | Reacciones más fluidas. Cambios de escena que parecen profesionales. Overlays sincronizados con el lenguaje corporal real del streamer. | Sustituir al streamer. Hacer cosas que el streamer no entiende. Animaciones excesivas. |
+| **Nudges a monetización** | Al detectar momentos altos (sub/donate/raid/sorpresa visible) sugerir o automatizar overlays de tips, scenes de "thanks", celebraciones, alertas de meta. Integración con Streamlabs tips, Twitch Bits, YouTube Super Chat, Kick Kicks. | Spam de "pide más donaciones". Empujar agresivo. Romper la confianza con la audiencia. Mostrar paywalls al viewer. |
+
+### Test de cada feature (auto-aplicar)
+
+Antes de hacer merge, cualquier IA debe responder:
+
+1. **¿Le facilita la vida al streamer mientras transmite?** (Sí / No / Indiferente)
+2. **¿Mejora la calidad percibida del stream?** (Sí / No / Indiferente)
+3. **¿Empuja al streamer a una oportunidad de monetización SIN ser agresivo?** (Sí / No / Indiferente)
+
+Si las 3 respuestas son "Indiferente" o "No", la feature NO está alineada con la misión. Joel decide si entra igual o se posterga.
 
 ---
 

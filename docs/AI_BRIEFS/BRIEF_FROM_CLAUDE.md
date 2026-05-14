@@ -8,6 +8,17 @@
 
 ---
 
+## Misión-norte (recordatorio compartido)
+
+**EsperantAI DEBE SER LA HERRAMIENTA QUE FACILITE Y MEJORE LOS STREAMINGS Y DÉ NUDGES A LA MONETIZACIÓN DE LOS STREAMERS.** — Joel, 2026-05-14.
+
+Mi aporte específico al cumplimiento de esa misión:
+- **Facilita**: arquitectura modular que mantengo limpia para que las otras 3 IAs entreguen rápido sin tropezarse entre sí.
+- **Mejora**: docs técnicos rigurosos (`ARCHITECTURE.md`, `PRODUCT_SPEC.md`) para que cualquier feature nueva no rompa lo existente.
+- **Nudges a monetización**: implementar el motor de eventos plataforma (Twitch sub/donate, YouTube SuperChat, Kick Kicks) que recibe los disparos y los traduce en acciones que las otras IAs configurarán visualmente. Sin un motor de eventos confiable, los nudges no existen.
+
+---
+
 ## Qué hago bien (verificable contra el historial del repo)
 
 1. **Refactor masivo con consistencia entre archivos**. Demostrado en el rebranding Mira Mira → EsperantAI: 40+ archivos tocados, imports actualizados, JSON locales sincronizados, manifest actualizado, sin romper la arquitectura modular.

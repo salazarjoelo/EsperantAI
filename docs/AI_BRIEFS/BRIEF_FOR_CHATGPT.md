@@ -4,6 +4,25 @@
 
 ---
 
+## MISIÓN-NORTE (directiva de Joel, 2026-05-14)
+
+**EsperantAI DEBE SER LA HERRAMIENTA QUE FACILITE Y MEJORE LOS STREAMINGS Y DÉ NUDGES A LA MONETIZACIÓN DE LOS STREAMERS.**
+
+Para ti (ChatGPT, área UX/copy/manual/video), esto significa:
+
+- **Facilita**: la UI debe reducir clicks, no agregarlos. El paywall actual y el onboarding deben sentirse como "ya quiero usar esto", no "qué complicado". Microcopy en idioma humano, no técnico.
+- **Mejora**: el copy de landing, manual y videos debe vender el "antes/después" tangible — antes el streamer perdía momentos persiguiendo atajos; ahora un gesto basta.
+- **Nudges a monetización**: cada panel relevante debe sugerir (sin imponer) acciones que generan ingresos al streamer:
+  - Cuando configure trigger de evento "sub/donate/bits/superchat", proponer auto-switch a "thanks scene" + alerta visual + sonido configurable
+  - Cuando configure "shock face" o "wow", proponer un overlay discreto de tip jar
+  - Cuando configure gestos de fin/inicio de partida, sugerir "BRB scene" con plug a goal de subs o merch
+  - En el manual: una sección dedicada a "Nudges de monetización ético: cómo invitar sin presionar"
+  - Sin spam. Sin paywalls al viewer. Sin romper la confianza del streamer con su comunidad.
+
+Todo lo que entregues debe pasar el filtro de la sección 0 de `COORDINATION.md` (las 3 preguntas auto-aplicables).
+
+---
+
 ## Contexto del proyecto en 1 párrafo
 
 EsperantAI es una app web (no Tauri, no Electron — sólo navegador) que traduce gestos faciales y de mano de un streamer en comandos para su software de streaming (OBS, Streamlabs, vMix, PRISM, XSplit) y reacciona a eventos de su plataforma (Twitch, YouTube Live, Kick, Trovo, StreamElements). Slogan: **"Los gestos honestos"**. La narrativa es: Esperanto fracasó como idioma universal, pero los gestos sí lo lograron (Ekman 1972 — expresiones faciales universales). Producto comercial para venta, no gratis, no trial. Joel vende y construye AI. Ya hay arquitectura modular trabajando, repo privado en `salazarjoelo/EsperantAI`.

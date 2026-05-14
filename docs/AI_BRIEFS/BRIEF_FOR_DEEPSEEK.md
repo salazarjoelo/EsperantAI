@@ -4,6 +4,20 @@
 
 ---
 
+## MISIÓN-NORTE (directiva de Joel, 2026-05-14)
+
+**EsperantAI DEBE SER LA HERRAMIENTA QUE FACILITE Y MEJORE LOS STREAMINGS Y DÉ NUDGES A LA MONETIZACIÓN DE LOS STREAMERS.**
+
+Para ti (DeepSeek, área performance/security/web worker/cripto), esto significa:
+
+- **Facilita**: detección Human.js a ≥25 FPS sin jank en la UI. CSP que protege sin romper funcionalidad. Carga inicial < 3s en máquinas típicas de streamer (CPU i5 2020). Si la app es lenta o se siente pesada, el streamer la cierra: no nudges ni monetización.
+- **Mejora**: arquitectura confiable. Si un trigger se "pierde" en medio de un momento alto del stream, el streamer pierde dinero real. Tu Web Worker, tus tests, tu CSP son los fusibles que aseguran que el producto se siente profesional.
+- **Nudges a monetización**: tu trabajo NO es escribir microcopy, pero sí garantizar que las features de monetización (auto-switch a thanks scene en evento sub/donate, overlay de tip jar al detectar emoción alta, integración con Twitch Bits / YouTube Super Chat / Kick Kicks) **no se rompan bajo carga**. Si el WebSocket de Twitch tiene 50 eventos pendientes y la app pierde el sub que cae justo ahora, falló la misión. El cap MAX_PENDING_CONFIRMATIONS=50 y la arquitectura Web Worker deben proteger estos momentos críticos.
+
+Todo lo que entregues debe pasar el filtro de la sección 0 de `COORDINATION.md` (las 3 preguntas auto-aplicables).
+
+---
+
 ## Contexto del proyecto en 1 párrafo
 
 EsperantAI es una app web (no Tauri, no Electron — sólo navegador) que traduce gestos faciales y de mano del streamer en comandos para su software (OBS, Streamlabs, vMix, PRISM, XSplit) y reacciona a eventos de su plataforma (Twitch, YouTube Live, Kick, Trovo, StreamElements). Slogan: **"Los gestos honestos"**. Producto comercial. Repo privado: `salazarjoelo/EsperantAI`. El cliente es 100% JS visible en navegador — esto crea retos reales de seguridad (cualquiera puede editar el JS y bypassear licencia, hallazgo C-05 sigue abierto).

@@ -4,6 +4,25 @@
 
 ---
 
+## MISIÓN-NORTE (directiva de Joel, 2026-05-14)
+
+**EsperantAI DEBE SER LA HERRAMIENTA QUE FACILITE Y MEJORE LOS STREAMINGS Y DÉ NUDGES A LA MONETIZACIÓN DE LOS STREAMERS.**
+
+Para ti (Z/GLM-4, área asia/CJK/adapters coreanos/cultural review), esto significa:
+
+- **Facilita**: las traducciones zh/ko/ja no son sólo strings — la UI debe sentirse nativa en Bilibili, CHZZK, Niconico. Si un streamer chino abre EsperantAI y se siente "app occidental traducida con Google", lo cierra.
+- **Mejora**: los gestos que en occidente son neutros pueden ser ofensivos o "raros" en Asia. Tu review cultural mejora la calidad del producto en mercados que valen 500M+ usuarios. Si EsperantAI ofende sin querer, el daño reputacional es real.
+- **Nudges a monetización**: tu cultural insight aquí es **crítico**:
+  - En China, monetización via Bilibili Charge / Douyin gifts / Xiaoxiongxinxin tipping difiere mucho de Twitch
+  - En Korea, los streamers SOOP/CHZZK monetizan via star balloons + ad shares + sponsor calls
+  - En Japón, Niconico Premium + Super Chat operan distinto
+  - ¿Qué patterns de "nudge a monetización" son **culturalmente aceptables** en cada mercado? Un overlay agresivo de tip jar al estilo occidental puede ser percibido como "vulgar" en Japón.
+  - ¿LemonSqueezy MoR cubre estas plataformas o el streamer asiático necesita método de pago local (Alipay/WeChat Pay/KakaoPay)?
+
+Todo lo que entregues debe pasar el filtro de la sección 0 de `COORDINATION.md` (las 3 preguntas auto-aplicables).
+
+---
+
 ## Contexto del proyecto en 1 párrafo
 
 EsperantAI es una app web (no Tauri, no Electron — sólo navegador) que traduce gestos faciales y de mano del streamer en comandos para su software (OBS, Streamlabs, vMix, PRISM, XSplit) y reacciona a eventos de su plataforma. Slogan: **"Los gestos honestos"**. La narrativa parte de Ekman 1972 — expresiones faciales universales — pero los **gestos de mano sí varían culturalmente**. Aquí entras tú. Producto comercial para venta global. Repo privado: `salazarjoelo/EsperantAI`. Mercados objetivo asiáticos son críticos: Twitch cerró Korea en feb 2024, todo el mercado pasó a SOOP + CHZZK; China nunca tuvo Twitch (Bilibili, Douyin Live, Huya).
