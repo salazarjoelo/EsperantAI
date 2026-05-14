@@ -24,7 +24,7 @@
 const LICENSE_BACKEND_URL = 'https://license.edugame.digital';
 const LICENSE_STORAGE_KEY = 'esperantai-license-v2';
 const REVALIDATE_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;  // 7 días
-const OFFLINE_GRACE_MS = 30 * 24 * 60 * 60 * 1000;       // 30 días offline antes de bloquear
+const OFFLINE_GRACE_MS = 7 * 24 * 60 * 60 * 1000;        // 7 días offline antes de bloquear (Z-SEC-07: reducido de 30 a 7)
 const JWT_AUDIENCE = 'esperantai-client';
 const JWT_ISSUER = 'license.edugame.digital';
 
@@ -89,12 +89,67 @@ const TIER_FEATURES = {
     }
 };
 
+// Z-SEC-02: congelar TIER_FEATURES profundamente para prevenir mutación
+// desde DevTools. Sin esto, un atacante podía hacer:
+//   Object.assign(LicenseManager.TIER_FEATURES.free, LicenseManager.TIER_FEATURES.pro_plus)
+// y desbloquear todos los features instantáneamente sin reload.
+// Nota: deep freeze. Object.freeze(TIER_FEATURES) solo sería shallow.
+Object.freeze(TIER_FEATURES.free);
+Object.freeze(TIER_FEATURES.pro);
+Object.freeze(TIER_FEATURES.pro_plus);
+Object.freeze(TIER_FEATURES);
+
+// Z-SEC-01: cache TTL para la verificación criptográfica del JWT.
+// Sin esto, isValid() solo miraba timestamp y aceptaba cualquier string
+// como JWT. Con bloqueo del backend en /etc/hosts, el atacante podía
+// usar la app durante el grace period (ahora 7 días tras Z-SEC-07).
+const JWT_CRYPTO_CACHE_TTL_MS = 60 * 60 * 1000; // 1 hora
+
 class LicenseManager {
     constructor() {
         this.state = this._loadState();
         this.listeners = [];
         this._operationLock = false;
         this._publicKeyPromise = null;
+        // Z-SEC-01: pre-verificación criptográfica asíncrona del JWT.
+        //  - null  = aún no verificado (race window al arrancar)
+        //  - true  = JWT verificado, firma válida
+        //  - false = JWT no verifica → isValid() retorna false
+        this._jwtCryptoValid = null;
+        this._jwtCheckedAt = 0;
+        // Disparar verificación de la firma del JWT cargado de localStorage.
+        // Si falla, invalida state.jwt en memoria + disco para cerrar el bypass.
+        this._kickoffJwtVerification();
+    }
+
+    /**
+     * Z-SEC-01: verifica criptográficamente el JWT que vino de localStorage.
+     * Si la firma no valida, anula state.jwt para que isValid() falle en la
+     * próxima llamada. Async — corre en background sin bloquear bootstrap.
+     */
+    async _kickoffJwtVerification() {
+        if (!this.state.jwt) {
+            this._jwtCryptoValid = false;
+            return;
+        }
+        try {
+            const payload = await this._verifyJWT(this.state.jwt);
+            this._jwtCryptoValid = !!payload;
+            this._jwtCheckedAt = Date.now();
+            if (!payload) {
+                // JWT no verifica → invalidar en memoria + disco. La próxima
+                // llamada a isValid() retornará false. validate() también
+                // detectará el state limpio y forzará lockout o re-refresh.
+                console.warn('[License] JWT criptográficamente inválido — invalidando state');
+                this.state.jwt = null;
+                this.state.jwtExpires = 0;
+                this.state.tier = 'free';
+                this._saveState();
+            }
+        } catch (e) {
+            console.error('[License] _kickoffJwtVerification falló:', e);
+            this._jwtCryptoValid = false;
+        }
     }
 
     _loadState() {
@@ -390,6 +445,21 @@ class LicenseManager {
     // ─── Public API consumida por app.js y core/* ─────────────────────────
 
     isValid() {
+        // Z-SEC-01: además de timestamp, consultar el cache de verificación
+        // criptográfica. Si la firma del JWT ya se demostró inválida
+        // (_jwtCryptoValid === false), retornar false inmediatamente.
+        // Si aún no se verificó (null) o el cache TTL venció, aceptamos
+        // basado en timestamp; la verificación async va a corregir state
+        // si la firma no valida, y la próxima llamada retornará false.
+        if (this._jwtCryptoValid === false) return false;
+        const cacheStale = !this._jwtCheckedAt
+            || (Date.now() - this._jwtCheckedAt) > JWT_CRYPTO_CACHE_TTL_MS;
+        if (cacheStale) {
+            // Re-disparar verificación en background (fire-and-forget).
+            // La llamada actual se basa en timestamp; futuras llamadas
+            // tendrán el resultado fresco.
+            this._kickoffJwtVerification().catch(() => {});
+        }
         return !!this.state.jwt && (this.state.jwtExpires * 1000) > Date.now();
     }
 
