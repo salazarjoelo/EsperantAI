@@ -24,7 +24,7 @@
 const LICENSE_BACKEND_URL = 'https://license.edugame.digital';
 const LICENSE_STORAGE_KEY = 'esperantai-license-v2';
 const REVALIDATE_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000;  // 7 días
-const OFFLINE_GRACE_MS = 30 * 24 * 60 * 60 * 1000;       // 30 días offline antes de bloquear
+const OFFLINE_GRACE_MS = 7 * 24 * 60 * 60 * 1000;        // 7 días offline antes de bloquear (Z-SEC-07: reducido de 30 a 7)
 const JWT_AUDIENCE = 'esperantai-client';
 const JWT_ISSUER = 'license.edugame.digital';
 
