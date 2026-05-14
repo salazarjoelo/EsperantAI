@@ -62,7 +62,7 @@ class PlatformKick extends PlatformBase {
         return Array.from(random, b => chars[b % chars.length]).join('');
     }
 
-    async oauthUrl(clientId, redirectUri) {
+    async oauthUrl(clientId, redirectUri, state) {
         const { challenge } = await this.generatePKCE();
         const params = new URLSearchParams({
             response_type: 'code',
@@ -71,7 +71,8 @@ class PlatformKick extends PlatformBase {
             scope: 'user:read channel:read events:subscribe',
             code_challenge: challenge,
             code_challenge_method: 'S256',
-            state: this._randomString(16)
+            // Usar state pasado desde app.js (validado en callback). Fallback a random si no se pasa.
+            state: state || this._randomString(16)
         });
         return `https://id.kick.com/oauth/authorize?${params}`;
     }

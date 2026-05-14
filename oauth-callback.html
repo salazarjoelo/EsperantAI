@@ -67,9 +67,16 @@
             // También parse de query string (para Authorization Code flow ej. Kick PKCE)
             const queryParams = new URLSearchParams(window.location.search);
 
-            // Detectar provider basado en el state o referrer
+            // Parse del state — formato: <provider>:<nonce> (validado por el opener)
             const state = params.get('state') || queryParams.get('state') || '';
             const provider = detectProvider(state);
+            // Si no hay state válido, mostrar error y NO postear nada
+            if (!state || !state.includes(':')) {
+                document.getElementById('status').className = 'err';
+                document.getElementById('status').textContent = '❌ Error de seguridad: state OAuth inválido (posible CSRF)';
+                document.getElementById('manual').style.display = 'block';
+                return;
+            }
 
             const token = params.get('access_token');
             const code = queryParams.get('code'); // Para flows con Authorization Code
@@ -91,6 +98,7 @@
                 postToOpener({
                     type: 'oauth_token',
                     provider,
+                    state,
                     access_token: token,
                     token_type: params.get('token_type'),
                     scope: params.get('scope'),
@@ -118,15 +126,16 @@
             manual.style.display = 'block';
 
             function detectProvider(state) {
-                // El state contiene el provider name al iniciar OAuth
-                if (state.startsWith('twitch')) return 'twitch';
-                if (state.startsWith('youtube') || state.startsWith('google')) return 'youtube';
-                if (state.startsWith('kick')) return 'kick';
-                // Fallback: usar referrer
+                // El state tiene formato <provider>:<nonce>
+                if (!state) return 'unknown';
+                const prefix = state.split(':')[0];
+                if (['twitch', 'youtube', 'kick', 'trovo'].includes(prefix)) return prefix;
+                // Fallback: referrer
                 const ref = document.referrer.toLowerCase();
                 if (ref.includes('twitch')) return 'twitch';
                 if (ref.includes('google') || ref.includes('youtube')) return 'youtube';
                 if (ref.includes('kick')) return 'kick';
+                if (ref.includes('trovo')) return 'trovo';
                 return 'unknown';
             }
 

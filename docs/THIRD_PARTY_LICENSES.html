@@ -1,140 +1,41 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es-MX">
 <head>
-    <meta charset="UTF-8">
-    <title>Avisos de Licencias de Terceros — EsperantAI</title>
-    <style>
-        body { background:#0d1117; color:#c9d1d9; font-family: Segoe UI, sans-serif; line-height:1.6; max-width:780px; margin:0 auto; padding:40px 24px; }
-        h1 { background:linear-gradient(135deg,#58a6ff,#bc8cff,#ff7b72); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:4px; }
-        h2 { color:#58a6ff; margin-top:32px; border-bottom:1px solid #30363d; padding-bottom:8px; }
-        h3 { color:#79c0ff; margin-top:24px; }
-        a { color:#58a6ff; }
-        .meta { color:#8b949e; font-size:13px; margin-bottom:24px; }
-        .license-block { background:#161b22; border:1px solid #30363d; border-radius:6px; padding:20px 24px; margin:16px 0 32px 0; }
-        .license-block .lib-title { color:#58a6ff; font-size:18px; font-weight:600; margin:0 0 4px 0; }
-        .license-block .lib-info { color:#8b949e; font-size:13px; margin:0 0 16px 0; }
-        .license-block .lib-info a { color:#58a6ff; }
-        .license-text { color:#8b949e; font-size:13px; line-height:1.7; white-space:pre-wrap; margin:0; }
-        .note-section { background:rgba(88,166,255,0.06); border-left:3px solid #58a6ff; padding:12px 16px; border-radius:4px; margin:16px 0; }
-        .note-section ul { margin:8px 0 0 0; padding-left:20px; }
-        .note-section li { margin-bottom:6px; }
-        .note-section strong { color:#c9d1d9; }
-        .footer-note { margin-top:48px; padding-top:20px; border-top:1px solid #30363d; color:#8b949e; font-size:13px; line-height:1.6; }
-        .badge { display:inline-block; background:rgba(88,166,255,0.12); color:#58a6ff; font-size:11px; font-weight:600; padding:2px 8px; border-radius:12px; margin-left:8px; vertical-align:middle; }
-        .badge.apache { background:rgba(210,153,34,0.12); color:#d29922; }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Avisos de Terceros — EsperantAI</title>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;line-height:1.55;max-width:980px;margin:40px auto;padding:0 24px;color:#202124;background:#fff}h1,h2,h3{color:#111827}h1{border-bottom:3px solid #2563eb;padding-bottom:10px}h2{margin-top:32px;border-bottom:1px solid #e5e7eb;padding-bottom:6px}.meta{color:#6b7280;font-size:.95em}.box{background:#f8fafc;border-left:4px solid #2563eb;padding:14px 16px;margin:18px 0}.notice{background:#fff7ed;border-left:4px solid #f97316;padding:14px 16px;margin:18px 0}a{color:#2563eb}ul{margin-top:6px}code{background:#f3f4f6;padding:2px 4px;border-radius:4px}.placeholder{color:#b45309;font-weight:bold}
+</style>
 </head>
 <body>
-    <h1>Avisos de Licencias de Terceros — EsperantAI</h1>
-    <p class="meta">EsperantAI v2.0 · Última actualización: 2026-03-05 · © EdugameDigital</p>
 
-    <p>EsperantAI incorpora las siguientes librerías de código abierto. Esta página proporciona los avisos de atribución requeridos por sus respectivas licencias.</p>
+<h1>Avisos de Terceros y Open Source</h1>
+<p class="meta">EsperantAI · Vigente desde [FECHA]</p>
 
-    <!-- ──────────────────────────────────────────── -->
-    <!-- 1. Human.js -->
-    <!-- ──────────────────────────────────────────── -->
+<h2>1. Alcance</h2>
+<p>EsperantAI puede incluir componentes de terceros. Cada componente se rige por su licencia correspondiente. Este documento debe distribuirse junto con el Software.</p>
 
-    <h2>1. Human.js <span class="badge">MIT</span></h2>
+<h2>2. Componentes identificados</h2>
+<ul>
+<li><strong>Human.js</strong> — verificar versión exacta, licencia, copyright y dependencias transitivas.</li>
+<li><strong>TensorFlow.js</strong> — verificar versión exacta y licencia Apache 2.0 si está incluido o cargado indirectamente.</li>
+<li><strong>obs-websocket-js / obs-ws</strong> — verificar versión exacta, licencia y copyright.</li>
+<li><strong>Socket.IO Client</strong> — verificar versión exacta, licencia y forma de distribución.</li>
+<li><strong>Modelos de IA Human.js</strong> — verificar licencia, fuente, versión, hashes y permiso de redistribución.</li>
+</ul>
 
-    <div class="license-block">
-        <p class="lib-title">Human.js</p>
-        <p class="lib-info">
-            © Vladimir Mandic &nbsp;·&nbsp; Versión 3.3.6 &nbsp;·&nbsp;
-            <a href="https://github.com/vladmandic/human">github.com/vladmandic/human</a>
-        </p>
-        <p class="license-text">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+<h2>3. Obligaciones antes de producción</h2>
+<ul>
+<li>Incluir texto completo de licencias requeridas.</li>
+<li>Incluir copyright notices originales.</li>
+<li>Registrar versión y hash de cada archivo redistribuido.</li>
+<li>Confirmar licencias de modelos, pesos y dependencias transitivas.</li>
+<li>No afirmar “sólo MIT” si hay componentes Apache 2.0 u otras licencias.</li>
+</ul>
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+<h2>4. Sin respaldo de terceros</h2>
+<p>La inclusión de nombres de terceros no implica patrocinio, afiliación o respaldo, salvo que exista acuerdo escrito.</p>
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-    </div>
-
-    <!-- ──────────────────────────────────────────── -->
-    <!-- 2. obs-websocket-js -->
-    <!-- ──────────────────────────────────────────── -->
-
-    <h2>2. obs-websocket-js <span class="badge">MIT</span></h2>
-
-    <div class="license-block">
-        <p class="lib-title">obs-websocket-js</p>
-        <p class="lib-info">
-            © OBS WebSocket Community Projects &nbsp;·&nbsp; Versión 5.0.8 &nbsp;·&nbsp;
-            <a href="https://github.com/obs-websocket-community-projects/obs-websocket-js">github.com/obs-websocket-community-projects/obs-websocket-js</a>
-        </p>
-        <p class="license-text">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-    </div>
-
-    <!-- ──────────────────────────────────────────── -->
-    <!-- 3. Socket.IO Client -->
-    <!-- ──────────────────────────────────────────── -->
-
-    <h2>3. Socket.IO Client <span class="badge">MIT</span></h2>
-
-    <div class="license-block">
-        <p class="lib-title">Socket.IO Client</p>
-        <p class="lib-info">
-            © Socket.IO &nbsp;·&nbsp; Versión 4.7.5 (cargado dinámicamente desde CDN) &nbsp;·&nbsp;
-            <a href="https://github.com/socketio/socket.io-client">github.com/socketio/socket.io-client</a>
-        </p>
-        <p class="license-text">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-    </div>
-
-    <!-- ──────────────────────────────────────────── -->
-    <!-- 4. TensorFlow.js -->
-    <!-- ──────────────────────────────────────────── -->
-
-    <h2>4. TensorFlow.js <span class="badge apache">Apache 2.0</span></h2>
-
-    <div class="license-block">
-        <p class="lib-title">TensorFlow.js</p>
-        <p class="lib-info">
-            © Google Inc. &nbsp;·&nbsp; Usado internamente por Human.js &nbsp;·&nbsp;
-            <a href="https://github.com/tensorflow/tfjs">github.com/tensorflow/tfjs</a>
-        </p>
-        <p class="license-text">Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.</p>
-    </div>
-
-    <!-- ──────────────────────────────────────────── -->
-    <!-- Notas adicionales -->
-    <!-- ──────────────────────────────────────────── -->
-
-    <h2>Notas adicionales</h2>
-
-    <div class="note-section">
-        <ul>
-            <li><strong>TensorFlow.js</strong> <span class="badge apache">Apache 2.0</span> — Human.js utiliza internamente TensorFlow.js como motor de inferencia. TensorFlow.js se distribuye bajo la <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>. No se realizan modificaciones a TensorFlow.js; se usa tal cual se distribuye.</li>
-            <li><strong>APIs Web del navegador</strong> — EsperantAI utiliza las APIs nativas del navegador <code>getUserMedia</code> (MediaDevices), <code>WebSocket</code> y <a href="https://wicg.github.io/speech-api/">Web Speech API</a>. Estas son estándares web implementados por el navegador y <strong>no están sujetas a licencias separadas</strong>.</li>
-        </ul>
-    </div>
-
-    <!-- ──────────────────────────────────────────── -->
-    <!-- Footer -->
-    <!-- ──────────────────────────────────────────── -->
-
-    <div class="footer-note">
-        <p>EsperantAI respeta todas las licencias de código abierto. Si usted es un titular de derechos y considera que hay un error en esta atribución, contacte a <a href="mailto:soporte@edugame.digital">soporte@edugame.digital</a>.</p>
-    </div>
-
-    <p style="margin-top:60px; color:#6e7681; font-size:12px;">
-        © 2026 Joel Salazar Ramírez / EdugameDigital. Todos los derechos reservados.
-    </p>
 </body>
 </html>

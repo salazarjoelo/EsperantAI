@@ -109,12 +109,25 @@ class ConfigManager {
         return JSON.parse(JSON.stringify(obj));
     }
 
+    /**
+     * Merge seguro contra prototype pollution.
+     * Bloquea __proto__, prototype, constructor para prevenir contaminación de Object.prototype.
+     */
     _merge(target, source) {
-        for (const k of Object.keys(source)) {
-            if (source[k] && typeof source[k] === 'object' && !Array.isArray(source[k])) {
-                target[k] = this._merge(target[k] || {}, source[k]);
+        if (!source || typeof source !== 'object' || Array.isArray(source)) return target;
+
+        for (const key of Object.keys(source)) {
+            if (ConfigManager.BLOCKED_KEYS.has(key)) continue;
+
+            const value = source[key];
+            if (value && typeof value === 'object' && !Array.isArray(value)) {
+                const existing = Object.prototype.hasOwnProperty.call(target, key) &&
+                    target[key] && typeof target[key] === 'object' && !Array.isArray(target[key])
+                        ? target[key]
+                        : {};
+                target[key] = this._merge(existing, value);
             } else {
-                target[k] = source[k];
+                target[key] = value;
             }
         }
         return target;
@@ -212,8 +225,29 @@ class ConfigManager {
         this.set(`triggerActions.${triggerKey}`, current);
     }
 
+    /**
+     * Sanitiza recursivamente eliminando secretos antes de exportar.
+     * Vacía: passwords, tokens, JWT, license keys, code verifiers, refresh tokens.
+     */
+    _sanitizeForExport(obj) {
+        const walk = (value) => {
+            if (Array.isArray(value)) return value.map(walk);
+            if (!value || typeof value !== 'object') return value;
+            const out = {};
+            for (const [k, v] of Object.entries(value)) {
+                if (ConfigManager.SECRET_KEYS.has(k)) {
+                    out[k] = '';
+                } else {
+                    out[k] = walk(v);
+                }
+            }
+            return out;
+        };
+        return walk(obj);
+    }
+
     export() {
-        return JSON.stringify(this.config, null, 2);
+        return JSON.stringify(this._sanitizeForExport(this.config), null, 2);
     }
 
     import(jsonString) {
@@ -238,6 +272,15 @@ class ConfigManager {
         });
     }
 }
+
+// Bloquea prototype pollution
+ConfigManager.BLOCKED_KEYS = new Set(['__proto__', 'prototype', 'constructor']);
+
+// Secrets que NUNCA deben exportarse en JSON
+ConfigManager.SECRET_KEYS = new Set([
+    'password', 'token', 'jwt', 'accessToken', 'refreshToken',
+    'authorization', 'codeVerifier', 'licenseKey'
+]);
 
 window.ConfigManager = ConfigManager;
 window.configManager = new ConfigManager();

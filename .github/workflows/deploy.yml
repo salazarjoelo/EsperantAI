@@ -24,18 +24,19 @@ jobs:
       - name: Prepare deploy folder
         run: |
           mkdir -p _site
-          # Copy all required files for the web app
+          # Fix audit M-04: copiar landing.html + index.html + LICENSE
           cp index.html _site/index.html
-          cp index.html _site/index.html
+          cp landing.html _site/landing.html
           cp app.js _site/app.js
           cp oauth-callback.html _site/oauth-callback.html
+          cp LICENSE.txt _site/LICENSE.txt || true
           cp -r libs _site/libs
           cp -r core _site/core
           cp -r adapters _site/adapters
           cp -r platforms _site/platforms
           cp -r locales _site/locales
           cp -r assets _site/assets
-          cp -r docs _site/docs || true
+          cp -r docs _site/docs
           cp README.md _site/README.md || true
 
       - name: Setup Pages

@@ -34,7 +34,7 @@ class PlatformTwitch extends PlatformBase {
      * @param {string} clientId — App Client ID registrado en dev.twitch.tv/console
      * @param {string} redirectUri — debe estar registrado en la consola Twitch
      */
-    oauthUrl(clientId, redirectUri) {
+    oauthUrl(clientId, redirectUri, state) {
         const scopes = [
             'channel:read:subscriptions',
             'bits:read',
@@ -50,6 +50,7 @@ class PlatformTwitch extends PlatformBase {
             scope: scopes,
             force_verify: 'true'
         });
+        if (state) params.set('state', state);
 
         return `https://id.twitch.tv/oauth2/authorize?${params}`;
     }

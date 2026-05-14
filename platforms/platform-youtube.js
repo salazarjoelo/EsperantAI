@@ -39,7 +39,7 @@ class PlatformYouTube extends PlatformBase {
     /**
      * OAuth URL para Google Identity Services implicit flow.
      */
-    oauthUrl(clientId, redirectUri) {
+    oauthUrl(clientId, redirectUri, state) {
         const scope = [
             'https://www.googleapis.com/auth/youtube.readonly'
         ].join(' ');
@@ -52,6 +52,7 @@ class PlatformYouTube extends PlatformBase {
             include_granted_scopes: 'true',
             prompt: 'consent'
         });
+        if (state) params.set('state', state);
         return `https://accounts.google.com/o/oauth2/v2/auth?${params}`;
     }
 

@@ -167,6 +167,13 @@
         // Solo aceptamos mensajes del mismo origin
         if (event.origin !== window.location.origin) return;
         const data = event.data || {};
+        // Validar OAuth state (CSRF) antes de procesar token o code
+        if (data.type === 'oauth_token' || data.type === 'oauth_code') {
+            if (!validateOAuthState(data.provider, data.state)) {
+                console.warn(`OAuth state mismatch for ${data.provider} — rejecting (possible CSRF)`);
+                return;
+            }
+        }
         if (data.type === 'oauth_token') {
             handleOAuthToken(data);
         } else if (data.type === 'oauth_code') {
@@ -415,29 +422,45 @@
     }
 
     /**
-     * Handler unificado: recibe el trigger detectado y ejecuta TODAS las
-     * acciones configuradas para ese trigger via ActionEngine.
-     * Soporta tanto formato legacy (scenes[trigger] = name) como nuevo
-     * formato (triggerActions[trigger] = [...acciones]).
+     * Handler unificado: ejecuta acciones desde 3 posibles fuentes:
+     *  1) action.actions[] explícito (eventos directos de plataforma con multi-action config)
+     *  2) action.trigger → busca via config.getActionsForTrigger() (gestos del streamer)
+     *  3) action.scene fallback (legacy compat)
+     * Fix audit C-03: eventos directos sin .trigger ya NO se pierden.
+     * Fix audit C-04: combo triggers reciben actions del evento, no del gesto.
      */
     async function handleAction(action) {
-        if (!action.trigger) return;
-        const actions = config.getActionsForTrigger(action.trigger);
+        let actions = [];
+
+        if (Array.isArray(action.actions) && action.actions.length) {
+            // Multi-action explícito (vía eventTriggers config o combo trigger)
+            actions = action.actions;
+        } else if (action.trigger) {
+            // Gesto del streamer → buscar mapeo en config
+            actions = config.getActionsForTrigger(action.trigger);
+        } else if (action.scene) {
+            // Legacy: evento directo con solo scene
+            actions = [{ type: 'scene_switch', target: 'adapter', params: { sceneName: action.scene } }];
+        } else {
+            return; // nada que hacer
+        }
+
         if (!actions.length) {
-            DOM.currentPoseSub.textContent = `${action.label} (sin acciones)`;
+            DOM.currentPoseSub.textContent = `${action.label || '(sin label)'} (sin acciones)`;
             return;
         }
-        // Construir contexto del ActionEngine
+
         const ctx = {
             config,
             adapter: activeAdapter,
             platforms: activePlatforms,
-            i18n: window.i18n
+            i18n: window.i18n,
+            sourceEvent: action.sourceEvent || null
         };
         const engine = new ActionEngine(ctx);
         const results = await engine.execute(actions);
         const successCount = results.filter(r => r.success).length;
-        DOM.currentPoseSub.textContent = `${action.label} → ${successCount}/${actions.length} ✓`;
+        DOM.currentPoseSub.textContent = `${action.label || 'action'} → ${successCount}/${actions.length} ✓`;
     }
 
     // ====== Platform OAuth ======
@@ -489,19 +512,25 @@
 
     async function openOAuthPopup(provider, clientId) {
         const redirectUri = `${window.location.origin}${window.location.pathname.replace(/index\.html?$/, '')}oauth-callback.html`;
-        let authUrl;
 
+        // Fix audit H-02: state aleatorio único por sesión (CSRF protection)
+        // Formato: <provider>:<uuid>  para que el callback identifique el provider Y valide el nonce
+        const nonce = (crypto.randomUUID && crypto.randomUUID()) ||
+                      (Date.now().toString(36) + Math.random().toString(36).slice(2));
+        const state = `${provider}:${nonce}`;
+        sessionStorage.setItem(`oauth_state_${provider}`, state);
+
+        let authUrl;
         if (provider === 'twitch') {
             const platform = new PlatformTwitch();
-            authUrl = platform.oauthUrl(clientId, redirectUri) + '&state=twitch';
+            authUrl = platform.oauthUrl(clientId, redirectUri, state);
         } else if (provider === 'youtube') {
             const platform = new PlatformYouTube();
-            authUrl = platform.oauthUrl(clientId, redirectUri) + '&state=youtube';
+            authUrl = platform.oauthUrl(clientId, redirectUri, state);
         } else if (provider === 'kick') {
             const platform = new PlatformKick();
-            // Kick usa async + PKCE
             activePlatforms.kick = platform; // guardar para usar code_verifier después
-            authUrl = (await platform.oauthUrl(clientId, redirectUri)) + '&state=kick';
+            authUrl = await platform.oauthUrl(clientId, redirectUri, state);
         }
 
         if (!authUrl) return;
@@ -509,6 +538,18 @@
         if (!popup) {
             console.warn('Popup blocked. Allow popups for esperantai.com');
         }
+    }
+
+    /**
+     * Valida el state recibido del callback OAuth contra el guardado en sessionStorage.
+     * @returns {boolean} true si state es válido para ese provider
+     */
+    function validateOAuthState(provider, receivedState) {
+        const expected = sessionStorage.getItem(`oauth_state_${provider}`);
+        if (!expected || !receivedState) return false;
+        // Limpiar después de usar (one-time use)
+        sessionStorage.removeItem(`oauth_state_${provider}`);
+        return expected === receivedState;
     }
 
     async function handleOAuthToken(data) {
@@ -661,7 +702,7 @@ function showLicenseLockout() {
             </div>
 
             <p style="text-align: center; margin: 16px 0 0 0; font-size: 11px; color: #6e7681;">
-                © 2026 EdugameDigital · <a href="docs/EULA.html" style="color: #6e7681;">EULA</a> · <a href="docs/TERMS_OF_SERVICE.html" style="color: #6e7681;">ToS</a> · <a href="docs/PRIVACY.html" style="color: #6e7681;">Privacy</a> · <a href="docs/COOKIE_POLICY.html" style="color: #6e7681;">Cookies</a> · <a href="docs/THIRD_PARTY_LICENSES.html" style="color: #6e7681;">OSS</a>
+                © 2026 EdugameDigital · <a href="docs/EULA.html" style="color: #6e7681;">EULA</a> · <a href="docs/TERMS_OF_SERVICE.html" style="color: #6e7681;">ToS</a> · <a href="docs/PURCHASE_AND_LICENSE_TERMS.html" style="color: #6e7681;">Compra</a> · <a href="docs/REFUND_POLICY.html" style="color: #6e7681;">Reembolsos</a> · <a href="docs/PRIVACY.html" style="color: #6e7681;">Privacidad</a> · <a href="docs/COOKIE_POLICY.html" style="color: #6e7681;">Cookies</a> · <a href="docs/THIRD_PARTY_LICENSES.html" style="color: #6e7681;">Terceros</a>
             </p>
         </div>
     `;

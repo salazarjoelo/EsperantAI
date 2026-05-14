@@ -139,7 +139,7 @@
     "obs_unreachable": "Nie można połączyć z OBS. Sprawdź, czy OBS jest uruchomiony, a WebSocket włączony (Narzędzia → Ustawienia serwera WebSocket).",
     "obs_unreachable_short": "OBS niedostępny — Połącz ręcznie",
     "obs_wrong_password": "Nieprawidłowe hasło OBS WebSocket.",
-    "file_protocol_warning": "Uruchomiono z file://. Kamery mogą się nie wyświetlać. Użyj skryptu uruchamiającego z Pythonem lub uruchom „npx serve .".",
+    "file_protocol_warning": "Uruchomiono z file://. Kamery mogą się nie wyświetlać. Użyj skryptu uruchamiającego z Pythonem lub uruchom „npx serve .”.",
     "human_load_error": "Nie udało się załadować modelu AI. Sprawdź połączenie internetowe i odśwież stronę.",
     "import_error": "Błąd importu: {message}",
     "reset_confirm": "Usunąć WSZYSTKIE ustawienia i przywrócić domyślne?"

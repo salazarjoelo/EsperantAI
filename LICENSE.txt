@@ -1,0 +1,25 @@
+LICENCIA PROPIETARIA DE SOFTWARE — ESPERANTAI
+
+Titular/licenciante: [NOMBRE LEGAL / RAZÓN SOCIAL], RFC [RFC], con domicilio en [DOMICILIO], México.
+Producto: EsperantAI.
+Fecha de entrada en vigor: [FECHA].
+
+1. Reserva de derechos
+EsperantAI es software propietario. Salvo por los componentes de terceros identificados en los avisos correspondientes, todos los derechos de autor, marca, secretos industriales, know-how, código fuente, código objeto, diseño, documentación, nombres comerciales y demás derechos de propiedad intelectual pertenecen al titular o a sus licenciantes.
+
+2. Licencia limitada
+La adquisición de una licencia de EsperantAI concede al usuario final un derecho limitado, no exclusivo, no transferible, no sublicenciable y revocable para instalar y usar el software conforme al EULA aplicable, al plan adquirido y a los límites de activación autorizados.
+
+3. Restricciones
+Queda prohibido copiar, revender, sublicenciar, distribuir, publicar, modificar, adaptar, descompilar, realizar ingeniería inversa, eludir controles de licencia, remover avisos legales o usar el software para fines ilícitos, salvo en la medida en que una ley aplicable permita expresamente alguna actividad no renunciable.
+
+4. Componentes de terceros
+Los componentes open source o de terceros se rigen por sus propias licencias. La presente licencia no modifica ni restringe los derechos concedidos por dichas licencias de terceros. Consulta THIRD_PARTY_NOTICES_ES.html.
+
+5. Sin transferencia de propiedad
+La compra de EsperantAI no transfiere la propiedad del software. Sólo se concede una licencia de uso.
+
+6. Contacto legal
+Para solicitudes legales, de licenciamiento o propiedad intelectual: [CORREO LEGAL].
+
+© 2026 [NOMBRE LEGAL / RAZÓN SOCIAL]. Todos los derechos reservados.

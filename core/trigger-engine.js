@@ -190,21 +190,27 @@ class TriggerEngine {
         if (!cfg || !cfg.enabled) return null;
 
         if (cfg.requireGesture) {
-            // Agregar a lista de pendientes
+            // Cap anti-DoS: máximo 50 confirmaciones pendientes
+            if (this.pendingEventConfirmations.length >= TriggerEngine.MAX_PENDING_CONFIRMATIONS) {
+                // Drop el más viejo
+                this.pendingEventConfirmations.shift();
+            }
             this.pendingEventConfirmations.push({
                 eventType,
                 data,
                 requireGesture: cfg.requireGesture,
                 scene: cfg.scene,
+                actions: cfg.actions || null, // soporta multi-action en eventTrigger
                 expires: Date.now() + this.EVENT_CONFIRMATION_WINDOW
             });
             return { type: 'pending_confirmation', eventType, requireGesture: cfg.requireGesture };
         }
 
-        // Disparo directo
+        // Disparo directo — incluir actions explícitas si existen, escena si no
         return {
             type: 'action',
             scene: cfg.scene,
+            actions: cfg.actions || null,
             sourceEvent: { type: eventType, data },
             label: `event: ${eventType}`
         };
@@ -217,14 +223,15 @@ class TriggerEngine {
 
         for (let i = 0; i < this.pendingEventConfirmations.length; i++) {
             const pending = this.pendingEventConfirmations[i];
-            // Detectar el gesto requerido
             const handGesture = this._mapHandGesture(gestures.find(g => g.hand !== undefined) || {});
             if (handGesture === pending.requireGesture) {
                 this.pendingEventConfirmations.splice(i, 1);
+                // CRÍTICO: ejecutar acciones DEL EVENTO, no del gesto.
+                // El gesto solo es confirmación; la escena/acciones vienen del eventTrigger config.
                 return {
                     type: 'action',
-                    trigger: pending.requireGesture,
                     scene: pending.scene,
+                    actions: pending.actions,
                     sourceEvent: { type: pending.eventType, data: pending.data },
                     label: `${pending.eventType} confirmed by ${handGesture}`
                 };
@@ -248,5 +255,8 @@ class TriggerEngine {
         };
     }
 }
+
+// Cap anti-DoS para confirmaciones pendientes
+TriggerEngine.MAX_PENDING_CONFIRMATIONS = 50;
 
 window.TriggerEngine = TriggerEngine;
