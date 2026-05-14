@@ -94,6 +94,15 @@ class TriggerUIBuilder {
      * Renderiza el panel completo agrupado por categoría.
      */
     render() {
+        // Preserve open/closed state of details elements across re-renders
+        const openCategories = new Set();
+        if (this.container) {
+            this.container.querySelectorAll('details.tb-category[open]').forEach(d => {
+                const toggle = d.querySelector('[data-category-toggle]');
+                if (toggle) openCategories.add(toggle.dataset.categoryToggle);
+            });
+        }
+
         const enabled = this.config.get('enabled', {});
         const html = [];
 
@@ -123,7 +132,7 @@ class TriggerUIBuilder {
         for (const cat of categories) {
             const triggers = TRIGGER_CATALOG.filter(t => t.category === cat.id);
             const isEnabled = enabled[cat.id === 'head' ? 'head' : cat.id] === true;
-            html.push(this._renderCategory(cat, triggers, isEnabled));
+            html.push(this._renderCategory(cat, triggers, isEnabled, openCategories));
         }
 
         this.container.innerHTML = html.join('');
@@ -145,7 +154,7 @@ class TriggerUIBuilder {
         `;
     }
 
-    _renderCategory(cat, triggers, enabled) {
+    _renderCategory(cat, triggers, enabled, openCategories = null) {
         const label = this.i18n.t(cat.label_i18n);
         const universalBadge = cat.universal
             ? '<span class="tb-universal-marker tb-small">🌐</span>'
@@ -153,8 +162,9 @@ class TriggerUIBuilder {
 
         const rows = triggers.map(t => this._renderTriggerRow(t, enabled)).join('');
 
+        const shouldBeOpen = enabled || (openCategories && openCategories.has(cat.id));
         return `
-            <details class="tb-category" ${enabled ? 'open' : ''}>
+            <details class="tb-category" ${shouldBeOpen ? 'open' : ''}>
                 <summary>
                     <span class="tb-cat-emoji">${cat.emoji}</span>
                     <span class="tb-cat-label">${label}</span>

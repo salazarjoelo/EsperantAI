@@ -60,6 +60,9 @@ EsperantAI/                        ← (renombre futuro de Mira_Mira)
 ├── core/
 │   ├── detector.js                ← Wrapper de Human.js
 │   ├── trigger-engine.js          ← Sistema de triggers + cooldown
+│   ├── action-engine.js           ← Motor de ejecución de acciones
+│   ├── trigger-ui-builder.js      ← Panel visual de triggers
+│   ├── license-manager.js         ← LemonSqueezy License API
 │   ├── config-manager.js          ← localStorage + import/export
 │   └── i18n.js                    ← Sistema de traducciones
 │
@@ -283,23 +286,28 @@ Content-Security-Policy:
 
 ## Estados del desarrollo
 
-| Componente | Estado actual | Target |
+| Componente | Estado actual | Notas |
 |---|---|---|
-| Core detection (Human.js) | ✅ Funcional (Mira Mira v2) | v1.0 |
-| Adapter OBS | ✅ Funcional (en app.js monolítico) | Refactorizar a `adapter-obs.js` |
-| Trigger engine | ✅ Lógica existente | Refactorizar a `core/trigger-engine.js` |
-| i18n system | ❌ No existe | Crear v1.0 |
-| Adapter Streamlabs | ❌ No existe | v1.5 |
-| Adapter vMix | ❌ No existe | v1.5 |
-| Adapter PRISM | ❌ No existe | v1.5 (reusa OBS) |
-| Adapter XSplit | ❌ No existe | v3.5 |
-| Platform Twitch | ❌ No existe | v1.0 |
-| Platform YouTube | ❌ No existe | v2.0 |
-| Platform Kick | ❌ No existe | v3.5 |
-| Platform Trovo | ❌ No existe | v4.0 |
-| Platform StreamElements | ❌ No existe | v2.0 |
-| Hand gestures | ❌ Deshabilitado en Human config actual | v2.5 |
-| Combo triggers | ❌ No existe | v2.0 |
+| Core detection (Human.js) | ✅ Funcional | Detector con RAF loop |
+| Adapter OBS | ✅ Implementado | Con reconnect automático |
+| Adapter Streamlabs | ✅ Implementado | WebSocket local con token |
+| Adapter vMix | ✅ Implementado | HTTP REST polling |
+| Adapter PRISM | ✅ Implementado | Reusa adapter OBS |
+| Adapter XSplit | ⚙️ Beta | XJS Remote proxy |
+| Trigger engine | ✅ Implementado | 18+ triggers con cooldown |
+| Action engine | ✅ Implementado | 16 tipos de acción |
+| Trigger UI Builder | ✅ Implementado | Panel con universal/cultural badges |
+| i18n system | ✅ Implementado | 13 locales con auto-detect |
+| License manager | ✅ Implementado | LemonSqueezy License API |
+| Config manager | ✅ Implementado | localStorage + import/export |
+| Platform Twitch | ✅ Implementado | EventSub WebSocket directo |
+| Platform YouTube | ✅ Implementado | REST polling |
+| Platform Kick | ✅ Implementado | OAuth 2.1 PKCE + REST polling |
+| Platform Trovo | ✅ Implementado | Chat WebSocket |
+| Platform StreamElements | ✅ Implementado | Socket.IO bridge |
+| Hand gestures | ✅ Implementado | 7 gestos con cultural notes |
+| Combo triggers | ✅ Implementado | Evento + gesto = acción |
+| CSP headers | ✅ Implementado | Content-Security-Policy en HTML |
 
 ---
 

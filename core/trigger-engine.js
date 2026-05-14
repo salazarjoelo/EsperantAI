@@ -136,7 +136,7 @@ class TriggerEngine {
         if (text.includes('ok') || text.includes('o-sign')) return 'ok';
         if (text.includes('fist')) return 'fist';
         if (text.includes('open') && text.includes('palm')) return 'open-palm';
-        if (text.includes('point') || text.includes('index') && text.includes('up')) return 'point';
+        if ((text.includes('point') || text.includes('index')) && text.includes('up') && !text.includes('middle')) return 'point';
         return null;
     }
 

@@ -58,15 +58,22 @@ class LicenseManager {
     /**
      * Fingerprint del dispositivo para identificar instalación.
      */
-    _getDeviceFingerprint() {
+    async _getDeviceFingerprint() {
         const parts = [
             navigator.userAgent,
             navigator.language,
             navigator.platform,
             screen.width + 'x' + screen.height,
             new Date().getTimezoneOffset()
-        ];
-        return btoa(parts.join('|')).slice(0, 32);
+        ].join('|');
+        try {
+            const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(parts));
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
+        } catch {
+            // Fallback for insecure contexts
+            return btoa(parts).slice(0, 32);
+        }
     }
 
     /**
@@ -77,7 +84,7 @@ class LicenseManager {
         if (!licenseKey || licenseKey.length < 10) {
             return { ok: false, error: 'Invalid license key format' };
         }
-        const fingerprint = this._getDeviceFingerprint();
+        const fingerprint = await this._getDeviceFingerprint();
         try {
             const res = await fetch(`${LS_API_BASE}/licenses/activate`, {
                 method: 'POST',

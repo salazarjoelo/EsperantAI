@@ -60,6 +60,7 @@ class AdapterOBS extends AdapterBase {
         if (this.isConnecting) return false;
         this.isConnecting = true;
         this.manualDisconnect = false;
+        this._lastConfig = config;
 
         try {
             await this.obs.connect(config.url, config.password || undefined, { rpcVersion: 1 });
@@ -225,9 +226,9 @@ class AdapterOBS extends AdapterBase {
             return;
         }
 
-        // Reconexión con backoff
+        // Reconexión con backoff exponencial
         let attempt = 0;
-        const tryReconnect = () => {
+        const tryReconnect = async () => {
             if (this.connected || this.manualDisconnect) return;
             if (attempt >= this.maxReconnectAttempts) {
                 this.emit('reconnect_exhausted');
@@ -238,10 +239,15 @@ class AdapterOBS extends AdapterBase {
             const delay = Math.min(3000 * attempt, 15000);
             this.reconnectTimer = setTimeout(async () => {
                 if (this.manualDisconnect) return;
-                // Note: el último config se debe pasar desde el bootstrap. Para simplicidad,
-                // el core re-invoca connect() cuando recibe 'reconnect_exhausted' o cada attempt.
-                this.emit('reconnect_attempt', attempt);
-                tryReconnect();
+                try {
+                    await this.obs.connect(this._lastConfig?.url, this._lastConfig?.password || undefined, { rpcVersion: 1 });
+                    this.connected = true;
+                    await this._syncSceneList();
+                    this.emit('connected');
+                } catch (e) {
+                    this.emit('reconnect_attempt', attempt);
+                    tryReconnect();
+                }
             }, delay);
         };
         tryReconnect();

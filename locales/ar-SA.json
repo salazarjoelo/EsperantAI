@@ -1,15 +1,183 @@
 {
   "_meta": {
-    "language": "العربية",
+    "language": "العربية (المملكة العربية السعودية)",
     "code": "ar-SA",
     "rtl": true,
-    "completion": 0,
-    "translator": "TODO: native Arabic speaker review needed (RTL layout testing required)"
+    "completion": 100,
+    "translator": "AI-generated — needs native Arabic speaker review"
   },
   "app": {
     "title": "EsperantAI",
     "tagline": "إيماءات صادقة",
-    "subtitle": "وحدة تحكم AI عالمية بالإيماءات للبث المباشر"
+    "subtitle": "وحدة تحكم ذكاء اصطناعي عالمية بالإيماءات للبث المباشر"
   },
-  "_NOTE": "MENA region dominant on Kick. Arabic Twitch: 507 channels. RTL CSS required."
+  "status": {
+    "ai_loading": "جارٍ تحميل الذكاء الاصطناعي...",
+    "ai_ready": "الذكاء الاصطناعي جاهز",
+    "ai_error": "خطأ في الذكاء الاصطناعي",
+    "obs_disconnected": "OBS غير متصل",
+    "obs_connecting": "جارٍ الاتصال...",
+    "obs_connected": "OBS متصل",
+    "obs_reconnecting": "إعادة الاتصال ({attempt}/{max})...",
+    "detection_active": "الاكتشاف نشط",
+    "detection_paused": "متوقف مؤقتاً",
+    "searching_face": "البحث عن وجه..."
+  },
+  "ui": {
+    "camera_detector": "كاميرا الكاشف",
+    "select_camera": "الكاميرا التي تتتبع وجهك:",
+    "connection": "الاتصال",
+    "url": "الرابط",
+    "password": "كلمة المرور",
+    "password_placeholder": "اتركه فارغاً إن لم يكن هناك",
+    "connect": "اتصل",
+    "disconnect": "اقطع الاتصال",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "reset": "إعادة تعيين",
+    "import": "استيراد",
+    "export": "تصدير",
+    "advanced": "متقدم",
+    "sensitivity": "الحساسية",
+    "triggers": "المحفزات",
+    "platform_events": "أحداث المنصة",
+    "enable": "تفعيل"
+  },
+  "triggers": {
+    "universality_title": "عالمية الإيماءة",
+    "universal_label": "عالمي",
+    "universal_desc": "نفس المعنى في أي ثقافة (إيكمان 1972 — المشاعر الأساسية، دوران الرأس، نظرة العين)",
+    "cultural_label": "ثقافي",
+    "cultural_desc": "المعنى قد يختلف حسب البلد/الثقافة (إيماءات اليد)",
+    "connect_first": "اتصل بتطبيق البث الخاص بك أولاً",
+    "connect_first_hint": "ستظهر المشاهد الحقيقية في القوائم المنسدلة تلقائياً بمجرد الاتصال."
+  },
+  "scenes": {
+    "center": "المنتصف (افتراضي)",
+    "left": "انظر لليسار",
+    "right": "انظر لليمين",
+    "up": "انظر لأعلى",
+    "down": "انظر لأسفل",
+    "tilt_left": "إمالة لليسار (دوران)",
+    "tilt_right": "إمالة لليمين (دوران)",
+    "near": "اقترب",
+    "far": "ابتعد",
+    "gaze_left": "عينان لليسار",
+    "gaze_right": "عينان لليمين",
+    "gaze_up": "عينان لأعلى",
+    "gaze_down": "عينان لأسفل",
+    "happy": "ابتسامة",
+    "surprise": "متفاجئ",
+    "angry": "غاضب",
+    "neutral": "محايد",
+    "blink": "رمشة مزدوجة",
+    "thumbs_up": "إبهام لأعلى",
+    "peace": "علامة السلام",
+    "rock": "علامة الروك",
+    "ok": "علامة الموافقة",
+    "fist": "قبضة مغلقة",
+    "open_palm": "كف مفتوح",
+    "point": "إشارة",
+    "scene_unassigned": "— (معطّل) —"
+  },
+  "categories": {
+    "head_rotation": "دوران الرأس",
+    "distance": "مسافة الوجه",
+    "gaze": "تتبع النظرة",
+    "emotion": "المشاعر",
+    "blink": "رمشة مزدوجة",
+    "hand_gestures": "إيماءات اليد"
+  },
+  "categories_enable": {
+    "head": "تفعيل اكتشاف دوران الرأس",
+    "distance": "تفعيل اكتشاف المسافة",
+    "gaze": "تفعيل تتبع النظرة",
+    "emotion": "تفعيل اكتشاف المشاعر",
+    "blink": "تفعيل اختصار الرمشة المزدوجة",
+    "hand": "تفعيل اكتشاف إيماءات اليد"
+  },
+  "sensitivity": {
+    "yaw": "الانحراف (دوران جانبي)",
+    "pitch_up": "الميل لأعلى",
+    "pitch_down": "الميل لأسفل",
+    "roll": "الدوران (إمالة)",
+    "near": "قريب (بكسل)",
+    "far": "بعيد (بكسل)",
+    "gaze_bearing": "اتجاه النظرة (راديان)",
+    "gaze_strength": "الحد الأدنى لقوة النظرة",
+    "emotion_confidence": "الحد الأدنى لثقة المشاعر",
+    "stable_frames": "إطارات مستقرة",
+    "cooldown_ms": "فترة التهدئة (مللي ثانية)"
+  },
+  "metrics": {
+    "yaw_label": "الانحراف (←/→)",
+    "pitch_label": "الميل (↑/↓)",
+    "roll_label": "الدوران (إمالة)",
+    "distance_label": "المسافة",
+    "gaze_label": "النظرة",
+    "emotion_label": "المشاعر"
+  },
+  "advanced": {
+    "studio_mode": "وضع الاستوديو",
+    "use_preview": "استخدام المعاينة + الانتقال في وضع الاستوديو",
+    "studio_mode_hint": "إذا لم يتم التحديد، يتم تبديل المشهد مباشرة إلى البرنامج. إذا تم التحديد، يتم تعيين المعاينة أولاً ثم تشغيل الانتقال المُعد في OBS.",
+    "persistence": "الثبات",
+    "save_password": "تذكر كلمة مرور OBS (احذر على الأجهزة المشتركة!)",
+    "export_config": "تصدير الإعدادات",
+    "import_config": "استيراد الإعدادات",
+    "reset_config": "إعادة تعيين الكل",
+    "persistence_hint": "يتم حفظ جميع الإعدادات تلقائياً في التخزين المحلي.",
+    "keyboard_shortcuts": "اختصارات لوحة المفاتيح",
+    "kbd_space": "إيقاف مؤقت / استئناف الاكتشاف",
+    "kbd_c": "الانتقال يدوياً إلى مشهد المنتصف",
+    "kbd_r": "إعادة تحميل قائمة المشاهد من تطبيق البث",
+    "kbd_esc": "قطع الاتصال"
+  },
+  "errors": {
+    "camera_denied": "تم رفض الوصول إلى الكاميرا. يرجى السماح بالكاميرا في إعدادات المتصفح.",
+    "camera_error": "خطأ في الكاميرا: {message}",
+    "obs_unreachable": "لا يمكن الاتصال بـ OBS. تأكد من أن OBS قيد التشغيل وWebSocket مفعّل (الأدوات → إعدادات خادم WebSocket).",
+    "obs_unreachable_short": "OBS غير متاح — اتصل يدوياً",
+    "obs_wrong_password": "كلمة مرور OBS WebSocket خاطئة.",
+    "file_protocol_warning": "التشغيل من file://. قد لا تظهر الكاميرات. استخدم برنامج التشغيل مع Python، أو شغّل 'npx serve .'",
+    "human_load_error": "تعذر تحميل نموذج الذكاء الاصطناعي. تحقق من اتصالك بالإنترنت وأعد التحميل.",
+    "import_error": "خطأ في الاستيراد: {message}",
+    "reset_confirm": "حذف جميع الإعدادات وإعادة التعيين إلى الوضع الافتراضي؟"
+  },
+  "hints": {
+    "scene_mapping_hint": "حدد مشهد OBS الذي يتم تفعيله مع كل إيماءة. اتصل بـ OBS أولاً لتظهر المشاهد الحقيقية.",
+    "head_priority_hint": "دوران الرأس له الأولوية القصوى. إذا تحرك رأسك، يتم تجاهل النظرة والمسافة.",
+    "gaze_hint": "يتم التفعيل فقط عندما يكون رأسك في المنتصف. إذا تحرك الرأس أيضاً، يتفوق الرأس.",
+    "distance_hint": "يقيس مدى قرب وجهك. يتم التفعيل فقط عندما يكون الرأس في المنتصف.",
+    "emotion_hint": "يجب أن تكون المشاعر مستقرة بثقة عالية. فترة تهدئة ثانيتين بين تغييرات المشاعر.",
+    "blink_hint": "الرمشة المزدوجة = أغمض عينيك بسرعة مرتين (خلال 700 مللي ثانية). فترة تهدئة ثانية واحدة.",
+    "hand_hint": "اكتشاف إيماءات اليد. الإيماءات المكتشفة: إبهام لأعلى، سلام، روك، موافقة، قبضة، كف مفتوح، إشارة.",
+    "platform_hint": "اتصل بمنصات البث لتفعيل إجراءات عند الأحداث: التبرعات، الاشتراكات، الغارات، نقاط القناة."
+  },
+  "platforms": {
+    "twitch": "Twitch",
+    "youtube": "YouTube Live",
+    "kick": "Kick",
+    "trovo": "Trovo",
+    "streamelements": "StreamElements (جسر متعدد المنصات)",
+    "facebook": "Facebook Gaming",
+    "events": {
+      "sub": "اشتراك جديد",
+      "resub": "إعادة اشتراك",
+      "gift_sub": "هدية اشتراك",
+      "follow": "متابع جديد",
+      "donation": "تبرع",
+      "raid": "غارة مستلمة",
+      "cheer_bits": "بتات / تشجيع",
+      "channel_points": "استرداد نقاط القناة",
+      "super_chat": "سوبر تشات (YouTube)",
+      "gift": "هدية (TikTok / SOOP)",
+      "member_milestone": "إنجاز عضوية"
+    }
+  },
+  "diagnostic": {
+    "video_info": "فيديو={width}x{height} · المحرك={backend} · اكتشاف={ms}مللي ثانية · إطارات={count}",
+    "silent_mode_on": "الوضع الصامت نشط. تسجيل الأحداث والأخطاء فقط.",
+    "verbose_mode_on": "الوضع التفصيلي نشط: {frames} إطارات بدون وجه."
+  }
 }

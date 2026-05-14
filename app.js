@@ -8,7 +8,11 @@
 (async function bootstrap() {
 
     // ====== 1. i18n ======
-    await window.i18n.load();
+    try {
+        await window.i18n.load();
+    } catch (e) {
+        console.warn('i18n load failed, using fallback:', e);
+    }
     window.i18n.applyToDom();
     populateLangSelector();
 
@@ -275,6 +279,13 @@
                 <label>Port</label>
                 <input type="text" id="adapter-port" value="${cur.port || 8088}">
             `;
+        } else if (type === 'xsplit') {
+            const cur = config.get('adapter.xsplit', {});
+            area.innerHTML = `
+                <label>Remote xjs Proxy URL</label>
+                <input type="text" id="adapter-proxy-url" value="${cur.proxyUrl || 'ws://127.0.0.1:5555/xjs'}">
+                <div class="hint" data-i18n="hints.xsplit_hint">Install "Remote xjs" extension in XSplit and enable Remote in preferences.</div>
+            `;
         }
     }
 
@@ -307,6 +318,13 @@
             config.set('adapter.vmix.port', port);
             wireAdapterEvents();
             const ok = await activeAdapter.connect({ host, port });
+            if (!ok) setStatusBadge(DOM.statusAdapter, 'err', 'errors.obs_unreachable_short');
+        } else if (type === 'xsplit') {
+            activeAdapter = new AdapterXSplit();
+            const proxyUrl = document.getElementById('adapter-proxy-url').value;
+            config.set('adapter.xsplit.proxyUrl', proxyUrl);
+            wireAdapterEvents();
+            const ok = await activeAdapter.connect({ proxyUrl });
             if (!ok) setStatusBadge(DOM.statusAdapter, 'err', 'errors.obs_unreachable_short');
         }
     }
@@ -643,7 +661,7 @@ function showLicenseLockout() {
             </div>
 
             <p style="text-align: center; margin: 16px 0 0 0; font-size: 11px; color: #6e7681;">
-                © 2026 EdugameDigital · <a href="docs/EULA.html" style="color: #6e7681;">EULA</a> · <a href="docs/PRIVACY.html" style="color: #6e7681;">Privacy</a>
+                © 2026 EdugameDigital · <a href="docs/EULA.html" style="color: #6e7681;">EULA</a> · <a href="docs/TERMS_OF_SERVICE.html" style="color: #6e7681;">ToS</a> · <a href="docs/PRIVACY.html" style="color: #6e7681;">Privacy</a> · <a href="docs/COOKIE_POLICY.html" style="color: #6e7681;">Cookies</a> · <a href="docs/THIRD_PARTY_LICENSES.html" style="color: #6e7681;">OSS</a>
             </p>
         </div>
     `;

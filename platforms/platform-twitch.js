@@ -231,10 +231,16 @@ class PlatformTwitch extends PlatformBase {
 
     _reconnect(newUrl) {
         const oldWs = this.ws;
+        this.sessionId = null;
         this.ws = new WebSocket(newUrl);
-        this.ws.onmessage = (event) => this._handleMessage(JSON.parse(event.data));
         this.ws.onopen = () => {
             try { oldWs.close(); } catch { /* ignore */ }
+        };
+        this.ws.onmessage = (event) => this._handleMessage(JSON.parse(event.data));
+        this.ws.onerror = (err) => this.emit('error', err);
+        this.ws.onclose = () => {
+            this.connected = false;
+            this.emit('disconnected');
         };
     }
 

@@ -1,15 +1,183 @@
 {
   "_meta": {
-    "language": "Français",
+    "language": "Français (France)",
     "code": "fr-FR",
     "rtl": false,
-    "completion": 0,
-    "translator": "TODO: native fr-FR speaker review needed"
+    "completion": 100,
+    "translator": "AI-generated — needs native French speaker review"
   },
   "app": {
     "title": "EsperantAI",
     "tagline": "Gestes honnêtes.",
     "subtitle": "Contrôleur AI universel par gestes pour streamers"
   },
-  "_NOTE": "This file needs full translation. Use locales/en-US.json as reference."
+  "status": {
+    "ai_loading": "Chargement de l'IA...",
+    "ai_ready": "IA prête",
+    "ai_error": "Erreur IA",
+    "obs_disconnected": "OBS déconnecté",
+    "obs_connecting": "Connexion...",
+    "obs_connected": "OBS connecté",
+    "obs_reconnecting": "Reconnexion ({attempt}/{max})...",
+    "detection_active": "Détection active",
+    "detection_paused": "En pause",
+    "searching_face": "Recherche de visage..."
+  },
+  "ui": {
+    "camera_detector": "Caméra de détection",
+    "select_camera": "Caméra suivant votre visage :",
+    "connection": "Connexion",
+    "url": "URL",
+    "password": "Mot de passe",
+    "password_placeholder": "Laisser vide si aucun",
+    "connect": "Connexion",
+    "disconnect": "Déconnexion",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "reset": "Réinitialiser",
+    "import": "Importer",
+    "export": "Exporter",
+    "advanced": "Avancé",
+    "sensitivity": "Sensibilité",
+    "triggers": "Déclencheurs",
+    "platform_events": "Événements de plateforme",
+    "enable": "Activer"
+  },
+  "triggers": {
+    "universality_title": "Universalité des gestes",
+    "universal_label": "Universel",
+    "universal_desc": "même signification dans toute culture (Ekman 1972 — émotions de base, rotation de la tête, regard)",
+    "cultural_label": "Culturel",
+    "cultural_desc": "la signification peut varier selon le pays/la culture (gestes de la main)",
+    "connect_first": "Connectez d'abord votre application de streaming",
+    "connect_first_hint": "Les scènes réelles apparaîtront automatiquement dans les menus déroulants une fois connecté."
+  },
+  "scenes": {
+    "center": "Centre (par défaut)",
+    "left": "Regarder à gauche",
+    "right": "Regarder à droite",
+    "up": "Regarder en haut",
+    "down": "Regarder en bas",
+    "tilt_left": "Inclinaison gauche (roulis)",
+    "tilt_right": "Inclinaison droite (roulis)",
+    "near": "Se rapprocher",
+    "far": "S'éloigner",
+    "gaze_left": "Yeux à gauche",
+    "gaze_right": "Yeux à droite",
+    "gaze_up": "Yeux en haut",
+    "gaze_down": "Yeux en bas",
+    "happy": "Sourire",
+    "surprise": "Surpris",
+    "angry": "En colère",
+    "neutral": "Neutre",
+    "blink": "Double clin d'œil",
+    "thumbs_up": "Pouce en l'air",
+    "peace": "Signe de paix",
+    "rock": "Signe rock",
+    "ok": "Signe OK",
+    "fist": "Poing fermé",
+    "open_palm": "Paume ouverte",
+    "point": "Pointer",
+    "scene_unassigned": "— (désactivé) —"
+  },
+  "categories": {
+    "head_rotation": "Rotation de la tête",
+    "distance": "Distance du visage",
+    "gaze": "Suivi du regard",
+    "emotion": "Émotions",
+    "blink": "Double clin d'œil",
+    "hand_gestures": "Gestes de la main"
+  },
+  "categories_enable": {
+    "head": "Activer la détection de rotation de la tête",
+    "distance": "Activer la détection de distance",
+    "gaze": "Activer le suivi du regard",
+    "emotion": "Activer la détection d'émotions",
+    "blink": "Activer le raccourci double clin d'œil",
+    "hand": "Activer la détection de gestes de la main"
+  },
+  "sensitivity": {
+    "yaw": "Lacet (rotation latérale)",
+    "pitch_up": "Tangage haut",
+    "pitch_down": "Tangage bas",
+    "roll": "Roulis (inclinaison)",
+    "near": "Proche (px)",
+    "far": "Loin (px)",
+    "gaze_bearing": "Direction du regard (rad)",
+    "gaze_strength": "Intensité minimale du regard",
+    "emotion_confidence": "Confiance minimale d'émotion",
+    "stable_frames": "Images stables",
+    "cooldown_ms": "Refroidissement (ms)"
+  },
+  "metrics": {
+    "yaw_label": "Lacet (←/→)",
+    "pitch_label": "Tangage (↑/↓)",
+    "roll_label": "Roulis (inclinaison)",
+    "distance_label": "Distance",
+    "gaze_label": "Regard",
+    "emotion_label": "Émotion"
+  },
+  "advanced": {
+    "studio_mode": "Mode Studio",
+    "use_preview": "Utiliser Aperçu + Transition en Mode Studio",
+    "studio_mode_hint": "Si décoché, la scène bascule directement vers le Programme. Si coché, définit d'abord l'Aperçu puis déclenche la transition OBS configurée.",
+    "persistence": "Persistance",
+    "save_password": "Mémoriser le mot de passe OBS (attention sur les ordinateurs partagés !)",
+    "export_config": "Exporter la configuration",
+    "import_config": "Importer la configuration",
+    "reset_config": "Tout réinitialiser",
+    "persistence_hint": "Tous les paramètres sont automatiquement enregistrés dans localStorage.",
+    "keyboard_shortcuts": "Raccourcis clavier",
+    "kbd_space": "Suspendre / Reprendre la détection",
+    "kbd_c": "Aller manuellement à la scène CENTRE",
+    "kbd_r": "Recharger la liste des scènes depuis l'application de streaming",
+    "kbd_esc": "Se déconnecter"
+  },
+  "errors": {
+    "camera_denied": "Accès à la caméra refusé. Veuillez autoriser la caméra dans les paramètres du navigateur.",
+    "camera_error": "Erreur caméra : {message}",
+    "obs_unreachable": "Impossible de se connecter à OBS. Vérifiez qu'OBS est en cours d'exécution et que WebSocket est activé (Outils → Paramètres du serveur WebSocket).",
+    "obs_unreachable_short": "OBS inaccessible — Connexion manuelle",
+    "obs_wrong_password": "Mot de passe WebSocket OBS incorrect.",
+    "file_protocol_warning": "Exécution depuis file://. Les caméras peuvent ne pas apparaître. Utilisez le script de lancement avec Python, ou exécutez 'npx serve .'",
+    "human_load_error": "Impossible de charger le modèle IA. Vérifiez votre connexion Internet et rechargez.",
+    "import_error": "Erreur d'importation : {message}",
+    "reset_confirm": "Supprimer TOUS les paramètres et réinitialiser les valeurs par défaut ?"
+  },
+  "hints": {
+    "scene_mapping_hint": "Sélectionnez la scène OBS qui s'active avec chaque geste. Connectez-vous d'abord à OBS pour que les scènes réelles apparaissent.",
+    "head_priority_hint": "La rotation de la tête a la priorité la plus élevée. Si votre tête bouge, le regard et la distance sont ignorés.",
+    "gaze_hint": "Ne s'active que lorsque votre tête est centrée. Si la tête bouge aussi, la tête gagne.",
+    "distance_hint": "Mesure la proximité de votre visage. Ne se déclenche que lorsque la tête est centrée.",
+    "emotion_hint": "L'émotion doit être stable avec une confiance élevée. Refroidissement de 2 secondes entre les changements d'émotion.",
+    "blink_hint": "Double clin d'œil = fermer les deux yeux rapidement deux fois (en moins de 700 ms). Refroidissement de 1 seconde.",
+    "hand_hint": "Détection de gestes de la main. Gestes détectés : pouce en l'air, paix, rock, OK, poing, paume ouverte, pointer.",
+    "platform_hint": "Connectez-vous aux plateformes de streaming pour déclencher des actions lors d'événements : dons, abonnements, raids, points de chaîne."
+  },
+  "platforms": {
+    "twitch": "Twitch",
+    "youtube": "YouTube Live",
+    "kick": "Kick",
+    "trovo": "Trovo",
+    "streamelements": "StreamElements (pont multi-plateforme)",
+    "facebook": "Facebook Gaming",
+    "events": {
+      "sub": "Nouvel abonnement",
+      "resub": "Réabonnement",
+      "gift_sub": "Abonnement offert",
+      "follow": "Nouveau follower",
+      "donation": "Don",
+      "raid": "Raid reçu",
+      "cheer_bits": "Bits / Cheer",
+      "channel_points": "Échange de points de chaîne",
+      "super_chat": "Super Chat (YouTube)",
+      "gift": "Cadeau (TikTok / SOOP)",
+      "member_milestone": "Jalon de membre"
+    }
+  },
+  "diagnostic": {
+    "video_info": "vidéo={width}x{height} · moteur={backend} · détection={ms}ms · images={count}",
+    "silent_mode_on": "Mode silencieux actif. Journalisation des événements et erreurs uniquement.",
+    "verbose_mode_on": "Mode verbeux actif : {frames} images sans visage."
+  }
 }

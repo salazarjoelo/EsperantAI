@@ -133,9 +133,11 @@ class Detector {
      * @param {Function} onFrame (result, framesSinceFace, ms) => void
      */
     startLoop(onFrame) {
+        let running = true;
         const loop = async () => {
+            if (!running) return;
             if (this.videoElement.paused || this.videoElement.ended || this.isPaused) {
-                setTimeout(loop, 100);
+                setTimeout(() => requestAnimationFrame(loop), 100);
                 return;
             }
             let result;
@@ -145,15 +147,17 @@ class Detector {
                 this._logIfVerbose(result);
             } catch (e) {
                 console.error('human.detect error:', e);
-                setTimeout(loop, 100);
+                setTimeout(() => requestAnimationFrame(loop), 100);
                 return;
             }
             this.ctx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
             try { this.human.draw.face(this.canvasElement, result.face || []); } catch {}
             onFrame(result, this.frameCount);
-            setTimeout(loop, 30);
+            requestAnimationFrame(loop);
         };
-        loop();
+        requestAnimationFrame(loop);
+        // Return stop function
+        return () => { running = false; };
     }
 
     _logIfVerbose(result) {

@@ -131,11 +131,14 @@ class PlatformYouTube extends PlatformBase {
             }
             const data = await res.json();
             this.nextPageToken = data.nextPageToken;
-            this.pollMs = Math.max(data.pollingIntervalMillis || 5000, 3000);
+            const newPollMs = Math.max(data.pollingIntervalMillis || 5000, 3000);
 
-            // Reset interval con el delay sugerido por YouTube
-            this._stopPolling();
-            this.pollInterval = setInterval(() => this._pollChat(), this.pollMs);
+            // Solo resetear el intervalo si el delay sugerido por YouTube cambió significativamente
+            if (Math.abs(newPollMs - this.pollMs) > 500) {
+                this.pollMs = newPollMs;
+                this._stopPolling();
+                this.pollInterval = setInterval(() => this._pollChat(), this.pollMs);
+            }
 
             for (const msg of data.items || []) {
                 if (this.seenMessageIds.has(msg.id)) continue;
