@@ -3,7 +3,8 @@
     "language": "中文(简体)",
     "code": "zh-CN",
     "rtl": false,
-    "completion": 100,
+    "completion": 194,
+    "note": "v2.0 — gassho key added per Joel decision 2026-05-14",
     "translator": "AI-generated — needs native Simplified Chinese speaker review"
   },
   "app": {
@@ -78,6 +79,7 @@
     "fist": "握拳",
     "open_palm": "张开手掌",
     "point": "指向",
+    "gassho": "合十（感谢）",
     "scene_unassigned": "—（已禁用）—"
   },
   "categories": {
@@ -107,7 +109,11 @@
     "gaze_strength": "最小视线强度",
     "emotion_confidence": "最小情绪置信度",
     "stable_frames": "稳定帧数",
-    "cooldown_ms": "冷却时间（毫秒）"
+    "cooldown_ms": "冷却时间（毫秒）",
+    "dead_zone_yaw": "偏航死区",
+    "dead_zone_pitch": "俯仰死区",
+    "dead_zone_roll": "翻滚死区",
+    "return_to_center": "回中延迟（毫秒）"
   },
   "metrics": {
     "yaw_label": "偏航（←/→）",
@@ -151,7 +157,7 @@
     "distance_hint": "测量面部距离的远近。仅在头部居中时触发。",
     "emotion_hint": "情绪必须在高置信度下保持稳定。情绪变化之间有 2 秒冷却时间。",
     "blink_hint": "双眨眼 = 快速闭眼两次（700 毫秒内）。1 秒冷却时间。",
-    "hand_hint": "手势检测。可检测手势：竖大拇指、比耶、摇滚、OK、握拳、张开手掌、指向。",
+    "hand_hint": "手势检测。可检测手势：竖大拇指、比耶、摇滚、OK、握拳、张开手掌、指向、合十。",
     "platform_hint": "连接直播平台以在事件发生时触发操作：打赏、订阅、突袭、频道积分。"
   },
   "platforms": {
@@ -179,5 +185,58 @@
     "video_info": "视频={width}x{height} · 后端={backend} · 检测={ms}ms · 帧数={count}",
     "silent_mode_on": "静默模式已激活。仅记录事件和错误。",
     "verbose_mode_on": "详细模式已激活：{frames} 帧未检测到人脸。"
+  },
+  "history": {
+    "title": "触发历史",
+    "clear": "清除",
+    "export_csv": "导出 CSV",
+    "no_triggers": "暂无触发记录。",
+    "source_gesture": "手势",
+    "source_platform": "平台",
+    "source_combo": "组合"
+  },
+  "license": {
+    "required_title": "需要激活",
+    "required_desc": "EsperantAI 需要有效的许可证才能运行。如果已经购买，请在下方粘贴您的许可证密钥。否则，请访问 esperantai.com 获取。",
+    "key_label": "许可证密钥",
+    "activate_button": "激活许可证",
+    "no_license": "还没有许可证？",
+    "buy_button": "获取 EsperantAI",
+    "upgrade_hint": "升级以获得更多触发器和功能",
+    "tier_free": "免费版",
+    "tier_pro": "专业版",
+    "tier_pro_plus": "专业加强版 导演",
+    "feature_locked": "{tier} 版本可用",
+    "triggers_remaining": "已使用 {count}/{max} 个触发器（{tier} 版本）"
+  },
+  "actions": {
+    "scene_switch": "切换场景",
+    "source_visibility": "切换源可见性",
+    "source_filter_toggle": "切换源滤镜",
+    "audio_mute": "静音/取消静音",
+    "source_transform": "变换源（移动/缩放/旋转）",
+    "source_crop": "裁剪源",
+    "recording_start": "开始录制",
+    "recording_stop": "停止录制",
+    "play_sound": "播放声音",
+    "speak_tts": "文本转语音",
+    "notification": "浏览器通知",
+    "flash_screen": "闪烁屏幕",
+    "vibrate": "振动",
+    "chat_message": "发送聊天消息",
+    "create_clip": "创建剪辑",
+    "sequence": "运行序列",
+    "random_choice": "随机动作",
+    "delay_then": "延迟动作"
+  },
+  "profiles": {
+    "label": "配置文件：",
+    "save": "保存",
+    "new": "新建",
+    "delete": "删除",
+    "new_name": "配置文件名称：",
+    "switch_confirm": "切换配置文件？当前设置将先保存。",
+    "delete_confirm": "删除此配置文件？",
+    "cannot_delete_default": "无法删除默认配置文件。"
   }
 }
