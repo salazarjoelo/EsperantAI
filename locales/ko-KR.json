@@ -78,7 +78,8 @@
     "fist": "주먹 쥐기",
     "open_palm": "손바닥 펼치기",
     "point": "손가락 가리키기",
-    "scene_unassigned": "— (비활성) —"
+    "scene_unassigned": "— (비활성) —",
+    "gassho": "합장 (감사)"
   },
   "categories": {
     "head_rotation": "머리 회전",

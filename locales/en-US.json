@@ -81,7 +81,8 @@
     "fist": "Closed Fist",
     "open_palm": "Open Palm",
     "point": "Pointing",
-    "scene_unassigned": "— (disabled) —"
+    "scene_unassigned": "— (disabled) —",
+    "gassho": "Gassho / Prayer Hands"
   },
   "categories": {
     "head_rotation": "Head Rotation",

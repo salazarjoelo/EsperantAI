@@ -53,13 +53,19 @@ const TRIGGER_CATALOG = [
     { key: 'blink',      category: 'blink',    universal: true,  icon: '😉😉', i18n: 'scenes.blink',     requires: 'blink' },
 
     // ========== HAND GESTURES (CULTURAL — pueden variar de significado) ==========
-    { key: 'thumbs-up',  category: 'hand',     universal: false, icon: '👍',  i18n: 'scenes.thumbs_up',  requires: 'hand', culturalNote: 'En Medio Oriente / Asia Occidental puede ser ofensivo. En Occidente = aprobación.' },
-    { key: 'peace',      category: 'hand',     universal: false, icon: '✌️',  i18n: 'scenes.peace',      requires: 'hand', culturalNote: 'En Reino Unido / Irlanda / Australia con palma hacia adentro = ofensa. Hacia afuera = paz/victoria.' },
-    { key: 'rock',       category: 'hand',     universal: false, icon: '🤘',  i18n: 'scenes.rock',       requires: 'hand', culturalNote: 'En Italia con palma hacia abajo = "los cuernos" (insulto). Hacia arriba = rock metal.' },
-    { key: 'ok',         category: 'hand',     universal: false, icon: '👌',  i18n: 'scenes.ok',         requires: 'hand', culturalNote: 'En Brasil / Turquía / Alemania puede ser ofensivo. En USA = OK.' },
-    { key: 'fist',       category: 'hand',     universal: false, icon: '✊',  i18n: 'scenes.fist',       requires: 'hand', culturalNote: 'Significado político variable según contexto.' },
-    { key: 'open-palm',  category: 'hand',     universal: false, icon: '🖐️',  i18n: 'scenes.open_palm',  requires: 'hand', culturalNote: 'En Grecia (mountza) hacia alguien = ofensa fuerte. Generalmente "stop" en otros lados.' },
-    { key: 'point',      category: 'hand',     universal: false, icon: '☝️',  i18n: 'scenes.point',      requires: 'hand', culturalNote: 'Apuntar con el dedo se considera grosero en muchas culturas asiáticas.' }
+    // culturalNote actualizado 2026-05-14 con propuesta de Z/GLM-4
+    // (CULTURAL_GESTURE_REVIEW.md secciones 2.2 y 5)
+    { key: 'thumbs-up',  category: 'hand',     universal: false, icon: '👍',  i18n: 'scenes.thumbs_up',  requires: 'hand', culturalNote: 'Occidente / LatAm: aprobación. Medio Oriente / Asia Occidental: puede ser ofensivo. China / Japón: positivo aunque menos común; en JP los streamers prefieren 🙏 gassho para agradecer donaciones. Korea: positivo.' },
+    { key: 'peace',      category: 'hand',     universal: false, icon: '✌️',  i18n: 'scenes.peace',      requires: 'hand', culturalNote: 'Japón / China / Taiwan / Korea: SAFE — gesto MUY común en fotos y streams. UK / Irlanda / Australia con palma hacia adentro = insulto. Hacia afuera = paz/victoria.' },
+    { key: 'rock',       category: 'hand',     universal: false, icon: '🤘',  i18n: 'scenes.rock',       requires: 'hand', culturalNote: 'Italia / España / partes de LatAm con palma hacia abajo = "cornudo" (insulto). Hacia arriba = rock metal. CJK: generalmente safe pero menos común.' },
+    { key: 'ok',         category: 'hand',     universal: false, icon: '👌',  i18n: 'scenes.ok',         requires: 'hand', culturalNote: 'Japón / Korea: significa "dinero" / "moneda" — IDEAL para triggers de monetización (donaciones, tips). USA: OK. Brasil / Turquía / Alemania / Francia: ofensivo. Korea reciente: contexto político problemático.' },
+    { key: 'fist',       category: 'hand',     universal: false, icon: '✊',  i18n: 'scenes.fist',       requires: 'hand', culturalNote: 'Significado político variable según contexto. CJK: generalmente neutral. Evitar en streams con audiencia mixta política.' },
+    { key: 'open-palm',  category: 'hand',     universal: false, icon: '🖐️',  i18n: 'scenes.open_palm',  requires: 'hand', culturalNote: 'Grecia (mountza) hacia alguien = ofensa fuerte. Korea hacia una persona = equivalente al dedo medio (deshabilitar por defecto en ko-KR cuando se active). Generalmente "stop" en otros lados.' },
+    { key: 'point',      category: 'hand',     universal: false, icon: '☝️',  i18n: 'scenes.point',      requires: 'hand', culturalNote: 'EXTREMADAMENTE ofensivo en CJK (China / Korea / Japón / Taiwan / Singapur) — apuntar con el índice a personas se enseña como tabú desde la infancia. También ofensivo en Medio Oriente / Malasia / Indonesia. Occidente: aceptable para objetos, grosero para personas. NO usar para triggers de monetización.' },
+
+    // 🙏 Gassho — TASK-208 aprobado Joel 2026-05-14
+    // Detección via core/gesture-gassho.js (heurística landmarks Human.js, ~85% accuracy)
+    { key: 'gassho',     category: 'hand',     universal: false, icon: '🙏',  i18n: 'scenes.gassho',     requires: 'hand', culturalNote: 'Japón / China / Taiwan / Korea: THE courtesy gesture — significa "gracias", "por favor", "perdón" y respeto (合掌 / 합장 / 合十). PERFECTO para triggers de agradecimiento por donaciones / subs / super chats en mercados asiáticos. Thailand / Vietnam / Laos: gesto primario de saludo (wai / ไหว้). India / Nepal: namaste. Occidente: contexto religioso/oración — puede no entenderse como "gracias" por defecto.' }
 ];
 
 class TriggerUIBuilder {

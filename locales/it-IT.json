@@ -78,7 +78,8 @@
     "fist": "Pugno Chiuso",
     "open_palm": "Palmi Aperti",
     "point": "Indicare",
-    "scene_unassigned": "— (disabilitato) —"
+    "scene_unassigned": "— (disabilitato) —",
+    "gassho": "Gassho / Mani giunte"
   },
   "categories": {
     "head_rotation": "Rotazione della Testa",

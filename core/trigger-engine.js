@@ -58,6 +58,9 @@ class TriggerEngine {
 
         const face = result.face[0];
         const gestures = result.gesture || [];
+        // Expose hands array para detectores que requieren landmarks completos
+        // (ej. gassho, que necesita los 21 landmarks de ambas manos simultáneo).
+        this._handsArray = result.hand || [];
 
         // 1) Acciones puntuales primero — pueden override la pose continua
         const punctualTrigger = this._evaluatePunctual(face, gestures);
@@ -128,6 +131,24 @@ class TriggerEngine {
                         this.lastHandGestureTime = now;
                         return this._makeAction({ trigger: handGesture, label: `hand: ${handGesture}` });
                     }
+                }
+            }
+        }
+
+        // 🙏 Gassho (TASK-208 — gesto 19, aprobado Joel 2026-05-14).
+        // Diseño completo en docs/CULTURAL_GESTURE_REVIEW.md sección 6.4 (Z/GLM-4).
+        // Se procesa SEPARADO del switch de _mapHandGesture porque requiere los
+        // landmarks completos de ambas manos (no la string `gesture` de Human.js).
+        if (this.config.get('enabled.hand') && this._handsArray && typeof window.detectGassho === 'function') {
+            const now = Date.now();
+            if (now - this.lastHandGestureTime > this.HAND_COOLDOWN) {
+                const gasshoResult = window.detectGassho(this._handsArray, performance.now());
+                if (gasshoResult.detected && gasshoResult.confidence >= 0.5) {
+                    this.lastHandGestureTime = now;
+                    return this._makeAction({
+                        trigger: 'gassho',
+                        label: `gassho conf=${gasshoResult.confidence.toFixed(2)} hold=${Math.round(gasshoResult.holdMs)}ms`,
+                    });
                 }
             }
         }
