@@ -138,26 +138,39 @@ Hoy `script-src 'self' 'unsafe-inline'` y `style-src 'self' 'unsafe-inline'`. Pa
 ---
 
 ### TASK-106 — Adapters SOOP + CHZZK (mercado coreano)
-**Hallazgo**: feature #12 + Twitch Korea cerró feb 2024
-**Estado**: `[ABIERTA]`
-**Asignada a**: Z/GLM-4 (primario, ko-KR + APIs koreanas) · Claude (estructura)
-**Estimación**: 5-7 días
-**Descripción**:
-- `platforms/platform-soop.js` (SOOP WebSocket API, docs en coreano)
-- `platforms/platform-chzzk.js` (CHZZK Chat API)
-- Twitch Korea cerró, 100% del mercado pasó a estas 2 plataformas
+**Estado**: `[POSPUESTA A v1.5 — decisión Joel 2026-05-14]`
+**Razón**:
+- SOOP requiere registro como partner (identidad coreana o representante legal).
+- CHZZK requiere proxy backend (clientSecret no exponible en frontend).
+- PIPA compliance ($500-2000 USD abogado coreano) requerido para procesar
+  datos de usuarios KR.
+- Joel decidió: **skip Korea en v1.0**. Lanzamiento sin mercado coreano.
+- Se evaluará en v1.5 si las ventas en otros mercados justifican el costo.
+
+**Cuando se retome (v1.5)**:
+- Setup VPS propio (Hostinger 187.77.23.49 ya disponible) en vez de Cloudflare
+  Workers — decisión Joel
+- Cuenta partner SOOP + revisión PIPA antes de marketing en KR
+- Geo-block soft para usuarios KR hasta compliance
 
 ---
 
-### TASK-107 — Traducciones completas (11 idiomas)
+### TASK-107 — Traducciones completas (idiomas activos en v1.0)
 **Estado**: `[ABIERTA]`
 **Asignada a**:
-- Z/GLM-4: `zh-CN`, `ko-KR`, `ja-JP` (nativos asiáticos)
+- Z/GLM-4: `zh-CN`, `ja-JP` (mercados China y Japón activos en v1.0)
+- ~~Z/GLM-4: ko-KR~~ — Korea pospuesto a v1.5. ko-KR queda como stub.
 - ChatGPT: `pt-BR`, `fr-FR`, `de-DE`, `it-IT`, `ru-RU`, `pl-PL`, `ar-SA`
 - Revisión cruzada: la otra IA + Joel cuando sea posible
 
 **Archivos**: `locales/<locale>.json` (cada uno)
 **Estimación**: 1-2 días por idioma
+
+**Estado entregables Z** (al 2026-05-14):
+- Z reportó haber entregado zh-CN/ja-JP/ko-KR completos (193 leaf keys)
+- Pero el zip recibido contenía los stubs originales sin cambios
+- **Pendiente**: Z debe re-entregar el contenido directo (pegado o gist),
+  no zip. Solo zh-CN y ja-JP son necesarios ahora (ko-KR pospuesto).
 
 ---
 
@@ -180,6 +193,18 @@ Hoy `script-src 'self' 'unsafe-inline'` y `style-src 'self' 'unsafe-inline'`. Pa
 **Hallazgo**: feature #11
 **Asignada a**: Claude (lógica) · DeepSeek (perf, evitar overhead)
 **Descripción**: motor de secuencias `['left', 'thumbs-up'] → action` con `maxGapMs`.
+
+### TASK-208 — 🙏 Gassho gesture (universal Asia)
+**Hallazgo**: propuesta de Z/GLM-4 en CULTURAL_GESTURE_REVIEW.md
+**Estado**: `[APROBADA por Joel 2026-05-14 — pendiente entregables de Z]`
+**Asignada a**: Z/GLM-4 (primario, conoce contexto cultural) · Claude (integración Human.js)
+**Descripción**:
+Gesto 19 del catálogo: 🙏 (gassho — manos juntas en oración/agradecimiento).
+- Universal positivo en JP/CN/KR/Taiwan/Singapur/India/Thailand
+- Streamer asiático lo usaría naturalmente para "thanks scene" después de sub/donate
+- Z estimó ~85% accuracy via heurística de landmarks de Human.js (no requiere modelo nuevo)
+- Implementación propuesta vendría en el CULTURAL_GESTURE_REVIEW.md (cuando Z lo re-entregue)
+- Bajo riesgo cultural: ofrece valor sin ambigüedad en ninguna región
 
 ### TASK-204 — Audio Feedback configurable
 **Hallazgo**: feature #15
