@@ -45,7 +45,8 @@ const DEFAULT_CONFIG = {
         happy: '', surprise: '', angry: '', neutral: '',
         blink: '',
         'thumbs-up': '', peace: '', rock: '', ok: '',
-        fist: '', 'open-palm': '', point: ''
+        fist: '', 'open-palm': '', point: '',
+        gassho: '' // TASK-208 — universal Asia courtesy gesture
     },
 
     // Platform event triggers (event → action)

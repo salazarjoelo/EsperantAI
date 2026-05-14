@@ -80,7 +80,8 @@
     "fist": "Puño cerrado",
     "open_palm": "Palma abierta",
     "point": "Apuntando",
-    "scene_unassigned": "— (desactivado) —"
+    "scene_unassigned": "— (desactivado) —",
+    "gassho": "Gassho / Manos juntas"
   },
   "categories": {
     "head_rotation": "Rotación de cabeza",

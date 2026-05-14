@@ -78,7 +78,8 @@
     "fist": "Сжатый кулак",
     "open_palm": "Открытая ладонь",
     "point": "Указание",
-    "scene_unassigned": "— (отключено) —"
+    "scene_unassigned": "— (отключено) —",
+    "gassho": "Гассё / Руки в молитве"
   },
   "categories": {
     "head_rotation": "Поворот головы",

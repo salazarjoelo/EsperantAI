@@ -78,7 +78,8 @@
     "fist": "Geschlossene Faust",
     "open_palm": "Offene Handfläche",
     "point": "Zeigend",
-    "scene_unassigned": "— (deaktiviert) —"
+    "scene_unassigned": "— (deaktiviert) —",
+    "gassho": "Gassho / Gebetshände"
   },
   "categories": {
     "head_rotation": "Kopfdrehung",
