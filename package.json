@@ -16,7 +16,8 @@
     "lint": "eslint core/ adapters/ platforms/ app.js",
     "validate-json": "node scripts/validate-json.mjs",
     "validate-csp": "node scripts/validate-csp.mjs",
-    "validate": "npm run validate-json && npm run validate-csp"
+    "validate-locales": "node scripts/validate-locales-parity.mjs",
+    "validate": "npm run validate-json && npm run validate-csp && npm run validate-locales"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^3.1.1",

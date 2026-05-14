@@ -3,8 +3,9 @@
     "language": "Español (España)",
     "code": "es-ES",
     "rtl": false,
-    "completion": 100,
-    "translator": "Joel Salazar (native)"
+    "completion": 307,
+    "translator": "Joel Salazar (native)",
+    "note": "es-ES parity fill 2026-05-14"
   },
   "app": {
     "title": "EsperantAI",
@@ -111,7 +112,11 @@
     "gaze_strength": "Intensidad mínima",
     "emotion_confidence": "Confianza mínima emoción",
     "stable_frames": "Frames estables",
-    "cooldown_ms": "Cooldown (ms)"
+    "cooldown_ms": "Cooldown (ms)",
+    "dead_zone_yaw": "Zona muerta yaw",
+    "dead_zone_pitch": "Zona muerta pitch",
+    "dead_zone_roll": "Zona muerta roll",
+    "return_to_center": "Retardo al volver al centro (ms)"
   },
   "metrics": {
     "yaw_label": "Yaw (←/→)",
@@ -135,7 +140,10 @@
     "kbd_space": "Pausar / Reanudar detección",
     "kbd_c": "Salto manual a escena CENTRO",
     "kbd_r": "Recargar lista de escenas desde el software",
-    "kbd_esc": "Desconectar"
+    "kbd_esc": "Desconectar",
+    "calibration": "Calibración",
+    "calibration_desc": "Personaliza los umbrales de gestos según el ángulo de tu cámara y tu rango natural de movimiento.",
+    "recalibrate": "Recalibrar"
   },
   "errors": {
     "camera_denied": "La cámara está bloqueada. Abre los permisos del navegador y permite la cámara para que EsperantAI detecte tus gestos.",
@@ -252,7 +260,9 @@
       "delayMs": "Espera (ms)",
       "actions": "Acciones JSON",
       "action": "Acción JSON"
-    }
+    },
+    "source_crop": "Recortar fuente",
+    "source_transform": "Transformar fuente (mover/escalar/rotar)"
   },
   "license": {
     "guided_title": "Activa EsperantAI",
@@ -276,6 +286,76 @@
     "error_activation_limit": "Esta licencia ya alcanzó su límite de dispositivos. Desactiva un equipo anterior o contacta soporte.",
     "error_network": "No pudimos validar la licencia por conexión. Revisa internet e inténtalo otra vez.",
     "error_invalid": "La license key no coincide. Revisa guiones, espacios o copia la key completa desde tu correo.",
-    "error_generic": "No pudimos activar esta licencia. Revisa la key o intenta de nuevo en unos minutos."
+    "error_generic": "No pudimos activar esta licencia. Revisa la key o intenta de nuevo en unos minutos.",
+    "required_desc": "EsperantAI necesita una licencia válida para funcionar. Si ya la has comprado, pega abajo tu clave de licencia. Si no, consíguela en esperantai.com",
+    "no_license": "¿Aún no tienes licencia?",
+    "upgrade_hint": "Mejora tu plan para tener más disparadores y funciones",
+    "tier_free": "Free",
+    "tier_pro": "Pro",
+    "tier_pro_plus": "Pro+ Director",
+    "feature_locked": "Disponible en el plan {tier}",
+    "triggers_remaining": "{count}/{max} disparadores usados (plan {tier})"
+  },
+  "calibration": {
+    "kicker": "Configuración personalizada",
+    "subtitle": "Vamos a personalizar la sensibilidad gestual según tu rostro y tu rango de movimiento.",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "start": "Comenzar",
+    "skip": "Omitir por ahora",
+    "apply": "Aplicar calibración",
+    "capturing": "Capturando",
+    "capture_done": "Captura completada",
+    "ready_when_you_are": "Listo cuando tú lo estés.",
+    "what_you_will_do": "Qué harás",
+    "why_it_matters": "Por qué importa",
+    "intro_item_1": "Mantén una pose neutra frente a la cámara durante dos segundos.",
+    "intro_item_2": "Gira a izquierda/derecha y mira arriba/abajo para aprender tu rango cómodo.",
+    "intro_item_3": "Muestra un gesto con la mano para verificar el tracking manual.",
+    "why_it_matters_desc": "EsperantAI usará el 60% de tu rango personal como zona muerta segura. Así reduce falsos disparos y mantiene tus gestos responsivos.",
+    "baseline_title": "Captura tu pose neutra",
+    "baseline_desc": "Mira al frente, relaja los hombros y mantén la cabeza centrada.",
+    "capture_baseline": "Capturar baseline",
+    "left_right_title": "Medir movimiento izquierda y derecha",
+    "left_right_desc": "Gira suavemente a la izquierda y a la derecha varias veces. Usa tu postura natural de streaming.",
+    "capture_left_right": "Capturar rango izquierda/derecha",
+    "pitch_tilt_title": "Medir rango arriba/abajo e inclinación",
+    "pitch_tilt_desc": "Mira arriba, mira abajo e inclina la cabeza de forma natural hacia ambos lados.",
+    "capture_pitch_tilt": "Capturar pitch/inclinación",
+    "hand_title": "Comprobar un gesto de mano",
+    "hand_desc": "Levanta una mano y muestra pulgar arriba, palma abierta o señal de paz.",
+    "capture_hand": "Iniciar comprobación de mano",
+    "hand_detected": "Gesto detectado",
+    "hand_saved": "Tracking de mano verificado con",
+    "summary_title": "Tus umbrales personalizados",
+    "outcome_title": "Qué cambiará",
+    "outcome_desc": "Estos valores crean una zona muerta personalizada. Los movimientos naturales pequeños se mantienen centrados y los gestos intencionales cruzan el umbral antes.",
+    "steps": {
+      "welcome_title": "Asistente de calibración",
+      "baseline_title": "Paso 1 · Baseline",
+      "left_right_title": "Paso 2 · Rango izquierda y derecha",
+      "pitch_tilt_title": "Paso 3 · Rango arriba/abajo e inclinación",
+      "hand_title": "Paso 4 · Comprobación de mano",
+      "confirm_title": "Paso 5 · Confirma tu configuración"
+    }
+  },
+  "history": {
+    "title": "Historial de disparos",
+    "clear": "Borrar",
+    "export_csv": "Exportar CSV",
+    "no_triggers": "Aún no hay disparos.",
+    "source_gesture": "Gesto",
+    "source_platform": "Plataforma",
+    "source_combo": "Combo"
+  },
+  "profiles": {
+    "label": "Perfil:",
+    "save": "Guardar",
+    "new": "Nuevo",
+    "delete": "Eliminar",
+    "new_name": "Nombre del perfil:",
+    "switch_confirm": "¿Cambiar de perfil? Los ajustes actuales se guardarán antes.",
+    "delete_confirm": "¿Eliminar este perfil?",
+    "cannot_delete_default": "No se puede eliminar el perfil por defecto."
   }
 }

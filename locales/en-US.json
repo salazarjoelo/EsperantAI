@@ -139,7 +139,10 @@
     "kbd_space": "Pause / Resume detection",
     "kbd_c": "Manual jump to CENTER scene",
     "kbd_r": "Reload scene list from streaming app",
-    "kbd_esc": "Disconnect"
+    "kbd_esc": "Disconnect",
+    "calibration": "Calibration",
+    "calibration_desc": "Personalize your gesture thresholds for your camera angle and movement range.",
+    "recalibrate": "Recalibrate"
   },
   "errors": {
     "camera_denied": "Camera permission is off. Open your browser permissions and allow the camera so EsperantAI can track your gestures.",
@@ -310,5 +313,48 @@
     "switch_confirm": "Switch profile? Current settings will be saved first.",
     "delete_confirm": "Delete this profile?",
     "cannot_delete_default": "Cannot delete the default profile."
+  },
+  "calibration": {
+    "kicker": "Personalized setup",
+    "subtitle": "We will personalize gesture sensitivity for your face and movement range.",
+    "back": "Back",
+    "next": "Next",
+    "start": "Start",
+    "skip": "Skip for now",
+    "apply": "Apply calibration",
+    "capturing": "Capturing",
+    "capture_done": "Capture completed",
+    "ready_when_you_are": "Ready when you are.",
+    "what_you_will_do": "What you will do",
+    "why_it_matters": "Why it matters",
+    "intro_item_1": "Hold a neutral center pose for two seconds.",
+    "intro_item_2": "Turn left/right and look up/down so we learn your comfortable range.",
+    "intro_item_3": "Show one hand gesture to verify hand tracking.",
+    "why_it_matters_desc": "EsperantAI will use 60% of your personal range as a safe dead zone. That reduces false triggers while keeping your gestures responsive.",
+    "baseline_title": "Capture your neutral pose",
+    "baseline_desc": "Look straight at the camera, relax your shoulders and keep your head centered.",
+    "capture_baseline": "Capture baseline",
+    "left_right_title": "Measure left and right movement",
+    "left_right_desc": "Turn gently to the left and right a few times. Use your natural streaming posture.",
+    "capture_left_right": "Capture left/right range",
+    "pitch_tilt_title": "Measure up/down and tilt range",
+    "pitch_tilt_desc": "Look up, look down and tilt your head naturally to both sides.",
+    "capture_pitch_tilt": "Capture pitch/tilt range",
+    "hand_title": "Check one hand gesture",
+    "hand_desc": "Raise one hand and show a thumbs-up, open palm or peace sign.",
+    "capture_hand": "Start hand check",
+    "hand_detected": "Detected gesture",
+    "hand_saved": "Hand tracking checked with",
+    "summary_title": "Your personalized thresholds",
+    "outcome_title": "What will change",
+    "outcome_desc": "These values create a personalized dead zone. Small natural movements stay centered, and intentional gestures cross the threshold sooner.",
+    "steps": {
+      "welcome_title": "Calibration wizard",
+      "baseline_title": "Step 1 · Baseline",
+      "left_right_title": "Step 2 · Left and right range",
+      "pitch_tilt_title": "Step 3 · Up/down and tilt range",
+      "hand_title": "Step 4 · Hand check",
+      "confirm_title": "Step 5 · Confirm your settings"
+    }
   }
 }

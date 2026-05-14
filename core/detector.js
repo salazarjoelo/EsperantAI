@@ -150,6 +150,7 @@ class Detector {
                             try { this._workerOnFrame(msg.result, this.frameCount); } catch (e) {
                                 console.error('[Detector] onFrame callback threw:', e);
                             }
+                            this.emit('frame', { result: msg.result, frame: this.frameCount });
                         }
                         break;
                     case 'ERROR':
@@ -281,6 +282,7 @@ class Detector {
             this.ctx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
             try { this.human.draw.face(this.canvasElement, result.face || []); } catch {}
             onFrame(result, this.frameCount);
+            this.emit('frame', { result, frame: this.frameCount });
             requestAnimationFrame(loop);
         };
         requestAnimationFrame(loop);
@@ -360,6 +362,12 @@ class Detector {
     on(event, fn) {
         if (!this.listeners[event]) this.listeners[event] = [];
         this.listeners[event].push(fn);
+    }
+
+    /** TASK-102: unsubscribe — used by CalibrationWizard. */
+    off(event, fn) {
+        if (!this.listeners[event]) return;
+        this.listeners[event] = this.listeners[event].filter(x => x !== fn);
     }
 
     emit(event, payload) {
