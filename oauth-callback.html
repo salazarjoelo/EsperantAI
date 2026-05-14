@@ -3,156 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://id.twitch.tv https://accounts.google.com https://id.kick.com; style-src 'self' 'unsafe-inline';">
+    <!-- CSP Fase 1 (TASK-105): script-src 'self' SIN unsafe-inline para scripts.
+         style-src todavía con 'unsafe-inline' por compatibilidad con SVG inline
+         (-webkit-background-clip en gradientes). Fase 2 eliminará también. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' https://id.twitch.tv https://accounts.google.com https://id.kick.com; style-src 'self';">
     <title>EsperantAI — OAuth Callback</title>
-    <style>
-        body {
-            background: #0d1117;
-            color: #c9d1d9;
-            font-family: 'Segoe UI', sans-serif;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            min-height: 100vh; margin: 0; padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            background: linear-gradient(135deg, #58a6ff, #bc8cff, #ff7b72);
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-            margin: 0 0 12px 0;
-        }
-        .spinner {
-            width: 40px; height: 40px;
-            border: 3px solid #30363d; border-top-color: #58a6ff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        #status { margin-top: 12px; font-size: 14px; color: #8b949e; }
-        .ok { color: #56d364; }
-        .err { color: #ff7b72; }
-        .manual {
-            margin-top: 24px;
-            font-size: 12px;
-            color: #8b949e;
-            max-width: 500px;
-        }
-        button {
-            margin-top: 12px;
-            padding: 8px 16px;
-            background: linear-gradient(135deg, #58a6ff, #bc8cff);
-            color: #0d1117; border: none; border-radius: 6px;
-            font-weight: 700; cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="css/oauth-callback.css">
 </head>
 <body>
     <h1>EsperantAI</h1>
     <div class="spinner"></div>
     <p id="status">Procesando autorización…</p>
-    <div class="manual" id="manual" style="display:none;">
+    <div class="manual" id="manual" hidden>
         Si esta ventana no se cierra automáticamente, copia el código de autorización y pégalo en EsperantAI.
         <br><br>
-        <button onclick="window.close()">Cerrar ventana</button>
+        <button id="btn-close-window">Cerrar ventana</button>
     </div>
 
-    <script>
-        (function() {
-            const status = document.getElementById('status');
-            const manual = document.getElementById('manual');
-
-            // Parse de tokens del fragment URL (OAuth Implicit Grant)
-            const fragment = window.location.hash.substring(1);
-            const params = new URLSearchParams(fragment);
-
-            // También parse de query string (para Authorization Code flow ej. Kick PKCE)
-            const queryParams = new URLSearchParams(window.location.search);
-
-            // Parse del state — formato: <provider>:<nonce> (validado por el opener)
-            const state = params.get('state') || queryParams.get('state') || '';
-            const provider = detectProvider(state);
-            // Si no hay state válido, mostrar error y NO postear nada
-            if (!state || !state.includes(':')) {
-                document.getElementById('status').className = 'err';
-                document.getElementById('status').textContent = '❌ Error de seguridad: state OAuth inválido (posible CSRF)';
-                document.getElementById('manual').style.display = 'block';
-                return;
-            }
-
-            const token = params.get('access_token');
-            const code = queryParams.get('code'); // Para flows con Authorization Code
-            const error = params.get('error') || queryParams.get('error');
-            const errorDesc = params.get('error_description') || queryParams.get('error_description');
-
-            if (error) {
-                status.className = 'err';
-                status.textContent = `❌ Error: ${error}${errorDesc ? ' — ' + errorDesc : ''}`;
-                manual.style.display = 'block';
-                postToOpener({ type: 'oauth_error', provider, error, errorDesc });
-                return;
-            }
-
-            if (token) {
-                status.className = 'ok';
-                status.textContent = `✓ Conectado a ${provider || 'plataforma'}. Cerrando ventana…`;
-                const expiresIn = parseInt(params.get('expires_in') || '0', 10);
-                postToOpener({
-                    type: 'oauth_token',
-                    provider,
-                    state,
-                    access_token: token,
-                    token_type: params.get('token_type'),
-                    scope: params.get('scope'),
-                    expires_in: expiresIn,
-                    received_at: Date.now()
-                });
-                setTimeout(() => window.close(), 1500);
-                return;
-            }
-
-            if (code) {
-                status.className = 'ok';
-                status.textContent = `✓ Código recibido. Intercambiando por token…`;
-                postToOpener({
-                    type: 'oauth_code',
-                    provider,
-                    code,
-                    state
-                });
-                setTimeout(() => window.close(), 1500);
-                return;
-            }
-
-            status.textContent = 'Sin datos de autorización en la URL.';
-            manual.style.display = 'block';
-
-            function detectProvider(state) {
-                // El state tiene formato <provider>:<nonce>
-                if (!state) return 'unknown';
-                const prefix = state.split(':')[0];
-                if (['twitch', 'youtube', 'kick', 'trovo'].includes(prefix)) return prefix;
-                // Fallback: referrer
-                const ref = document.referrer.toLowerCase();
-                if (ref.includes('twitch')) return 'twitch';
-                if (ref.includes('google') || ref.includes('youtube')) return 'youtube';
-                if (ref.includes('kick')) return 'kick';
-                if (ref.includes('trovo')) return 'trovo';
-                return 'unknown';
-            }
-
-            function postToOpener(data) {
-                try {
-                    if (window.opener && !window.opener.closed) {
-                        window.opener.postMessage(data, window.location.origin);
-                    } else {
-                        // Si no hay opener (popup fue desacoplado), guardar en localStorage
-                        // para que el index lo recoja al recargar
-                        localStorage.setItem('esperantai-oauth-pending', JSON.stringify(data));
-                    }
-                } catch (e) {
-                    console.error('postToOpener failed:', e);
-                }
-            }
-        })();
-    </script>
+    <script src="js/oauth-callback.js"></script>
 </body>
 </html>
