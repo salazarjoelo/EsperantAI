@@ -152,7 +152,7 @@
     "distance_hint": "Mierzy, jak blisko jest twoja twarz. Uruchamia się tylko, gdy głowa jest wycentrowana.",
     "emotion_hint": "Emocja musi być stabilna z wysoką pewnością. 2-sekundowe odnowienie między zmianami emocji.",
     "blink_hint": "Podwójne mrugnięcie = zamknij obie oczy szybko dwa razy (w ciągu 700 ms). 1-sekundowe odnowienie.",
-    "hand_hint": "Wykrywanie gestów rąk. Wykrywane gesty: kciuk w górę, znak pokoju, znak rocka, OK, pięść, otwarta dłoń, wskazanie.",
+    "hand_hint": "Wykrywanie gestów rąk. Wykrywane gesty: kciuk w górę, znak pokoju, znak rocka, OK, pięść, otwarta dłoń, wskazanie, gassho.",
     "platform_hint": "Połącz się z platformami streamowania, aby wyzwalać akcje przy zdarzeniach: dotacje, subskrypcje, rajdy, punkty kanału."
   },
   "platforms": {

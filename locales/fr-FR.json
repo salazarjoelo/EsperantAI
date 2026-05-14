@@ -152,7 +152,7 @@
     "distance_hint": "Mesure la proximité de votre visage. Ne se déclenche que lorsque la tête est centrée.",
     "emotion_hint": "L'émotion doit être stable avec une confiance élevée. Refroidissement de 2 secondes entre les changements d'émotion.",
     "blink_hint": "Double clin d'œil = fermer les deux yeux rapidement deux fois (en moins de 700 ms). Refroidissement de 1 seconde.",
-    "hand_hint": "Détection de gestes de la main. Gestes détectés : pouce en l'air, paix, rock, OK, poing, paume ouverte, pointer.",
+    "hand_hint": "Détection de gestes de la main. Gestes détectés : pouce en l'air, paix, rock, OK, poing, paume ouverte, pointer, gassho.",
     "platform_hint": "Connectez-vous aux plateformes de streaming pour déclencher des actions lors d'événements : dons, abonnements, raids, points de chaîne."
   },
   "platforms": {

@@ -152,7 +152,7 @@
     "distance_hint": "Misura quanto è vicino il tuo volto. Si attiva solo quando la testa è centrata.",
     "emotion_hint": "L'emozione deve essere stabile con alta confidenza. Raffreddamento di 2 secondi tra i cambiamenti di emozione.",
     "blink_hint": "Doppio lampeggio = chiudi entrambi gli occhi rapidamente due volte (entro 700ms). Raffreddamento di 1 secondo.",
-    "hand_hint": "Rilevamento gesti delle mani. Gesti rilevati: pollice su, pace, rock, OK, pugno, palmi aperti, indicare.",
+    "hand_hint": "Rilevamento gesti delle mani. Gesti rilevati: pollice su, pace, rock, OK, pugno, palmi aperti, indicare, gassho.",
     "platform_hint": "Connettiti alle piattaforme di streaming per attivare azioni sugli eventi: donazioni, abbonamenti, raid, punti canale."
   },
   "platforms": {
