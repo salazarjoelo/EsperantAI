@@ -3,8 +3,8 @@
     "language": "Italiano (Italia)",
     "code": "it-IT",
     "rtl": false,
-    "completion": 307,
-    "note": "v2.0 — TASK-107 by ChatGPT 2026-05-14",
+    "completion": 322,
+    "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Italian speaker review"
   },
   "app": {
@@ -45,7 +45,8 @@
     "enable": "Attiva",
     "close": "Chiudi",
     "yes": "Sì",
-    "no": "No"
+    "no": "No",
+    "combo_triggers": "Trigger combo"
   },
   "triggers": {
     "universality_title": "Universalità dei gesti",
@@ -357,5 +358,21 @@
       "hand_title": "Passo 4 · Verifica mano",
       "confirm_title": "Passo 5 · Conferma impostazioni"
     }
+  },
+  "combo": {
+    "hint": "Combina un evento della piattaforma con un gesto fisico per confermare le celebrazioni. Utile per evitare attivazioni accidentali durante gli stream.",
+    "add": "Aggiungi combo",
+    "empty": "Ancora nessuna combo. Clicca su + Aggiungi combo per crearne una.",
+    "enabled": "Attivo",
+    "event_label": "Evento",
+    "gesture_label": "Gesto di conferma",
+    "select_event": "— evento —",
+    "select_gesture": "— gesto —",
+    "no_actions": "Nessuna azione",
+    "remove": "Rimuovi",
+    "confirm_delete": "Eliminare questa combo?",
+    "locked_title": "Trigger combo",
+    "locked_aria": "Trigger combo bloccati",
+    "locked_desc": "I trigger combo ti permettono di richiedere un gesto fisico per confermare gli eventi della piattaforma prima che parta l’azione: perfetto per evitare celebrazioni accidentali durante gli stream."
   }
 }
