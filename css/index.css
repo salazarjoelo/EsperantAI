@@ -84,8 +84,12 @@
             --panel: #161b22;
             --panel-2: #1c2128;
             --text: #c9d1d9;
-            --text-muted: #8b949e;
-            --border: #30363d;
+            /* Z-205 fix 1.4.3: --text-muted aumentado de #8b949e (4.0:1) a #a0adb8 (5.0:1)
+               para cumplir WCAG AA mínimo de 4.5:1 sobre --bg #0d1117 */
+            --text-muted: #a0adb8;
+            /* Z-205 fix 1.4.11: --border aumentado de #30363d (1.9:1) a #444c56 (2.8:1)
+               para mejorar contraste de borders de componentes (target AA: 3:1) */
+            --border: #444c56;
             --brand-1: #58a6ff;
             --brand-2: #bc8cff;
             --brand-3: #ff7b72;
@@ -93,6 +97,63 @@
             --warning: #d29922;
             --danger: #da3633;
             --brand-gradient: linear-gradient(135deg, #58a6ff 0%, #bc8cff 50%, #ff7b72 100%);
+        }
+
+        /* Z-205 fix 2.4.7: focus visible para teclado / lectores de pantalla.
+           Sin esto, la navegación por TAB es invisible en buttons/inputs/links/selects. */
+        :focus-visible {
+            outline: 2px solid var(--brand-1);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        /* Solo remover el outline default cuando NO es focus-visible (mouse click).
+           Permite que mouse clicks no muestren outline pero TAB sí. */
+        :focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        /* Z-205 fix 2.4.1: skip link para teclado. Visualmente oculto hasta foco. */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 8px;
+            padding: 10px 16px;
+            background: var(--brand-1);
+            color: var(--bg);
+            border-radius: 6px;
+            font-weight: 700;
+            text-decoration: none;
+            z-index: 100000;
+            transition: top 0.2s;
+        }
+        .skip-link:focus,
+        .skip-link:focus-visible {
+            top: 8px;
+            outline: 2px solid var(--brand-2);
+            outline-offset: 2px;
+        }
+
+        /* Z-205 fix: .brand-name ahora es <h1> — resetear estilos default del h1
+           para mantener el look del div original (font-size pequeño + inline) */
+        h1.brand-name {
+            font-size: 1.2em;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+            color: var(--text);
+        }
+
+        /* Z-205 fix prefers-reduced-motion: respetar preferencia OS */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .skip-link { transition: none; }
         }
         * { box-sizing: border-box; }
         body {

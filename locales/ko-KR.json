@@ -3,7 +3,7 @@
     "language": "한국어",
     "code": "ko-KR",
     "rtl": false,
-    "completion": 322,
+    "completion": 323,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Korean speaker review"
   },
@@ -46,7 +46,8 @@
     "close": "닫기",
     "yes": "예",
     "no": "아니요",
-    "combo_triggers": "콤보 트리거"
+    "combo_triggers": "콤보 트리거",
+    "skip_to_content": "콘텐츠로 건너뛰기"
   },
   "triggers": {
     "universality_title": "제스처 범용성",

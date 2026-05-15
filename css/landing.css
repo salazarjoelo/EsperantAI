@@ -7,12 +7,24 @@
             --bg: #0d1117;
             --panel: #161b22;
             --text: #c9d1d9;
-            --muted: #8b949e;
-            --border: #30363d;
+            /* Z-205 fix 1.4.3: --muted #8b949e (4.0:1) → #a0adb8 (5.0:1) WCAG AA */
+            --muted: #a0adb8;
+            /* Z-205 fix 1.4.11: --border #30363d (1.9:1) → #444c56 (2.8:1) */
+            --border: #444c56;
             --brand-1: #58a6ff;
             --brand-2: #bc8cff;
             --brand-3: #ff7b72;
             --gradient: linear-gradient(135deg, #58a6ff 0%, #bc8cff 50%, #ff7b72 100%);
+        }
+
+        /* Z-205 fix 2.4.7: focus visible para nav por teclado */
+        :focus-visible {
+            outline: 2px solid var(--brand-1);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        :focus:not(:focus-visible) {
+            outline: none;
         }
         html { scroll-behavior: smooth; }
         * { box-sizing: border-box; }

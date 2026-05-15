@@ -3,7 +3,7 @@
     "language": "Русский (Россия)",
     "code": "ru-RU",
     "rtl": false,
-    "completion": 322,
+    "completion": 323,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Russian speaker review"
   },
@@ -46,7 +46,8 @@
     "close": "Закрыть",
     "yes": "Да",
     "no": "Нет",
-    "combo_triggers": "Комбо-триггеры"
+    "combo_triggers": "Комбо-триггеры",
+    "skip_to_content": "Перейти к содержимому"
   },
   "triggers": {
     "universality_title": "Универсальность жестов",

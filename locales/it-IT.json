@@ -3,7 +3,7 @@
     "language": "Italiano (Italia)",
     "code": "it-IT",
     "rtl": false,
-    "completion": 322,
+    "completion": 323,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Italian speaker review"
   },
@@ -46,7 +46,8 @@
     "close": "Chiudi",
     "yes": "Sì",
     "no": "No",
-    "combo_triggers": "Trigger combo"
+    "combo_triggers": "Trigger combo",
+    "skip_to_content": "Salta al contenuto"
   },
   "triggers": {
     "universality_title": "Universalità dei gesti",

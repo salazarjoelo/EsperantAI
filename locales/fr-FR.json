@@ -3,7 +3,7 @@
     "language": "Français (France)",
     "code": "fr-FR",
     "rtl": false,
-    "completion": 322,
+    "completion": 323,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native French speaker review"
   },
@@ -46,7 +46,8 @@
     "close": "Fermer",
     "yes": "Oui",
     "no": "Non",
-    "combo_triggers": "Déclencheurs combinés"
+    "combo_triggers": "Déclencheurs combinés",
+    "skip_to_content": "Aller au contenu"
   },
   "triggers": {
     "universality_title": "Universalité des gestes",
