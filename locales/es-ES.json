@@ -3,7 +3,7 @@
     "language": "Español (España)",
     "code": "es-ES",
     "rtl": false,
-    "completion": 322,
+    "completion": 323,
     "translator": "Joel Salazar (native)",
     "note": "es-ES parity fill 2026-05-14"
   },
@@ -46,7 +46,8 @@
     "close": "Cerrar",
     "yes": "Sí",
     "no": "No",
-    "combo_triggers": "Combos"
+    "combo_triggers": "Combos",
+    "skip_to_content": "Saltar al contenido"
   },
   "triggers": {
     "universality_title": "Universalidad de gestos",

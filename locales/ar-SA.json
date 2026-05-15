@@ -3,7 +3,7 @@
     "language": "العربية (السعودية)",
     "code": "ar-SA",
     "rtl": true,
-    "completion": 322,
+    "completion": 323,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Arabic speaker review"
   },
@@ -46,7 +46,8 @@
     "close": "إغلاق",
     "yes": "نعم",
     "no": "لا",
-    "combo_triggers": "مشغلات كومبو"
+    "combo_triggers": "مشغلات كومبو",
+    "skip_to_content": "الانتقال إلى المحتوى"
   },
   "triggers": {
     "universality_title": "عالمية الإيماءات",

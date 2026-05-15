@@ -3,7 +3,7 @@
     "language": "中文(简体)",
     "code": "zh-CN",
     "rtl": false,
-    "completion": 322,
+    "completion": 323,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Simplified Chinese speaker review"
   },
@@ -46,7 +46,8 @@
     "close": "关闭",
     "yes": "是",
     "no": "否",
-    "combo_triggers": "组合触发器"
+    "combo_triggers": "组合触发器",
+    "skip_to_content": "跳转至内容"
   },
   "triggers": {
     "universality_title": "手势通用性",

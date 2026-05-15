@@ -3,7 +3,7 @@
     "language": "Deutsch (Deutschland)",
     "code": "de-DE",
     "rtl": false,
-    "completion": 322,
+    "completion": 323,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native German speaker review"
   },
@@ -46,7 +46,8 @@
     "close": "Schließen",
     "yes": "Ja",
     "no": "Nein",
-    "combo_triggers": "Combo-Trigger"
+    "combo_triggers": "Combo-Trigger",
+    "skip_to_content": "Zum Inhalt springen"
   },
   "triggers": {
     "universality_title": "Universalität von Gesten",

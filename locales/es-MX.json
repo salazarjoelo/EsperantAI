@@ -3,7 +3,7 @@
     "language": "Español (México)",
     "code": "es-MX",
     "rtl": false,
-    "completion": 322,
+    "completion": 323,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Mexican Spanish speaker review"
   },
@@ -46,7 +46,8 @@
     "close": "Cerrar",
     "yes": "Sí",
     "no": "No",
-    "combo_triggers": "Combo triggers"
+    "combo_triggers": "Combo triggers",
+    "skip_to_content": "Saltar al contenido"
   },
   "triggers": {
     "universality_title": "Universalidad de gestos",

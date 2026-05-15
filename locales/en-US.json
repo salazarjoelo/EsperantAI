@@ -3,7 +3,7 @@
     "language": "English (US)",
     "code": "en-US",
     "rtl": false,
-    "completion": 322,
+    "completion": 323,
     "translator": "native (source language)"
   },
   "app": {
@@ -45,7 +45,8 @@
     "close": "Close",
     "yes": "Yes",
     "no": "No",
-    "combo_triggers": "Combo Triggers"
+    "combo_triggers": "Combo Triggers",
+    "skip_to_content": "Skip to content"
   },
   "triggers": {
     "universality_title": "Gesture universality",
