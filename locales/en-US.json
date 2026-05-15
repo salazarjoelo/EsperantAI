@@ -3,7 +3,7 @@
     "language": "English (US)",
     "code": "en-US",
     "rtl": false,
-    "completion": 100,
+    "completion": 322,
     "translator": "native (source language)"
   },
   "app": {
@@ -44,7 +44,8 @@
     "enable": "Enable",
     "close": "Close",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "combo_triggers": "Combo Triggers"
   },
   "triggers": {
     "universality_title": "Gesture universality",
@@ -356,5 +357,21 @@
       "hand_title": "Step 4 · Hand check",
       "confirm_title": "Step 5 · Confirm your settings"
     }
+  },
+  "combo": {
+    "hint": "Combine a platform event with a physical gesture to confirm celebrations. Useful to avoid accidental triggers during streams.",
+    "add": "Add combo",
+    "empty": "No combos yet. Click + Add combo to create one.",
+    "enabled": "Enabled",
+    "event_label": "Event",
+    "gesture_label": "Confirming gesture",
+    "select_event": "— event —",
+    "select_gesture": "— gesture —",
+    "no_actions": "No actions",
+    "remove": "Remove",
+    "confirm_delete": "Delete this combo?",
+    "locked_title": "Combo Triggers",
+    "locked_aria": "Combo Triggers locked",
+    "locked_desc": "Combo triggers let you require a physical gesture to confirm platform events before the action fires — perfect to avoid accidental celebrations during streams."
   }
 }

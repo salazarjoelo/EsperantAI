@@ -282,35 +282,77 @@ class TriggerEngine {
      * Si no, dispara la escena inmediatamente.
      */
     handlePlatformEvent(eventType, data) {
-        const cfg = this.config.get(`eventTriggers.${eventType}`);
-        if (!cfg || !cfg.enabled) return null;
+        // Source 1 (nuevo, Combo Triggers UI): array config.comboTriggers[]
+        // Source 2 (legacy, eventTriggers): namespace antiguo. Mantenido por compat.
+        const combos = this._findCombosForEvent(eventType);
+        const legacyCfg = this.config.get(`eventTriggers.${eventType}`);
 
-        if (cfg.requireGesture) {
-            // Clean expired entries first
+        // Si hay 1+ combo nuevo enabled para este evento, usar combo (precedencia).
+        if (combos.length) {
+            const now = Date.now();
+            // Cleanup expired
+            this.pendingEventConfirmations = this.pendingEventConfirmations.filter(p => p.expires > now);
+            for (const combo of combos) {
+                if (this.pendingEventConfirmations.length >= this.MAX_PENDING_CONFIRMATIONS) {
+                    this.pendingEventConfirmations.shift();
+                }
+                this.pendingEventConfirmations.push({
+                    eventType,
+                    data,
+                    requireGesture: combo.requireGesture,
+                    comboId: combo.id,
+                    actionKey: `combo:${combo.id}`,
+                    expires: now + this.EVENT_CONFIRMATION_WINDOW
+                });
+            }
+            return {
+                type: 'pending_confirmation',
+                eventType,
+                comboCount: combos.length,
+                requireGestures: combos.map(c => c.requireGesture)
+            };
+        }
+
+        // Legacy path
+        if (!legacyCfg || !legacyCfg.enabled) return null;
+
+        if (legacyCfg.requireGesture) {
             const now = Date.now();
             this.pendingEventConfirmations = this.pendingEventConfirmations.filter(p => p.expires > now);
-            // Cap check — remove oldest if at limit
             if (this.pendingEventConfirmations.length >= this.MAX_PENDING_CONFIRMATIONS) {
-                this.pendingEventConfirmations.shift(); // remove oldest
+                this.pendingEventConfirmations.shift();
             }
-            // Agregar a lista de pendientes
             this.pendingEventConfirmations.push({
                 eventType,
                 data,
-                requireGesture: cfg.requireGesture,
-                scene: cfg.scene,
+                requireGesture: legacyCfg.requireGesture,
+                scene: legacyCfg.scene,
                 expires: now + this.EVENT_CONFIRMATION_WINDOW
             });
-            return { type: 'pending_confirmation', eventType, requireGesture: cfg.requireGesture };
+            return { type: 'pending_confirmation', eventType, requireGesture: legacyCfg.requireGesture };
         }
 
-        // Disparo directo
+        // Legacy disparo directo
         return {
             type: 'action',
-            scene: cfg.scene,
+            trigger: eventType,
+            scene: legacyCfg.scene,
             sourceEvent: { type: eventType, data },
             label: `event: ${eventType}`
         };
+    }
+
+    /**
+     * Combo Triggers UI: busca combos enabled cuyo eventType matchea.
+     * Cada combo puede tener un requireGesture distinto y su propia lista de
+     * acciones via triggerActions['combo:<id>'].
+     */
+    _findCombosForEvent(eventType) {
+        const all = this.config.get('comboTriggers', []);
+        if (!Array.isArray(all)) return [];
+        return all.filter(c =>
+            c && c.enabled && c.eventType === eventType && c.requireGesture
+        );
     }
 
     _checkEventConfirmation(face, gestures) {
@@ -324,6 +366,18 @@ class TriggerEngine {
             const handGesture = this._mapHandGesture(gestures.find(g => g.hand !== undefined) || {});
             if (handGesture === pending.requireGesture) {
                 this.pendingEventConfirmations.splice(i, 1);
+                // Si viene de la UI de Combo Triggers, usar el actionKey 'combo:<id>'
+                // para que handleAction pueda recuperar las acciones específicas.
+                // Si viene del path legacy, mantener trigger=requireGesture+scene fallback.
+                if (pending.actionKey) {
+                    return {
+                        type: 'action',
+                        trigger: pending.actionKey,
+                        comboId: pending.comboId,
+                        sourceEvent: { type: pending.eventType, data: pending.data },
+                        label: `${pending.eventType} confirmed by ${handGesture}`
+                    };
+                }
                 return {
                     type: 'action',
                     trigger: pending.requireGesture,
