@@ -3,8 +3,8 @@
     "language": "العربية (السعودية)",
     "code": "ar-SA",
     "rtl": true,
-    "completion": 307,
-    "note": "v2.0 — TASK-107 by ChatGPT 2026-05-14",
+    "completion": 322,
+    "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Arabic speaker review"
   },
   "app": {
@@ -45,7 +45,8 @@
     "enable": "تفعيل",
     "close": "إغلاق",
     "yes": "نعم",
-    "no": "لا"
+    "no": "لا",
+    "combo_triggers": "مشغلات كومبو"
   },
   "triggers": {
     "universality_title": "عالمية الإيماءات",
@@ -357,5 +358,21 @@
       "hand_title": "الخطوة 4 · فحص اليد",
       "confirm_title": "الخطوة 5 · تأكيد الإعدادات"
     }
+  },
+  "combo": {
+    "hint": "اجمع بين حدث من المنصة وإيماءة فعلية لتأكيد الاحتفالات. مفيد لتجنب التشغيل غير المقصود أثناء البث.",
+    "add": "إضافة كومبو",
+    "empty": "لا توجد كومبوهات بعد. اضغط + إضافة كومبو لإنشاء واحد.",
+    "enabled": "مفعّل",
+    "event_label": "الحدث",
+    "gesture_label": "إيماءة التأكيد",
+    "select_event": "— حدث —",
+    "select_gesture": "— إيماءة —",
+    "no_actions": "لا توجد إجراءات",
+    "remove": "إزالة",
+    "confirm_delete": "هل تريد حذف هذا الكومبو؟",
+    "locked_title": "مشغلات كومبو",
+    "locked_aria": "مشغلات كومبو مقفلة",
+    "locked_desc": "تتيح لك مشغلات كومبو طلب إيماءة فعلية لتأكيد أحداث المنصة قبل تنفيذ الإجراء — مثالية لتجنب الاحتفالات غير المقصودة أثناء البث."
   }
 }
