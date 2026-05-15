@@ -15,7 +15,8 @@
   "dependencies": {
     "express": "^4.21.2",
     "jose": "^5.10.0",
-    "rate-limiter-flexible": "^5.0.4"
+    "rate-limiter-flexible": "^5.0.4",
+    "better-sqlite3": "^11.0.0"
   },
   "engines": {
     "node": ">=20.0.0"
