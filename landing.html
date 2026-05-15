@@ -14,20 +14,44 @@
 
     <a href="#features" class="skip-link">Saltar al contenido</a>
 
-    <header class="hero">
+    <header class="hero hero-visual">
         <div class="container">
-            <img src="assets/branding/logo.svg" class="logo" alt="EsperantAI">
-            <h1>EsperantAI</h1>
-            <p class="tagline">Los gestos honestos.</p>
+            <img src="assets/branding/logo-banner.png"
+                 class="logo-banner"
+                 width="1689" height="950"
+                 alt="EsperantAI — Los gestos honestos"
+                 fetchpriority="high">
+            <h1 class="visually-hidden">EsperantAI — Los gestos honestos</h1>
             <p class="subtitle">
                 Cambia escenas, dispara overlays y responde a momentos clave del stream con tu rostro,
                 tu mirada y tus manos. Sin Stream Deck. Sin hardware extra.
                 Sin cortar el ritmo de la transmisión.
             </p>
-            <a href="#comprar" class="cta-primary">Comprar licencia única</a>
-            <a href="#features" class="cta-secondary">Ver cómo funciona</a>
+            <div class="cta-row">
+                <a href="#comprar" class="cta-primary">Comprar licencia única</a>
+                <a href="#features" class="cta-secondary">Ver cómo funciona</a>
+            </div>
         </div>
     </header>
+
+    <!-- Visual: dashboard español con streamer real -->
+    <section class="visual-section" aria-labelledby="demo-title">
+        <div class="container">
+            <h2 id="demo-title" class="section-title">Así se ve EsperantAI en vivo</h2>
+            <p class="section-subtitle">Tu cámara, tus manos, tu escena. Sin abrir menús, sin cortar el flow.</p>
+            <figure class="visual-figure">
+                <img src="assets/branding/hero-dashboard-es.png"
+                     class="visual-hero"
+                     width="1620" height="912"
+                     alt="Dashboard de EsperantAI mostrando control de escenas por gestos, estadísticas en vivo y chat con la audiencia"
+                     loading="lazy">
+                <figcaption class="visual-figcaption">
+                    Vista real del dashboard: cámara con detección de gestos, escenas thumbnails,
+                    estadísticas en vivo, chat de la audiencia y alertas automatizadas.
+                </figcaption>
+            </figure>
+        </div>
+    </section>
 
     <section class="section" id="features">
         <div class="container">
@@ -66,6 +90,25 @@
                     <p class="feature-desc">Todo el procesamiento de video corre 100% local en tu GPU. Cero video enviado a la nube. Cero tracking.</p>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Visual: i18n — 13 locales completos al 322 leaves -->
+    <section class="visual-section visual-section-alt" aria-labelledby="i18n-title">
+        <div class="container">
+            <h2 id="i18n-title" class="section-title">Tu stream, en cualquier idioma</h2>
+            <p class="section-subtitle">13 locales completos con auto-detección del sistema. Tu audiencia mundial te entiende, y nosotros te entendemos a ti.</p>
+            <figure class="visual-figure">
+                <img src="assets/branding/hero-multilingual.png"
+                     class="visual-hero"
+                     width="1620" height="912"
+                     alt="EsperantAI mostrando interfaz simultánea en 12 idiomas (inglés, español, portugués, francés, alemán, italiano, ruso, polaco, árabe, japonés, chino, coreano) con esperanto como concepto central"
+                     loading="lazy">
+                <figcaption class="visual-figcaption visual-caption">
+                    <strong>Eksponentigu viajn fluojn per gestoj</strong> — esa frase en esperanto significa <em>"Multiplica tus streams con gestos"</em>.
+                    Es el nombre que inspiró el producto: un lenguaje universal hecho realidad por los gestos.
+                </figcaption>
+            </figure>
         </div>
     </section>
 
