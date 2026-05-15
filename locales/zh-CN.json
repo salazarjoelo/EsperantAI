@@ -3,8 +3,8 @@
     "language": "中文(简体)",
     "code": "zh-CN",
     "rtl": false,
-    "completion": 307,
-    "note": "v3.0 — TASK-109 calibration keys added by ChatGPT 2026-05-14",
+    "completion": 322,
+    "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Simplified Chinese speaker review"
   },
   "app": {
@@ -45,7 +45,8 @@
     "enable": "启用",
     "close": "关闭",
     "yes": "是",
-    "no": "否"
+    "no": "否",
+    "combo_triggers": "组合触发器"
   },
   "triggers": {
     "universality_title": "手势通用性",
@@ -357,5 +358,21 @@
       "hand_title": "步骤 4 · 手势检查",
       "confirm_title": "步骤 5 · 确认设置"
     }
+  },
+  "combo": {
+    "hint": "将平台事件与实体手势组合起来，用于确认庆祝动作。适合避免直播中的误触发。",
+    "add": "添加组合",
+    "empty": "还没有组合。点击 + 添加组合来创建一个。",
+    "enabled": "已启用",
+    "event_label": "事件",
+    "gesture_label": "确认手势",
+    "select_event": "— 事件 —",
+    "select_gesture": "— 手势 —",
+    "no_actions": "无动作",
+    "remove": "移除",
+    "confirm_delete": "删除此组合？",
+    "locked_title": "组合触发器",
+    "locked_aria": "组合触发器已锁定",
+    "locked_desc": "组合触发器可要求通过实体手势确认平台事件后再执行动作，非常适合避免直播中的意外庆祝。"
   }
 }

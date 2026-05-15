@@ -3,8 +3,8 @@
     "language": "Polski (Polska)",
     "code": "pl-PL",
     "rtl": false,
-    "completion": 307,
-    "note": "v2.0 — TASK-107 by ChatGPT 2026-05-14",
+    "completion": 322,
+    "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Polish speaker review"
   },
   "app": {
@@ -45,7 +45,8 @@
     "enable": "Włącz",
     "close": "Zamknij",
     "yes": "Tak",
-    "no": "Nie"
+    "no": "Nie",
+    "combo_triggers": "Wyzwalacze combo"
   },
   "triggers": {
     "universality_title": "Uniwersalność gestów",
@@ -357,5 +358,21 @@
       "hand_title": "Krok 4 · Sprawdzenie dłoni",
       "confirm_title": "Krok 5 · Potwierdź ustawienia"
     }
+  },
+  "combo": {
+    "hint": "Połącz wydarzenie z platformy z fizycznym gestem, aby potwierdzać celebracje. Przydatne, gdy chcesz uniknąć przypadkowych akcji podczas streamu.",
+    "add": "Dodaj combo",
+    "empty": "Nie ma jeszcze combo. Kliknij + Dodaj combo, aby je utworzyć.",
+    "enabled": "Włączone",
+    "event_label": "Wydarzenie",
+    "gesture_label": "Gest potwierdzający",
+    "select_event": "— wydarzenie —",
+    "select_gesture": "— gest —",
+    "no_actions": "Brak akcji",
+    "remove": "Usuń",
+    "confirm_delete": "Usunąć to combo?",
+    "locked_title": "Wyzwalacze combo",
+    "locked_aria": "Wyzwalacze combo zablokowane",
+    "locked_desc": "Wyzwalacze combo pozwalają wymagać fizycznego gestu do potwierdzenia wydarzeń z platformy, zanim uruchomi się akcja — idealne, aby uniknąć przypadkowych celebracji podczas streamu."
   }
 }

@@ -3,8 +3,8 @@
     "language": "Français (France)",
     "code": "fr-FR",
     "rtl": false,
-    "completion": 307,
-    "note": "v2.0 — TASK-107 by ChatGPT 2026-05-14",
+    "completion": 322,
+    "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native French speaker review"
   },
   "app": {
@@ -45,7 +45,8 @@
     "enable": "Activer",
     "close": "Fermer",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "combo_triggers": "Déclencheurs combinés"
   },
   "triggers": {
     "universality_title": "Universalité des gestes",
@@ -357,5 +358,21 @@
       "hand_title": "Étape 4 · Vérification main",
       "confirm_title": "Étape 5 · Confirmer vos réglages"
     }
+  },
+  "combo": {
+    "hint": "Associez un événement de plateforme à un geste physique pour confirmer les célébrations. Utile pour éviter les déclenchements accidentels pendant vos streams.",
+    "add": "Ajouter un combo",
+    "empty": "Aucun combo pour l’instant. Cliquez sur + Ajouter un combo pour en créer un.",
+    "enabled": "Activé",
+    "event_label": "Événement",
+    "gesture_label": "Geste de confirmation",
+    "select_event": "— événement —",
+    "select_gesture": "— geste —",
+    "no_actions": "Aucune action",
+    "remove": "Supprimer",
+    "confirm_delete": "Supprimer ce combo ?",
+    "locked_title": "Déclencheurs combinés",
+    "locked_aria": "Déclencheurs combinés verrouillés",
+    "locked_desc": "Les déclencheurs combinés permettent d’exiger un geste physique pour confirmer les événements de plateforme avant de lancer l’action — parfait pour éviter les célébrations accidentelles pendant les streams."
   }
 }
