@@ -8,6 +8,7 @@
 import { describe, it, before, after } from 'node:test';
 import { strictEqual, ok } from 'node:assert';
 import { generateKeyPair, exportSPKI, jwtVerify, importSPKI } from 'jose';
+import Database from 'better-sqlite3';
 import { createApp } from './server.js';
 
 // ─── Setup: generar par de claves real para firmar/verificar ─────────────
@@ -19,6 +20,25 @@ let listeningServer;
 // Servers extra creados dentro de tests; los cerramos en after() para que
 // node --test termine el proceso limpio en CI.
 const extraServers = [];
+
+/**
+ * Crea un SQLite in-memory con el schema de revocations para evitar
+ * que createApp intente crear /var/lib/esperantai/revocations.db en CI
+ * (donde el path no existe y mkdirSync falla).
+ */
+function createInMemoryRevocationsDb() {
+    const db = new Database(':memory:');
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS revoked_keys (
+            license_key TEXT PRIMARY KEY,
+            reason TEXT,
+            revoked_at INTEGER NOT NULL DEFAULT (unixepoch()),
+            source TEXT DEFAULT 'webhook'
+        );
+        CREATE INDEX IF NOT EXISTS idx_revoked_at ON revoked_keys(revoked_at);
+    `);
+    return db;
+}
 
 before(async () => {
     const kp = await generateKeyPair('EdDSA', { crv: 'Ed25519' });
@@ -36,6 +56,7 @@ before(async () => {
         webhookSecret: 'test-webhook-secret',
         rateLimiterFactory,
         lemonSqueezyFetch: createMockFetch(),
+        db: createInMemoryRevocationsDb(),
     });
 
     // Arrancar en puerto aleatorio
@@ -136,6 +157,7 @@ describe('/verify endpoint', () => {
             lemonSqueezyApiKey: 'CUSTOM-API-KEY-FOR-TEST-4',
             lemonSqueezyFetch: createMockFetch(capture),
             rateLimiterFactory: () => ({ consume: async () => {} }),
+            db: createInMemoryRevocationsDb(),
         });
         const server = await new Promise((resolve) => {
             const s = testApp.listen(0, () => resolve(s));
@@ -226,6 +248,7 @@ describe('rate limiting', () => {
             lemonSqueezyApiKey: 'test-key',
             rateLimiterFactory: rlFactory,
             lemonSqueezyFetch: createMockFetch(),
+            db: createInMemoryRevocationsDb(),
         });
         const server = await new Promise((resolve) => {
             const s = testApp.listen(0, () => resolve(s));
