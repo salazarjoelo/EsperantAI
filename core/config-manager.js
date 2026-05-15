@@ -328,9 +328,75 @@ class ConfigManager {
         this.set(`profile.list.${currentId}.config`, this._clone(this.config));
     }
 
+    /**
+     * Exporta la config a JSON sin secretos (H-05 fix 2026-05-15).
+     *
+     * El usuario puede pegar este JSON en un foro de soporte o compartirlo
+     * con un compañero para reproducir un problema. Antes devolvía la config
+     * sin sanitizar — adapter.obs.password, adapter.streamlabs.token,
+     * platforms.*.token, licenseKey, etc. quedaban expuestos.
+     *
+     * Ahora se aplica el MISMO filtro que _saveNow() usa para localStorage,
+     * más limpieza explícita de tokens OAuth que sólo viven en sessionStorage.
+     */
     export() {
         this.flush();
-        return JSON.stringify(this.config, null, 2);
+        const sanitized = this._clone(this.config);
+
+        // 1) Borrar adapter passwords y tokens (independiente de savePassword,
+        //    porque export es DESTINADO A SER COMPARTIDO).
+        if (sanitized.adapter?.obs) sanitized.adapter.obs.password = '';
+        if (sanitized.adapter?.prism) sanitized.adapter.prism.password = '';
+        if (sanitized.adapter?.streamlabs) sanitized.adapter.streamlabs.token = '';
+
+        // 2) Borrar OAuth tokens y client IDs sensibles por plataforma.
+        if (sanitized.platforms) {
+            for (const platformKey of Object.keys(sanitized.platforms)) {
+                const p = sanitized.platforms[platformKey];
+                if (p && typeof p === 'object') {
+                    if ('token' in p) p.token = '';
+                    if ('jwt' in p) p.jwt = '';
+                    if ('clientId' in p) p.clientId = '';
+                    if ('clientSecret' in p) p.clientSecret = '';
+                    if ('refreshToken' in p) p.refreshToken = '';
+                }
+            }
+        }
+
+        // 3) License key + cualquier campo de licencia (defensivo).
+        delete sanitized.licenseKey;
+        delete sanitized.licenseToken;
+        delete sanitized.licenseJwt;
+
+        // 4) Limpiar perfiles guardados — pueden contener configs antiguas
+        //    con passwords/tokens persistidos por savePassword=true.
+        if (sanitized.profile?.list) {
+            for (const profileId of Object.keys(sanitized.profile.list)) {
+                const prof = sanitized.profile.list[profileId];
+                if (prof && prof.config) {
+                    if (prof.config.adapter?.obs) prof.config.adapter.obs.password = '';
+                    if (prof.config.adapter?.prism) prof.config.adapter.prism.password = '';
+                    if (prof.config.adapter?.streamlabs) prof.config.adapter.streamlabs.token = '';
+                    if (prof.config.platforms) {
+                        for (const pk of Object.keys(prof.config.platforms)) {
+                            const pp = prof.config.platforms[pk];
+                            if (pp && typeof pp === 'object') {
+                                if ('token' in pp) pp.token = '';
+                                if ('jwt' in pp) pp.jwt = '';
+                                if ('clientId' in pp) pp.clientId = '';
+                                if ('clientSecret' in pp) pp.clientSecret = '';
+                                if ('refreshToken' in pp) pp.refreshToken = '';
+                            }
+                        }
+                    }
+                    delete prof.config.licenseKey;
+                    delete prof.config.licenseToken;
+                    delete prof.config.licenseJwt;
+                }
+            }
+        }
+
+        return JSON.stringify(sanitized, null, 2);
     }
 
     import(jsonString) {

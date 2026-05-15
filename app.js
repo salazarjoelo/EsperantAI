@@ -792,26 +792,31 @@
         const area = document.getElementById('event-triggers-area');
         if (!area) return;
 
+        // L-02 fix (2026-05-15): strings ahora vienen de locales/events.*.
+        // window.i18n.t(key, vars, fallback) — fallback en inglés para que
+        // si la key no existe en el locale activo, no se vea como "events.xxx".
+        const t = (k, fb) => (window.i18n ? window.i18n.t(k, null, fb) : fb);
+
         const EVENT_TYPES = [
-            { key: 'sub', icon: '🎁', label: 'Nueva suscripción' },
-            { key: 'resub', icon: '🔁', label: 'Resuscripción' },
-            { key: 'gift_sub', icon: '🎀', label: 'Sub regalada' },
-            { key: 'follow', icon: '➕', label: 'Nuevo follower' },
-            { key: 'donation', icon: '💰', label: 'Donación' },
-            { key: 'cheer_bits', icon: '💎', label: 'Bits / Cheer' },
-            { key: 'raid', icon: '🚀', label: 'Raid recibido' },
-            { key: 'super_chat', icon: '⭐', label: 'Super Chat (YT)' },
-            { key: 'channel_points', icon: '🎯', label: 'Channel Points' },
-            { key: 'member_milestone', icon: '🏆', label: 'Milestone miembros' }
+            { key: 'sub', icon: '🎁', label: t('events.sub_label', 'New subscription') },
+            { key: 'resub', icon: '🔁', label: t('events.resub_label', 'Resub') },
+            { key: 'gift_sub', icon: '🎀', label: t('events.gift_sub_label', 'Gifted sub') },
+            { key: 'follow', icon: '➕', label: t('events.follow_label', 'New follower') },
+            { key: 'donation', icon: '💰', label: t('events.donation_label', 'Donation') },
+            { key: 'cheer_bits', icon: '💎', label: t('events.cheer_bits_label', 'Bits / Cheer') },
+            { key: 'raid', icon: '🚀', label: t('events.raid_label', 'Raid received') },
+            { key: 'super_chat', icon: '⭐', label: t('events.super_chat_label', 'Super Chat (YT)') },
+            { key: 'channel_points', icon: '🎯', label: t('events.channel_points_label', 'Channel Points') },
+            { key: 'member_milestone', icon: '🏆', label: t('events.member_milestone_label', 'Member milestone') }
         ];
 
         const HAND_GESTURES = [
-            { value: '', label: '— ninguno (disparo automático) —' },
-            { value: 'thumbs-up', label: '👍 Pulgar arriba' },
-            { value: 'peace', label: '✌️ Paz' },
-            { value: 'rock', label: '🤘 Rock' },
-            { value: 'ok', label: '👌 OK' },
-            { value: 'open-palm', label: '🖐️ Palma abierta' }
+            { value: '', label: t('events.gesture_none_option', '— none (auto-trigger) —') },
+            { value: 'thumbs-up', label: t('events.gesture_thumbs_up', '👍 Thumbs up') },
+            { value: 'peace', label: t('events.gesture_peace', '✌️ Peace') },
+            { value: 'rock', label: t('events.gesture_rock', '🤘 Rock') },
+            { value: 'ok', label: t('events.gesture_ok', '👌 OK') },
+            { value: 'open-palm', label: t('events.gesture_open_palm', '🖐️ Open palm') }
         ];
 
         // Limpia y reconstruye
@@ -826,7 +831,7 @@
             const cb = document.createElement('input');
             cb.type = 'checkbox';
             cb.checked = !!cur.enabled;
-            cb.title = 'Habilitar este evento';
+            cb.title = t('events.toggle_title', 'Enable this event');
             cb.addEventListener('change', () => config.set(`eventTriggers.${evt.key}.enabled`, cb.checked));
 
             // Label
@@ -839,7 +844,7 @@
             sceneSel.className = 'event-trigger-scene-select';
             const emptyOpt = document.createElement('option');
             emptyOpt.value = '';
-            emptyOpt.textContent = '— escena —';
+            emptyOpt.textContent = t('events.scene_option_placeholder', '— scene —');
             sceneSel.appendChild(emptyOpt);
             sceneSel.value = cur.scene || '';
             sceneSel.addEventListener('change', () => config.set(`eventTriggers.${evt.key}.scene`, sceneSel.value));
@@ -859,7 +864,7 @@
             const info = document.createElement('span');
             info.style.cssText = 'color:var(--text-muted); cursor:help;';
             info.textContent = 'ⓘ';
-            info.title = 'Si seleccionas un gesto, debes hacerlo dentro de 5 segundos después del evento para confirmar la acción.';
+            info.title = t('events.info_tooltip', 'If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.');
 
             row.appendChild(cb);
             row.appendChild(lab);
@@ -875,13 +880,14 @@
      * de event triggers también con las escenas disponibles.
      */
     function updateEventTriggerSceneOptions(scenes) {
+        const t = (k, fb) => (window.i18n ? window.i18n.t(k, null, fb) : fb);
         document.querySelectorAll('.event-trigger-scene-select').forEach(sel => {
             const eventKey = sel.dataset.eventKey;
             const currentVal = config.get(`eventTriggers.${eventKey}.scene`, '');
             while (sel.firstChild) sel.removeChild(sel.firstChild);
             const emptyOpt = document.createElement('option');
             emptyOpt.value = '';
-            emptyOpt.textContent = '— escena —';
+            emptyOpt.textContent = t('events.scene_option_placeholder', '— scene —');
             sel.appendChild(emptyOpt);
             scenes.forEach(s => {
                 const opt = document.createElement('option');

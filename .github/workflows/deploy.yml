@@ -37,6 +37,11 @@ jobs:
           cp -r locales _site/locales
           cp -r assets _site/assets
           cp -r docs _site/docs
+          # Fix H-01 (2026-05-15): css/ y js/ NO se copiaban — web pública rota.
+          # index.html y landing.html linkean a css/index.css, css/landing.css,
+          # css/legal-doc.css, css/oauth-callback.css, js/landing.js, js/oauth-callback.js.
+          cp -r css _site/css
+          cp -r js _site/js
           # Fix audit H-04: modelos Human.js empaquetados localmente
           cp -r models _site/models
           cp README.md _site/README.md || true

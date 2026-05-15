@@ -3,7 +3,7 @@
     "language": "Polski (Polska)",
     "code": "pl-PL",
     "rtl": false,
-    "completion": 323,
+    "completion": 342,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Polish speaker review"
   },
@@ -375,5 +375,26 @@
     "locked_title": "Wyzwalacze combo",
     "locked_aria": "Wyzwalacze combo zablokowane",
     "locked_desc": "Wyzwalacze combo pozwalają wymagać fizycznego gestu do potwierdzenia wydarzeń z platformy, zanim uruchomi się akcja — idealne, aby uniknąć przypadkowych celebracji podczas streamu."
+  },
+  "events": {
+    "sub_label": "New subscription",
+    "resub_label": "Resub",
+    "gift_sub_label": "Gifted sub",
+    "follow_label": "New follower",
+    "donation_label": "Donation",
+    "cheer_bits_label": "Bits / Cheer",
+    "raid_label": "Raid received",
+    "super_chat_label": "Super Chat (YT)",
+    "channel_points_label": "Channel Points",
+    "member_milestone_label": "Member milestone",
+    "gesture_none_option": "— none (auto-trigger) —",
+    "gesture_thumbs_up": "👍 Thumbs up",
+    "gesture_peace": "✌️ Peace",
+    "gesture_rock": "🤘 Rock",
+    "gesture_ok": "👌 OK",
+    "gesture_open_palm": "🖐️ Open palm",
+    "scene_option_placeholder": "— scene —",
+    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
+    "toggle_title": "Enable this event"
   }
 }
