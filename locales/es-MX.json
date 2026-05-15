@@ -3,8 +3,8 @@
     "language": "Español (México)",
     "code": "es-MX",
     "rtl": false,
-    "completion": 307,
-    "note": "v2.0 — TASK-108 by ChatGPT 2026-05-14",
+    "completion": 322,
+    "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Mexican Spanish speaker review"
   },
   "app": {
@@ -45,7 +45,8 @@
     "enable": "Activar",
     "close": "Cerrar",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "combo_triggers": "Combo triggers"
   },
   "triggers": {
     "universality_title": "Universalidad de gestos",
@@ -357,5 +358,21 @@
       "hand_title": "Paso 4 · Chequeo de mano",
       "confirm_title": "Paso 5 · Confirma tu configuración"
     }
+  },
+  "combo": {
+    "hint": "Combina un evento de plataforma con un gesto físico para confirmar celebraciones. Sirve para evitar disparos accidentales durante tus streams.",
+    "add": "Agregar combo",
+    "empty": "Aún no hay combos. Haz clic en + Agregar combo para crear uno.",
+    "enabled": "Activado",
+    "event_label": "Evento",
+    "gesture_label": "Gesto de confirmación",
+    "select_event": "— evento —",
+    "select_gesture": "— gesto —",
+    "no_actions": "Sin acciones",
+    "remove": "Quitar",
+    "confirm_delete": "¿Borrar este combo?",
+    "locked_title": "Combo Triggers",
+    "locked_aria": "Combo Triggers bloqueados",
+    "locked_desc": "Los combo triggers te permiten exigir un gesto físico para confirmar eventos de plataforma antes de disparar la acción; ideal para evitar celebraciones accidentales durante tus streams."
   }
 }

@@ -3,8 +3,8 @@
     "language": "Português (Brasil)",
     "code": "pt-BR",
     "rtl": false,
-    "completion": 307,
-    "note": "v2.0 — TASK-107 by ChatGPT 2026-05-14",
+    "completion": 322,
+    "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Portuguese (Brazil) speaker review"
   },
   "app": {
@@ -45,7 +45,8 @@
     "enable": "Ativar",
     "close": "Fechar",
     "yes": "Sim",
-    "no": "Não"
+    "no": "Não",
+    "combo_triggers": "Gatilhos combinados"
   },
   "triggers": {
     "universality_title": "Universalidade dos gestos",
@@ -357,5 +358,21 @@
       "hand_title": "Etapa 4 · Verificação de mão",
       "confirm_title": "Etapa 5 · Confirmar configurações"
     }
+  },
+  "combo": {
+    "hint": "Combine um evento da plataforma com um gesto físico para confirmar celebrações. Útil para evitar acionamentos acidentais durante as lives.",
+    "add": "Adicionar combo",
+    "empty": "Ainda não há combos. Clique em + Adicionar combo para criar um.",
+    "enabled": "Ativado",
+    "event_label": "Evento",
+    "gesture_label": "Gesto de confirmação",
+    "select_event": "— evento —",
+    "select_gesture": "— gesto —",
+    "no_actions": "Sem ações",
+    "remove": "Remover",
+    "confirm_delete": "Excluir este combo?",
+    "locked_title": "Gatilhos combinados",
+    "locked_aria": "Gatilhos combinados bloqueados",
+    "locked_desc": "Os gatilhos combinados permitem exigir um gesto físico para confirmar eventos da plataforma antes que a ação dispare — perfeito para evitar celebrações acidentais durante as lives."
   }
 }
