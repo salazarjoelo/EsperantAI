@@ -18,6 +18,9 @@
  * NOTA: La extension Remote xjs aún está marcada como BETA. Esta implementación
  * cubre los casos básicos: lista de escenas y cambio de escena.
  * Funcionalidades avanzadas (filters, audio control) están limitadas.
+ *
+ * Z-204 hardening (2026-05-14):
+ *   Z-ADP-01/02/03/05/08: mismo patrón que adapter-streamlabs.
  * ========================================================================== */
 
 'use strict';
@@ -31,6 +34,13 @@ class AdapterXSplit extends AdapterBase {
         this.pendingRequests = new Map();
         this.currentScene = '';
         this.availableScenes = [];
+
+        // Z-ADP-01/03: reconnect state
+        this.isConnecting = false;
+        this.reconnectTimer = null;
+        this.manualDisconnect = false;
+        this.maxReconnectAttempts = 5;
+        this._lastConfig = null;
     }
 
     capabilities() {
@@ -52,33 +62,101 @@ class AdapterXSplit extends AdapterBase {
      *   Default: "ws://127.0.0.1:5555/xjs"
      */
     async connect(cfg) {
+        // Z-ADP-03: guard contra doble click "Connect"
+        if (this.isConnecting || this.connected) return false;
+        this.isConnecting = true;
+        this.manualDisconnect = false;
+        this._lastConfig = cfg;
         this.proxyUrl = cfg.proxyUrl || 'ws://127.0.0.1:5555/xjs';
+
+        // Z-ADP-02: cleanup WS anterior
+        this._cleanupWebSocket();
+
         return new Promise((resolve) => {
+            let resolved = false;
+            const finish = (result) => {
+                if (resolved) return;
+                resolved = true;
+                this.isConnecting = false;
+                resolve(result);
+            };
+
             try {
                 this.ws = new WebSocket(this.proxyUrl);
             } catch (e) {
                 this.emit('error', e);
-                return resolve(false);
+                return finish(false);
             }
             this.ws.onopen = async () => {
                 try {
                     await this._fetchScenes();
                     this.connected = true;
                     this.emit('connected');
-                    resolve(true);
+                    finish(true);
                 } catch (e) {
                     this.emit('error', e);
-                    resolve(false);
+                    finish(false);
                 }
             };
             this.ws.onmessage = (event) => this._handleMessage(event.data);
             this.ws.onerror = (err) => this.emit('error', err);
-            this.ws.onclose = () => {
-                this.connected = false;
-                this.emit('disconnected');
-            };
-            setTimeout(() => { if (!this.connected) resolve(false); }, 5000);
+            this.ws.onclose = () => this._handleClose();
+
+            // Z-ADP-05: timeout cierra el WS viejo
+            setTimeout(() => {
+                if (!this.connected && !resolved) {
+                    this._cleanupWebSocket();
+                    finish(false);
+                }
+            }, 5000);
         });
+    }
+
+    /** Z-ADP-02: limpia listeners + close del WS actual. */
+    _cleanupWebSocket() {
+        if (!this.ws) return;
+        try {
+            this.ws.onopen = null;
+            this.ws.onmessage = null;
+            this.ws.onerror = null;
+            this.ws.onclose = null;
+            this.ws.close();
+        } catch { /* ignore */ }
+        this.ws = null;
+    }
+
+    /** Z-ADP-01: reconnect con backoff. */
+    _handleClose() {
+        const wasConnected = this.connected;
+        this.connected = false;
+
+        if (this.manualDisconnect) {
+            this.emit('disconnected');
+            return;
+        }
+        if (!wasConnected) {
+            this.emit('disconnected');
+            return;
+        }
+
+        let attempt = 0;
+        const tryReconnect = async () => {
+            if (this.connected || this.manualDisconnect) return;
+            if (attempt >= this.maxReconnectAttempts) {
+                this.emit('reconnect_exhausted');
+                return;
+            }
+            attempt++;
+            this.emit('reconnecting', attempt, this.maxReconnectAttempts);
+            const delay = Math.min(3000 * attempt, 15000);
+            this.reconnectTimer = setTimeout(async () => {
+                if (this.manualDisconnect) return;
+                this.emit('reconnect_attempt', attempt);
+                const ok = await this.connect(this._lastConfig);
+                if (!ok) tryReconnect();
+            }, delay);
+        };
+        tryReconnect();
     }
 
     /**
@@ -89,7 +167,12 @@ class AdapterXSplit extends AdapterBase {
         return new Promise((resolve, reject) => {
             const id = ++this.requestId;
             this.pendingRequests.set(id, { resolve, reject });
-            this.ws.send(JSON.stringify({ id, method, params }));
+            try {
+                this.ws.send(JSON.stringify({ id, method, params }));
+            } catch (e) {
+                this.pendingRequests.delete(id);
+                return reject(e);
+            }
             setTimeout(() => {
                 if (this.pendingRequests.has(id)) {
                     this.pendingRequests.delete(id);
@@ -168,10 +251,18 @@ class AdapterXSplit extends AdapterBase {
     }
 
     async disconnect() {
-        if (this.ws) {
-            try { this.ws.close(); } catch {}
-            this.ws = null;
+        this.manualDisconnect = true;
+        if (this.reconnectTimer) {
+            clearTimeout(this.reconnectTimer);
+            this.reconnectTimer = null;
         }
+        // Z-ADP-08: rechazar pending requests
+        for (const [, { reject }] of this.pendingRequests) {
+            try { reject(new Error('Adapter disconnected')); } catch { /* ignore */ }
+        }
+        this.pendingRequests.clear();
+        // Z-ADP-02: cleanup completo
+        this._cleanupWebSocket();
         this.connected = false;
         this.emit('disconnected');
     }
