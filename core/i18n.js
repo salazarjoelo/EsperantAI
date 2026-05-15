@@ -35,7 +35,9 @@ class I18n {
      * Siempre carga fallback (en-US) también.
      */
     async load(localeRequested = null) {
-        const locale = localeRequested || this.detectLocale();
+        // Canonicaliza locales genéricos antes de cualquier fetch
+        // (ej: navigator.language='es-419' -> 'es-MX' que sí existe).
+        const locale = this._canonicalizeLocale(localeRequested || this.detectLocale());
 
         // Carga siempre fallback primero
         if (!Object.keys(this.fallbackTranslations).length) {
@@ -88,12 +90,33 @@ class I18n {
     }
 
     async _findLocaleByBaseLang(baseLang) {
-        // Lista canónica de locales soportados, primer match por base lang
+        // Lista canónica de locales soportados. Incluye hi-IN + id-ID que
+        // se agregaron como fallbacks al inglés en 2026-05-15 con el manual web.
         const supported = [
             'en-US', 'es-ES', 'es-MX', 'pt-BR', 'fr-FR', 'de-DE',
-            'ja-JP', 'ru-RU', 'zh-CN', 'it-IT', 'pl-PL', 'ar-SA', 'ko-KR'
+            'ja-JP', 'ru-RU', 'zh-CN', 'it-IT', 'pl-PL', 'ar-SA', 'ko-KR',
+            'hi-IN', 'id-ID'
         ];
         return supported.filter(l => l.startsWith(baseLang + '-'));
+    }
+
+    /**
+     * Mapea locales genéricos del navegador a uno concreto que sí tenemos
+     * en /locales/. Bug runtime detectado 2026-05-15: navegadores LATAM
+     * devuelven "es-419" (Spanish Latin America genérico) y "es-419.json"
+     * no existe -> 404 en cada page load.
+     * Resolución: mapear "es-419" -> "es-MX" antes del fetch.
+     */
+    _canonicalizeLocale(locale) {
+        if (!locale) return locale;
+        const map = {
+            'es-419': 'es-MX',    // Spanish Latin America genérico -> es-MX
+            'es':     'es-MX',    // Spanish a secas -> es-MX (mercado principal Joel)
+            'pt':     'pt-BR',
+            'zh':     'zh-CN',
+            'zh-Hans': 'zh-CN',
+        };
+        return map[locale] || locale;
     }
 
     /**
