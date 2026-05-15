@@ -3,8 +3,8 @@
     "language": "日本語",
     "code": "ja-JP",
     "rtl": false,
-    "completion": 307,
-    "note": "v3.0 — TASK-109 calibration keys added by ChatGPT 2026-05-14",
+    "completion": 322,
+    "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Japanese speaker review (critical for VTuber market)"
   },
   "app": {
@@ -45,7 +45,8 @@
     "enable": "有効化",
     "close": "閉じる",
     "yes": "はい",
-    "no": "いいえ"
+    "no": "いいえ",
+    "combo_triggers": "コンボトリガー"
   },
   "triggers": {
     "universality_title": "ジェスチャーの普遍性",
@@ -357,5 +358,21 @@
       "hand_title": "ステップ 4 · 手の確認",
       "confirm_title": "ステップ 5 · 設定確認"
     }
+  },
+  "combo": {
+    "hint": "プラットフォームイベントと物理ジェスチャーを組み合わせて、演出を確認してから実行できます。配信中の誤作動を防ぐのに役立ちます。",
+    "add": "コンボを追加",
+    "empty": "まだコンボはありません。+ コンボを追加 をクリックして作成してください。",
+    "enabled": "有効",
+    "event_label": "イベント",
+    "gesture_label": "確認ジェスチャー",
+    "select_event": "— イベント —",
+    "select_gesture": "— ジェスチャー —",
+    "no_actions": "アクションなし",
+    "remove": "削除",
+    "confirm_delete": "このコンボを削除しますか？",
+    "locked_title": "コンボトリガー",
+    "locked_aria": "コンボトリガーはロックされています",
+    "locked_desc": "コンボトリガーでは、プラットフォームイベントがアクションを実行する前に物理ジェスチャーで確認できます。配信中の意図しない演出を防ぐのに最適です。"
   }
 }

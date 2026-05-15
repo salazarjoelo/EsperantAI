@@ -3,8 +3,8 @@
     "language": "Deutsch (Deutschland)",
     "code": "de-DE",
     "rtl": false,
-    "completion": 307,
-    "note": "v2.0 — TASK-107 by ChatGPT 2026-05-14",
+    "completion": 322,
+    "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native German speaker review"
   },
   "app": {
@@ -45,7 +45,8 @@
     "enable": "Aktivieren",
     "close": "Schließen",
     "yes": "Ja",
-    "no": "Nein"
+    "no": "Nein",
+    "combo_triggers": "Combo-Trigger"
   },
   "triggers": {
     "universality_title": "Universalität von Gesten",
@@ -357,5 +358,21 @@
       "hand_title": "Schritt 4 · Handprüfung",
       "confirm_title": "Schritt 5 · Einstellungen bestätigen"
     }
+  },
+  "combo": {
+    "hint": "Kombiniere ein Plattform-Event mit einer physischen Geste, um Celebrations zu bestätigen. Nützlich, um versehentliche Trigger während des Streams zu vermeiden.",
+    "add": "Combo hinzufügen",
+    "empty": "Noch keine Combos. Klicke auf + Combo hinzufügen, um eine zu erstellen.",
+    "enabled": "Aktiviert",
+    "event_label": "Event",
+    "gesture_label": "Bestätigungsgeste",
+    "select_event": "— Event —",
+    "select_gesture": "— Geste —",
+    "no_actions": "Keine Aktionen",
+    "remove": "Entfernen",
+    "confirm_delete": "Diese Combo löschen?",
+    "locked_title": "Combo-Trigger",
+    "locked_aria": "Combo-Trigger gesperrt",
+    "locked_desc": "Combo-Trigger verlangen eine physische Geste, um Plattform-Events zu bestätigen, bevor die Aktion ausgelöst wird — ideal, um versehentliche Celebrations während des Streams zu vermeiden."
   }
 }
