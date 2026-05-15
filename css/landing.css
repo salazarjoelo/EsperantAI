@@ -370,3 +370,20 @@
     outline: 2px solid var(--brand-1);
     outline-offset: 2px;
 }
+
+/* CTA feedback box — visible cuando LemonSqueezy checkout URL aún no se
+ * configuró. Inicialmente oculto via [hidden] (CSP-safe — sin style inline). */
+.cta-feedback {
+    margin-top: 12px;
+    padding: 12px 16px;
+    background: #fff8e1;
+    border: 1px solid #f5d76e;
+    border-radius: 8px;
+    color: #7a5d00;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+}
+.cta-feedback[hidden] {
+    display: none;
+}
