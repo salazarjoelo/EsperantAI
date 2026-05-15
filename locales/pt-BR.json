@@ -3,7 +3,7 @@
     "language": "Português (Brasil)",
     "code": "pt-BR",
     "rtl": false,
-    "completion": 322,
+    "completion": 323,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Portuguese (Brazil) speaker review"
   },
@@ -46,7 +46,8 @@
     "close": "Fechar",
     "yes": "Sim",
     "no": "Não",
-    "combo_triggers": "Gatilhos combinados"
+    "combo_triggers": "Gatilhos combinados",
+    "skip_to_content": "Pular para o conteúdo"
   },
   "triggers": {
     "universality_title": "Universalidade dos gestos",

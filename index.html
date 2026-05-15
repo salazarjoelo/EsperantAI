@@ -43,14 +43,17 @@
 </head>
 <body>
 
-    <!-- Language selector (top-right) -->
-    <select id="lang-selector" class="lang-selector"></select>
+    <!-- Z-205 fix: skip link para navegación por teclado / screen readers -->
+    <a href="#dashboard" class="skip-link" data-i18n="ui.skip_to_content">Skip to content</a>
 
-    <!-- Brand header -->
+    <!-- Language selector (top-right) -->
+    <select id="lang-selector" class="lang-selector" aria-label="Language"></select>
+
+    <!-- Brand header (Z-205 fix: brand-name ahora es <h1> para jerarquía correcta de headings) -->
     <div class="brand-header">
         <img src="assets/branding/logo.svg" class="brand-logo" alt="EsperantAI">
         <div>
-            <div class="brand-name" data-i18n="app.title">EsperantAI</div>
+            <h1 class="brand-name" data-i18n="app.title">EsperantAI</h1>
             <div class="brand-tagline" data-i18n="app.tagline">Honest gestures.</div>
         </div>
     </div>
@@ -58,7 +61,7 @@
 
     <!-- Profile selector -->
     <div id="profile-bar" class="profile-bar">
-        <label class="profile-label" data-i18n="profiles.label">Profile:</label>
+        <label class="profile-label" for="profile-select" data-i18n="profiles.label">Profile:</label>
         <select id="profile-select" class="profile-select">
             <option value="default">Default</option>
         </select>
@@ -67,14 +70,14 @@
         <button id="btn-profile-delete" class="secondary profile-btn-danger" data-i18n="profiles.delete">Delete</button>
     </div>
 
-    <!-- Status bar -->
-    <div class="status-bar">
+    <!-- Status bar (Z-205 fix: aria-live para anunciar cambios de estado a screen readers) -->
+    <div class="status-bar" role="status" aria-live="polite" aria-atomic="true">
         <span id="status-ai" class="badge" data-i18n="status.ai_loading">Loading AI...</span>
         <span id="status-adapter" class="badge err" data-i18n="status.obs_disconnected">OBS Disconnected</span>
         <span id="status-detection" class="badge ok" data-i18n="status.detection_active">Detection Active</span>
     </div>
 
-    <div class="dashboard">
+    <main id="dashboard" class="dashboard">
 
         <!-- LEFT: VIDEO + METRICS -->
         <div class="panel video-panel">
@@ -245,9 +248,9 @@
             </div>
         </div>
 
-    </div>
+    </main>
 
-    <div class="footer">
+    <footer class="footer">
         EsperantAI v2.0 · <em>Honest gestures.</em><br>
         Human.js 3.3.6 · obs-websocket-js 5.0.8 · MIT-licensed deps ·
         <a href="docs/PRODUCT_SPEC.md">Product Spec</a> ·
@@ -257,7 +260,7 @@
         <a href="docs/PRIVACY.html">Privacy</a> ·
         <a href="docs/COOKIE_POLICY.html">Cookies</a> ·
         <a href="docs/THIRD_PARTY_LICENSES.html">OSS Licenses</a>
-    </div>
+    </footer>
 
     <!-- Calibration Wizard modal overlay (TASK-102) -->
     <div id="calibration-wizard-overlay" class="modal-overlay" hidden></div>

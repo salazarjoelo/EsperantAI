@@ -3,7 +3,7 @@
     "language": "日本語",
     "code": "ja-JP",
     "rtl": false,
-    "completion": 322,
+    "completion": 323,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Japanese speaker review (critical for VTuber market)"
   },
@@ -46,7 +46,8 @@
     "close": "閉じる",
     "yes": "はい",
     "no": "いいえ",
-    "combo_triggers": "コンボトリガー"
+    "combo_triggers": "コンボトリガー",
+    "skip_to_content": "コンテンツへスキップ"
   },
   "triggers": {
     "universality_title": "ジェスチャーの普遍性",
