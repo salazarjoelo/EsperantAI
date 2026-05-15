@@ -13,7 +13,7 @@
 class AdapterOBS extends AdapterBase {
     constructor() {
         super('OBS');
-        this.obs = new OBSWebSocket();
+        this.obs = null;  // Z-ADP-07: se crea en _initObs() para poder recrear en reconnect
         this.currentScene = '';
         this.studioMode = false;
         this.availableScenes = [];
@@ -23,7 +23,18 @@ class AdapterOBS extends AdapterBase {
         this.manualDisconnect = false;
         this.maxReconnectAttempts = 5;
 
-        // Wire eventos internos
+        this._initObs();
+    }
+
+    /**
+     * Z-ADP-07: crea una instancia fresca de OBSWebSocket y registra todos
+     * los event handlers. Llamado en constructor + cada vez que _handleClose
+     * decide reconectar, para evitar estado interno stale de obs-websocket-js
+     * tras múltiples ciclos de connect/disconnect.
+     */
+    _initObs() {
+        this.obs = new OBSWebSocket();
+
         this.obs.on('CurrentProgramSceneChanged', (data) => {
             this.currentScene = data.sceneName;
             this.emit('scene_changed', data.sceneName);
@@ -285,6 +296,11 @@ class AdapterOBS extends AdapterBase {
             const delay = Math.min(3000 * attempt, 15000);
             this.reconnectTimer = setTimeout(async () => {
                 if (this.manualDisconnect) return;
+                // Z-ADP-07: recrear OBSWebSocket para evitar estado interno stale
+                // tras ciclos repetidos de disconnect/reconnect. Los nuevos handlers
+                // se registran sobre la instancia limpia.
+                try { this.obs?.disconnect?.(); } catch { /* ignore */ }
+                this._initObs();
                 try {
                     await this.obs.connect(this._lastConfig?.url, this._lastConfig?.password || undefined, { rpcVersion: 1 });
                     this.connected = true;
