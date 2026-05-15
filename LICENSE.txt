@@ -1,8 +1,8 @@
 LICENCIA PROPIETARIA DE SOFTWARE — ESPERANTAI
 
-Titular/licenciante: [NOMBRE LEGAL / RAZÓN SOCIAL], RFC [RFC], con domicilio en [DOMICILIO], México.
+Titular/licenciante: Joel Salazar Ramírez, RFC SARJ690821BC3, con domicilio en Antonio Arias Bernal #316, Barrio de Guadalupe, CP 20059, Aguascalientes, Ags., México.
 Producto: EsperantAI.
-Fecha de entrada en vigor: [FECHA].
+Fecha de entrada en vigor: 2026-05-15.
 
 1. Reserva de derechos
 EsperantAI es software propietario. Salvo por los componentes de terceros identificados en los avisos correspondientes, todos los derechos de autor, marca, secretos industriales, know-how, código fuente, código objeto, diseño, documentación, nombres comerciales y demás derechos de propiedad intelectual pertenecen al titular o a sus licenciantes.
@@ -20,6 +20,6 @@ Los componentes open source o de terceros se rigen por sus propias licencias. La
 La compra de EsperantAI no transfiere la propiedad del software. Sólo se concede una licencia de uso.
 
 6. Contacto legal
-Para solicitudes legales, de licenciamiento o propiedad intelectual: [CORREO LEGAL].
+Para solicitudes legales, de licenciamiento o propiedad intelectual: soporte@edugame.digital.
 
-© 2026 [NOMBRE LEGAL / RAZÓN SOCIAL]. Todos los derechos reservados.
+© 2026 Joel Salazar Ramírez. Todos los derechos reservados.
