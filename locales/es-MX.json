@@ -3,7 +3,7 @@
     "language": "Español (México)",
     "code": "es-MX",
     "rtl": false,
-    "completion": 323,
+    "completion": 342,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Mexican Spanish speaker review"
   },
@@ -375,5 +375,26 @@
     "locked_title": "Combo Triggers",
     "locked_aria": "Combo Triggers bloqueados",
     "locked_desc": "Los combo triggers te permiten exigir un gesto físico para confirmar eventos de plataforma antes de disparar la acción; ideal para evitar celebraciones accidentales durante tus streams."
+  },
+  "events": {
+    "sub_label": "Nueva suscripción",
+    "resub_label": "Resuscripción",
+    "gift_sub_label": "Sub regalada",
+    "follow_label": "Nuevo follower",
+    "donation_label": "Donación",
+    "cheer_bits_label": "Bits / Cheer",
+    "raid_label": "Raid recibido",
+    "super_chat_label": "Super Chat (YT)",
+    "channel_points_label": "Channel Points",
+    "member_milestone_label": "Hito de miembros",
+    "gesture_none_option": "— ninguno (disparo automático) —",
+    "gesture_thumbs_up": "👍 Pulgar arriba",
+    "gesture_peace": "✌️ Paz",
+    "gesture_rock": "🤘 Rock",
+    "gesture_ok": "👌 OK",
+    "gesture_open_palm": "🖐️ Palma abierta",
+    "scene_option_placeholder": "— escena —",
+    "info_tooltip": "Si seleccionas un gesto, debes realizarlo dentro de 5 segundos después del evento para confirmar la acción.",
+    "toggle_title": "Habilitar este evento"
   }
 }

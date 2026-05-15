@@ -290,3 +290,161 @@ describe('health + deactivate + webhook', () => {
         strictEqual(res.status, 401);
     });
 });
+
+// ─── H-03: /admin/revoked auth ────────────────────────────────────────────
+describe('/admin/revoked auth (H-03)', () => {
+    async function startAppWithToken(token) {
+        const testApp = createApp({
+            signKey: privateKey,
+            adminToken: token,
+            lemonSqueezyApiKey: 'test-key',
+            rateLimiterFactory: () => ({ consume: async () => {} }),
+            lemonSqueezyFetch: createMockFetch(),
+            db: createInMemoryRevocationsDb(),
+        });
+        const server = await new Promise((resolve) => {
+            const s = testApp.listen(0, () => resolve(s));
+        });
+        extraServers.push(server);
+        return { server, url: `http://127.0.0.1:${server.address().port}` };
+    }
+
+    it('13. sin ADMIN_TOKEN configurado → 503 admin_disabled', async () => {
+        const testApp = createApp({
+            signKey: privateKey,
+            lemonSqueezyApiKey: 'test-key',
+            rateLimiterFactory: () => ({ consume: async () => {} }),
+            lemonSqueezyFetch: createMockFetch(),
+            db: createInMemoryRevocationsDb(),
+            // adminToken omitido a propósito
+        });
+        const server = await new Promise((resolve) => {
+            const s = testApp.listen(0, () => resolve(s));
+        });
+        extraServers.push(server);
+        const url = `http://127.0.0.1:${server.address().port}`;
+        const res = await fetch(`${url}/admin/revoked`);
+        strictEqual(res.status, 503);
+        const data = await res.json();
+        strictEqual(data.error, 'admin_disabled');
+    });
+
+    it('14. sin Authorization header → 401', async () => {
+        const { url } = await startAppWithToken('secret-admin-token-13');
+        const res = await fetch(`${url}/admin/revoked`);
+        strictEqual(res.status, 401);
+    });
+
+    it('15. token incorrecto → 401', async () => {
+        const { url } = await startAppWithToken('secret-admin-token-13');
+        const res = await fetch(`${url}/admin/revoked`, {
+            headers: { 'Authorization': 'Bearer WRONG-TOKEN' },
+        });
+        strictEqual(res.status, 401);
+    });
+
+    it('16. token correcto → 200 con lista de revocations', async () => {
+        const { url } = await startAppWithToken('secret-admin-token-13');
+        const res = await fetch(`${url}/admin/revoked`, {
+            headers: { 'Authorization': 'Bearer secret-admin-token-13' },
+        });
+        strictEqual(res.status, 200);
+        const data = await res.json();
+        strictEqual(data.ok, true);
+        ok(Array.isArray(data.revocations));
+    });
+});
+
+// ─── H-04: /deactivate requires JWT ───────────────────────────────────────
+describe('/deactivate auth (H-04)', () => {
+    async function startAppWithVerifyKey() {
+        const testApp = createApp({
+            signKey: privateKey,
+            verifyKey: publicKey,
+            lemonSqueezyApiKey: 'test-key',
+            rateLimiterFactory: () => ({ consume: async () => {} }),
+            lemonSqueezyFetch: createMockFetch(),
+            db: createInMemoryRevocationsDb(),
+        });
+        const server = await new Promise((resolve) => {
+            const s = testApp.listen(0, () => resolve(s));
+        });
+        extraServers.push(server);
+        return { server, url: `http://127.0.0.1:${server.address().port}` };
+    }
+
+    it('17. sin JWT → 401 unauthorized', async () => {
+        const { url } = await startAppWithVerifyKey();
+        const res = await fetch(`${url}/deactivate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ license_key: 'VALID-KEY', instance_id: 'inst-1' }),
+        });
+        strictEqual(res.status, 401);
+    });
+
+    it('18. JWT inválido → 401 invalid_token', async () => {
+        const { url } = await startAppWithVerifyKey();
+        const res = await fetch(`${url}/deactivate`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer not.a.real.jwt',
+            },
+            body: JSON.stringify({ license_key: 'VALID-KEY', instance_id: 'inst-1' }),
+        });
+        strictEqual(res.status, 401);
+        const data = await res.json();
+        strictEqual(data.error, 'invalid_token');
+    });
+
+    it('19. JWT válido pero sub ≠ license_key → 403 license_mismatch', async () => {
+        const { url } = await startAppWithVerifyKey();
+        // Obtener JWT para VALID-KEY
+        const verifyRes = await fetch(`${url}/verify`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ license_key: 'VALID-KEY' }),
+        });
+        const { token } = await verifyRes.json();
+        ok(typeof token === 'string', 'verify debe haber devuelto JWT');
+        // Intentar desactivar OTRA licencia con este JWT
+        const res = await fetch(`${url}/deactivate`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({ license_key: 'OTHER-KEY', instance_id: 'inst-1' }),
+        });
+        strictEqual(res.status, 403);
+        const data = await res.json();
+        strictEqual(data.error, 'license_mismatch');
+    });
+
+    it('20. sin verifyKey configurado → 503 jwt_disabled', async () => {
+        // App sin verifyKey
+        const testApp = createApp({
+            signKey: privateKey,
+            // verifyKey omitido
+            lemonSqueezyApiKey: 'test-key',
+            rateLimiterFactory: () => ({ consume: async () => {} }),
+            lemonSqueezyFetch: createMockFetch(),
+            db: createInMemoryRevocationsDb(),
+        });
+        const server = await new Promise((resolve) => {
+            const s = testApp.listen(0, () => resolve(s));
+        });
+        extraServers.push(server);
+        const url = `http://127.0.0.1:${server.address().port}`;
+        const res = await fetch(`${url}/deactivate`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer anything',
+            },
+            body: JSON.stringify({ license_key: 'VALID-KEY', instance_id: 'inst-1' }),
+        });
+        strictEqual(res.status, 503);
+    });
+});

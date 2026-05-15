@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.socket.io; connect-src 'self' wss://eventsub.wss.twitch.tv https://api.twitch.tv https://www.googleapis.com https://api.kick.com https://id.kick.com https://api.streamelements.com https://realtime.streamelements.com https://api.lemonsqueezy.com https://vladmandic.github.io ws://127.0.0.1:* http://127.0.0.1:*; img-src 'self' data: https://vladmandic.github.io; media-src 'self'; style-src 'self'; worker-src 'self' blob:;">
+    <!-- CSP fixes (2026-05-15):
+         B-03: removed cdn.socket.io (socket.io loaded locally from libs/)
+         M-03: removed vladmandic.github.io (Human.js models loaded locally from models/)
+         H-02: added license.edugame.digital, id.twitch.tv, open-api.trovo.live,
+               wss://open-chat.trovo.live (runtime endpoints used by platforms/) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' https://license.edugame.digital wss://eventsub.wss.twitch.tv https://api.twitch.tv https://id.twitch.tv https://www.googleapis.com https://api.kick.com https://id.kick.com https://api.streamelements.com https://realtime.streamelements.com https://api.lemonsqueezy.com https://open-api.trovo.live wss://open-chat.trovo.live ws://127.0.0.1:* http://127.0.0.1:*; img-src 'self' data:; media-src 'self'; style-src 'self'; worker-src 'self' blob:;">
     <title>EsperantAI — Honest gestures</title>
     <link rel="icon" type="image/svg+xml" href="assets/branding/logo.svg">
 

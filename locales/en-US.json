@@ -3,7 +3,7 @@
     "language": "English (US)",
     "code": "en-US",
     "rtl": false,
-    "completion": 323,
+    "completion": 342,
     "translator": "native (source language)"
   },
   "app": {
@@ -374,5 +374,26 @@
     "locked_title": "Combo Triggers",
     "locked_aria": "Combo Triggers locked",
     "locked_desc": "Combo triggers let you require a physical gesture to confirm platform events before the action fires — perfect to avoid accidental celebrations during streams."
+  },
+  "events": {
+    "sub_label": "New subscription",
+    "resub_label": "Resub",
+    "gift_sub_label": "Gifted sub",
+    "follow_label": "New follower",
+    "donation_label": "Donation",
+    "cheer_bits_label": "Bits / Cheer",
+    "raid_label": "Raid received",
+    "super_chat_label": "Super Chat (YT)",
+    "channel_points_label": "Channel Points",
+    "member_milestone_label": "Member milestone",
+    "gesture_none_option": "— none (auto-trigger) —",
+    "gesture_thumbs_up": "👍 Thumbs up",
+    "gesture_peace": "✌️ Peace",
+    "gesture_rock": "🤘 Rock",
+    "gesture_ok": "👌 OK",
+    "gesture_open_palm": "🖐️ Open palm",
+    "scene_option_placeholder": "— scene —",
+    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
+    "toggle_title": "Enable this event"
   }
 }

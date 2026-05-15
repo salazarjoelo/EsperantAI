@@ -206,6 +206,9 @@ export function createApp(deps = {}) {
         db: injectedDb,
         jtiStore: injectedJtiStore,
         jtiStorePath = JTI_STORE_PATH,
+        // H-03 (2026-05-15): /admin/revoked requires ADMIN_TOKEN.
+        // Si la env var no está definida, el endpoint queda DISABLED (503).
+        adminToken = process.env.ADMIN_TOKEN,
     } = deps;
 
     const app = express();
@@ -270,8 +273,27 @@ export function createApp(deps = {}) {
         res.json({ status: 'ok', service: 'esperantai-license', version: '1.0.0' });
     });
 
-    // ─── POST /admin/revoked — listar revocaciones ────────────────────────
+    // ─── GET /admin/revoked — listar revocaciones (H-03 protected) ────────
+    // Requiere ADMIN_TOKEN en Authorization: Bearer ... (timing-safe compare).
+    // Si ADMIN_TOKEN no está configurado → 503 (endpoint deshabilitado).
     app.get('/admin/revoked', (req, res) => {
+        if (!adminToken) {
+            return res.status(503).json({ ok: false, error: 'admin_disabled' });
+        }
+        const authHeader = req.headers.authorization || '';
+        const m = authHeader.match(/^Bearer\s+(.+)$/);
+        if (!m) return res.status(401).json({ ok: false, error: 'unauthorized' });
+        const provided = m[1];
+        // timing-safe compare (constant-time)
+        if (provided.length !== adminToken.length) {
+            return res.status(401).json({ ok: false, error: 'unauthorized' });
+        }
+        let equal = 0;
+        for (let i = 0; i < provided.length; i++) {
+            equal |= provided.charCodeAt(i) ^ adminToken.charCodeAt(i);
+        }
+        if (equal !== 0) return res.status(401).json({ ok: false, error: 'unauthorized' });
+
         const limit = parseInt(req.query.limit || '100', 10);
         const revocations = getRevocations(db, Math.min(limit, 1000));
         res.json({ ok: true, count: revocations.length, revocations });
@@ -399,12 +421,43 @@ export function createApp(deps = {}) {
         }
     });
 
-    // ─── /deactivate ─────────────────────────────────────────────────────
+    // ─── /deactivate (H-04 protected) ─────────────────────────────────────
+    // Requiere Authorization: Bearer <JWT> emitido por este servidor.
+    // El JWT.sub (license_key) DEBE coincidir con body.license_key —
+    // así un cliente no puede desactivar instancias de OTRA licencia
+    // aunque conozca su license_key (mitigación de DoS contra usuarios).
     app.post('/deactivate', async (req, res) => {
         const { license_key, instance_id } = req.body || {};
         if (!license_key || !instance_id) {
             return res.status(400).json({ ok: false, error: 'missing_params' });
         }
+
+        // Verificar JWT
+        if (!finalVerifyKey) {
+            return res.status(503).json({ ok: false, error: 'jwt_disabled' });
+        }
+        const authHeader = req.headers.authorization || '';
+        const m = authHeader.match(/^Bearer\s+(.+)$/);
+        if (!m) return res.status(401).json({ ok: false, error: 'unauthorized' });
+        let payload;
+        try {
+            const result = await jwtVerify(m[1], finalVerifyKey, {
+                issuer: JWT_ISSUER,
+                audience: JWT_AUDIENCE,
+            });
+            payload = result.payload;
+        } catch {
+            return res.status(401).json({ ok: false, error: 'invalid_token' });
+        }
+        // El JWT debe pertenecer a la licencia que se intenta desactivar
+        if (payload.sub !== license_key) {
+            return res.status(403).json({ ok: false, error: 'license_mismatch' });
+        }
+        // Si la licencia fue revocada, no permitir más deactivates con ese JWT
+        if (isRevoked(db, license_key)) {
+            return res.status(403).json({ ok: false, error: 'revoked' });
+        }
+
         const fetchFn = lemonSqueezyFetch || fetch;
         try {
             const lsRes = await fetchFn('https://api.lemonsqueezy.com/v1/licenses/deactivate', {
@@ -457,6 +510,12 @@ export function createApp(deps = {}) {
         }
     };
 
+    // M-01 (2026-05-15): exponer jtiStore al bootstrap para que los handlers
+    // de SIGTERM/SIGINT puedan persistirlo a disco antes de exit.
+    // Antes vivía SOLO dentro del closure de createApp — fuera era ReferenceError.
+    app._jtiStore = jtiStore;
+    app._jtiStorePath = jtiStorePath;
+
     return app;
 }
 
@@ -492,12 +551,17 @@ if (import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}`) {
         console.log(`[+] jtiStore: ${JTI_STORE_PATH}`);
     });
 
-    process.on('SIGTERM', () => {
-        saveJtiStoreToDisk(jtiStore, JTI_STORE_PATH);
+    // M-01 (2026-05-15): jtiStore vive dentro del closure de createApp —
+    // accederlo vía app._jtiStore evita ReferenceError en estos handlers.
+    const shutdown = (signal) => {
+        try {
+            saveJtiStoreToDisk(app._jtiStore, app._jtiStorePath);
+            console.log(`[${signal}] jti store persistido en ${app._jtiStorePath}`);
+        } catch (e) {
+            console.error(`[${signal}] Error persistiendo jti store:`, e.message);
+        }
         process.exit(0);
-    });
-    process.on('SIGINT', () => {
-        saveJtiStoreToDisk(jtiStore, JTI_STORE_PATH);
-        process.exit(0);
-    });
+    };
+    process.on('SIGTERM', () => shutdown('SIGTERM'));
+    process.on('SIGINT', () => shutdown('SIGINT'));
 }
