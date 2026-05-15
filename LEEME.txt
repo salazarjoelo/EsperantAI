@@ -1,0 +1,139 @@
+═══════════════════════════════════════════════════════════════════════════════
+                      ESPERANTAI  -  v1.0.0
+            Controlador de gestos honestos para streaming
+                        © EdugameDigital 2026
+═══════════════════════════════════════════════════════════════════════════════
+
+¿Qué es EsperantAI?
+───────────────────────────────────────────────────────────────────────────────
+EsperantAI usa inteligencia artificial para detectar tus gestos faciales y
+de mano en tiempo real, y los convierte en comandos para tu software de
+streaming (OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit).
+
+Mira a la izquierda → cambia a la escena "Juego".
+Sonríe → enciende el overlay de chat.
+Pulgar arriba → muestra alerta de donación.
+
+Todo procesado en TU computadora. Ningún video se envía a internet.
+
+
+Requisitos mínimos
+───────────────────────────────────────────────────────────────────────────────
+  • Windows 10 o superior (también funciona en macOS y Linux)
+  • Cámara web USB (cualquiera funciona, recomendado 720p+)
+  • Python 3.7 o superior (el launcher te ayuda a instalarlo)
+  • Navegador moderno: Chrome 90+, Edge 90+, o Firefox 100+
+  • Tu software de streaming abierto (OBS, Streamlabs, vMix, etc.)
+  • Conexión a internet (solo para activación inicial de licencia)
+
+
+CÓMO ABRIRLO (3 pasos)
+───────────────────────────────────────────────────────────────────────────────
+
+  PASO 1 — Doble click en "EsperantAI.bat"
+
+         Aparece una ventana negra (terminal de Windows). NO la cierres.
+         Esa ventana es el servidor local que hace funcionar EsperantAI.
+
+  PASO 2 — Tu navegador se abre automáticamente
+
+         Verás la página de bienvenida. Si todavía no compraste licencia,
+         hay un botón "Comprar licencia EsperantAI" que te lleva a la tienda.
+
+  PASO 3 — Activar tu licencia
+
+         Si ya tienes tu clave de licencia (la recibes por correo al comprar):
+           a. Abre http://127.0.0.1:8765/index.html en tu navegador.
+           b. Pega la clave en el formulario.
+           c. Click "Activar licencia".
+
+         Listo. Ya puedes conectar OBS y configurar gestos.
+
+
+Primer uso — Configurar OBS Studio
+───────────────────────────────────────────────────────────────────────────────
+
+  1. Abre OBS Studio.
+  2. Menú "Herramientas" → "WebSocket Server Settings".
+  3. Marca "Enable WebSocket Server". Anota el password si pones uno.
+  4. Click "OK".
+  5. En EsperantAI: en el panel "Conectar OBS", la URL por defecto
+     es ws://127.0.0.1:4455 — déjala así.
+  6. Pega tu password si pusiste uno.
+  7. Click "Conectar".
+  8. Aparecen tus escenas reales. Asigna gestos en el panel de Triggers.
+
+Para Streamlabs Desktop / vMix / PRISM / XSplit:
+  Lee el manual completo en http://127.0.0.1:8765/docs/manual.html
+
+
+Soporte
+───────────────────────────────────────────────────────────────────────────────
+  Correo:     soporte@edugame.digital
+  Manual:     http://127.0.0.1:8765/docs/manual.html (cuando EsperantAI esté abierto)
+  Asunto sugerido para correos:
+              "ESPERANTAI - [tu pregunta corta]"
+
+  Tiempos de respuesta:
+    • Preguntas generales:    24-72 horas
+    • Bugs técnicos:          1-3 días hábiles
+    • Solicitudes de reembolso: 1-2 días hábiles
+
+
+Política de reembolso
+───────────────────────────────────────────────────────────────────────────────
+  14 días naturales desde la compra. Si EsperantAI no cumple tus expectativas,
+  envíanos un correo a soporte@edugame.digital con tu clave de licencia.
+
+
+Privacidad
+───────────────────────────────────────────────────────────────────────────────
+  ❌ NO enviamos tu video a ningún servidor.
+  ❌ NO almacenamos capturas.
+  ❌ NO compartimos datos con anunciantes.
+  ✅ Todo el procesamiento sucede en tu computadora.
+  ✅ Solo la validación de licencia conecta a nuestros servidores
+     (license.edugame.digital), y solo cada 7 días.
+
+  Aviso de privacidad completo: en /docs/PRIVACY.html (abrir con EsperantAI activo).
+
+
+Documentos legales incluidos
+───────────────────────────────────────────────────────────────────────────────
+  LICENSE.txt                        — Licencia de uso del software
+  docs/EULA.html                     — Contrato de Licencia de Usuario Final
+  docs/TERMS_OF_SERVICE.html         — Términos del servicio
+  docs/PRIVACY.html                  — Aviso de privacidad
+  docs/COOKIE_POLICY.html            — Política de cookies
+  docs/PURCHASE_AND_LICENSE_TERMS.html — Términos de compra y licencia
+  docs/REFUND_POLICY.html            — Política de reembolso
+  docs/THIRD_PARTY_LICENSES.html     — Licencias de terceros
+
+
+Solución de problemas comunes
+───────────────────────────────────────────────────────────────────────────────
+
+  P: La ventana negra dice "Python no esta instalado"
+  R: Sigue las instrucciones que te muestra. Cuando termines de instalar
+     Python, vuelve a hacer doble click en EsperantAI.bat.
+
+  P: La cámara no se enciende
+  R: El navegador te pidió permiso de cámara? Acéptalo. Si no apareció el
+     pedido, busca el icono de cámara en la barra de direcciones del navegador.
+
+  P: OBS no aparece conectado
+  R: Verifica que OBS esté ABIERTO y que el WebSocket Server esté HABILITADO
+     (Herramientas → WebSocket Server Settings → Enable).
+
+  P: "Esta licencia ya alcanzó su límite de dispositivos"
+  R: Cada licencia permite hasta 3 dispositivos. Si necesitas usarla en uno
+     nuevo, primero desactívala en uno viejo: Panel Avanzado → Licencia →
+     "Desactivar en este dispositivo".
+
+
+───────────────────────────────────────────────────────────────────────────────
+  Hecho con cuidado por Joel Salazar Ramírez · EdugameDigital
+  RFC: SARJ690821BC3
+  Antonio Arias Bernal #316, Barrio de Guadalupe, CP 20059
+  Aguascalientes, Aguascalientes, México
+───────────────────────────────────────────────────────────────────────────────
