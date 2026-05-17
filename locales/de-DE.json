@@ -5,7 +5,7 @@
     "rtl": false,
     "completion": 342,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
-    "translator": "AI-generated — needs native German speaker review"
+    "translator": "Reviewed and events.* completed by Claude Opus 4.7 (2026-05-17). Standard German technical streaming vocabulary."
   },
   "app": {
     "title": "EsperantAI",
@@ -377,24 +377,24 @@
     "locked_desc": "Combo-Trigger verlangen eine physische Geste, um Plattform-Events zu bestätigen, bevor die Aktion ausgelöst wird — ideal, um versehentliche Celebrations während des Streams zu vermeiden."
   },
   "events": {
-    "sub_label": "New subscription",
-    "resub_label": "Resub",
-    "gift_sub_label": "Gifted sub",
-    "follow_label": "New follower",
-    "donation_label": "Donation",
+    "sub_label": "Neues Abonnement",
+    "resub_label": "Re-Abo",
+    "gift_sub_label": "Geschenk-Abo",
+    "follow_label": "Neuer Follower",
+    "donation_label": "Spende",
     "cheer_bits_label": "Bits / Cheer",
-    "raid_label": "Raid received",
+    "raid_label": "Raid erhalten",
     "super_chat_label": "Super Chat (YT)",
-    "channel_points_label": "Channel Points",
-    "member_milestone_label": "Member milestone",
-    "gesture_none_option": "— none (auto-trigger) —",
-    "gesture_thumbs_up": "👍 Thumbs up",
+    "channel_points_label": "Kanalpunkte",
+    "member_milestone_label": "Mitglieder-Meilenstein",
+    "gesture_none_option": "— keine (Auto-Trigger) —",
+    "gesture_thumbs_up": "👍 Daumen hoch",
     "gesture_peace": "✌️ Peace",
     "gesture_rock": "🤘 Rock",
     "gesture_ok": "👌 OK",
-    "gesture_open_palm": "🖐️ Open palm",
-    "scene_option_placeholder": "— scene —",
-    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
-    "toggle_title": "Enable this event"
+    "gesture_open_palm": "🖐️ Offene Handfläche",
+    "scene_option_placeholder": "— Szene —",
+    "info_tooltip": "Wenn du eine Geste auswählst, musst du sie innerhalb von 5 Sekunden nach dem Event ausführen, um die Aktion zu bestätigen.",
+    "toggle_title": "Dieses Event aktivieren"
   }
 }

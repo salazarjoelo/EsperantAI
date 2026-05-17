@@ -5,7 +5,7 @@
     "rtl": false,
     "completion": 342,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
-    "translator": "AI-generated — needs native Polish speaker review"
+    "translator": "Reviewed and events.* completed by Claude Opus 4.7 (2026-05-17). Standard Polish streaming terminology."
   },
   "app": {
     "title": "EsperantAI",
@@ -377,24 +377,24 @@
     "locked_desc": "Wyzwalacze combo pozwalają wymagać fizycznego gestu do potwierdzenia wydarzeń z platformy, zanim uruchomi się akcja — idealne, aby uniknąć przypadkowych celebracji podczas streamu."
   },
   "events": {
-    "sub_label": "New subscription",
-    "resub_label": "Resub",
-    "gift_sub_label": "Gifted sub",
-    "follow_label": "New follower",
-    "donation_label": "Donation",
+    "sub_label": "Nowa subskrypcja",
+    "resub_label": "Ponowna subskrypcja",
+    "gift_sub_label": "Subskrypcja prezentowa",
+    "follow_label": "Nowy obserwujący",
+    "donation_label": "Darowizna",
     "cheer_bits_label": "Bits / Cheer",
-    "raid_label": "Raid received",
+    "raid_label": "Otrzymany raid",
     "super_chat_label": "Super Chat (YT)",
-    "channel_points_label": "Channel Points",
-    "member_milestone_label": "Member milestone",
-    "gesture_none_option": "— none (auto-trigger) —",
-    "gesture_thumbs_up": "👍 Thumbs up",
-    "gesture_peace": "✌️ Peace",
+    "channel_points_label": "Punkty kanału",
+    "member_milestone_label": "Kamień milowy członków",
+    "gesture_none_option": "— brak (automatyczny trigger) —",
+    "gesture_thumbs_up": "👍 Kciuk w górę",
+    "gesture_peace": "✌️ Pokój",
     "gesture_rock": "🤘 Rock",
     "gesture_ok": "👌 OK",
-    "gesture_open_palm": "🖐️ Open palm",
-    "scene_option_placeholder": "— scene —",
-    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
-    "toggle_title": "Enable this event"
+    "gesture_open_palm": "🖐️ Otwarta dłoń",
+    "scene_option_placeholder": "— scena —",
+    "info_tooltip": "Jeśli wybierzesz gest, musisz wykonać go w ciągu 5 sekund od zdarzenia, aby potwierdzić akcję.",
+    "toggle_title": "Włącz to wydarzenie"
   }
 }

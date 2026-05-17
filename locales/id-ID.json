@@ -4,7 +4,7 @@
     "code": "id-ID",
     "rtl": false,
     "completion": 342,
-    "translator": "fallback to English — translator pending"
+    "translator": "events.* translated by Claude Opus 4.7 (2026-05-17). Most UI strings remain in English fallback — full translation pending."
   },
   "app": {
     "title": "EsperantAI",
@@ -376,24 +376,24 @@
     "locked_desc": "Combo triggers let you require a physical gesture to confirm platform events before the action fires — perfect to avoid accidental celebrations during streams."
   },
   "events": {
-    "sub_label": "New subscription",
-    "resub_label": "Resub",
-    "gift_sub_label": "Gifted sub",
-    "follow_label": "New follower",
-    "donation_label": "Donation",
+    "sub_label": "Langganan baru",
+    "resub_label": "Langganan ulang",
+    "gift_sub_label": "Langganan hadiah",
+    "follow_label": "Pengikut baru",
+    "donation_label": "Donasi",
     "cheer_bits_label": "Bits / Cheer",
-    "raid_label": "Raid received",
+    "raid_label": "Raid diterima",
     "super_chat_label": "Super Chat (YT)",
-    "channel_points_label": "Channel Points",
-    "member_milestone_label": "Member milestone",
-    "gesture_none_option": "— none (auto-trigger) —",
-    "gesture_thumbs_up": "👍 Thumbs up",
-    "gesture_peace": "✌️ Peace",
+    "channel_points_label": "Poin Channel",
+    "member_milestone_label": "Pencapaian anggota",
+    "gesture_none_option": "— tidak ada (pemicu otomatis) —",
+    "gesture_thumbs_up": "👍 Jempol ke atas",
+    "gesture_peace": "✌️ Damai",
     "gesture_rock": "🤘 Rock",
     "gesture_ok": "👌 OK",
-    "gesture_open_palm": "🖐️ Open palm",
-    "scene_option_placeholder": "— scene —",
-    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
-    "toggle_title": "Enable this event"
+    "gesture_open_palm": "🖐️ Telapak terbuka",
+    "scene_option_placeholder": "— adegan —",
+    "info_tooltip": "Jika Anda memilih gestur, Anda harus melakukannya dalam 5 detik setelah event untuk mengonfirmasi tindakan.",
+    "toggle_title": "Aktifkan event ini"
   }
 }

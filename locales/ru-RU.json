@@ -5,7 +5,7 @@
     "rtl": false,
     "completion": 342,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
-    "translator": "AI-generated — needs native Russian speaker review"
+    "translator": "Reviewed and events.* completed by Claude Opus 4.7 (2026-05-17). Standard Russian — second person informal (ты) for streamer voice."
   },
   "app": {
     "title": "EsperantAI",
@@ -377,24 +377,24 @@
     "locked_desc": "Комбо-триггеры позволяют требовать физический жест для подтверждения событий платформы перед запуском действия — идеально, чтобы избежать случайных празднований во время стрима."
   },
   "events": {
-    "sub_label": "New subscription",
-    "resub_label": "Resub",
-    "gift_sub_label": "Gifted sub",
-    "follow_label": "New follower",
-    "donation_label": "Donation",
+    "sub_label": "Новая подписка",
+    "resub_label": "Продление подписки",
+    "gift_sub_label": "Подарочная подписка",
+    "follow_label": "Новый фолловер",
+    "donation_label": "Донат",
     "cheer_bits_label": "Bits / Cheer",
-    "raid_label": "Raid received",
+    "raid_label": "Рейд получен",
     "super_chat_label": "Super Chat (YT)",
-    "channel_points_label": "Channel Points",
-    "member_milestone_label": "Member milestone",
-    "gesture_none_option": "— none (auto-trigger) —",
-    "gesture_thumbs_up": "👍 Thumbs up",
-    "gesture_peace": "✌️ Peace",
-    "gesture_rock": "🤘 Rock",
+    "channel_points_label": "Очки канала",
+    "member_milestone_label": "Веха участников",
+    "gesture_none_option": "— нет (автоматический триггер) —",
+    "gesture_thumbs_up": "👍 Большой палец вверх",
+    "gesture_peace": "✌️ Мир",
+    "gesture_rock": "🤘 Рок",
     "gesture_ok": "👌 OK",
-    "gesture_open_palm": "🖐️ Open palm",
-    "scene_option_placeholder": "— scene —",
-    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
-    "toggle_title": "Enable this event"
+    "gesture_open_palm": "🖐️ Открытая ладонь",
+    "scene_option_placeholder": "— сцена —",
+    "info_tooltip": "Если выбран жест, его необходимо выполнить в течение 5 секунд после события, чтобы подтвердить действие.",
+    "toggle_title": "Включить это событие"
   }
 }

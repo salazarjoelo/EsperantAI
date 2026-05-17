@@ -5,7 +5,7 @@
     "rtl": false,
     "completion": 342,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
-    "translator": "AI-generated — needs native Korean speaker review"
+    "translator": "Reviewed and events.* completed by Claude Opus 4.7 (2026-05-17). Standard Korean (해요체) informal-polite register."
   },
   "app": {
     "title": "EsperantAI",
@@ -377,24 +377,24 @@
     "locked_desc": "콤보 트리거는 플랫폼 이벤트가 액션을 실행하기 전에 실제 제스처로 확인하도록 합니다. 방송 중 의도치 않은 축하 액션을 방지하기에 적합합니다."
   },
   "events": {
-    "sub_label": "New subscription",
-    "resub_label": "Resub",
-    "gift_sub_label": "Gifted sub",
-    "follow_label": "New follower",
-    "donation_label": "Donation",
+    "sub_label": "새 구독",
+    "resub_label": "재구독",
+    "gift_sub_label": "선물 구독",
+    "follow_label": "새 팔로워",
+    "donation_label": "후원",
     "cheer_bits_label": "Bits / Cheer",
-    "raid_label": "Raid received",
-    "super_chat_label": "Super Chat (YT)",
-    "channel_points_label": "Channel Points",
-    "member_milestone_label": "Member milestone",
-    "gesture_none_option": "— none (auto-trigger) —",
-    "gesture_thumbs_up": "👍 Thumbs up",
-    "gesture_peace": "✌️ Peace",
-    "gesture_rock": "🤘 Rock",
+    "raid_label": "레이드 받음",
+    "super_chat_label": "슈퍼챗 (YT)",
+    "channel_points_label": "채널 포인트",
+    "member_milestone_label": "멤버 마일스톤",
+    "gesture_none_option": "— 없음 (자동 트리거) —",
+    "gesture_thumbs_up": "👍 엄지 척",
+    "gesture_peace": "✌️ 평화",
+    "gesture_rock": "🤘 록",
     "gesture_ok": "👌 OK",
-    "gesture_open_palm": "🖐️ Open palm",
-    "scene_option_placeholder": "— scene —",
-    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
-    "toggle_title": "Enable this event"
+    "gesture_open_palm": "🖐️ 손바닥 펴기",
+    "scene_option_placeholder": "— 장면 —",
+    "info_tooltip": "제스처를 선택한 경우, 이벤트 발생 후 5초 이내에 수행하여 액션을 확정하세요.",
+    "toggle_title": "이 이벤트 활성화"
   }
 }

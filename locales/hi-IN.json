@@ -4,7 +4,7 @@
     "code": "hi-IN",
     "rtl": false,
     "completion": 342,
-    "translator": "fallback to English — translator pending"
+    "translator": "events.* translated by Claude Opus 4.7 (2026-05-17). Most UI strings remain in English fallback — full translation pending."
   },
   "app": {
     "title": "EsperantAI",
@@ -376,24 +376,24 @@
     "locked_desc": "Combo triggers let you require a physical gesture to confirm platform events before the action fires — perfect to avoid accidental celebrations during streams."
   },
   "events": {
-    "sub_label": "New subscription",
-    "resub_label": "Resub",
-    "gift_sub_label": "Gifted sub",
-    "follow_label": "New follower",
-    "donation_label": "Donation",
+    "sub_label": "नई सदस्यता",
+    "resub_label": "पुनः सदस्यता",
+    "gift_sub_label": "उपहार सदस्यता",
+    "follow_label": "नया फॉलोअर",
+    "donation_label": "दान",
     "cheer_bits_label": "Bits / Cheer",
-    "raid_label": "Raid received",
-    "super_chat_label": "Super Chat (YT)",
-    "channel_points_label": "Channel Points",
-    "member_milestone_label": "Member milestone",
-    "gesture_none_option": "— none (auto-trigger) —",
-    "gesture_thumbs_up": "👍 Thumbs up",
-    "gesture_peace": "✌️ Peace",
-    "gesture_rock": "🤘 Rock",
+    "raid_label": "रेड प्राप्त",
+    "super_chat_label": "सुपर चैट (YT)",
+    "channel_points_label": "चैनल पॉइंट्स",
+    "member_milestone_label": "सदस्य मील का पत्थर",
+    "gesture_none_option": "— कोई नहीं (स्वचालित ट्रिगर) —",
+    "gesture_thumbs_up": "👍 अंगूठा ऊपर",
+    "gesture_peace": "✌️ शांति",
+    "gesture_rock": "🤘 रॉक",
     "gesture_ok": "👌 OK",
-    "gesture_open_palm": "🖐️ Open palm",
-    "scene_option_placeholder": "— scene —",
-    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
-    "toggle_title": "Enable this event"
+    "gesture_open_palm": "🖐️ खुली हथेली",
+    "scene_option_placeholder": "— दृश्य —",
+    "info_tooltip": "यदि आप एक इशारा चुनते हैं, तो कार्रवाई की पुष्टि के लिए इवेंट के 5 सेकंड के भीतर इसे करना होगा।",
+    "toggle_title": "इस इवेंट को सक्षम करें"
   }
 }

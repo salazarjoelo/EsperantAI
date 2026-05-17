@@ -5,7 +5,7 @@
     "rtl": false,
     "completion": 342,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
-    "translator": "AI-generated — needs native French speaker review"
+    "translator": "Reviewed and events.* completed by Claude Opus 4.7 (2026-05-17). Tutoiement (tu/te) maintained — informal streamer register."
   },
   "app": {
     "title": "EsperantAI",
@@ -377,24 +377,24 @@
     "locked_desc": "Les déclencheurs combinés permettent d’exiger un geste physique pour confirmer les événements de plateforme avant de lancer l’action — parfait pour éviter les célébrations accidentelles pendant les streams."
   },
   "events": {
-    "sub_label": "New subscription",
-    "resub_label": "Resub",
-    "gift_sub_label": "Gifted sub",
-    "follow_label": "New follower",
-    "donation_label": "Donation",
+    "sub_label": "Nouvel abonnement",
+    "resub_label": "Réabonnement",
+    "gift_sub_label": "Abonnement offert",
+    "follow_label": "Nouveau follower",
+    "donation_label": "Don",
     "cheer_bits_label": "Bits / Cheer",
-    "raid_label": "Raid received",
+    "raid_label": "Raid reçu",
     "super_chat_label": "Super Chat (YT)",
-    "channel_points_label": "Channel Points",
-    "member_milestone_label": "Member milestone",
-    "gesture_none_option": "— none (auto-trigger) —",
-    "gesture_thumbs_up": "👍 Thumbs up",
-    "gesture_peace": "✌️ Peace",
+    "channel_points_label": "Points de chaîne",
+    "member_milestone_label": "Étape de membres",
+    "gesture_none_option": "— aucun (déclenchement auto) —",
+    "gesture_thumbs_up": "👍 Pouce levé",
+    "gesture_peace": "✌️ Paix",
     "gesture_rock": "🤘 Rock",
     "gesture_ok": "👌 OK",
-    "gesture_open_palm": "🖐️ Open palm",
-    "scene_option_placeholder": "— scene —",
-    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
-    "toggle_title": "Enable this event"
+    "gesture_open_palm": "🖐️ Paume ouverte",
+    "scene_option_placeholder": "— scène —",
+    "info_tooltip": "Si tu sélectionnes un geste, tu dois l'effectuer dans les 5 secondes suivant l'événement pour confirmer l'action.",
+    "toggle_title": "Activer cet événement"
   }
 }

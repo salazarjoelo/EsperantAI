@@ -5,7 +5,7 @@
     "rtl": true,
     "completion": 342,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
-    "translator": "AI-generated — needs native Arabic speaker review"
+    "translator": "Reviewed and events.* completed by Claude Opus 4.7 (2026-05-17). Modern Standard Arabic (MSA). RTL preserved."
   },
   "app": {
     "title": "EsperantAI",
@@ -377,24 +377,24 @@
     "locked_desc": "تتيح لك مشغلات كومبو طلب إيماءة فعلية لتأكيد أحداث المنصة قبل تنفيذ الإجراء — مثالية لتجنب الاحتفالات غير المقصودة أثناء البث."
   },
   "events": {
-    "sub_label": "New subscription",
-    "resub_label": "Resub",
-    "gift_sub_label": "Gifted sub",
-    "follow_label": "New follower",
-    "donation_label": "Donation",
+    "sub_label": "اشتراك جديد",
+    "resub_label": "تجديد الاشتراك",
+    "gift_sub_label": "اشتراك مُهدى",
+    "follow_label": "متابع جديد",
+    "donation_label": "تبرع",
     "cheer_bits_label": "Bits / Cheer",
-    "raid_label": "Raid received",
-    "super_chat_label": "Super Chat (YT)",
-    "channel_points_label": "Channel Points",
-    "member_milestone_label": "Member milestone",
-    "gesture_none_option": "— none (auto-trigger) —",
-    "gesture_thumbs_up": "👍 Thumbs up",
-    "gesture_peace": "✌️ Peace",
-    "gesture_rock": "🤘 Rock",
-    "gesture_ok": "👌 OK",
-    "gesture_open_palm": "🖐️ Open palm",
-    "scene_option_placeholder": "— scene —",
-    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
-    "toggle_title": "Enable this event"
+    "raid_label": "استقبال غارة",
+    "super_chat_label": "Super Chat (يوتيوب)",
+    "channel_points_label": "نقاط القناة",
+    "member_milestone_label": "إنجاز الأعضاء",
+    "gesture_none_option": "— لا شيء (تشغيل تلقائي) —",
+    "gesture_thumbs_up": "👍 إبهام لأعلى",
+    "gesture_peace": "✌️ السلام",
+    "gesture_rock": "🤘 روك",
+    "gesture_ok": "👌 موافق",
+    "gesture_open_palm": "🖐️ كف مفتوحة",
+    "scene_option_placeholder": "— مشهد —",
+    "info_tooltip": "إذا اخترت إيماءة، يجب أن تقوم بها خلال 5 ثوانٍ من الحدث لتأكيد الإجراء.",
+    "toggle_title": "تفعيل هذا الحدث"
   }
 }

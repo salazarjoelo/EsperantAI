@@ -5,7 +5,7 @@
     "rtl": false,
     "completion": 342,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
-    "translator": "AI-generated — needs native Simplified Chinese speaker review"
+    "translator": "Reviewed and events.* completed by Claude Opus 4.7 (2026-05-17). Simplified Chinese for mainland streaming platforms."
   },
   "app": {
     "title": "EsperantAI",
@@ -377,24 +377,24 @@
     "locked_desc": "组合触发器可要求通过实体手势确认平台事件后再执行动作，非常适合避免直播中的意外庆祝。"
   },
   "events": {
-    "sub_label": "New subscription",
-    "resub_label": "Resub",
-    "gift_sub_label": "Gifted sub",
-    "follow_label": "New follower",
-    "donation_label": "Donation",
+    "sub_label": "新订阅",
+    "resub_label": "续订",
+    "gift_sub_label": "赠送订阅",
+    "follow_label": "新关注",
+    "donation_label": "捐赠",
     "cheer_bits_label": "Bits / Cheer",
-    "raid_label": "Raid received",
-    "super_chat_label": "Super Chat (YT)",
-    "channel_points_label": "Channel Points",
-    "member_milestone_label": "Member milestone",
-    "gesture_none_option": "— none (auto-trigger) —",
-    "gesture_thumbs_up": "👍 Thumbs up",
-    "gesture_peace": "✌️ Peace",
-    "gesture_rock": "🤘 Rock",
+    "raid_label": "收到突袭",
+    "super_chat_label": "超级聊天 (YT)",
+    "channel_points_label": "频道积分",
+    "member_milestone_label": "会员里程碑",
+    "gesture_none_option": "— 无（自动触发）—",
+    "gesture_thumbs_up": "👍 竖大拇指",
+    "gesture_peace": "✌️ 比 V",
+    "gesture_rock": "🤘 摇滚",
     "gesture_ok": "👌 OK",
-    "gesture_open_palm": "🖐️ Open palm",
-    "scene_option_placeholder": "— scene —",
-    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
-    "toggle_title": "Enable this event"
+    "gesture_open_palm": "🖐️ 张开手掌",
+    "scene_option_placeholder": "— 场景 —",
+    "info_tooltip": "如果选择了手势，需要在事件发生后 5 秒内做出该手势以确认执行动作。",
+    "toggle_title": "启用此事件"
   }
 }

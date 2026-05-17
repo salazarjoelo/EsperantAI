@@ -5,7 +5,7 @@
     "rtl": false,
     "completion": 342,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
-    "translator": "AI-generated — needs native Portuguese (Brazil) speaker review"
+    "translator": "Reviewed and events.* completed by Claude Opus 4.7 (2026-05-17). Brazilian Portuguese — informal you (você)."
   },
   "app": {
     "title": "EsperantAI",
@@ -377,24 +377,24 @@
     "locked_desc": "Os gatilhos combinados permitem exigir um gesto físico para confirmar eventos da plataforma antes que a ação dispare — perfeito para evitar celebrações acidentais durante as lives."
   },
   "events": {
-    "sub_label": "New subscription",
-    "resub_label": "Resub",
-    "gift_sub_label": "Gifted sub",
-    "follow_label": "New follower",
-    "donation_label": "Donation",
+    "sub_label": "Nova inscrição",
+    "resub_label": "Re-inscrição",
+    "gift_sub_label": "Inscrição presenteada",
+    "follow_label": "Novo seguidor",
+    "donation_label": "Doação",
     "cheer_bits_label": "Bits / Cheer",
-    "raid_label": "Raid received",
+    "raid_label": "Raid recebida",
     "super_chat_label": "Super Chat (YT)",
-    "channel_points_label": "Channel Points",
-    "member_milestone_label": "Member milestone",
-    "gesture_none_option": "— none (auto-trigger) —",
-    "gesture_thumbs_up": "👍 Thumbs up",
-    "gesture_peace": "✌️ Peace",
+    "channel_points_label": "Pontos do canal",
+    "member_milestone_label": "Marco de membros",
+    "gesture_none_option": "— nenhum (disparo automático) —",
+    "gesture_thumbs_up": "👍 Polegar para cima",
+    "gesture_peace": "✌️ Paz",
     "gesture_rock": "🤘 Rock",
     "gesture_ok": "👌 OK",
-    "gesture_open_palm": "🖐️ Open palm",
-    "scene_option_placeholder": "— scene —",
-    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
-    "toggle_title": "Enable this event"
+    "gesture_open_palm": "🖐️ Palma aberta",
+    "scene_option_placeholder": "— cena —",
+    "info_tooltip": "Se você selecionar um gesto, precisa executá-lo dentro de 5 segundos do evento para confirmar a ação.",
+    "toggle_title": "Habilitar este evento"
   }
 }

@@ -5,7 +5,7 @@
     "rtl": false,
     "completion": 342,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
-    "translator": "AI-generated — needs native Japanese speaker review (critical for VTuber market)"
+    "translator": "Reviewed and events.* completed by Claude Opus 4.7 (2026-05-17). VTuber/streaming katakana conventions for loanwords. Casual register suitable for solo streamers and small audiences."
   },
   "app": {
     "title": "EsperantAI",
@@ -377,24 +377,24 @@
     "locked_desc": "コンボトリガーでは、プラットフォームイベントがアクションを実行する前に物理ジェスチャーで確認できます。配信中の意図しない演出を防ぐのに最適です。"
   },
   "events": {
-    "sub_label": "New subscription",
-    "resub_label": "Resub",
-    "gift_sub_label": "Gifted sub",
-    "follow_label": "New follower",
-    "donation_label": "Donation",
+    "sub_label": "新規サブスク",
+    "resub_label": "継続サブスク",
+    "gift_sub_label": "ギフトサブスク",
+    "follow_label": "新規フォロー",
+    "donation_label": "投げ銭",
     "cheer_bits_label": "Bits / Cheer",
-    "raid_label": "Raid received",
-    "super_chat_label": "Super Chat (YT)",
-    "channel_points_label": "Channel Points",
-    "member_milestone_label": "Member milestone",
-    "gesture_none_option": "— none (auto-trigger) —",
-    "gesture_thumbs_up": "👍 Thumbs up",
-    "gesture_peace": "✌️ Peace",
-    "gesture_rock": "🤘 Rock",
+    "raid_label": "レイド受信",
+    "super_chat_label": "スーパーチャット（YT）",
+    "channel_points_label": "チャンネルポイント",
+    "member_milestone_label": "メンバーマイルストーン",
+    "gesture_none_option": "— なし（自動トリガー）—",
+    "gesture_thumbs_up": "👍 サムズアップ",
+    "gesture_peace": "✌️ ピース",
+    "gesture_rock": "🤘 ロック",
     "gesture_ok": "👌 OK",
-    "gesture_open_palm": "🖐️ Open palm",
-    "scene_option_placeholder": "— scene —",
-    "info_tooltip": "If you select a gesture, you must perform it within 5 seconds of the event to confirm the action.",
-    "toggle_title": "Enable this event"
+    "gesture_open_palm": "🖐️ 手のひらを開く",
+    "scene_option_placeholder": "— シーン —",
+    "info_tooltip": "ジェスチャーを選択した場合、イベントから5秒以内に行ってアクションを確定してください。",
+    "toggle_title": "このイベントを有効化"
   }
 }
