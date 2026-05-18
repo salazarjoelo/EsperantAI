@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self';">
+<!-- 2026-05-18: script-src 'unsafe-inline' es necesario porque MANUALS y la lógica
+     del visor están embebidos como <script> inline (~250KB de manuales en 15 idiomas).
+     Pérdida de seguridad: mínima — manual.html no procesa input externo ni tokens.
+     Alternativa futura: extraer JS a libs/manual-viewer.js + libs/manuals-data.js. -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EsperantAI — User Manual</title>
-<script src="libs/marked.min.js" integrity="sha384-948ahk4ZmxYVYOc+rxN1H2gM1EJ2Duhp7uHtZ4WSLkV4Vtx5MUqnV+l7u9B+jFv+" crossorigin="anonymous"></script>
+<script src="libs/marked.min.js"></script>
 <style>
 :root {
   --bg: #ffffff;
