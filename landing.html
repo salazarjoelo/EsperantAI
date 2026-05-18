@@ -8,7 +8,7 @@
     <meta name="description" content="EsperantAI convierte gestos de cara y mano en acciones para tu stream: escenas, overlays, sonidos y nudges de monetización. Dos planes: Pro y Pro+. Sin Free tier, sin trial. Producto digital final.">
     <link rel="icon" type="image/svg+xml" href="assets/branding/logo.svg">
 
-    <link rel="stylesheet" href="css/landing.css?v=20260518b">
+    <link rel="stylesheet" href="css/landing.css?v=20260518c">
 </head>
 <body>
 
@@ -53,42 +53,92 @@
         </div>
     </header>
 
-    <section class="section" id="features">
+    <section class="section section-features" id="features">
         <div class="container">
-            <h2 class="section-title">Deja de perseguir atajos mientras transmites</h2>
-            <p class="section-subtitle">Tu cara y tus manos se convierten en acciones de streaming: escenas, sonidos, overlays y respuestas a eventos.</p>
+            <h2 class="section-title">Suelta el teclado. Streamea con la cara y las manos.</h2>
+            <p class="section-subtitle">Cambiar escena, lanzar un sonido, activar un overlay o responder a un sub — sin tocar nada en vivo.</p>
+
+            <!-- SVG sprite compartido para iconos de features -->
+            <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+                <defs>
+                    <linearGradient id="ico-grad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#58a6ff"/>
+                        <stop offset="55%" stop-color="#bc8cff"/>
+                        <stop offset="100%" stop-color="#ff7b72"/>
+                    </linearGradient>
+                    <symbol id="ico-face" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 11V8a3 3 0 0 1 3-3h3"/>
+                        <path d="M21 5h3a3 3 0 0 1 3 3v3"/>
+                        <path d="M27 21v3a3 3 0 0 1-3 3h-3"/>
+                        <path d="M11 27H8a3 3 0 0 1-3-3v-3"/>
+                        <circle cx="12" cy="14" r="1" fill="url(#ico-grad)" stroke="none"/>
+                        <circle cx="20" cy="14" r="1" fill="url(#ico-grad)" stroke="none"/>
+                        <path d="M12 20c1.5 1.5 3 2 4 2s2.5-.5 4-2"/>
+                    </symbol>
+                    <symbol id="ico-layers" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4 3 11l13 7 13-7-13-7z"/>
+                        <path d="M3 18l13 7 13-7"/>
+                        <path d="M3 24l13 7 13-7"/>
+                    </symbol>
+                    <symbol id="ico-broadcast" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="6" width="24" height="16" rx="2"/>
+                        <path d="M11 26h10"/>
+                        <path d="M16 22v4"/>
+                        <circle cx="16" cy="14" r="2.5" fill="url(#ico-grad)" stroke="none"/>
+                        <path d="M11 14a5 5 0 0 1 10 0"/>
+                    </symbol>
+                    <symbol id="ico-gift" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="13" width="22" height="14" rx="1.5"/>
+                        <path d="M3 9h26v4H3z"/>
+                        <path d="M16 9v18"/>
+                        <path d="M16 9c-2-3-7-3-7 0s3 3 7 0z"/>
+                        <path d="M16 9c2-3 7-3 7 0s-3 3-7 0z"/>
+                    </symbol>
+                    <symbol id="ico-globe" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="16" cy="16" r="12"/>
+                        <ellipse cx="16" cy="16" rx="5" ry="12"/>
+                        <path d="M4 16h24"/>
+                        <path d="M6 9h20"/>
+                        <path d="M6 23h20"/>
+                    </symbol>
+                    <symbol id="ico-shield" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 4 5 8v8c0 7 5 11 11 12 6-1 11-5 11-12V8L16 4z"/>
+                        <path d="M11 16l4 4 6-8"/>
+                    </symbol>
+                </defs>
+            </svg>
 
             <div class="feature-grid">
-                <div class="feature">
-                    <div class="feature-icon">🧠</div>
-                    <h3 class="feature-title">Convierte intención en acción</h3>
-                    <p class="feature-desc">Una mirada, una sonrisa o un giro de cabeza pueden cambiar de escena, lanzar una alerta o preparar tu siguiente momento de stream.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">✋</div>
-                    <h3 class="feature-title">Configura múltiples acciones</h3>
-                    <p class="feature-desc">Un gesto puede cambiar escena, reproducir sonido y mostrar una notificación. Ideal para reacciones, celebraciones y pausas limpias.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🎬</div>
-                    <h3 class="feature-title">5 software de streaming</h3>
-                    <p class="feature-desc">OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio y XSplit Broadcaster.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">📡</div>
-                    <h3 class="feature-title">Nudges de monetización éticos</h3>
-                    <p class="feature-desc">Subs, donaciones, bits o Super Chats pueden sugerir escenas de agradecimiento, tip jars discretos o alertas sin presionar a la audiencia.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🌍</div>
-                    <h3 class="feature-title">13 idiomas auto-detectados</h3>
-                    <p class="feature-desc">La app detecta el idioma de tu sistema operativo y carga el locale correspondiente. Cambio manual también disponible.</p>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🔒</div>
-                    <h3 class="feature-title">Privacy by design</h3>
-                    <p class="feature-desc">Todo el procesamiento de video corre 100% local en tu GPU. Cero video enviado a la nube. Cero tracking.</p>
-                </div>
+                <article class="feature">
+                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-face"/></svg></div>
+                    <h3 class="feature-title">Tu cara controla la escena</h3>
+                    <p class="feature-desc">Una sonrisa, un giro de cabeza o una mirada lanzan un cambio de escena, una alerta o un transition stinger. Cero teclas en vivo.</p>
+                </article>
+                <article class="feature">
+                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-layers"/></svg></div>
+                    <h3 class="feature-title">Un gesto · múltiples acciones</h3>
+                    <p class="feature-desc">Encadena cambio de escena + sonido + overlay + DM en un solo trigger. Tus reacciones se ven coreografiadas, no manuales.</p>
+                </article>
+                <article class="feature">
+                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-broadcast"/></svg></div>
+                    <h3 class="feature-title">Encaja con tu setup</h3>
+                    <p class="feature-desc">OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio y XSplit Broadcaster — soportados nativamente vía WebSocket.</p>
+                </article>
+                <article class="feature">
+                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-gift"/></svg></div>
+                    <h3 class="feature-title">Monetiza sin presionar</h3>
+                    <p class="feature-desc">Subs, bits, donaciones y Super Chats activan agradecimientos visuales y tip jars discretos. Tu audiencia siente la gratitud, no el guilt-trip.</p>
+                </article>
+                <article class="feature">
+                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-globe"/></svg></div>
+                    <h3 class="feature-title">13 idiomas · audiencia global</h3>
+                    <p class="feature-desc">Auto-detecta el locale del sistema. EN, ES, PT-BR, FR, DE, IT, RU, PL, AR, JA, ZH, KO y más. Cambio manual en un clic.</p>
+                </article>
+                <article class="feature">
+                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-shield"/></svg></div>
+                    <h3 class="feature-title">100% local · 0% nube</h3>
+                    <p class="feature-desc">Tu cara nunca sale de tu GPU. Los modelos de IA corren on-device. Cero video subido, cero tracking, cero telemetría a terceros.</p>
+                </article>
             </div>
         </div>
     </section>
