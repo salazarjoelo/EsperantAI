@@ -1,29 +1,40 @@
 /* EsperantAI — script del landing.
- * Extraído de landing.html para TASK-105 CSP hardening Fase 1.
+ * Maneja los 2 botones de compra: Pro y Pro+.
  */
 'use strict';
 
-// Reemplazar URL de compra LemonSqueezy. Joel configura este URL después de
-// crear el producto en LemonSqueezy Dashboard.
-const LEMONSQUEEZY_CHECKOUT_URL = 'REEMPLAZAR_CON_URL_LEMONSQUEEZY_CHECKOUT';
+// URLs de checkout LemonSqueezy. Joel configura estos URLs después de
+// crear los productos en LemonSqueezy Dashboard (uno por variant).
+const LEMONSQUEEZY_CHECKOUT_PRO = 'REEMPLAZAR_CON_URL_LEMONSQUEEZY_PRO';
+const LEMONSQUEEZY_CHECKOUT_PRO_PLUS = 'REEMPLAZAR_CON_URL_LEMONSQUEEZY_PRO_PLUS';
 
-document.getElementById('cta-buy').addEventListener('click', (e) => {
-    e.preventDefault();
+function showPlaceholderFeedback(planLabel) {
+    const fb = document.getElementById('cta-feedback');
+    if (!fb) return;
+    fb.textContent =
+        `🚧 La tienda online estará lista pronto. Para precompra anticipada de ${planLabel} ` +
+        'o reservar tu licencia, escríbenos a soporte@edugame.digital con asunto ' +
+        `"RESERVA ${planLabel.toUpperCase()}" y te avisamos en cuanto se active el checkout.`;
+    fb.hidden = false;
+    fb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
 
-    // Bug runtime fix 2026-05-15: si el URL aún no está configurado, dar
-    // feedback visible al usuario en vez de fallar silenciosamente (antes
-    // el click sólo escribía a console.warn que el usuario no ve).
-    if (LEMONSQUEEZY_CHECKOUT_URL.startsWith('REEMPLAZAR')) {
-        const fb = document.getElementById('cta-feedback');
-        if (fb) {
-            fb.textContent =
-                '🚧 La tienda online estará lista pronto. Para precompra anticipada o reservar tu licencia, ' +
-                'escríbenos a soporte@edugame.digital con asunto "RESERVA ESPERANTAI" y te avisamos en cuanto se active el checkout.';
-            fb.hidden = false;  // CSP-safe (sin style inline)
-            fb.scrollIntoView({ behavior: 'smooth', block: 'center' });
+function wireCheckout(buttonId, checkoutUrl, planLabel) {
+    const btn = document.getElementById(buttonId);
+    if (!btn) return;
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (checkoutUrl.startsWith('REEMPLAZAR')) {
+            showPlaceholderFeedback(planLabel);
+            console.warn(
+                `[${planLabel}] LemonSqueezy checkout URL no configurado. ` +
+                'Editar js/landing.js líneas 9-10.'
+            );
+            return;
         }
-        console.warn('LemonSqueezy checkout URL no configurado. Editar js/landing.js línea 8.');
-        return;
-    }
-    window.location.href = LEMONSQUEEZY_CHECKOUT_URL;
-});
+        window.location.href = checkoutUrl;
+    });
+}
+
+wireCheckout('cta-buy-pro', LEMONSQUEEZY_CHECKOUT_PRO, 'Pro');
+wireCheckout('cta-buy-pro-plus', LEMONSQUEEZY_CHECKOUT_PRO_PLUS, 'Pro+');
