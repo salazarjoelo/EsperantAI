@@ -234,6 +234,17 @@ body {
 }
 .scroll-top.visible { opacity: 1; transform: translateY(0); }
 .scroll-top:hover { background: var(--primary-hover); }
+
+/* Heading alias anchor — invisible, sirve para anchors del MD que quedaron
+ * en inglés cuando el heading visible está en otro idioma (ja/zh/ko/ar).
+ * Permite que #what-is-esperantai navegue al heading "EsperantAIとは？". */
+.heading-alias-anchor {
+  display: block;
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  scroll-margin-top: var(--header-height);
+}
 .scroll-top svg { width: 20px; height: 20px; }
 
 /* Overlay for mobile */
@@ -458,18 +469,82 @@ function render() {
   const htmlContent = marked.parse(mdContent);
   document.getElementById('content').innerHTML = htmlContent;
 
-  // Add IDs to headings for anchor links
+  // Add IDs to headings using GitHub-style slugs.
+  // Fix 2026-05-18: antes usaba "section-N", ahora slugify del texto.
+  //
+  // Bug adicional descubierto: en ja-JP, zh-CN, ko-KR, ar-SA los headings
+  // están traducidos pero los anchors del índice numerado del MD quedaron
+  // en INGLÉS (#what-is-esperantai apuntando a un heading que dice
+  // "EsperantAIとは？"). Solución: agregar un secondary anchor invisible
+  // con el slug en inglés (mapeado por POSICIÓN — todos los manuales
+  // tienen el mismo orden de secciones).
   const container = document.getElementById('content');
   const headings = container.querySelectorAll('h2, h3');
+  const usedSlugs = new Map();
+
+  // Compute English slugs from MANUALS['en-US'] once, by position
+  const englishSlugs = (() => {
+    if (!MANUALS['en-US']) return [];
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = marked.parse(MANUALS['en-US'].content);
+    return Array.from(tempDiv.querySelectorAll('h2, h3')).map(h => slugify(h.textContent));
+  })();
+
   currentHeadings = [];
   headings.forEach((h, i) => {
-    const id = 'section-' + i;
+    const slug = slugify(h.textContent);
+    const count = usedSlugs.get(slug) || 0;
+    usedSlugs.set(slug, count + 1);
+    const id = count === 0 ? slug : slug + '-' + count;
     h.id = id;
+
+    // Secondary anchor for EN-aliased links (only if different from primary)
+    const enSlug = englishSlugs[i];
+    if (enSlug && enSlug !== id) {
+      const anchor = document.createElement('span');
+      anchor.id = enSlug;
+      anchor.className = 'heading-alias-anchor';
+      h.parentNode.insertBefore(anchor, h);
+    }
+
     currentHeadings.push({ el: h, id: id, text: h.textContent, level: h.tagName });
+  });
+
+  // Smooth scroll para los links del TOC del body (los del MD source)
+  // El browser por defecto los lleva con jump abrupto; smooth es mejor UX
+  container.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const targetId = decodeURIComponent(this.getAttribute('href').slice(1));
+      const target = document.getElementById(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', '#' + targetId);
+      }
+    });
   });
 
   renderTOC('');
   onScroll();
+}
+
+/**
+ * GitHub-style slugify (matches the anchors generated in the markdown source):
+ *   - lowercase
+ *   - strip punctuation including +, &, *, /
+ *   - each whitespace → one hyphen (preserves doubles where punctuation was
+ *     removed, ej: "evento + gesto" → "evento--gesto" para coincidir con MD)
+ *   - preserves unicode letters (acentos, devanagari, kanji, etc.)
+ *   - trims leading/trailing hyphens
+ *   - NO collapses multiple hyphens (GitHub no lo hace)
+ */
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[?¿!¡:,;.()«»"'`""''#—–+&*/\\=<>|@$%^]/g, '')
+    .replace(/\s/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 function renderTOC(filter) {
