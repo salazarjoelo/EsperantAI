@@ -406,12 +406,6 @@ Panel **Avanzado → Licencia**:
 - **Ver última validación en línea**
 - **Desactivar en este dispositivo**: usadlo antes de cambiar de PC o para liberar una plaza (de las 3 disponibles)
 
-### Reembolsos
-
-Si EsperantAI no cumple con vuestras expectativas, tenéis **14 días** desde la compra para solicitar un reembolso completo. Enviad un correo a soporte@edugame.digital con vuestra clave de licencia.
-
----
-
 ## Solución de problemas
 
 ### «Activación requerida» persiste después de pegar mi clave de licencia

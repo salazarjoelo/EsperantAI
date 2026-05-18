@@ -406,12 +406,6 @@ All 13 languages are fully translated (342 keys each).
 - **View last online validation**
 - **Deactivate on this device**: use before changing PCs or to free a slot (of the 3 available)
 
-### Refunds
-
-If EsperantAI doesn't meet your expectations, you have **14 days** from purchase to request a full refund. Email soporte@edugame.digital with your license key.
-
----
-
 ## Troubleshooting
 
 ### "Activation required" persists after pasting my license key
