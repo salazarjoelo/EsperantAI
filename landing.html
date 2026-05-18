@@ -186,35 +186,65 @@
 
     <section class="pricing" id="comprar">
         <div class="container">
-            <h2 class="section-title">Una licencia única. Producto completo.</h2>
-            <p class="section-subtitle">Sin Free tier. Sin trial. Sin recortes artificiales: compras EsperantAI y activas todo el flujo comercial.</p>
+            <h2 class="section-title">Elige tu plan</h2>
+            <p class="section-subtitle">Sin Free tier. Sin trial. Compras una licencia y activas todo el flujo comercial al instante.</p>
 
-            <div class="price-card">
-                <span class="price-badge">EsperantAI · Licencia única</span>
-                <div class="price-amount">$<!--PRECIO_MXN-->___<!--/PRECIO_MXN--></div>
-                <div class="price-currency">MXN · Conversión automática a tu moneda al pagar</div>
+            <div class="price-grid">
 
-                <ul class="price-features">
-                    <li><span class="check">✓</span> Todos los gestos universales + culturales</li>
-                    <li><span class="check">✓</span> 5 software de streaming compatibles</li>
-                    <li><span class="check">✓</span> 5 plataformas de eventos integradas</li>
-                    <li><span class="check">✓</span> 13 idiomas con auto-detección del SO</li>
-                    <li><span class="check">✓</span> Acciones múltiples por gesto: escenas, sonidos, sources, chat y más</li>
-                    <li><span class="check">✓</span> Combo triggers (evento + gesto)</li>
-                    <li><span class="check">✓</span> Actualizaciones de la versión comercial incluidas según términos de compra</li>
-                    <li><span class="check">✓</span> 1 licencia, hasta 3 dispositivos</li>
-                </ul>
+                <!-- ── Pro ────────────────────────────────────────────────── -->
+                <div class="price-card">
+                    <span class="price-badge">EsperantAI · Pro</span>
+                    <div class="price-amount">$<!--PRECIO_PRO_MXN-->___<!--/PRECIO_PRO_MXN--></div>
+                    <div class="price-currency">MXN · Conversión automática a tu moneda al pagar</div>
 
-                <a id="cta-buy" href="#" class="cta-primary" style="display:block; text-align:center; margin-top: 20px;">
-                    Comprar licencia EsperantAI
-                </a>
+                    <p class="price-tagline">Para streamers individuales con OBS + 1-4 plataformas.</p>
 
-                <div id="cta-feedback" class="cta-feedback" role="status" aria-live="polite" hidden></div>
+                    <ul class="price-features">
+                        <li><span class="check">✓</span> Gestos universales (cabeza, ojos, emoción, parpadeo)</li>
+                        <li><span class="check">✓</span> Gestos culturales (mano: thumbs-up, peace, OK, rock, etc.)</li>
+                        <li><span class="check">✓</span> 5 software de streaming: OBS, Streamlabs, vMix, PRISM, XSplit</li>
+                        <li><span class="check">✓</span> 4 plataformas de eventos: Twitch, YouTube, Kick, Trovo</li>
+                        <li><span class="check">✓</span> Hasta 18 triggers configurables</li>
+                        <li><span class="check">✓</span> Acciones múltiples por gesto (escena + sonido + overlay…)</li>
+                        <li><span class="check">✓</span> Asistente de calibración personalizada</li>
+                        <li><span class="check">✓</span> Perfiles guardados + historial de triggers</li>
+                        <li><span class="check">✓</span> 13 idiomas con auto-detección del SO</li>
+                        <li><span class="check">✓</span> 1 licencia, hasta 3 dispositivos · Actualizaciones incluidas</li>
+                    </ul>
 
-                <p style="font-size: 12px; color: var(--muted); margin: 16px 0 0 0; text-align: center;">
-                    Pago seguro vía LemonSqueezy · Una licencia para hasta 3 dispositivos · Reembolso conforme a la política publicada
-                </p>
+                    <a id="cta-buy-pro" href="#" class="cta-primary cta-pro" style="display:block; text-align:center; margin-top: 20px;">
+                        Comprar EsperantAI Pro
+                    </a>
+                </div>
+
+                <!-- ── Pro+ (recomendado) ─────────────────────────────────── -->
+                <div class="price-card price-card-featured">
+                    <span class="price-recommended">Más popular</span>
+                    <span class="price-badge">EsperantAI · Pro+</span>
+                    <div class="price-amount">$<!--PRECIO_PRO_PLUS_MXN-->___<!--/PRECIO_PRO_PLUS_MXN--></div>
+                    <div class="price-currency">MXN · Conversión automática a tu moneda al pagar</div>
+
+                    <p class="price-tagline">Para streamers que monetizan y quieren combo triggers + bridge multi-plataforma.</p>
+
+                    <ul class="price-features">
+                        <li><strong>Incluye TODO de Pro, y además:</strong></li>
+                        <li><span class="check">✓</span> <strong>Combo triggers</strong>: evento + gesto físico = acción confirmada (evita falsos positivos al recibir donaciones/subs)</li>
+                        <li><span class="check">✓</span> <strong>Triggers ilimitados</strong> (Pro tiene 18)</li>
+                        <li><span class="check">✓</span> <strong>StreamElements bridge</strong>: una sola integración para Twitch + YouTube + Facebook unificados</li>
+                        <li><span class="check">✓</span> Todo lo demás idéntico a Pro</li>
+                    </ul>
+
+                    <a id="cta-buy-pro-plus" href="#" class="cta-primary cta-pro-plus" style="display:block; text-align:center; margin-top: 20px;">
+                        Comprar EsperantAI Pro+
+                    </a>
+                </div>
             </div>
+
+            <div id="cta-feedback" class="cta-feedback" role="status" aria-live="polite" hidden></div>
+
+            <p style="font-size: 12px; color: var(--muted); margin: 24px auto 0 auto; text-align: center; max-width: 720px;">
+                Pago seguro vía LemonSqueezy · Cualquier plan permite hasta 3 dispositivos · Reembolso conforme a la política publicada · Actualizaciones de la versión comercial incluidas según términos de compra
+            </p>
         </div>
     </section>
 
@@ -224,7 +254,14 @@
 
             <details class="faq-item">
                 <summary>¿Cómo activo EsperantAI?</summary>
-                <p>Compras una licencia única, recibes tu license key, abres la app, pegas la key y conectas tu software de streaming. La activación guiada te lleva de compra → key → stream sin perder el contexto.</p>
+                <p>Compras Pro o Pro+, recibes tu license key por correo, abres la app, pegas la key y conectas tu software de streaming. La activación guiada te lleva de compra → key → stream sin perder el contexto.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>¿Cuál es la diferencia entre Pro y Pro+?</summary>
+                <p><strong>Pro</strong> incluye todo lo que un streamer individual necesita: 5 software de streaming, 4 plataformas (Twitch/YouTube/Kick/Trovo), 18 triggers, calibración personalizada, hand gestures, todos los gestos universales.</p>
+                <p><strong>Pro+</strong> agrega 3 features adicionales: <em>combo triggers</em> (evento de plataforma + gesto físico de confirmación, evita falsos positivos al recibir donaciones), <em>StreamElements bridge</em> (una sola integración para Twitch + YouTube + Facebook unificados) y <em>triggers ilimitados</em>.</p>
+                <p>Pro+ es la elección recomendada si monetizas con donaciones/subs y quieres confirmar reacciones con un gesto físico antes de que se disparen en tu stream.</p>
             </details>
 
             <details class="faq-item">
@@ -278,6 +315,6 @@
         </div>
     </footer>
 
-    <script src="js/landing.js?v=20260515b"></script>
+    <script src="js/landing.js?v=20260517a"></script>
 </body>
 </html>

@@ -272,14 +272,58 @@
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
         }
-        .price-card {
-            max-width: 460px;
+        .price-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            max-width: 1000px;
             margin: 0 auto;
+            align-items: stretch;
+        }
+        @media (max-width: 820px) {
+            .price-grid {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+            }
+        }
+        .price-card {
+            position: relative;
             background: var(--panel);
-            border: 2px solid var(--brand-1);
+            border: 2px solid var(--border);
             border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(88,166,255,0.15);
+            padding: 36px 32px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        .price-card-featured {
+            border-color: var(--brand-1);
+            box-shadow: 0 20px 60px rgba(88,166,255,0.25);
+            transform: scale(1.02);
+        }
+        @media (max-width: 820px) {
+            .price-card-featured { transform: none; }
+        }
+        .price-recommended {
+            position: absolute;
+            top: -12px;
+            right: 24px;
+            background: var(--gradient);
+            color: #0d1117;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 12px rgba(88,166,255,0.4);
+        }
+        .price-tagline {
+            color: var(--muted);
+            font-size: 13.5px;
+            margin: 12px 0 8px;
+            line-height: 1.5;
         }
         .price-badge {
             display: inline-block;
