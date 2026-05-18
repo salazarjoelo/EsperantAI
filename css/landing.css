@@ -371,6 +371,41 @@
         }
         .insight cite { color: var(--brand-2); font-weight: 600; font-style: normal; }
 
+        /* Esperanto story section + Universal/Cultural tags
+         * 2026-05-17: extraídos de inline style= para cumplir CSP style-src 'self'. */
+        .esperanto-story {
+            font-size: 1.05em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .esperanto-story-tagline {
+            margin-top: 16px;
+        }
+        .tag-universal {
+            color: #56d364;
+            font-weight: 700;
+        }
+        .tag-cultural {
+            color: #d29922;
+            font-weight: 700;
+        }
+
+        /* CTA block (used on Pro / Pro+ buttons inside .price-card) */
+        .cta-block {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Disclaimer pequeño debajo de los planes */
+        .pricing-disclaimer {
+            font-size: 12px;
+            color: var(--muted);
+            margin: 24px auto 0 auto;
+            text-align: center;
+            max-width: 720px;
+        }
+
         /* FAQ */
         .faq-item {
             background: var(--panel);
