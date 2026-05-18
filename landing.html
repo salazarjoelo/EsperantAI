@@ -4,55 +4,216 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; style-src 'self';">
-    <title>EsperantAI — Una licencia para controlar tu stream con gestos honestos</title>
-    <meta name="description" content="EsperantAI convierte gestos de cara y mano en acciones para tu stream: escenas, overlays, sonidos y nudges de monetización. Dos planes: Pro y Pro+. Sin Free tier, sin trial. Producto digital final.">
+    <title>EsperantAI — La primera categoría de control gestual nativo para streaming</title>
+    <meta name="description" content="EsperantAI convierte gestos faciales y manuales en acciones de streaming. Integración nativa con OBS, Streamlabs, vMix, PRISM, XSplit. Triggers de Twitch/YouTube/Kick/Trovo. 100% local. No hay competencia directa.">
     <link rel="icon" type="image/svg+xml" href="assets/branding/logo.svg">
 
-    <link rel="stylesheet" href="css/landing.css?v=20260518d">
+    <link rel="stylesheet" href="css/landing.css?v=20260518e">
 </head>
 <body>
 
     <a href="#features" class="skip-link">Saltar al contenido</a>
 
-    <header class="hero hero-visual">
-        <div class="container">
-            <img src="assets/branding/logo-banner.png"
-                 class="logo-banner logo-banner-compact"
-                 width="1689" height="950"
-                 alt="EsperantAI"
-                 fetchpriority="high">
+    <!-- Aurora background fijo de toda la página -->
+    <div class="aurora-bg" aria-hidden="true">
+        <div class="aurora-layer aurora-1"></div>
+        <div class="aurora-layer aurora-2"></div>
+        <div class="aurora-layer aurora-3"></div>
+        <div class="aurora-noise"></div>
+    </div>
 
-            <h1 class="hero-title">Controla tu stream con un gesto.<br>Sin Stream Deck.</h1>
-            <p class="subtitle hero-subtitle">
-                Tu cara y tus manos disparan escenas, overlays y alertas en
-                OBS, Streamlabs, vMix, PRISM y XSplit. En tiempo real,
-                <strong>sin hardware extra</strong>, sin atajos memorizados,
-                sin cortar el ritmo de la transmisión.
+    <!-- Sticky topbar minimal -->
+    <nav class="topbar" aria-label="Navegación principal">
+        <div class="topbar-inner">
+            <a href="#" class="topbar-brand" aria-label="EsperantAI">
+                <span class="brand-mark">
+                    <span class="brand-dot brand-dot-1"></span>
+                    <span class="brand-dot brand-dot-2"></span>
+                </span>
+                <span class="brand-text">EsperantAI</span>
+            </a>
+            <div class="topbar-nav">
+                <a href="#how">Cómo funciona</a>
+                <a href="#features">Features</a>
+                <a href="#comprar">Precio</a>
+                <a href="docs/manual.html">Manual</a>
+            </div>
+            <a href="#comprar" class="topbar-cta">Obtener acceso</a>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         HERO — cinematic clarity-first
+         ============================================ -->
+    <header class="hero" id="top">
+        <div class="container hero-inner">
+            <div class="hero-eyebrow">
+                <span class="eyebrow-dot"></span>
+                <span class="eyebrow-text">Nueva categoría · Sin competencia directa</span>
+            </div>
+
+            <h1 class="hero-headline">
+                <span class="headline-line line-1">Controla tu stream</span>
+                <span class="headline-line line-2">con un <span class="headline-grad">gesto.</span></span>
+            </h1>
+
+            <p class="hero-sub">
+                EsperantAI lee tu cara y tus manos para disparar escenas, overlays y alertas en tu software de streaming.
+                Sin Stream Deck. Sin atajos memorizados. Sin perder el ritmo en vivo.
             </p>
 
-            <!-- Video hero — autoplay muted loop, self-hosted same-origin, no CSP issues -->
-            <div class="hero-video-wrap">
-                <video class="hero-video"
-                       autoplay muted loop playsinline
-                       preload="metadata"
-                       poster="assets/branding/hero-dashboard-es.png"
-                       aria-label="Demo de EsperantAI detectando gestos en vivo">
-                    <source src="assets/videos/EsperantAI-hero.mp4" type="video/mp4">
-                    Tu navegador no soporta video HTML5.
-                </video>
-                <span class="hero-video-badge" aria-hidden="true">● EN VIVO</span>
+            <div class="hero-meta">
+                <span class="meta-item"><span class="meta-num">13</span> gestos</span>
+                <span class="meta-divider"></span>
+                <span class="meta-item"><span class="meta-num">5</span> software</span>
+                <span class="meta-divider"></span>
+                <span class="meta-item"><span class="meta-num">4</span> plataformas</span>
+                <span class="meta-divider"></span>
+                <span class="meta-item"><span class="meta-num">0</span> nube</span>
             </div>
 
-            <div class="cta-row">
-                <a href="#comprar" class="cta-primary">Quiero ver los planes</a>
-                <a href="#features" class="cta-secondary">Cómo funciona</a>
+            <div class="hero-cta">
+                <a href="#comprar" class="btn btn-primary">
+                    <span>Obtener acceso</span>
+                    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <a href="#how" class="btn btn-ghost">
+                    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M5 3l8 5-8 5z" fill="currentColor"/></svg>
+                    <span>Ver cómo funciona</span>
+                </a>
             </div>
-            <p class="hero-trust-line">
-                ✓ Activación instantánea · ✓ Hasta 3 dispositivos · ✓ 100% local · ✓ Updates incluidos
+
+            <!-- Hero showcase: video con frame premium -->
+            <div class="showcase">
+                <div class="showcase-frame">
+                    <div class="frame-chrome" aria-hidden="true">
+                        <span class="chrome-dot chrome-r"></span>
+                        <span class="chrome-dot chrome-y"></span>
+                        <span class="chrome-dot chrome-g"></span>
+                        <span class="chrome-title">EsperantAI · Live preview</span>
+                        <span class="chrome-live"><span class="live-dot"></span>EN VIVO</span>
+                    </div>
+                    <video class="showcase-video"
+                           autoplay muted loop playsinline
+                           preload="metadata"
+                           poster="assets/branding/hero-dashboard-es.png"
+                           aria-label="Demo de EsperantAI detectando gestos en vivo">
+                        <source src="assets/videos/EsperantAI-hero.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <!-- Floating badges sobre el showcase -->
+                <div class="showcase-badge sb-1" aria-hidden="true">
+                    <span class="sb-icon"><svg viewBox="0 0 16 16" width="14" height="14"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="8" cy="8" r="2" fill="currentColor"/></svg></span>
+                    <span>Cara detectada</span>
+                </div>
+                <div class="showcase-badge sb-2" aria-hidden="true">
+                    <span class="sb-icon sb-icon-good"></span>
+                    <span>Latencia 42 ms</span>
+                </div>
+                <div class="showcase-badge sb-3" aria-hidden="true">
+                    <span class="sb-icon sb-icon-lock"><svg viewBox="0 0 16 16" width="11" height="11"><path d="M4 7V5a4 4 0 1 1 8 0v2M3 7h10v7H3z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></span>
+                    <span>100% local</span>
+                </div>
+            </div>
+
+            <p class="hero-fineprint">
+                Activación instantánea · 3 dispositivos · Procesamiento on-device · Actualizaciones incluidas
             </p>
         </div>
     </header>
 
+    <!-- ============================================
+         TRUST BAR — Logo wall premium
+         ============================================ -->
+    <section class="trust" aria-label="Integraciones nativas">
+        <div class="container">
+            <p class="trust-label">Integración nativa con tu stack actual</p>
+            <div class="trust-logos">
+                <span class="trust-logo">OBS Studio</span>
+                <span class="trust-logo">Streamlabs Desktop</span>
+                <span class="trust-logo">vMix</span>
+                <span class="trust-logo">PRISM Live Studio</span>
+                <span class="trust-logo">XSplit Broadcaster</span>
+                <span class="trust-sep"></span>
+                <span class="trust-logo">Twitch</span>
+                <span class="trust-logo">YouTube Live</span>
+                <span class="trust-logo">Kick</span>
+                <span class="trust-logo">Trovo</span>
+                <span class="trust-logo">StreamElements</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         HOW IT WORKS — 3 steps
+         ============================================ -->
+    <section class="section section-how" id="how">
+        <div class="container">
+            <p class="section-eyebrow"><span class="eyebrow-dot"></span>Cómo funciona</p>
+            <h2 class="section-h2">De webcam a stream control en <span class="grad-text">3 pasos.</span></h2>
+            <p class="section-sub">Sin instalación pesada, sin curva de aprendizaje. La primera sesión está lista en menos de 5 minutos.</p>
+
+            <ol class="how-steps">
+                <li class="how-step">
+                    <div class="step-num">01</div>
+                    <div class="step-visual">
+                        <svg viewBox="0 0 64 64" aria-hidden="true">
+                            <rect x="10" y="14" width="44" height="30" rx="3" fill="none" stroke="url(#how-grad)" stroke-width="2"/>
+                            <path d="M22 50h20M32 44v6" stroke="url(#how-grad)" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="32" cy="29" r="6" fill="none" stroke="url(#how-grad)" stroke-width="2"/>
+                            <path d="M28 27a4 4 0 0 1 8 0" stroke="url(#how-grad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Conecta tu webcam</h3>
+                    <p class="step-desc">EsperantAI detecta tu cámara automáticamente. Funciona con cualquier webcam USB 1080p o la integrada del laptop.</p>
+                    <span class="step-stat">~ 30 segundos</span>
+                </li>
+                <li class="how-step">
+                    <div class="step-num">02</div>
+                    <div class="step-visual">
+                        <svg viewBox="0 0 64 64" aria-hidden="true">
+                            <circle cx="32" cy="32" r="22" fill="none" stroke="url(#how-grad)" stroke-width="2" stroke-dasharray="3 4"/>
+                            <circle cx="32" cy="32" r="6" fill="url(#how-grad)"/>
+                            <path d="M32 10v6M32 48v6M10 32h6M48 32h6" stroke="url(#how-grad)" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M18 18l4 4M42 42l4 4M46 18l-4 4M22 42l-4 4" stroke="url(#how-grad)" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Calibra tus gestos</h3>
+                    <p class="step-desc">Asistente guiado: sonríe, asiente, muestra el pulgar. EsperantAI aprende tus rangos en 90 segundos.</p>
+                    <span class="step-stat">~ 90 segundos</span>
+                </li>
+                <li class="how-step">
+                    <div class="step-num">03</div>
+                    <div class="step-visual">
+                        <svg viewBox="0 0 64 64" aria-hidden="true">
+                            <path d="M14 20h36v22a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4V20z" fill="none" stroke="url(#how-grad)" stroke-width="2"/>
+                            <path d="M14 20l8-8h20l8 8" fill="none" stroke="url(#how-grad)" stroke-width="2" stroke-linejoin="round"/>
+                            <circle cx="24" cy="32" r="2" fill="url(#how-grad)"/>
+                            <circle cx="32" cy="32" r="2" fill="url(#how-grad)"/>
+                            <circle cx="40" cy="32" r="2" fill="url(#how-grad)"/>
+                            <path d="M24 40h16" stroke="url(#how-grad)" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="step-title">Streamea sin tocar nada</h3>
+                    <p class="step-desc">Conecta OBS via WebSocket, mapea gestos a escenas y sonidos, y empieza tu stream. Cada gesto es una acción coreografiada.</p>
+                    <span class="step-stat">∞ horas sin teclado</span>
+                </li>
+            </ol>
+
+            <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+                <defs>
+                    <linearGradient id="how-grad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#58a6ff"/>
+                        <stop offset="100%" stop-color="#bc8cff"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FEATURES — Bento grid premium (mantenido)
+         ============================================ -->
     <section class="section section-features" id="features">
         <div class="features-bg" aria-hidden="true">
             <div class="orb orb-1"></div>
@@ -62,11 +223,10 @@
         </div>
 
         <div class="container">
-            <p class="features-eyebrow">Control corporal · Sin periféricos</p>
-            <h2 class="section-title features-title">Suelta el teclado.<br><span class="title-grad">Streamea con la cara y las manos.</span></h2>
-            <p class="section-subtitle features-subtitle">Cambia escena, lanza un sonido, activa un overlay o responde a un sub — sin tocar nada en vivo.</p>
+            <p class="section-eyebrow"><span class="eyebrow-dot"></span>Control corporal · Sin periféricos</p>
+            <h2 class="section-h2">Suelta el teclado.<br><span class="grad-text">Streamea con la cara y las manos.</span></h2>
+            <p class="section-sub">Cambia escena, lanza un sonido, activa un overlay o responde a un sub — sin tocar nada en vivo.</p>
 
-            <!-- SVG defs compartidos -->
             <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
                 <defs>
                     <linearGradient id="bento-grad" x1="0" y1="0" x2="1" y2="1">
@@ -86,7 +246,6 @@
             </svg>
 
             <div class="bento-grid">
-                <!-- FEATURED: cara + scene transition -->
                 <article class="bento bento-featured">
                     <div class="bento-tag">Detección en tiempo real</div>
                     <div class="bento-visual face-stage">
@@ -118,7 +277,6 @@
                     <p class="bento-desc">Una sonrisa, un giro de cabeza o una mirada lanzan un cambio de escena, una alerta o un transition stinger. Cero teclas en vivo.</p>
                 </article>
 
-                <!-- SOFTWARE -->
                 <article class="bento bento-card-sw">
                     <div class="bento-visual sw-stage">
                         <div class="sw-stack">
@@ -133,7 +291,6 @@
                     <p class="bento-desc">5 software soportados nativamente vía WebSocket. Sin plugins, sin reconfigurar nada.</p>
                 </article>
 
-                <!-- MONEY -->
                 <article class="bento bento-card-money">
                     <div class="bento-visual money-stage">
                         <div class="money-core">
@@ -150,7 +307,6 @@
                     <p class="bento-desc">Subs, bits y donaciones activan agradecimientos visuales discretos. Gratitud, no guilt-trip.</p>
                 </article>
 
-                <!-- WIDE: gesture chain -->
                 <article class="bento bento-wide">
                     <div class="bento-visual chain-stage">
                         <div class="chain-node chain-input">
@@ -174,7 +330,6 @@
                     <p class="bento-desc">Encadena cambio de escena + sonido + overlay + DM en un solo trigger. Tus reacciones se ven coreografiadas, no manuales.</p>
                 </article>
 
-                <!-- LANGUAGES -->
                 <article class="bento bento-card-lang">
                     <div class="bento-visual lang-stage">
                         <div class="lang-rotator">
@@ -195,7 +350,6 @@
                     <p class="bento-desc">Auto-detecta el locale del sistema. Cambio manual en un clic.</p>
                 </article>
 
-                <!-- PRIVACY -->
                 <article class="bento bento-card-privacy">
                     <div class="bento-visual privacy-stage">
                         <svg class="shield-svg" viewBox="0 0 80 80" aria-hidden="true">
@@ -215,243 +369,410 @@
         </div>
     </section>
 
-    <!-- Visual: i18n — 13 locales completos al 322 leaves -->
-    <section class="visual-section visual-section-alt" aria-labelledby="i18n-title">
+    <!-- ============================================
+         I18N EDITORIAL — universal gestures
+         ============================================ -->
+    <section class="section section-universal">
         <div class="container">
-            <h2 id="i18n-title" class="section-title">Tu stream, en cualquier idioma</h2>
-            <p class="section-subtitle">13 locales completos con auto-detección del sistema. Tu audiencia mundial te entiende, y nosotros te entendemos a ti.</p>
-            <figure class="visual-figure">
-                <img src="assets/branding/hero-multilingual.png"
-                     class="visual-hero"
-                     width="1620" height="912"
-                     alt="EsperantAI mostrando interfaz simultánea en 12 idiomas (inglés, español, portugués, francés, alemán, italiano, ruso, polaco, árabe, japonés, chino, coreano) con esperanto como concepto central"
-                     loading="lazy">
-                <figcaption class="visual-figcaption visual-caption">
-                    <strong>Eksponentigu viajn fluojn per gestoj</strong> — esa frase en esperanto significa <em>"Multiplica tus streams con gestos"</em>.
-                    Es el nombre que inspiró el producto: un lenguaje universal hecho realidad por los gestos.
-                </figcaption>
-            </figure>
+            <div class="universal-split">
+                <div class="universal-copy">
+                    <p class="section-eyebrow"><span class="eyebrow-dot"></span>Universal por diseño</p>
+                    <h2 class="section-h2 section-h2-left">Los gestos hablan <span class="grad-text">un solo idioma.</span></h2>
+                    <p class="universal-lead">
+                        Las expresiones faciales son pre-lingüísticas: una sonrisa significa lo mismo en Tokyo, Lagos o Bogotá.
+                        EsperantAI mapea ese lenguaje universal a acciones, mientras la interfaz se adapta a 13 idiomas.
+                    </p>
+                    <blockquote class="universal-quote">
+                        <p>"Las expresiones faciales son universales en todas las culturas humanas."</p>
+                        <cite>— Paul Ekman, <span>Universals and Cultural Differences in Facial Expressions of Emotion</span>, 1972</cite>
+                    </blockquote>
+                </div>
+                <div class="universal-visual" aria-hidden="true">
+                    <div class="gesture-orbit">
+                        <div class="gesture-center">
+                            <svg viewBox="0 0 60 60" width="56" height="56">
+                                <circle cx="30" cy="30" r="22" fill="none" stroke="url(#bento-grad)" stroke-width="2"/>
+                                <circle cx="22" cy="26" r="2" fill="url(#bento-grad)"/>
+                                <circle cx="38" cy="26" r="2" fill="url(#bento-grad)"/>
+                                <path d="M22 38 Q30 44 38 38" stroke="url(#bento-grad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <span class="gesture-node gn-1">Hola</span>
+                        <span class="gesture-node gn-2">Hello</span>
+                        <span class="gesture-node gn-3">Bonjour</span>
+                        <span class="gesture-node gn-4">你好</span>
+                        <span class="gesture-node gn-5">こんにちは</span>
+                        <span class="gesture-node gn-6">مرحبا</span>
+                        <span class="gesture-node gn-7">Olá</span>
+                        <span class="gesture-node gn-8">Привет</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="section">
+    <!-- ============================================
+         COMPAT — Stat counter + logo wall premium
+         ============================================ -->
+    <section class="section section-compat">
         <div class="container">
-            <h2 class="section-title">Compatibilidad verificada</h2>
-            <p class="section-subtitle">Hardware mínimo accesible. Funciona en cualquier OS moderno.</p>
+            <p class="section-eyebrow"><span class="eyebrow-dot"></span>Compatibilidad verificada</p>
+            <h2 class="section-h2">Funciona donde <span class="grad-text">tú streameas.</span></h2>
+            <p class="section-sub">Sin lock-in, sin hardware extra. Tu setup actual sigue siendo tu setup.</p>
 
-            <div class="compat-grid">
-                <div class="compat-card">
-                    <h3>🎮 Software de streaming</h3>
-                    <ul class="compat-list">
-                        <li><span class="check">✓</span> OBS Studio 28+</li>
-                        <li><span class="check">✓</span> Streamlabs Desktop</li>
-                        <li><span class="check">✓</span> vMix (Windows)</li>
-                        <li><span class="check">✓</span> PRISM Live Studio</li>
-                        <li><span class="check">✓</span> XSplit Broadcaster</li>
+            <div class="stat-row">
+                <div class="stat">
+                    <div class="stat-num">5</div>
+                    <div class="stat-label">Software de streaming</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-num">4</div>
+                    <div class="stat-label">Plataformas con triggers</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-num">3</div>
+                    <div class="stat-label">Sistemas operativos</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-num">13</div>
+                    <div class="stat-label">Idiomas de interfaz</div>
+                </div>
+            </div>
+
+            <div class="compat-board">
+                <div class="compat-col">
+                    <h4 class="compat-h">Software</h4>
+                    <ul class="compat-l">
+                        <li>OBS Studio 28+</li>
+                        <li>Streamlabs Desktop</li>
+                        <li>vMix (Windows)</li>
+                        <li>PRISM Live Studio</li>
+                        <li>XSplit Broadcaster</li>
                     </ul>
                 </div>
-                <div class="compat-card">
-                    <h3>📺 Plataformas de streaming</h3>
-                    <ul class="compat-list">
-                        <li><span class="check">✓</span> Twitch (EventSub WebSocket)</li>
-                        <li><span class="check">✓</span> YouTube Live</li>
-                        <li><span class="check">✓</span> Kick</li>
-                        <li><span class="check">✓</span> Trovo</li>
-                        <li><span class="check">✓</span> StreamElements (bridge multi-plataforma)</li>
+                <div class="compat-col">
+                    <h4 class="compat-h">Plataformas</h4>
+                    <ul class="compat-l">
+                        <li>Twitch (EventSub WS)</li>
+                        <li>YouTube Live</li>
+                        <li>Kick</li>
+                        <li>Trovo</li>
+                        <li>StreamElements bridge</li>
                     </ul>
                 </div>
-                <div class="compat-card">
-                    <h3>💻 Sistema operativo</h3>
-                    <ul class="compat-list">
-                        <li><span class="check">✓</span> Windows 10 / 11</li>
-                        <li><span class="check">✓</span> macOS 12+</li>
-                        <li><span class="check">✓</span> Linux (Ubuntu, Fedora, Arch)</li>
-                        <li><span class="check">✓</span> Cualquier navegador moderno (Chrome, Edge, Firefox)</li>
+                <div class="compat-col">
+                    <h4 class="compat-h">Sistema operativo</h4>
+                    <ul class="compat-l">
+                        <li>Windows 10 / 11</li>
+                        <li>macOS 12+</li>
+                        <li>Linux (Ubuntu, Fedora, Arch)</li>
+                        <li>Chrome, Edge, Firefox</li>
                     </ul>
                 </div>
-                <div class="compat-card">
-                    <h3>🎥 Hardware mínimo</h3>
-                    <ul class="compat-list">
-                        <li><span class="check">✓</span> Cualquier webcam USB (1080p recomendado)</li>
-                        <li><span class="check">✓</span> CPU 6 cores+ (recomendado para streaming en paralelo)</li>
-                        <li><span class="check">✓</span> 16 GB RAM mínimo, 32 GB recomendado</li>
-                        <li><span class="check">✓</span> GPU con WebGL (cualquier GPU integrada moderna)</li>
+                <div class="compat-col">
+                    <h4 class="compat-h">Hardware mínimo</h4>
+                    <ul class="compat-l">
+                        <li>Webcam USB 1080p</li>
+                        <li>CPU 6 cores+</li>
+                        <li>16 GB RAM (32 recomendado)</li>
+                        <li>GPU con WebGL</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section">
+    <!-- ============================================
+         ESPERANTO STORY — magazine editorial
+         ============================================ -->
+    <section class="section section-story">
         <div class="container">
-            <h2 class="section-title">Por qué se llama EsperantAI</h2>
-
-            <div class="insight">
-                <p>"Las expresiones faciales son universales en todas las culturas humanas."</p>
-                <cite>— Paul Ekman, "Universals and Cultural Differences in Facial Expressions of Emotion", 1972</cite>
+            <div class="story-grid">
+                <div class="story-aside">
+                    <p class="section-eyebrow"><span class="eyebrow-dot"></span>Why "EsperantAI"</p>
+                    <div class="story-quote-lg">
+                        <span class="quote-mark">"</span>
+                        <p>Eksponentigu viajn fluojn per gestoj.</p>
+                        <cite>— en esperanto: "Multiplica tus streams con gestos."</cite>
+                    </div>
+                </div>
+                <div class="story-body">
+                    <h2 class="section-h2 section-h2-left">El idioma universal <span class="grad-text">finalmente funciona.</span></h2>
+                    <p class="story-para">
+                        El <strong>Esperanto</strong> fue un intento humano de crear un idioma universal en 1887. Falló como idioma hablado, pero el ideal vive. Los gestos sí son universales: pre-lingüísticos, biológicos, millones de años de evolución compartida.
+                    </p>
+                    <p class="story-para">
+                        EsperantAI es la inteligencia artificial que finalmente <em>habla</em> el único lenguaje que todos los humanos compartimos. Por eso cada gesto está marcado como <span class="story-tag story-tag-univ">Universal</span> (sonrisa, asentir, mirar) o <span class="story-tag story-tag-cult">Cultural</span> (pulgar, OK, peace) — tú decides cuáles usar según tu audiencia global.
+                    </p>
+                </div>
             </div>
-
-            <p class="esperanto-story">
-                El <strong>Esperanto</strong> fue un intento humano de crear un idioma universal en 1887.
-                Falló como idioma hablado, pero el ideal vive. <strong>Los gestos sí son universales</strong> —
-                pre-lingüísticos, biológicos, millones de años de evolución. EsperantAI es la inteligencia
-                artificial que finalmente <em>habla</em> el único lenguaje que todos los humanos compartimos.
-            </p>
-            <p class="esperanto-story esperanto-story-tagline">
-                Por eso EsperantAI marca cada gesto como
-                <span class="tag-universal">🌐 Universal</span> o
-                <span class="tag-cultural">⚠️ Cultural</span>.
-                Tú decides qué gestos usar según tu audiencia global.
-            </p>
         </div>
     </section>
 
-    <!-- Demo extendido (video largo, opcional para visitantes que quieren ver más) -->
-    <section class="section extended-demo">
+    <!-- ============================================
+         EXTENDED DEMO — video con frame
+         ============================================ -->
+    <section class="section section-demo">
         <div class="container">
-            <h2 class="section-title">Demo extendido</h2>
-            <p class="section-subtitle">¿Quieres ver el flujo completo? 5 minutos: setup en OBS, calibración de gestos, combo triggers en acción y multi-action por gesto.</p>
-            <div class="extended-demo-wrap">
-                <video class="extended-demo-video"
+            <p class="section-eyebrow"><span class="eyebrow-dot"></span>Demo extendida</p>
+            <h2 class="section-h2">5 minutos del flujo <span class="grad-text">completo.</span></h2>
+            <p class="section-sub">Setup en OBS, calibración de gestos, combo triggers en acción y multi-action por gesto.</p>
+
+            <div class="demo-frame">
+                <div class="frame-chrome" aria-hidden="true">
+                    <span class="chrome-dot chrome-r"></span>
+                    <span class="chrome-dot chrome-y"></span>
+                    <span class="chrome-dot chrome-g"></span>
+                    <span class="chrome-title">EsperantAI · Walkthrough completo · 5:23</span>
+                </div>
+                <video class="demo-video"
                        controls
                        preload="none"
                        poster="assets/branding/hero-multilingual.png"
-                       aria-label="Demo extendido de EsperantAI con setup completo">
+                       aria-label="Demo extendida de EsperantAI con setup completo">
                     <source src="assets/videos/EsperantAI-demo-extended.mp4" type="video/mp4">
-                    Tu navegador no soporta video HTML5.
                 </video>
             </div>
         </div>
     </section>
 
-    <section class="pricing" id="comprar">
+    <!-- ============================================
+         PRICING — comparison premium
+         ============================================ -->
+    <section class="section section-pricing" id="comprar">
         <div class="container">
-            <h2 class="section-title">Elige tu plan</h2>
-            <p class="section-subtitle">Sin Free tier. Sin trial. Eliges Pro o Pro+, recibes tu license key y activas todo el flujo comercial al instante.</p>
+            <p class="section-eyebrow"><span class="eyebrow-dot"></span>Precio · MXN</p>
+            <h2 class="section-h2">Elige tu plan. <span class="grad-text">Activa hoy.</span></h2>
+            <p class="section-sub">Sin Free tier, sin trial. Pago seguro vía LemonSqueezy. Activación inmediata después de la compra.</p>
 
-            <div class="price-grid">
+            <div class="price-anchor">
+                <span class="anchor-strike">Stream Deck XL · $249 USD</span>
+                <span class="anchor-vs">→</span>
+                <span class="anchor-us">EsperantAI · sin hardware</span>
+            </div>
 
-                <!-- ── Pro ────────────────────────────────────────────────── -->
-                <div class="price-card">
-                    <span class="price-badge">EsperantAI · Pro</span>
-                    <div class="price-amount">$<!--PRECIO_PRO_MXN-->___<!--/PRECIO_PRO_MXN--></div>
-                    <div class="price-currency">MXN · Conversión automática a tu moneda al pagar</div>
+            <div class="pricing-grid">
+                <div class="plan plan-pro">
+                    <div class="plan-head">
+                        <div class="plan-name">Pro</div>
+                        <p class="plan-tag">Para streamers individuales con OBS + 1-4 plataformas.</p>
+                    </div>
+                    <div class="plan-price">
+                        <span class="price-currency-mark">$</span>
+                        <span class="price-int"><!--PRECIO_PRO_MXN-->___<!--/PRECIO_PRO_MXN--></span>
+                        <span class="price-unit">MXN</span>
+                    </div>
+                    <p class="plan-note">Pago único · Activación instantánea · 3 dispositivos</p>
 
-                    <p class="price-tagline">Para streamers individuales con OBS + 1-4 plataformas.</p>
-
-                    <ul class="price-features">
-                        <li><span class="check">✓</span> Gestos universales (cabeza, ojos, emoción, parpadeo)</li>
-                        <li><span class="check">✓</span> Gestos culturales (mano: thumbs-up, peace, OK, rock, etc.)</li>
-                        <li><span class="check">✓</span> 5 software de streaming: OBS, Streamlabs, vMix, PRISM, XSplit</li>
-                        <li><span class="check">✓</span> 4 plataformas de eventos: Twitch, YouTube, Kick, Trovo</li>
-                        <li><span class="check">✓</span> Hasta 18 triggers configurables</li>
-                        <li><span class="check">✓</span> Acciones múltiples por gesto (escena + sonido + overlay…)</li>
-                        <li><span class="check">✓</span> Asistente de calibración personalizada</li>
-                        <li><span class="check">✓</span> Perfiles guardados + historial de triggers</li>
-                        <li><span class="check">✓</span> 13 idiomas con auto-detección del SO</li>
-                        <li><span class="check">✓</span> 1 licencia, hasta 3 dispositivos · Actualizaciones incluidas</li>
+                    <ul class="plan-features">
+                        <li><span class="feat-check"></span> Gestos universales (cabeza, ojos, emoción, parpadeo)</li>
+                        <li><span class="feat-check"></span> Gestos culturales (thumbs-up, peace, OK, rock)</li>
+                        <li><span class="feat-check"></span> 5 software: OBS, Streamlabs, vMix, PRISM, XSplit</li>
+                        <li><span class="feat-check"></span> 4 plataformas: Twitch, YouTube, Kick, Trovo</li>
+                        <li><span class="feat-check"></span> Hasta 18 triggers configurables</li>
+                        <li><span class="feat-check"></span> Acciones múltiples por gesto</li>
+                        <li><span class="feat-check"></span> Asistente de calibración personalizada</li>
+                        <li><span class="feat-check"></span> Perfiles guardados + historial</li>
+                        <li><span class="feat-check"></span> 13 idiomas con auto-detección</li>
                     </ul>
 
-                    <a id="cta-buy-pro" href="#" class="cta-primary cta-pro cta-block">
-                        Comprar EsperantAI Pro
-                    </a>
+                    <a id="cta-buy-pro" href="#" class="btn btn-plan">Obtener Pro</a>
                 </div>
 
-                <!-- ── Pro+ (recomendado) ─────────────────────────────────── -->
-                <div class="price-card price-card-featured">
-                    <span class="price-recommended">Más popular</span>
-                    <span class="price-badge">EsperantAI · Pro+</span>
-                    <div class="price-amount">$<!--PRECIO_PRO_PLUS_MXN-->___<!--/PRECIO_PRO_PLUS_MXN--></div>
-                    <div class="price-currency">MXN · Conversión automática a tu moneda al pagar</div>
+                <div class="plan plan-pro-plus">
+                    <span class="plan-ribbon">Más popular</span>
+                    <div class="plan-head">
+                        <div class="plan-name">Pro<span class="plan-plus">+</span></div>
+                        <p class="plan-tag">Para streamers que monetizan y quieren combo triggers + bridge multi-plataforma.</p>
+                    </div>
+                    <div class="plan-price">
+                        <span class="price-currency-mark">$</span>
+                        <span class="price-int"><!--PRECIO_PRO_PLUS_MXN-->___<!--/PRECIO_PRO_PLUS_MXN--></span>
+                        <span class="price-unit">MXN</span>
+                    </div>
+                    <p class="plan-note">Pago único · Activación instantánea · 3 dispositivos</p>
 
-                    <p class="price-tagline">Para streamers que monetizan y quieren combo triggers + bridge multi-plataforma.</p>
-
-                    <ul class="price-features">
-                        <li><strong>Incluye TODO de Pro, y además:</strong></li>
-                        <li><span class="check">✓</span> <strong>Combo triggers</strong>: evento + gesto físico = acción confirmada (evita falsos positivos al recibir donaciones/subs)</li>
-                        <li><span class="check">✓</span> <strong>Triggers ilimitados</strong> (Pro tiene 18)</li>
-                        <li><span class="check">✓</span> <strong>StreamElements bridge</strong>: una sola integración para Twitch + YouTube + Facebook unificados</li>
-                        <li><span class="check">✓</span> Todo lo demás idéntico a Pro</li>
+                    <ul class="plan-features">
+                        <li class="feat-head">Todo lo de Pro, y además:</li>
+                        <li><span class="feat-check feat-check-plus"></span> <strong>Combo triggers</strong> · evento + gesto de confirmación</li>
+                        <li><span class="feat-check feat-check-plus"></span> <strong>Triggers ilimitados</strong> (Pro: 18)</li>
+                        <li><span class="feat-check feat-check-plus"></span> <strong>StreamElements bridge</strong> multi-plataforma</li>
+                        <li><span class="feat-check feat-check-plus"></span> Prioridad de soporte</li>
                     </ul>
 
-                    <a id="cta-buy-pro-plus" href="#" class="cta-primary cta-pro-plus cta-block">
-                        Comprar EsperantAI Pro+
-                    </a>
+                    <a id="cta-buy-pro-plus" href="#" class="btn btn-plan btn-plan-plus">Obtener Pro+</a>
                 </div>
             </div>
 
             <div id="cta-feedback" class="cta-feedback" role="status" aria-live="polite" hidden></div>
 
-            <p class="pricing-disclaimer">
-                Pago seguro vía LemonSqueezy · Cualquier plan permite hasta 3 dispositivos · Producto digital final · Sin reembolso después de activación · Actualizaciones de la versión comercial incluidas según términos de compra
+            <div class="security-row">
+                <span class="sec-item">
+                    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M4 7V5a4 4 0 1 1 8 0v2M3 7h10v7H3z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg>
+                    Pago seguro SSL
+                </span>
+                <span class="sec-item">
+                    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 4h12v8H2z M2 7h12" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                    LemonSqueezy · MoR
+                </span>
+                <span class="sec-item">
+                    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                    Activación instantánea
+                </span>
+                <span class="sec-item">
+                    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M2 8a6 6 0 1 1 6 6M8 5v3l2 2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+                    Updates incluidos
+                </span>
+            </div>
+
+            <p class="pricing-fineprint">
+                Conversión automática a tu moneda · Producto digital final · Sin reembolso después de activación (<a href="docs/REFUND_POLICY.html">política</a>) · 3 dispositivos por licencia
             </p>
         </div>
     </section>
 
-    <section class="section">
+    <!-- ============================================
+         FAQ — Linear-style minimal
+         ============================================ -->
+    <section class="section section-faq">
         <div class="container">
-            <h2 class="section-title">Preguntas frecuentes</h2>
+            <p class="section-eyebrow"><span class="eyebrow-dot"></span>Preguntas frecuentes</p>
+            <h2 class="section-h2">Lo que <span class="grad-text">deberías saber.</span></h2>
 
-            <details class="faq-item">
-                <summary>¿Cómo activo EsperantAI?</summary>
-                <p>Compras Pro o Pro+, recibes tu license key por correo, abres la app, pegas la key y conectas tu software de streaming. La activación guiada te lleva de compra → key → stream sin perder el contexto.</p>
-            </details>
+            <div class="faq-list">
+                <details class="faq">
+                    <summary>
+                        <span class="faq-q">¿Cómo activo EsperantAI después de comprar?</span>
+                        <span class="faq-icon" aria-hidden="true"><span></span><span></span></span>
+                    </summary>
+                    <div class="faq-a">
+                        Compras Pro o Pro+, recibes tu license key por correo en menos de 30 segundos, abres la app, pegas la key y conectas tu software de streaming. La activación guiada te lleva de compra → key → stream sin perder el contexto.
+                    </div>
+                </details>
 
-            <details class="faq-item">
-                <summary>¿Cuál es la diferencia entre Pro y Pro+?</summary>
-                <p><strong>Pro</strong> incluye todo lo que un streamer individual necesita: 5 software de streaming, 4 plataformas (Twitch/YouTube/Kick/Trovo), 18 triggers, calibración personalizada, hand gestures, todos los gestos universales.</p>
-                <p><strong>Pro+</strong> agrega 3 features adicionales: <em>combo triggers</em> (evento de plataforma + gesto físico de confirmación, evita falsos positivos al recibir donaciones), <em>StreamElements bridge</em> (una sola integración para Twitch + YouTube + Facebook unificados) y <em>triggers ilimitados</em>.</p>
-                <p>Pro+ es la elección recomendada si monetizas con donaciones/subs y quieres confirmar reacciones con un gesto físico antes de que se disparen en tu stream.</p>
-            </details>
+                <details class="faq">
+                    <summary>
+                        <span class="faq-q">¿Cuál es la diferencia entre Pro y Pro+?</span>
+                        <span class="faq-icon" aria-hidden="true"><span></span><span></span></span>
+                    </summary>
+                    <div class="faq-a">
+                        <p><strong>Pro</strong> incluye todo lo que un streamer individual necesita: 5 software, 4 plataformas (Twitch/YouTube/Kick/Trovo), 18 triggers, calibración personalizada, hand gestures, todos los gestos universales.</p>
+                        <p><strong>Pro+</strong> agrega 3 features adicionales: <em>combo triggers</em> (evento de plataforma + gesto físico de confirmación, evita falsos positivos al recibir donaciones), <em>StreamElements bridge</em> (una sola integración para Twitch + YouTube + Facebook) y <em>triggers ilimitados</em>.</p>
+                    </div>
+                </details>
 
-            <details class="faq-item">
-                <summary>¿Funciona en Mac y Linux?</summary>
-                <p>Sí. EsperantAI corre en cualquier sistema operativo con navegador moderno (Chrome / Edge / Firefox). En Mac y Linux usas la versión web. En Windows también puedes usar el instalador local.</p>
-            </details>
+                <details class="faq">
+                    <summary>
+                        <span class="faq-q">¿Funciona en Mac y Linux?</span>
+                        <span class="faq-icon" aria-hidden="true"><span></span><span></span></span>
+                    </summary>
+                    <div class="faq-a">
+                        Sí. EsperantAI corre en cualquier sistema operativo con navegador moderno (Chrome / Edge / Firefox). En Mac y Linux usas la versión web. En Windows también puedes usar el instalador local.
+                    </div>
+                </details>
 
-            <details class="faq-item">
-                <summary>¿En cuántos dispositivos puedo usarlo?</summary>
-                <p>Una licencia se activa en hasta 3 dispositivos. Si pierdes uno (cambio de PC, reinstalación), puedes desactivarlo desde tu panel y activar el nuevo.</p>
-            </details>
+                <details class="faq">
+                    <summary>
+                        <span class="faq-q">¿En cuántos dispositivos puedo usarlo?</span>
+                        <span class="faq-icon" aria-hidden="true"><span></span><span></span></span>
+                    </summary>
+                    <div class="faq-a">
+                        Una licencia se activa en hasta 3 dispositivos. Si pierdes uno (cambio de PC, reinstalación), puedes desactivarlo desde tu panel y activar el nuevo.
+                    </div>
+                </details>
 
-            <details class="faq-item">
-                <summary>¿Mis videos / cámara se envían a algún servidor?</summary>
-                <p>No. Todo el procesamiento de detección facial corre 100% local en tu navegador, usando tu GPU (Human.js + WebGL). Cero video / imágenes se envían fuera de tu computadora. La única conexión externa es la validación periódica de tu license key contra LemonSqueezy (~7 días entre validaciones).</p>
-            </details>
+                <details class="faq">
+                    <summary>
+                        <span class="faq-q">¿Mis videos / cámara se envían a algún servidor?</span>
+                        <span class="faq-icon" aria-hidden="true"><span></span><span></span></span>
+                    </summary>
+                    <div class="faq-a">
+                        No. Todo el procesamiento de detección facial corre 100% local en tu navegador, usando tu GPU (Human.js + WebGL). Cero video / imágenes se envían fuera de tu computadora. La única conexión externa es la validación periódica de tu license key contra LemonSqueezy (~7 días entre validaciones).
+                    </div>
+                </details>
 
-            <details class="faq-item">
-                <summary>¿Necesito internet siempre?</summary>
-                <p>No siempre. La licencia se valida online al activar y se revalida cada 7 días. Si pierdes internet, EsperantAI sigue funcionando hasta 7 días sin reconexión (grace period). Pasados 7 días offline, se bloquea hasta reconectar.</p>
-            </details>
+                <details class="faq">
+                    <summary>
+                        <span class="faq-q">¿Necesito internet siempre?</span>
+                        <span class="faq-icon" aria-hidden="true"><span></span><span></span></span>
+                    </summary>
+                    <div class="faq-a">
+                        No siempre. La licencia se valida online al activar y se revalida cada 7 días. Si pierdes internet, EsperantAI sigue funcionando hasta 7 días sin reconexión (grace period). Pasados 7 días offline, se bloquea hasta reconectar.
+                    </div>
+                </details>
 
-            <details class="faq-item">
-                <summary>¿Cómo se compara con un Stream Deck?</summary>
-                <p>Un Stream Deck XL cuesta $249 USD y requiere espacio físico en tu escritorio + tener las manos disponibles para presionar botones. EsperantAI funciona con tu webcam (que ya tienes), no requiere espacio físico, y funciona aunque tus manos estén ocupadas con el control, la guitarra, el cuchillo de cocina o el lápiz de dibujo.</p>
-            </details>
+                <details class="faq">
+                    <summary>
+                        <span class="faq-q">¿Cómo se compara con un Stream Deck?</span>
+                        <span class="faq-icon" aria-hidden="true"><span></span><span></span></span>
+                    </summary>
+                    <div class="faq-a">
+                        Un Stream Deck XL cuesta $249 USD y requiere espacio físico en tu escritorio + tener las manos disponibles para presionar botones. EsperantAI funciona con tu webcam (que ya tienes), no requiere espacio físico, y funciona aunque tus manos estén ocupadas con el control, la guitarra, el cuchillo de cocina o el lápiz de dibujo.
+                    </div>
+                </details>
 
-            <details class="faq-item">
-                <summary>¿Hay versión gratis o trial?</summary>
-                <p>No. EsperantAI se vende solamente en sus planes Pro y Pro+. No ofrecemos Free tier, demo descargable, ni período de prueba. La razón: el producto requiere activación de licencia para funcionar contra el backend de validación, y la activación es irreversible (ver <a href="docs/REFUND_POLICY.html">Política de no reembolso</a>).</p>
-                <p>Si quieres ver EsperantAI en acción antes de comprar, mira los videos de demostración en esta misma página (próximamente) y revisa el <a href="docs/manual.html">manual de usuario</a> con capturas reales de la app.</p>
-            </details>
+                <details class="faq">
+                    <summary>
+                        <span class="faq-q">¿Hay versión gratis o trial?</span>
+                        <span class="faq-icon" aria-hidden="true"><span></span><span></span></span>
+                    </summary>
+                    <div class="faq-a">
+                        <p>No. EsperantAI se vende solamente en sus planes Pro y Pro+. La razón: el producto requiere activación de licencia para funcionar contra el backend de validación, y la activación es irreversible (ver <a href="docs/REFUND_POLICY.html">Política de no reembolso</a>).</p>
+                        <p>Si quieres ver EsperantAI en acción antes de comprar, revisa los videos de demostración en esta misma página y el <a href="docs/manual.html">manual de usuario</a> con capturas reales de la app.</p>
+                    </div>
+                </details>
+            </div>
         </div>
     </section>
 
+    <!-- ============================================
+         FOOTER — Linear-style densa
+         ============================================ -->
     <footer class="footer">
         <div class="container">
-            <p>
-                EsperantAI v1.0 · © 2026 EdugameDigital · Joel Salazar Ramírez · RFC SARJ690821BC3
-            </p>
-            <p>
-                <a href="docs/EULA.html">EULA</a> ·
-                <a href="docs/TERMS_OF_SERVICE.html">Términos</a> ·
-                <a href="docs/PURCHASE_AND_LICENSE_TERMS.html">Compra y licencia</a> ·
-                <a href="docs/REFUND_POLICY.html">Política de no reembolso</a> · <a href="docs/PRIVACY.html">Aviso de privacidad</a> ·
-                <a href="docs/COOKIE_POLICY.html">Cookies</a> ·
-                <a href="docs/THIRD_PARTY_LICENSES.html">Terceros</a> ·
-                <a href="mailto:soporte@edugame.digital">Soporte</a> ·
-                <a href="index.html">App</a>
-            </p>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="topbar-brand">
+                        <span class="brand-mark">
+                            <span class="brand-dot brand-dot-1"></span>
+                            <span class="brand-dot brand-dot-2"></span>
+                        </span>
+                        <span class="brand-text">EsperantAI</span>
+                    </a>
+                    <p class="footer-tagline">La primera categoría de control gestual nativo para streaming. Hecho en Aguascalientes, México.</p>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Producto</h5>
+                    <a href="#features">Features</a>
+                    <a href="#how">Cómo funciona</a>
+                    <a href="#comprar">Precio</a>
+                    <a href="docs/manual.html">Manual</a>
+                    <a href="index.html">Abrir app</a>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Recursos</h5>
+                    <a href="docs/manual.html">Documentación</a>
+                    <a href="mailto:soporte@edugame.digital">Soporte</a>
+                    <a href="docs/THIRD_PARTY_LICENSES.html">Open source</a>
+                </div>
+
+                <div class="footer-col">
+                    <h5>Legal</h5>
+                    <a href="docs/EULA.html">EULA</a>
+                    <a href="docs/TERMS_OF_SERVICE.html">Términos</a>
+                    <a href="docs/PURCHASE_AND_LICENSE_TERMS.html">Compra y licencia</a>
+                    <a href="docs/REFUND_POLICY.html">No reembolso</a>
+                    <a href="docs/PRIVACY.html">Privacidad</a>
+                    <a href="docs/COOKIE_POLICY.html">Cookies</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 EdugameDigital · Joel Salazar Ramírez · RFC SARJ690821BC3</p>
+                <p>EsperantAI v1.0 · Aguascalientes, Ags., México</p>
+            </div>
         </div>
     </footer>
 
