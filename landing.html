@@ -8,7 +8,7 @@
     <meta name="description" content="EsperantAI convierte gestos de cara y mano en acciones para tu stream: escenas, overlays, sonidos y nudges de monetización. Dos planes: Pro y Pro+. Sin Free tier, sin trial. Producto digital final.">
     <link rel="icon" type="image/svg+xml" href="assets/branding/logo.svg">
 
-    <link rel="stylesheet" href="css/landing.css?v=20260518c">
+    <link rel="stylesheet" href="css/landing.css?v=20260518d">
 </head>
 <body>
 
@@ -54,90 +54,162 @@
     </header>
 
     <section class="section section-features" id="features">
-        <div class="container">
-            <h2 class="section-title">Suelta el teclado. Streamea con la cara y las manos.</h2>
-            <p class="section-subtitle">Cambiar escena, lanzar un sonido, activar un overlay o responder a un sub — sin tocar nada en vivo.</p>
+        <div class="features-bg" aria-hidden="true">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+            <div class="grid-mesh"></div>
+        </div>
 
-            <!-- SVG sprite compartido para iconos de features -->
+        <div class="container">
+            <p class="features-eyebrow">Control corporal · Sin periféricos</p>
+            <h2 class="section-title features-title">Suelta el teclado.<br><span class="title-grad">Streamea con la cara y las manos.</span></h2>
+            <p class="section-subtitle features-subtitle">Cambia escena, lanza un sonido, activa un overlay o responde a un sub — sin tocar nada en vivo.</p>
+
+            <!-- SVG defs compartidos -->
             <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
                 <defs>
-                    <linearGradient id="ico-grad" x1="0" y1="0" x2="1" y2="1">
+                    <linearGradient id="bento-grad" x1="0" y1="0" x2="1" y2="1">
                         <stop offset="0%" stop-color="#58a6ff"/>
                         <stop offset="55%" stop-color="#bc8cff"/>
                         <stop offset="100%" stop-color="#ff7b72"/>
                     </linearGradient>
-                    <symbol id="ico-face" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 11V8a3 3 0 0 1 3-3h3"/>
-                        <path d="M21 5h3a3 3 0 0 1 3 3v3"/>
-                        <path d="M27 21v3a3 3 0 0 1-3 3h-3"/>
-                        <path d="M11 27H8a3 3 0 0 1-3-3v-3"/>
-                        <circle cx="12" cy="14" r="1" fill="url(#ico-grad)" stroke="none"/>
-                        <circle cx="20" cy="14" r="1" fill="url(#ico-grad)" stroke="none"/>
-                        <path d="M12 20c1.5 1.5 3 2 4 2s2.5-.5 4-2"/>
-                    </symbol>
-                    <symbol id="ico-layers" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M16 4 3 11l13 7 13-7-13-7z"/>
-                        <path d="M3 18l13 7 13-7"/>
-                        <path d="M3 24l13 7 13-7"/>
-                    </symbol>
-                    <symbol id="ico-broadcast" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="4" y="6" width="24" height="16" rx="2"/>
-                        <path d="M11 26h10"/>
-                        <path d="M16 22v4"/>
-                        <circle cx="16" cy="14" r="2.5" fill="url(#ico-grad)" stroke="none"/>
-                        <path d="M11 14a5 5 0 0 1 10 0"/>
-                    </symbol>
-                    <symbol id="ico-gift" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="5" y="13" width="22" height="14" rx="1.5"/>
-                        <path d="M3 9h26v4H3z"/>
-                        <path d="M16 9v18"/>
-                        <path d="M16 9c-2-3-7-3-7 0s3 3 7 0z"/>
-                        <path d="M16 9c2-3 7-3 7 0s-3 3-7 0z"/>
-                    </symbol>
-                    <symbol id="ico-globe" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="16" cy="16" r="12"/>
-                        <ellipse cx="16" cy="16" rx="5" ry="12"/>
-                        <path d="M4 16h24"/>
-                        <path d="M6 9h20"/>
-                        <path d="M6 23h20"/>
-                    </symbol>
-                    <symbol id="ico-shield" viewBox="0 0 32 32" fill="none" stroke="url(#ico-grad)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M16 4 5 8v8c0 7 5 11 11 12 6-1 11-5 11-12V8L16 4z"/>
-                        <path d="M11 16l4 4 6-8"/>
-                    </symbol>
+                    <linearGradient id="bento-grad-h" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#58a6ff"/>
+                        <stop offset="100%" stop-color="#bc8cff"/>
+                    </linearGradient>
+                    <radialGradient id="bento-glow" cx="0.5" cy="0.5" r="0.5">
+                        <stop offset="0%" stop-color="#bc8cff" stop-opacity="0.3"/>
+                        <stop offset="100%" stop-color="#bc8cff" stop-opacity="0"/>
+                    </radialGradient>
                 </defs>
             </svg>
 
-            <div class="feature-grid">
-                <article class="feature">
-                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-face"/></svg></div>
-                    <h3 class="feature-title">Tu cara controla la escena</h3>
-                    <p class="feature-desc">Una sonrisa, un giro de cabeza o una mirada lanzan un cambio de escena, una alerta o un transition stinger. Cero teclas en vivo.</p>
+            <div class="bento-grid">
+                <!-- FEATURED: cara + scene transition -->
+                <article class="bento bento-featured">
+                    <div class="bento-tag">Detección en tiempo real</div>
+                    <div class="bento-visual face-stage">
+                        <svg class="face-svg" viewBox="0 0 200 200" aria-hidden="true">
+                            <circle cx="100" cy="100" r="84" fill="none" stroke="url(#bento-grad)" stroke-width="1" opacity="0.18" stroke-dasharray="2 6"/>
+                            <circle cx="100" cy="100" r="64" fill="none" stroke="url(#bento-grad)" stroke-width="1" opacity="0.25"/>
+                            <path class="scan-line" d="M30 100 L170 100" stroke="url(#bento-grad-h)" stroke-width="1.5"/>
+                            <path d="M30 50 V30 H50" fill="none" stroke="url(#bento-grad)" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M150 30 H170 V50" fill="none" stroke="url(#bento-grad)" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M170 150 V170 H150" fill="none" stroke="url(#bento-grad)" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M50 170 H30 V150" fill="none" stroke="url(#bento-grad)" stroke-width="2.5" stroke-linecap="round"/>
+                            <ellipse class="eye eye-l" cx="78" cy="92" rx="7" ry="5" fill="url(#bento-grad)"/>
+                            <ellipse class="eye eye-r" cx="122" cy="92" rx="7" ry="5" fill="url(#bento-grad)"/>
+                            <path class="mouth" d="M78 130 Q100 142 122 130" fill="none" stroke="url(#bento-grad)" stroke-width="3.5" stroke-linecap="round"/>
+                            <g class="emotion-tag">
+                                <rect x="60" y="158" width="80" height="22" rx="11" fill="rgba(188,140,255,0.18)" stroke="url(#bento-grad)" stroke-width="1"/>
+                                <text x="100" y="173" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" fill="#ffffff">SONRISA</text>
+                            </g>
+                        </svg>
+                        <div class="scene-flow">
+                            <span class="scene-pill"><span class="scene-dot"></span>Gaming</span>
+                            <svg class="scene-arrow-svg" viewBox="0 0 32 12" aria-hidden="true">
+                                <path d="M1 6 H26 M22 2 L28 6 L22 10" fill="none" stroke="url(#bento-grad-h)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow-anim"/>
+                            </svg>
+                            <span class="scene-pill scene-active"><span class="scene-dot"></span>BRB</span>
+                        </div>
+                    </div>
+                    <h3 class="bento-title">Tu cara controla la escena</h3>
+                    <p class="bento-desc">Una sonrisa, un giro de cabeza o una mirada lanzan un cambio de escena, una alerta o un transition stinger. Cero teclas en vivo.</p>
                 </article>
-                <article class="feature">
-                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-layers"/></svg></div>
-                    <h3 class="feature-title">Un gesto · múltiples acciones</h3>
-                    <p class="feature-desc">Encadena cambio de escena + sonido + overlay + DM en un solo trigger. Tus reacciones se ven coreografiadas, no manuales.</p>
+
+                <!-- SOFTWARE -->
+                <article class="bento bento-card-sw">
+                    <div class="bento-visual sw-stage">
+                        <div class="sw-stack">
+                            <span class="sw-pill sw-1">OBS Studio</span>
+                            <span class="sw-pill sw-2">Streamlabs</span>
+                            <span class="sw-pill sw-3">vMix</span>
+                            <span class="sw-pill sw-4">PRISM</span>
+                            <span class="sw-pill sw-5">XSplit</span>
+                        </div>
+                    </div>
+                    <h3 class="bento-title">Encaja con tu setup</h3>
+                    <p class="bento-desc">5 software soportados nativamente vía WebSocket. Sin plugins, sin reconfigurar nada.</p>
                 </article>
-                <article class="feature">
-                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-broadcast"/></svg></div>
-                    <h3 class="feature-title">Encaja con tu setup</h3>
-                    <p class="feature-desc">OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio y XSplit Broadcaster — soportados nativamente vía WebSocket.</p>
+
+                <!-- MONEY -->
+                <article class="bento bento-card-money">
+                    <div class="bento-visual money-stage">
+                        <div class="money-core">
+                            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                                <path d="M12 3v18M7 7h7a3 3 0 0 1 0 6H7m0 0h8a3 3 0 0 1 0 6H7" stroke="url(#bento-grad)" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span class="money-item money-1">$</span>
+                        <span class="money-item money-2">♥</span>
+                        <span class="money-item money-3">★</span>
+                        <span class="money-item money-4">⚡</span>
+                    </div>
+                    <h3 class="bento-title">Monetiza sin presionar</h3>
+                    <p class="bento-desc">Subs, bits y donaciones activan agradecimientos visuales discretos. Gratitud, no guilt-trip.</p>
                 </article>
-                <article class="feature">
-                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-gift"/></svg></div>
-                    <h3 class="feature-title">Monetiza sin presionar</h3>
-                    <p class="feature-desc">Subs, bits, donaciones y Super Chats activan agradecimientos visuales y tip jars discretos. Tu audiencia siente la gratitud, no el guilt-trip.</p>
+
+                <!-- WIDE: gesture chain -->
+                <article class="bento bento-wide">
+                    <div class="bento-visual chain-stage">
+                        <div class="chain-node chain-input">
+                            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                                <path d="M12 21v-7M8 14h8M5 11a7 7 0 0 1 14 0v3M9 6V3M15 6V3" stroke="url(#bento-grad)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Gesto</span>
+                        </div>
+                        <svg class="chain-line" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true">
+                            <line x1="0" y1="4" x2="100" y2="4" stroke="rgba(188,140,255,0.3)" stroke-width="1"/>
+                            <line x1="0" y1="4" x2="100" y2="4" stroke="url(#bento-grad-h)" stroke-width="2" stroke-dasharray="5 3" class="chain-dash"/>
+                        </svg>
+                        <div class="chain-outputs">
+                            <span class="chain-out out-1">Escena</span>
+                            <span class="chain-out out-2">Sonido</span>
+                            <span class="chain-out out-3">Overlay</span>
+                            <span class="chain-out out-4">Stinger</span>
+                        </div>
+                    </div>
+                    <h3 class="bento-title">Un gesto · múltiples acciones</h3>
+                    <p class="bento-desc">Encadena cambio de escena + sonido + overlay + DM en un solo trigger. Tus reacciones se ven coreografiadas, no manuales.</p>
                 </article>
-                <article class="feature">
-                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-globe"/></svg></div>
-                    <h3 class="feature-title">13 idiomas · audiencia global</h3>
-                    <p class="feature-desc">Auto-detecta el locale del sistema. EN, ES, PT-BR, FR, DE, IT, RU, PL, AR, JA, ZH, KO y más. Cambio manual en un clic.</p>
+
+                <!-- LANGUAGES -->
+                <article class="bento bento-card-lang">
+                    <div class="bento-visual lang-stage">
+                        <div class="lang-rotator">
+                            <span class="lang-item lang-1">Hola</span>
+                            <span class="lang-item lang-2">Hello</span>
+                            <span class="lang-item lang-3">Bonjour</span>
+                            <span class="lang-item lang-4">Hallo</span>
+                            <span class="lang-item lang-5">Olá</span>
+                            <span class="lang-item lang-6">你好</span>
+                            <span class="lang-item lang-7">こんにちは</span>
+                            <span class="lang-item lang-8">مرحبا</span>
+                        </div>
+                        <div class="lang-codes">
+                            <span>EN</span><span>ES</span><span>PT-BR</span><span>FR</span><span>DE</span><span>IT</span><span>RU</span><span>PL</span><span>AR</span><span>JA</span><span>ZH</span><span>KO</span><span class="lang-plus">+1</span>
+                        </div>
+                    </div>
+                    <h3 class="bento-title">13 idiomas · audiencia global</h3>
+                    <p class="bento-desc">Auto-detecta el locale del sistema. Cambio manual en un clic.</p>
                 </article>
-                <article class="feature">
-                    <div class="feature-icon-wrap"><svg class="feature-icon" viewBox="0 0 32 32" aria-hidden="true"><use href="#ico-shield"/></svg></div>
-                    <h3 class="feature-title">100% local · 0% nube</h3>
-                    <p class="feature-desc">Tu cara nunca sale de tu GPU. Los modelos de IA corren on-device. Cero video subido, cero tracking, cero telemetría a terceros.</p>
+
+                <!-- PRIVACY -->
+                <article class="bento bento-card-privacy">
+                    <div class="bento-visual privacy-stage">
+                        <svg class="shield-svg" viewBox="0 0 80 80" aria-hidden="true">
+                            <path d="M40 6 L10 16 V40 c0 19 12 30 30 34 18-4 30-15 30-34 V16 L40 6z" fill="url(#bento-glow)" stroke="url(#bento-grad)" stroke-width="2.5"/>
+                            <path class="shield-check" d="M28 41 L36 49 L52 30" fill="none" stroke="url(#bento-grad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div class="privacy-stats">
+                            <div class="priv-row"><span class="priv-dot priv-good"></span><strong>0%</strong> video a la nube</div>
+                            <div class="priv-row"><span class="priv-dot priv-good"></span><strong>100%</strong> procesamiento local</div>
+                            <div class="priv-row"><span class="priv-dot priv-good"></span><strong>0</strong> trackers de terceros</div>
+                        </div>
+                    </div>
+                    <h3 class="bento-title">Tu cara nunca sale del dispositivo</h3>
+                    <p class="bento-desc">Modelos de IA corren en tu GPU. Cero video subido. Cero telemetría externa.</p>
                 </article>
             </div>
         </div>
