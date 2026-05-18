@@ -8,7 +8,7 @@
     <meta name="description" content="EsperantAI convierte gestos de cara y mano en acciones para tu stream: escenas, overlays, sonidos y nudges de monetización. Dos planes: Pro y Pro+. Sin Free tier, sin trial. Producto digital final.">
     <link rel="icon" type="image/svg+xml" href="assets/branding/logo.svg">
 
-    <link rel="stylesheet" href="css/landing.css?v=20260517b">
+    <link rel="stylesheet" href="css/landing.css?v=20260518a">
 </head>
 <body>
 
@@ -17,41 +17,41 @@
     <header class="hero hero-visual">
         <div class="container">
             <img src="assets/branding/logo-banner.png"
-                 class="logo-banner"
+                 class="logo-banner logo-banner-compact"
                  width="1689" height="950"
-                 alt="EsperantAI — Los gestos honestos"
+                 alt="EsperantAI"
                  fetchpriority="high">
-            <h1 class="visually-hidden">EsperantAI — Los gestos honestos</h1>
-            <p class="subtitle">
-                Cambia escenas, dispara overlays y responde a momentos clave del stream con tu rostro,
-                tu mirada y tus manos. Sin Stream Deck. Sin hardware extra.
-                Sin cortar el ritmo de la transmisión.
+
+            <h1 class="hero-title">Controla tu stream con un gesto.<br>Sin Stream Deck.</h1>
+            <p class="subtitle hero-subtitle">
+                Tu cara y tus manos disparan escenas, overlays y alertas en
+                OBS, Streamlabs, vMix, PRISM y XSplit. En tiempo real,
+                <strong>sin hardware extra</strong>, sin atajos memorizados,
+                sin cortar el ritmo de la transmisión.
             </p>
-            <div class="cta-row">
-                <a href="#comprar" class="cta-primary">Ver planes y precios</a>
-                <a href="#features" class="cta-secondary">Ver cómo funciona</a>
+
+            <!-- Video hero — autoplay muted loop, self-hosted same-origin, no CSP issues -->
+            <div class="hero-video-wrap">
+                <video class="hero-video"
+                       autoplay muted loop playsinline
+                       preload="metadata"
+                       poster="assets/branding/hero-dashboard-es.png"
+                       aria-label="Demo de EsperantAI detectando gestos en vivo">
+                    <source src="assets/videos/EsperantAI-hero.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5.
+                </video>
+                <span class="hero-video-badge" aria-hidden="true">● EN VIVO</span>
             </div>
+
+            <div class="cta-row">
+                <a href="#comprar" class="cta-primary">Quiero ver los planes</a>
+                <a href="#features" class="cta-secondary">Cómo funciona</a>
+            </div>
+            <p class="hero-trust-line">
+                ✓ Activación instantánea · ✓ Hasta 3 dispositivos · ✓ 100% local · ✓ Updates incluidos
+            </p>
         </div>
     </header>
-
-    <!-- Visual: dashboard español con streamer real -->
-    <section class="visual-section" aria-labelledby="demo-title">
-        <div class="container">
-            <h2 id="demo-title" class="section-title">Así se ve EsperantAI en vivo</h2>
-            <p class="section-subtitle">Tu cámara, tus manos, tu escena. Sin abrir menús, sin cortar el flow.</p>
-            <figure class="visual-figure">
-                <img src="assets/branding/hero-dashboard-es.png"
-                     class="visual-hero"
-                     width="1620" height="912"
-                     alt="Dashboard de EsperantAI mostrando control de escenas por gestos, estadísticas en vivo y chat con la audiencia"
-                     loading="lazy">
-                <figcaption class="visual-figcaption">
-                    Vista real del dashboard: cámara con detección de gestos, escenas thumbnails,
-                    estadísticas en vivo, chat de la audiencia y alertas automatizadas.
-                </figcaption>
-            </figure>
-        </div>
-    </section>
 
     <section class="section" id="features">
         <div class="container">
@@ -181,6 +181,24 @@
                 <span class="tag-cultural">⚠️ Cultural</span>.
                 Tú decides qué gestos usar según tu audiencia global.
             </p>
+        </div>
+    </section>
+
+    <!-- Demo extendido (video largo, opcional para visitantes que quieren ver más) -->
+    <section class="section extended-demo">
+        <div class="container">
+            <h2 class="section-title">Demo extendido</h2>
+            <p class="section-subtitle">¿Quieres ver el flujo completo? 5 minutos: setup en OBS, calibración de gestos, combo triggers en acción y multi-action por gesto.</p>
+            <div class="extended-demo-wrap">
+                <video class="extended-demo-video"
+                       controls
+                       preload="none"
+                       poster="assets/branding/hero-multilingual.png"
+                       aria-label="Demo extendido de EsperantAI con setup completo">
+                    <source src="assets/videos/EsperantAI-demo-extended.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5.
+                </video>
+            </div>
         </div>
     </section>
 
