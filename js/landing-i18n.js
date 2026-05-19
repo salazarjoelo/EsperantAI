@@ -130,7 +130,7 @@
        ---------------------------------------------------------------------- */
 
     function fetchLocale(locale) {
-        return fetch('locales/landing-' + locale + '.json', { credentials: 'same-origin' })
+        return fetch('/locales/landing-' + locale + '.json', { credentials: 'same-origin' })
             .then(function (res) {
                 if (!res.ok) return null;
                 return res.json();
@@ -228,36 +228,18 @@
 
         var wrap = document.createElement('div');
         wrap.className = 'lang-switcher';
-        wrap.style.cssText = 'display:inline-flex;align-items:center;margin-left:8px;';
 
         var select = document.createElement('select');
         select.id = 'lang-select';
+        select.className = 'lang-select';
         select.setAttribute('aria-label', 'Cambiar idioma');
-        select.style.cssText = [
-            'background:rgba(255,255,255,0.06)',
-            'color:#fff',
-            'border:1px solid rgba(255,255,255,0.12)',
-            'border-radius:999px',
-            'padding:6px 26px 6px 12px',
-            'font-size:0.82em',
-            'font-family:inherit',
-            'cursor:pointer',
-            'appearance:none',
-            '-webkit-appearance:none',
-            '-moz-appearance:none',
-            'background-image:url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'6\' viewBox=\'0 0 10 6\'><path d=\'M1 1l4 4 4-4\' stroke=\'%23ffffff\' stroke-width=\'1.4\' fill=\'none\' stroke-linecap=\'round\'/></svg>")',
-            'background-repeat:no-repeat',
-            'background-position:right 10px center',
-            'transition:background 0.2s ease, border-color 0.2s ease'
-        ].join(';');
 
         for (var i = 0; i < SUPPORTED.length; i++) {
             var code = SUPPORTED[i];
             var opt = document.createElement('option');
             opt.value = code;
             opt.textContent = LANG_NAMES[code] || code;
-            opt.style.background = '#08090c';
-            opt.style.color = '#fff';
+            opt.className = 'lang-option';
             select.appendChild(opt);
         }
         select.value = activeLocale || FALLBACK;

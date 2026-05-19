@@ -92,7 +92,7 @@ def absolutize_paths(soup):
     Preserves: anchors (#...), absolute URLs (http://, //), data:, mailto:, tel:.
     """
     for tag in soup.find_all(['link', 'script', 'img', 'video', 'audio', 'source', 'a', 'iframe']):
-        for attr in ('href', 'src'):
+        for attr in ('href', 'src', 'poster'):
             if attr not in tag.attrs:
                 continue
             val = tag[attr]
@@ -102,6 +102,12 @@ def absolutize_paths(soup):
                     or val.startswith('javascript:')):
                 continue
             tag[attr] = '/' + val.lstrip('./')
+
+    # CSP fix: remove inline style attributes from SVG <defs> wrappers.
+    # These already have width=0 height=0 so position:absolute was redundant.
+    for tag in soup.find_all('svg'):
+        if tag.get('style') == 'position:absolute' and tag.get('width') == '0' and tag.get('height') == '0':
+            del tag['style']
 
 def render_locale(html_source, locale_data, locale_code, og_locale, is_rtl, alternates_html):
     """Generate the full pre-rendered HTML for one locale."""
