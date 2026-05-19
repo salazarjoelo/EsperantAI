@@ -1,0 +1,98 @@
+# Accept-Language redirect for / -> /xx-xx/
+# Bots see x-default at /. Browsers redirect by Accept-Language.
+# Deployed at: /var/www/sites/edugame-landing/.htaccess on edugame.digital VPS
+# Reload script: scripts/deploy_apache_lang.py
+
+# Mark bots BEFORE RewriteEngine. SetEnvIf env vars persist across rules.
+<IfModule mod_setenvif.c>
+    SetEnvIfNoCase User-Agent "googlebot|bingbot|slurp|duckduckbot|baiduspider|yandex|sogou|exabot|facebot|ia_archiver|twitterbot|facebookexternalhit|linkedinbot|whatsapp|telegram|discordbot|applebot|petalbot|semrushbot|ahrefsbot|crawler|spider|bot/" IS_BOT=1
+</IfModule>
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# === Spanish (LATAM variants -> /es-mx/) ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^(es-MX|es-AR|es-CL|es-CO|es-PE|es-VE|es-UY|es-EC|es-BO|es-PY|es-CR|es-DO|es-GT|es-HN|es-NI|es-PA|es-SV|es-419) [NC]
+RewriteRule ^$ /es-mx/ [R=302,L]
+
+# === Spanish (Spain or generic) -> /es-es/ ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^es([-,;].*)?$ [NC,OR]
+RewriteCond %{HTTP:Accept-Language} ^es-ES [NC]
+RewriteRule ^$ /es-es/ [R=302,L]
+
+# === Portuguese (any variant) -> /pt-br/ ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^pt [NC]
+RewriteRule ^$ /pt-br/ [R=302,L]
+
+# === Japanese ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^ja [NC]
+RewriteRule ^$ /ja-jp/ [R=302,L]
+
+# === German ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^de [NC]
+RewriteRule ^$ /de-de/ [R=302,L]
+
+# === French ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^fr [NC]
+RewriteRule ^$ /fr-fr/ [R=302,L]
+
+# === Russian ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^ru [NC]
+RewriteRule ^$ /ru-ru/ [R=302,L]
+
+# === Chinese (any variant -> /zh-cn/) ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^zh [NC]
+RewriteRule ^$ /zh-cn/ [R=302,L]
+
+# === Italian ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^it [NC]
+RewriteRule ^$ /it-it/ [R=302,L]
+
+# === Polish ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^pl [NC]
+RewriteRule ^$ /pl-pl/ [R=302,L]
+
+# === Arabic ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^ar [NC]
+RewriteRule ^$ /ar-sa/ [R=302,L]
+
+# === Korean ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^ko [NC]
+RewriteRule ^$ /ko-kr/ [R=302,L]
+
+# === Hindi ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^hi [NC]
+RewriteRule ^$ /hi-in/ [R=302,L]
+
+# === Indonesian ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^id [NC]
+RewriteRule ^$ /id-id/ [R=302,L]
+
+# === English (en-US, en-GB, en-AU, etc.) -> /en-us/ ===
+RewriteCond %{ENV:IS_BOT} !=1
+RewriteCond %{HTTP:Accept-Language} ^en [NC]
+RewriteRule ^$ /en-us/ [R=302,L]
+
+# No match (bot, no AL, or unknown lang) -> serve /index.html (x-default, English)
+</IfModule>
+
+# Tell caches/CDN that / response varies by Accept-Language
+<IfModule mod_headers.c>
+    <Files "index.html">
+        Header append Vary "Accept-Language"
+    </Files>
+</IfModule>
