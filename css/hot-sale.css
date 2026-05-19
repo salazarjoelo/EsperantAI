@@ -1,18 +1,70 @@
-/* Brand logo - real EsperantAI icon (PNG with transparent-ish dark bg) */
+/* ============================================================
+   EsperantAI premium upgrades layer
+   Loaded on top of landing.css. CSP-safe (no inline styles).
+   ============================================================ */
+
+/* ============================================================
+   1. INTER FONT — self-hosted, font-display swap
+   ============================================================ */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/Inter-Regular.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/Inter-SemiBold.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/Inter-Bold.woff2') format('woff2');
+}
+
+/* Apply Inter globally with cv11/ss01 features (curved alt + alt singlestory g) */
+html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-feature-settings: 'cv11', 'ss01', 'kern';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+   2. AURORA GRADIENT BACKGROUND — subtle depth
+   3 radial blobs sobre base #08090c, low opacity (15% + 10%)
+   ============================================================ */
+body {
+    background-color: #08090c;
+    background-image:
+        radial-gradient(at 15% 0%, rgba(88, 166, 255, 0.10) 0px, transparent 50%),
+        radial-gradient(at 85% 100%, rgba(188, 140, 255, 0.08) 0px, transparent 55%),
+        radial-gradient(at 50% 50%, rgba(255, 123, 114, 0.04) 0px, transparent 70%);
+    background-attachment: fixed;
+}
+
+/* ============================================================
+   3. BRAND LOGO — topbar icon + footer banner
+   ============================================================ */
 .brand-logo {
     width: 32px;
     height: 32px;
     display: inline-block;
     object-fit: contain;
     border-radius: 6px;
-    /* Subtle glow accent that matches brand cyan/purple gradient */
     filter: drop-shadow(0 0 8px rgba(88, 166, 255, 0.25));
+    transition: filter 0.3s ease;
 }
 .brand-logo:hover {
     filter: drop-shadow(0 0 12px rgba(188, 140, 255, 0.4));
-    transition: filter 0.3s ease;
 }
-/* Footer uses the full banner with tagline embedded ("los gestos honestos") */
 .brand-banner {
     width: 180px;
     height: auto;
@@ -21,12 +73,92 @@
     object-fit: contain;
     border-radius: 8px;
 }
-
-/* Hide redundant brand-text when logo already contains "esperantAI" */
 .topbar-brand .brand-text { display: none; }
 .footer-brand .brand-text { display: none; }
 
-/* Language switcher (created by landing-i18n.js). CSP-safe via classes. */
+/* ============================================================
+   4. TRUST BRAND SVGs — real logos OBS/Streamlabs/etc
+   White SVGs sobre background dark, hover desatura -> opacity full
+   ============================================================ */
+.trust-logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 28px 36px;
+    padding: 24px 0;
+}
+.trust-brand {
+    height: 24px;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+    opacity: 0.55;
+    filter: grayscale(0.2);
+    transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+}
+.trust-brand:hover {
+    opacity: 1;
+    filter: grayscale(0) drop-shadow(0 0 8px rgba(88, 166, 255, 0.3));
+    transform: translateY(-2px);
+}
+.trust-sep {
+    display: inline-block;
+    width: 1px;
+    height: 24px;
+    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    margin: 0 4px;
+}
+@media (max-width: 720px) {
+    .trust-logos { gap: 18px 24px; }
+    .trust-brand { height: 18px; max-width: 100px; }
+    .trust-sep { display: none; }
+}
+
+/* ============================================================
+   5. MICROINTERACCIONES — hover lift en cards
+   Cubic-bezier "spring feel", glow accent, border shift
+   ============================================================ */
+.bento, .bento-card, .plan, .step-card, .compat-card,
+.universal-card, .feature-tile {
+    transition:
+        transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        border-color 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform;
+}
+
+.bento:hover, .bento-card:hover, .plan:hover, .step-card:hover,
+.compat-card:hover, .universal-card:hover, .feature-tile:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 12px 32px rgba(88, 166, 255, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.25);
+    border-color: rgba(188, 140, 255, 0.35);
+}
+
+.plan-pro-plus:hover {
+    box-shadow:
+        0 16px 40px rgba(188, 140, 255, 0.18),
+        0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: rgba(188, 140, 255, 0.5);
+}
+
+/* CTA buttons get a subtle scale + glow on hover */
+.btn-plan, .topbar-cta {
+    transition:
+        transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        background-color 180ms ease;
+}
+.btn-plan:hover, .topbar-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(88, 166, 255, 0.25);
+}
+
+/* ============================================================
+   6. LANGUAGE SWITCHER — created by landing-i18n.js (CSP-safe)
+   ============================================================ */
 .lang-switcher {
     display: inline-flex;
     align-items: center;
@@ -58,11 +190,10 @@
     color: #fff;
 }
 
-/* Hot Sale banner - hidden until JS finds active config.
-   Loaded by all 16 landing pages but invisible without /hot-sale.json. */
-
+/* ============================================================
+   7. HOT SALE BANNER — runtime only when /hot-sale.json active
+   ============================================================ */
 #hot-sale-banner[hidden] { display: none; }
-
 #hot-sale-banner {
     position: sticky;
     top: 0;
@@ -75,12 +206,10 @@
     text-align: center;
     box-shadow: 0 1px 8px rgba(0,0,0,0.15);
 }
-
 @keyframes hs-shimmer {
     0% { background-position: 0% 50%; }
     100% { background-position: 200% 50%; }
 }
-
 .hs-inner {
     display: flex;
     align-items: center;
@@ -93,33 +222,25 @@
     max-width: 1280px;
     margin: 0 auto;
 }
-
 .hs-flame {
     font-size: 1.1rem;
     animation: hs-pulse 1.5s ease-in-out infinite;
 }
-
 @keyframes hs-pulse {
     50% { transform: scale(1.2); }
 }
-
 .hs-label {
     font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;
 }
-
 .hs-discount {
     background: rgba(0,0,0,0.18);
     padding: 0.15rem 0.55rem;
     border-radius: 999px;
     font-weight: 800;
 }
-
-.hs-sub {
-    opacity: 0.95;
-}
-
+.hs-sub { opacity: 0.95; }
 .hs-code {
     background: #1a0a00;
     color: #ffb347;
@@ -127,12 +248,10 @@
     border-radius: 4px;
     font-size: 0.82rem;
 }
-
 .hs-code strong {
     letter-spacing: 0.1em;
     font-weight: 800;
 }
-
 .hs-countdown {
     font-variant-numeric: tabular-nums;
     background: rgba(0,0,0,0.15);
@@ -141,7 +260,6 @@
     font-size: 0.82rem;
     font-weight: 600;
 }
-
 .hs-cta {
     background: #1a0a00;
     color: #fff;
@@ -151,13 +269,10 @@
     text-decoration: none;
     transition: transform 0.15s, background 0.2s;
 }
-
 .hs-cta:hover {
     background: #000;
     transform: translateX(2px);
 }
-
-/* Strike price in pricing-section when Hot Sale active */
 .plan-price .price-strike {
     display: inline-block;
     font-size: 0.6em;
@@ -167,8 +282,6 @@
     vertical-align: super;
     font-weight: 500;
 }
-
-/* Mobile compacto */
 @media (max-width: 600px) {
     .hs-inner {
         padding: 0.5rem 0.6rem;
@@ -178,8 +291,4 @@
     .hs-sub { display: none; }
     .hs-countdown { font-size: 0.75rem; }
 }
-
-/* RTL handling for /ar-sa/ */
-html[dir="rtl"] .hs-cta:hover {
-    transform: translateX(-2px);
-}
+html[dir="rtl"] .hs-cta:hover { transform: translateX(-2px); }

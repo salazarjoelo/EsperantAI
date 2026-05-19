@@ -168,20 +168,26 @@
 
         /* Header */
         .brand-header {
-            display: flex; align-items: center; gap: 16px;
-            margin-bottom: 8px;
+            display: flex; align-items: center; justify-content: center;
+            gap: 16px; margin-bottom: 12px;
         }
-        .brand-logo { width: 56px; height: 56px; }
-        .brand-name {
-            font-size: 2.4em; font-weight: 800; line-height: 1;
-            background: var(--brand-gradient);
-            -webkit-background-clip: text; background-clip: text;
-            color: transparent;
-            letter-spacing: -1px;
+        .brand-banner {
+            display: block;
+            height: auto;
+            max-width: 260px;
+            width: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 16px rgba(88, 166, 255, 0.18));
         }
-        .brand-tagline {
-            font-style: italic; color: var(--text-muted);
-            font-size: 1.1em; margin-top: 4px;
+        /* Visually hidden but accessible to screen readers */
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px; height: 1px;
+            padding: 0; margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
         }
         .brand-subtitle {
             font-size: 0.85em; color: var(--text-muted); text-align: center;

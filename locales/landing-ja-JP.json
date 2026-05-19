@@ -75,7 +75,7 @@
     "h2_line_2_grad": "顔と手で配信する。",
     "sub": "シーンを切り替え、サウンドを再生し、オーバーレイを起動、サブに反応 — ライブ中に何も触らずに。",
     "bento_face_tag": "リアルタイム検出",
-    "bento_face_emotion_smile": "笑顔",
+    "bento_face_emotion_smile": "笑顔 · 0.94",
     "bento_face_scene_from": "ゲーミング",
     "bento_face_scene_to": "BRB",
     "bento_face_title": "顔でシーンをコントロール",
