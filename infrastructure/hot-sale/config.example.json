@@ -1,0 +1,16 @@
+{
+  "_README": "Sube este archivo a /var/www/sites/edugame-landing/hot-sale.json para activar el banner. Borralo o cambia active:false para apagar. Cambios visibles en < 60s sin redeploy.",
+  "active": false,
+  "start_at": "2026-05-25T00:00:00-06:00",
+  "end_at": "2026-06-02T23:59:59-06:00",
+  "coupon": "HOTSALE25",
+  "discount_label": "-20%",
+  "show_countdown": true,
+  "early_bird": {
+    "pro_from": 49,
+    "pro_to": 39,
+    "pro_plus_from": 89,
+    "pro_plus_to": 69
+  },
+  "_geo_note": "Banner se muestra a TODOS los locales por simplicidad. Si quieres limitar solo a es-MX, agrega 'locales': ['es-mx'] aqui y descomenta el check en hot-sale.js"
+}

@@ -1,0 +1,134 @@
+/* Brand logo replacing the brand-dots placeholder */
+.brand-logo {
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    object-fit: contain;
+}
+.footer-brand .brand-logo { width: 26px; height: 26px; }
+
+/* Hot Sale banner - hidden until JS finds active config.
+   Loaded by all 16 landing pages but invisible without /hot-sale.json. */
+
+#hot-sale-banner[hidden] { display: none; }
+
+#hot-sale-banner {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    background: linear-gradient(90deg, #ff6b35, #f7931e, #ffb347);
+    background-size: 200% 100%;
+    animation: hs-shimmer 6s linear infinite;
+    color: #1a0a00;
+    font-family: inherit;
+    text-align: center;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.15);
+}
+
+@keyframes hs-shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.hs-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.hs-flame {
+    font-size: 1.1rem;
+    animation: hs-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes hs-pulse {
+    50% { transform: scale(1.2); }
+}
+
+.hs-label {
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.hs-discount {
+    background: rgba(0,0,0,0.18);
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-weight: 800;
+}
+
+.hs-sub {
+    opacity: 0.95;
+}
+
+.hs-code {
+    background: #1a0a00;
+    color: #ffb347;
+    padding: 0.18rem 0.55rem;
+    border-radius: 4px;
+    font-size: 0.82rem;
+}
+
+.hs-code strong {
+    letter-spacing: 0.1em;
+    font-weight: 800;
+}
+
+.hs-countdown {
+    font-variant-numeric: tabular-nums;
+    background: rgba(0,0,0,0.15);
+    padding: 0.18rem 0.55rem;
+    border-radius: 4px;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.hs-cta {
+    background: #1a0a00;
+    color: #fff;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.15s, background 0.2s;
+}
+
+.hs-cta:hover {
+    background: #000;
+    transform: translateX(2px);
+}
+
+/* Strike price in pricing-section when Hot Sale active */
+.plan-price .price-strike {
+    display: inline-block;
+    font-size: 0.6em;
+    opacity: 0.55;
+    text-decoration: line-through;
+    margin-right: 0.4rem;
+    vertical-align: super;
+    font-weight: 500;
+}
+
+/* Mobile compacto */
+@media (max-width: 600px) {
+    .hs-inner {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.82rem;
+        gap: 0.35rem 0.6rem;
+    }
+    .hs-sub { display: none; }
+    .hs-countdown { font-size: 0.75rem; }
+}
+
+/* RTL handling for /ar-sa/ */
+html[dir="rtl"] .hs-cta:hover {
+    transform: translateX(-2px);
+}

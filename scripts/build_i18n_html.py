@@ -84,9 +84,31 @@ def build_hreflang_block(current_locale):
     lines.append(f'<link rel="alternate" hreflang="x-default" href="{BASE_URL}/">')
     return '\n    '.join(lines)
 
+def absolutize_paths(soup):
+    """Convert relative asset paths to absolute (from site root).
+    Without this, /xx-xx/index.html resolves css/foo.css -> /xx-xx/css/foo.css
+    which 404s and Apache returns HTML, triggering MIME-type rejection.
+
+    Preserves: anchors (#...), absolute URLs (http://, //), data:, mailto:, tel:.
+    """
+    for tag in soup.find_all(['link', 'script', 'img', 'video', 'audio', 'source', 'a', 'iframe']):
+        for attr in ('href', 'src'):
+            if attr not in tag.attrs:
+                continue
+            val = tag[attr]
+            if (not val or val.startswith('#') or val.startswith('/')
+                    or '://' in val or val.startswith('data:')
+                    or val.startswith('mailto:') or val.startswith('tel:')
+                    or val.startswith('javascript:')):
+                continue
+            tag[attr] = '/' + val.lstrip('./')
+
 def render_locale(html_source, locale_data, locale_code, og_locale, is_rtl, alternates_html):
     """Generate the full pre-rendered HTML for one locale."""
     soup = BeautifulSoup(html_source, 'lxml')
+
+    # 0. Make asset paths absolute so /xx-xx/index.html doesn't 404 on assets
+    absolutize_paths(soup)
 
     # 1. <html lang="...">
     html_tag = soup.find('html')
@@ -228,6 +250,10 @@ def render_locale(html_source, locale_data, locale_code, og_locale, is_rtl, alte
         elif t == 'Organization':
             # No translatable fields (all brand/email). Skip.
             pass
+
+    # Final pass: absolutize paths AGAIN after data-i18n="*_html" keys injected
+    # locale JSON (e.g. <a href="docs/REFUND_POLICY.html">) into the DOM.
+    absolutize_paths(soup)
 
     # Pretty-print and return
     return str(soup)
