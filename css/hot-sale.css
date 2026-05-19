@@ -1,11 +1,30 @@
-/* Brand logo replacing the brand-dots placeholder */
+/* Brand logo - real EsperantAI icon (PNG with transparent-ish dark bg) */
 .brand-logo {
-    width: 22px;
-    height: 22px;
+    width: 32px;
+    height: 32px;
     display: inline-block;
     object-fit: contain;
+    border-radius: 6px;
+    /* Subtle glow accent that matches brand cyan/purple gradient */
+    filter: drop-shadow(0 0 8px rgba(88, 166, 255, 0.25));
 }
-.footer-brand .brand-logo { width: 26px; height: 26px; }
+.brand-logo:hover {
+    filter: drop-shadow(0 0 12px rgba(188, 140, 255, 0.4));
+    transition: filter 0.3s ease;
+}
+/* Footer uses the full banner with tagline embedded ("los gestos honestos") */
+.brand-banner {
+    width: 180px;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+/* Hide redundant brand-text when logo already contains "esperantAI" */
+.topbar-brand .brand-text { display: none; }
+.footer-brand .brand-text { display: none; }
 
 /* Language switcher (created by landing-i18n.js). CSP-safe via classes. */
 .lang-switcher {
