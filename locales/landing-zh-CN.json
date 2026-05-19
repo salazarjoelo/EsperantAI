@@ -193,7 +193,7 @@
     "sec_mor": "LemonSqueezy · MoR",
     "sec_activation": "即时激活",
     "sec_updates": "包含更新",
-    "fineprint_html": "自动换算为你的货币 · 最终数字产品 · 激活后不退款(<a href=\"docs/REFUND_POLICY.html\">政策</a>)· 每个许可证 3 台设备"
+    "fineprint_html": "自动换算为你的货币 · 最终数字产品 · 激活后不退款(<a href=\"/docs/REFUND_POLICY.html\">政策</a>)· 每个许可证 3 台设备"
   },
   "faq": {
     "eyebrow": "常见问题",
@@ -215,8 +215,8 @@
     "q7": "与 Stream Deck 相比如何?",
     "a7": "Stream Deck XL 售价 $249 美元,需要占用桌面空间,而且需要双手空闲才能按按钮。EsperantAI 使用你已有的摄像头,无需物理空间,即使你的双手正握着手柄、吉他、菜刀或画笔也能使用。",
     "q8": "有免费版或试用版吗?",
-    "a8_p1_html": "没有。EsperantAI 仅以 Pro 和 Pro+ 方案出售。原因:产品需要激活许可证才能与验证后端协作,且激活不可逆(参见<a href=\"docs/REFUND_POLICY.html\">不退款政策</a>)。",
-    "a8_p2_html": "如果你想在购买前看 EsperantAI 实际运行效果,请观看本页的演示视频以及包含真实应用截图的<a href=\"docs/manual.html\">用户手册</a>。"
+    "a8_p1_html": "没有。EsperantAI 仅以 Pro 和 Pro+ 方案出售。原因:产品需要激活许可证才能与验证后端协作,且激活不可逆(参见<a href=\"/docs/REFUND_POLICY.html\">不退款政策</a>)。",
+    "a8_p2_html": "如果你想在购买前看 EsperantAI 实际运行效果,请观看本页的演示视频以及包含真实应用截图的<a href=\"/docs/manual.html\">用户手册</a>。"
   },
   "footer": {
     "tagline": "首个原生手势控制直播品类。在墨西哥阿瓜斯卡连特斯打造。",

@@ -193,7 +193,7 @@
     "sec_mor": "LemonSqueezy · MoR",
     "sec_activation": "Natychmiastowa aktywacja",
     "sec_updates": "Aktualizacje w cenie",
-    "fineprint_html": "Automatyczna konwersja na twoją walutę · Cyfrowy produkt finalny · Bez zwrotu po aktywacji (<a href=\"docs/REFUND_POLICY.html\">polityka</a>) · 3 urządzenia na licencję"
+    "fineprint_html": "Automatyczna konwersja na twoją walutę · Cyfrowy produkt finalny · Bez zwrotu po aktywacji (<a href=\"/docs/REFUND_POLICY.html\">polityka</a>) · 3 urządzenia na licencję"
   },
   "faq": {
     "eyebrow": "Najczęstsze pytania",
@@ -215,8 +215,8 @@
     "q7": "Jak wypada w porównaniu ze Stream Deck?",
     "a7": "Stream Deck XL kosztuje $249 USD i wymaga miejsca fizycznego na biurku + wolnych rąk do naciskania przycisków. EsperantAI działa z twoim webcamem (który już masz), nie wymaga miejsca fizycznego i działa nawet gdy twoje dłonie są zajęte padem, gitarą, nożem kuchennym czy ołówkiem.",
     "q8": "Czy jest wersja darmowa lub trial?",
-    "a8_p1_html": "Nie. EsperantAI sprzedawane jest tylko w planach Pro i Pro+. Powód: produkt wymaga aktywacji licencji, by działać z backendem walidacji, a aktywacja jest nieodwracalna (zobacz <a href=\"docs/REFUND_POLICY.html\">Politykę braku zwrotów</a>).",
-    "a8_p2_html": "Jeśli chcesz zobaczyć EsperantAI w akcji przed zakupem, zobacz filmy demonstracyjne na tej samej stronie oraz <a href=\"docs/manual.html\">instrukcję użytkownika</a> z prawdziwymi screenami z aplikacji."
+    "a8_p1_html": "Nie. EsperantAI sprzedawane jest tylko w planach Pro i Pro+. Powód: produkt wymaga aktywacji licencji, by działać z backendem walidacji, a aktywacja jest nieodwracalna (zobacz <a href=\"/docs/REFUND_POLICY.html\">Politykę braku zwrotów</a>).",
+    "a8_p2_html": "Jeśli chcesz zobaczyć EsperantAI w akcji przed zakupem, zobacz filmy demonstracyjne na tej samej stronie oraz <a href=\"/docs/manual.html\">instrukcję użytkownika</a> z prawdziwymi screenami z aplikacji."
   },
   "footer": {
     "tagline": "Pierwsza kategoria natywnej kontroli gestami dla streamingu. Zrobione w Aguascalientes, Meksyk.",

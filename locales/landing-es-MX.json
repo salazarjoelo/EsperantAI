@@ -193,7 +193,7 @@
     "sec_mor": "LemonSqueezy · MoR",
     "sec_activation": "Activación instantánea",
     "sec_updates": "Updates incluidos",
-    "fineprint_html": "Conversión automática a tu moneda · Producto digital final · Sin reembolso después de activación (<a href=\"docs/REFUND_POLICY.html\">política</a>) · 3 dispositivos por licencia"
+    "fineprint_html": "Conversión automática a tu moneda · Producto digital final · Sin reembolso después de activación (<a href=\"/docs/REFUND_POLICY.html\">política</a>) · 3 dispositivos por licencia"
   },
   "faq": {
     "eyebrow": "Preguntas frecuentes",
@@ -215,8 +215,8 @@
     "q7": "¿Cómo se compara con un Stream Deck?",
     "a7": "Un Stream Deck XL cuesta $249 USD y requiere espacio físico en tu escritorio + tener las manos libres para presionar botones. EsperantAI funciona con tu webcam (que ya tienes), no requiere espacio físico, y funciona aunque tus manos estén ocupadas con el control, la guitarra, el cuchillo de cocina o el lápiz de dibujo.",
     "q8": "¿Hay versión gratis o trial?",
-    "a8_p1_html": "No. EsperantAI se vende solamente en sus planes Pro y Pro+. La razón: el producto requiere activación de licencia para funcionar contra el backend de validación, y la activación es irreversible (ver <a href=\"docs/REFUND_POLICY.html\">Política de no reembolso</a>).",
-    "a8_p2_html": "Si quieres ver EsperantAI en acción antes de comprar, revisa los videos de demostración en esta misma página y el <a href=\"docs/manual.html\">manual de usuario</a> con capturas reales de la app."
+    "a8_p1_html": "No. EsperantAI se vende solamente en sus planes Pro y Pro+. La razón: el producto requiere activación de licencia para funcionar contra el backend de validación, y la activación es irreversible (ver <a href=\"/docs/REFUND_POLICY.html\">Política de no reembolso</a>).",
+    "a8_p2_html": "Si quieres ver EsperantAI en acción antes de comprar, revisa los videos de demostración en esta misma página y el <a href=\"/docs/manual.html\">manual de usuario</a> con capturas reales de la app."
   },
   "footer": {
     "tagline": "La primera categoría de control gestual nativo para streaming. Hecho en Aguascalientes, México.",

@@ -185,10 +185,17 @@ def render_locale(html_source, locale_data, locale_code, og_locale, is_rtl, alte
     # 5. Update og:image to localized version if available (use es-ES default for now)
     # Keep current og:image — hero-dashboard-es.png. Future: localized screenshots.
 
-    # 6. canonical to localized URL
+    # 6. canonical + og:url + twitter:url to localized URL
+    localized_url = f"{BASE_URL}/{locale_code.lower()}/"
     canonical = soup.find('link', attrs={'rel': 'canonical'})
     if canonical:
-        canonical['href'] = f"{BASE_URL}/{locale_code.lower()}/"
+        canonical['href'] = localized_url
+    og_url = soup.find('meta', attrs={'property': 'og:url'})
+    if og_url:
+        og_url['content'] = localized_url
+    twitter_url = soup.find('meta', attrs={'property': 'twitter:url'})
+    if twitter_url:
+        twitter_url['content'] = localized_url
 
     # 7. Insert hreflang block (right after canonical).
     # Build each <link> tag fresh via soup.new_tag so they're independent nodes.

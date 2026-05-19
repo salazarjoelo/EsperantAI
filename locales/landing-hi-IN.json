@@ -193,7 +193,7 @@
     "sec_mor": "LemonSqueezy · MoR",
     "sec_activation": "Instant activation",
     "sec_updates": "Updates included",
-    "fineprint_html": "तुम्हारी currency में automatic conversion · Final digital product · Activation के बाद कोई refund नहीं (<a href=\"docs/REFUND_POLICY.html\">policy</a>) · हर license पर 3 devices"
+    "fineprint_html": "तुम्हारी currency में automatic conversion · Final digital product · Activation के बाद कोई refund नहीं (<a href=\"/docs/REFUND_POLICY.html\">policy</a>) · हर license पर 3 devices"
   },
   "faq": {
     "eyebrow": "अक्सर पूछे जाने वाले प्रश्न",
@@ -215,8 +215,8 @@
     "q7": "Stream Deck के साथ comparison कैसी है?",
     "a7": "एक Stream Deck XL की कीमत $249 USD है और तुम्हारी desk पर physical space चाहिए + buttons press करने के लिए हाथ free होने चाहिए। EsperantAI तुम्हारी webcam के साथ काम करता है (जो पहले से है), कोई physical space नहीं चाहिए, और तब भी काम करता है जब तुम्हारे हाथ controller, guitar, कुकिंग knife या drawing pencil में busy हों।",
     "q8": "क्या कोई free version या trial है?",
-    "a8_p1_html": "नहीं। EsperantAI सिर्फ Pro और Pro+ plans में बिकता है। वजह: product को validation backend के against license activation चाहिए काम करने के लिए, और activation irreversible है (देखो <a href=\"docs/REFUND_POLICY.html\">No refund policy</a>)।",
-    "a8_p2_html": "अगर खरीदने से पहले EsperantAI को action में देखना है, तो इसी page पर demo videos देखो और <a href=\"docs/manual.html\">user manual</a> देखो app के real screenshots के साथ।"
+    "a8_p1_html": "नहीं। EsperantAI सिर्फ Pro और Pro+ plans में बिकता है। वजह: product को validation backend के against license activation चाहिए काम करने के लिए, और activation irreversible है (देखो <a href=\"/docs/REFUND_POLICY.html\">No refund policy</a>)।",
+    "a8_p2_html": "अगर खरीदने से पहले EsperantAI को action में देखना है, तो इसी page पर demo videos देखो और <a href=\"/docs/manual.html\">user manual</a> देखो app के real screenshots के साथ।"
   },
   "footer": {
     "tagline": "Streaming के लिए पहली native gesture control category। Aguascalientes, Mexico में बना।",

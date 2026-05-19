@@ -193,7 +193,7 @@
     "sec_mor": "LemonSqueezy · MoR",
     "sec_activation": "Activation instantanée",
     "sec_updates": "Mises à jour incluses",
-    "fineprint_html": "Conversion automatique vers ta monnaie · Produit numérique final · Sans remboursement après activation (<a href=\"docs/REFUND_POLICY.html\">politique</a>) · 3 appareils par licence"
+    "fineprint_html": "Conversion automatique vers ta monnaie · Produit numérique final · Sans remboursement après activation (<a href=\"/docs/REFUND_POLICY.html\">politique</a>) · 3 appareils par licence"
   },
   "faq": {
     "eyebrow": "Questions fréquentes",
@@ -215,8 +215,8 @@
     "q7": "Comment ça se compare à un Stream Deck ?",
     "a7": "Un Stream Deck XL coûte $249 USD et exige de la place physique sur ton bureau + d'avoir les mains libres pour appuyer sur des boutons. EsperantAI fonctionne avec ta webcam (que tu as déjà), n'exige pas de place physique, et fonctionne même quand tes mains sont occupées par la manette, la guitare, le couteau de cuisine ou le crayon à dessin.",
     "q8": "Il y a une version gratuite ou un trial ?",
-    "a8_p1_html": "Non. EsperantAI est vendu uniquement via ses plans Pro et Pro+. La raison : le produit exige une activation de licence pour fonctionner contre le backend de validation, et l'activation est irréversible (voir <a href=\"docs/REFUND_POLICY.html\">Politique de non-remboursement</a>).",
-    "a8_p2_html": "Si tu veux voir EsperantAI en action avant d'acheter, regarde les vidéos de démonstration sur cette même page et le <a href=\"docs/manual.html\">manuel utilisateur</a> avec des captures réelles de l'app."
+    "a8_p1_html": "Non. EsperantAI est vendu uniquement via ses plans Pro et Pro+. La raison : le produit exige une activation de licence pour fonctionner contre le backend de validation, et l'activation est irréversible (voir <a href=\"/docs/REFUND_POLICY.html\">Politique de non-remboursement</a>).",
+    "a8_p2_html": "Si tu veux voir EsperantAI en action avant d'acheter, regarde les vidéos de démonstration sur cette même page et le <a href=\"/docs/manual.html\">manuel utilisateur</a> avec des captures réelles de l'app."
   },
   "footer": {
     "tagline": "La première catégorie de contrôle gestuel natif pour le streaming. Fait à Aguascalientes, Mexique.",

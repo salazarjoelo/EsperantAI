@@ -193,7 +193,7 @@
     "sec_mor": "LemonSqueezy · MoR",
     "sec_activation": "Instant activation",
     "sec_updates": "Updates included",
-    "fineprint_html": "Automatic conversion to your currency · Final digital product · No refund after activation (<a href=\"docs/REFUND_POLICY.html\">policy</a>) · 3 devices per license"
+    "fineprint_html": "Automatic conversion to your currency · Final digital product · No refund after activation (<a href=\"/docs/REFUND_POLICY.html\">policy</a>) · 3 devices per license"
   },
   "faq": {
     "eyebrow": "Frequently asked questions",
@@ -215,8 +215,8 @@
     "q7": "How does it compare to a Stream Deck?",
     "a7": "A Stream Deck XL costs $249 USD and requires physical desk space + having your hands free to press buttons. EsperantAI works with your webcam (which you already have), needs no physical space, and works even when your hands are busy with the controller, the guitar, the kitchen knife, or the drawing pencil.",
     "q8": "Is there a free version or trial?",
-    "a8_p1_html": "No. EsperantAI is sold only through its Pro and Pro+ plans. The reason: the product requires license activation to work against the validation backend, and activation is irreversible (see <a href=\"docs/REFUND_POLICY.html\">No-refund policy</a>).",
-    "a8_p2_html": "If you want to see EsperantAI in action before buying, check out the demo videos on this same page and the <a href=\"docs/manual.html\">user manual</a> with real screenshots of the app."
+    "a8_p1_html": "No. EsperantAI is sold only through its Pro and Pro+ plans. The reason: the product requires license activation to work against the validation backend, and activation is irreversible (see <a href=\"/docs/REFUND_POLICY.html\">No-refund policy</a>).",
+    "a8_p2_html": "If you want to see EsperantAI in action before buying, check out the demo videos on this same page and the <a href=\"/docs/manual.html\">user manual</a> with real screenshots of the app."
   },
   "footer": {
     "tagline": "The first native gestural control category for streaming. Made in Aguascalientes, Mexico.",

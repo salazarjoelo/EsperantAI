@@ -193,7 +193,7 @@
     "sec_mor": "LemonSqueezy · MoR",
     "sec_activation": "즉시 활성화",
     "sec_updates": "업데이트 포함",
-    "fineprint_html": "현지 통화로 자동 변환 · 디지털 최종 상품 · 활성화 후 환불 불가 (<a href=\"docs/REFUND_POLICY.html\">정책</a>) · 라이센스당 3개 디바이스"
+    "fineprint_html": "현지 통화로 자동 변환 · 디지털 최종 상품 · 활성화 후 환불 불가 (<a href=\"/docs/REFUND_POLICY.html\">정책</a>) · 라이센스당 3개 디바이스"
   },
   "faq": {
     "eyebrow": "자주 묻는 질문",
@@ -215,8 +215,8 @@
     "q7": "Stream Deck과 비교하면 어떤가요?",
     "a7": "Stream Deck XL은 $249 USD이며 책상에 물리적 공간이 필요하고 버튼을 누르기 위해 손이 자유로워야 합니다. EsperantAI는 (이미 가지고 있는) 웹캠으로 작동하고, 물리적 공간이 필요 없으며, 컨트롤러, 기타, 요리 칼, 그림 연필로 손이 묶여 있어도 작동합니다.",
     "q8": "무료 버전이나 트라이얼이 있나요?",
-    "a8_p1_html": "아니요. EsperantAI는 Pro와 Pro+ 플랜으로만 판매됩니다. 이유: 제품은 검증 백엔드에 대한 라이센스 활성화를 통해 작동하며, 활성화는 되돌릴 수 없습니다 (<a href=\"docs/REFUND_POLICY.html\">환불 불가 정책</a> 참조).",
-    "a8_p2_html": "구매 전 EsperantAI 작동 모습을 보고 싶으시다면, 이 페이지의 데모 영상과 앱의 실제 스크린샷이 포함된 <a href=\"docs/manual.html\">사용자 매뉴얼</a>을 확인하세요."
+    "a8_p1_html": "아니요. EsperantAI는 Pro와 Pro+ 플랜으로만 판매됩니다. 이유: 제품은 검증 백엔드에 대한 라이센스 활성화를 통해 작동하며, 활성화는 되돌릴 수 없습니다 (<a href=\"/docs/REFUND_POLICY.html\">환불 불가 정책</a> 참조).",
+    "a8_p2_html": "구매 전 EsperantAI 작동 모습을 보고 싶으시다면, 이 페이지의 데모 영상과 앱의 실제 스크린샷이 포함된 <a href=\"/docs/manual.html\">사용자 매뉴얼</a>을 확인하세요."
   },
   "footer": {
     "tagline": "스트리밍을 위한 최초의 네이티브 제스처 제어 카테고리. 멕시코 아구아스칼리엔테스에서 제작.",

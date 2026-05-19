@@ -111,7 +111,7 @@
     }
 
     function detectLocale() {
-        // Priority: ?lang param → localStorage → navigator → fallback
+        // Priority: ?lang param → localStorage → <html lang> pre-rendered → navigator → fallback
         var q = getQueryLang();
         if (q) {
             var resolved = canonicalize(q);
@@ -120,6 +120,13 @@
         }
         var stored = getStoredLang();
         if (stored && SUPPORTED.indexOf(stored) !== -1) return stored;
+
+        // Respect pre-rendered locale: when URL is /xx-xx/, server sets <html lang="xx-XX">
+        // User navigated explicitly to that locale -> honor it over navigator.language.
+        var htmlLang = document.documentElement.lang || '';
+        if (htmlLang && SUPPORTED.indexOf(htmlLang) !== -1) {
+            return htmlLang;
+        }
 
         var browser = navigator.language || navigator.userLanguage || FALLBACK;
         return canonicalize(browser);
@@ -130,7 +137,7 @@
        ---------------------------------------------------------------------- */
 
     function fetchLocale(locale) {
-        return fetch('/locales/landing-' + locale + '.json', { credentials: 'same-origin' })
+        return fetch('/locales/landing-' + locale + '.json?v=20260519c', { credentials: 'same-origin' })
             .then(function (res) {
                 if (!res.ok) return null;
                 return res.json();

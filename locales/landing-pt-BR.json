@@ -193,7 +193,7 @@
     "sec_mor": "LemonSqueezy · MoR",
     "sec_activation": "Ativação instantânea",
     "sec_updates": "Updates inclusos",
-    "fineprint_html": "Conversão automática para sua moeda · Produto digital final · Sem reembolso após ativação (<a href=\"docs/REFUND_POLICY.html\">política</a>) · 3 dispositivos por licença"
+    "fineprint_html": "Conversão automática para sua moeda · Produto digital final · Sem reembolso após ativação (<a href=\"/docs/REFUND_POLICY.html\">política</a>) · 3 dispositivos por licença"
   },
   "faq": {
     "eyebrow": "Perguntas frequentes",
@@ -215,8 +215,8 @@
     "q7": "Como se compara a um Stream Deck?",
     "a7": "Um Stream Deck XL custa $249 USD e exige espaço físico na sua mesa + ter as mãos disponíveis para apertar botões. EsperantAI funciona com sua webcam (que você já tem), não exige espaço físico, e funciona mesmo com suas mãos ocupadas com o controle, a guitarra, a faca da cozinha ou o lápis de desenho.",
     "q8": "Tem versão grátis ou trial?",
-    "a8_p1_html": "Não. EsperantAI é vendido somente nos seus planos Pro e Pro+. O motivo: o produto exige ativação de licença para funcionar contra o backend de validação, e a ativação é irreversível (ver <a href=\"docs/REFUND_POLICY.html\">Política de não reembolso</a>).",
-    "a8_p2_html": "Se você quer ver o EsperantAI em ação antes de comprar, confira os vídeos de demonstração nesta mesma página e o <a href=\"docs/manual.html\">manual do usuário</a> com capturas reais do app."
+    "a8_p1_html": "Não. EsperantAI é vendido somente nos seus planos Pro e Pro+. O motivo: o produto exige ativação de licença para funcionar contra o backend de validação, e a ativação é irreversível (ver <a href=\"/docs/REFUND_POLICY.html\">Política de não reembolso</a>).",
+    "a8_p2_html": "Se você quer ver o EsperantAI em ação antes de comprar, confira os vídeos de demonstração nesta mesma página e o <a href=\"/docs/manual.html\">manual do usuário</a> com capturas reais do app."
   },
   "footer": {
     "tagline": "A primeira categoria de controle gestual nativo para streaming. Feito em Aguascalientes, México.",

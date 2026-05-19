@@ -193,7 +193,7 @@
     "sec_mor": "LemonSqueezy · MoR",
     "sec_activation": "Attivazione istantanea",
     "sec_updates": "Update inclusi",
-    "fineprint_html": "Conversione automatica nella tua valuta · Prodotto digitale finale · Nessun rimborso dopo l'attivazione (<a href=\"docs/REFUND_POLICY.html\">policy</a>) · 3 dispositivi per licenza"
+    "fineprint_html": "Conversione automatica nella tua valuta · Prodotto digitale finale · Nessun rimborso dopo l'attivazione (<a href=\"/docs/REFUND_POLICY.html\">policy</a>) · 3 dispositivi per licenza"
   },
   "faq": {
     "eyebrow": "Domande frequenti",
@@ -215,8 +215,8 @@
     "q7": "Come si confronta con uno Stream Deck?",
     "a7": "Uno Stream Deck XL costa $249 USD e richiede spazio fisico sulla tua scrivania + avere le mani disponibili per premere bottoni. EsperantAI funziona con la tua webcam (che hai già), non richiede spazio fisico, e funziona anche se le tue mani sono occupate con il controller, la chitarra, il coltello da cucina o la matita da disegno.",
     "q8": "C'è una versione gratis o trial?",
-    "a8_p1_html": "No. EsperantAI viene venduto solamente nei suoi piani Pro e Pro+. La ragione: il prodotto richiede l'attivazione della licenza per funzionare contro il backend di validazione, e l'attivazione è irreversibile (vedi <a href=\"docs/REFUND_POLICY.html\">Policy di non rimborso</a>).",
-    "a8_p2_html": "Se vuoi vedere EsperantAI in azione prima di acquistare, guarda i video di dimostrazione su questa stessa pagina e il <a href=\"docs/manual.html\">manuale utente</a> con screenshot reali dell'app."
+    "a8_p1_html": "No. EsperantAI viene venduto solamente nei suoi piani Pro e Pro+. La ragione: il prodotto richiede l'attivazione della licenza per funzionare contro il backend di validazione, e l'attivazione è irreversibile (vedi <a href=\"/docs/REFUND_POLICY.html\">Policy di non rimborso</a>).",
+    "a8_p2_html": "Se vuoi vedere EsperantAI in azione prima di acquistare, guarda i video di dimostrazione su questa stessa pagina e il <a href=\"/docs/manual.html\">manuale utente</a> con screenshot reali dell'app."
   },
   "footer": {
     "tagline": "La prima categoria di controllo gestuale nativo per lo streaming. Made in Aguascalientes, Messico.",
