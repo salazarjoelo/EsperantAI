@@ -42,17 +42,22 @@ MCowBQYDK2VwAyEAiiFaUOEG7ys6VrnfG0L7i/PVXMGs30XrtnL9hcdnDT4=
 -----END PUBLIC KEY-----`;
 
 const TIER_FEATURES = {
+    // 'free' es el tier por defecto cuando NO hay license valida.
+    // Todos los features estan bloqueados: sin license, la app NO funciona.
+    // El landing y la docs son explicitos: no hay trial ni version gratuita.
+    // Mantener el nombre 'free' por compatibilidad con codigo existente; lo que
+    // importa es que todos los limites esten en 0 / false / [].
     free: {
-        maxTriggers: 5,
-        adapters: ['obs'],
-        platforms: ['twitch'],
+        maxTriggers: 0,
+        adapters: [],
+        platforms: [],
         handGestures: false,
         comboTriggers: false,
         multiAction: false,
         streamElements: false,
         gazeTracking: false,
         emotionDetection: false,
-        watermark: true,
+        watermark: false,        // irrelevante: sin maxTriggers no hay nada que marcar
         calibration: false,
         profiles: false,
         triggerHistory: false

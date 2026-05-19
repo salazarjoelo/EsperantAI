@@ -1,0 +1,75 @@
+# robots.txt — edugame.digital
+# EdugameDigital · EsperantAI
+
+# ─────────────────────────────────────────────
+# General crawlers (search engines tradicionales)
+# ─────────────────────────────────────────────
+User-agent: *
+Allow: /
+Disallow: /js/landing.js$
+Disallow: /assets/videos/
+
+# ─────────────────────────────────────────────
+# AI crawlers — política explícita
+# EsperantAI quiere ser citado en AI Overviews,
+# ChatGPT, Perplexity, Claude.
+# ─────────────────────────────────────────────
+
+# Google AI Overviews / Gemini training
+User-agent: Google-Extended
+Allow: /
+
+# OpenAI ChatGPT browse + training
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic Claude
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Meta Llama training
+User-agent: FacebookBot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+# Common Crawl (alimenta múltiples LLMs)
+User-agent: CCBot
+Allow: /
+
+# Bytespider (TikTok / Doubao)
+User-agent: Bytespider
+Allow: /
+
+# Mistral
+User-agent: MistralAI-User
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# ─────────────────────────────────────────────
+# Sitemap
+# ─────────────────────────────────────────────
+Sitemap: https://edugame.digital/sitemap.xml

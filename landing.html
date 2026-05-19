@@ -5,10 +5,172 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; style-src 'self';">
     <title>EsperantAI — La primera categoría de control gestual nativo para streaming</title>
-    <meta name="description" content="EsperantAI convierte gestos faciales y manuales en acciones de streaming. Integración nativa con OBS, Streamlabs, vMix, PRISM, XSplit. Triggers de Twitch/YouTube/Kick/Trovo. 100% local. No hay competencia directa.">
+    <meta name="description" content="EsperantAI convierte gestos faciales y manuales en acciones de streaming. Integración nativa con OBS, Streamlabs, vMix, PRISM, XSplit. Triggers de Twitch/YouTube/Kick/Trovo. 100% local.">
+    <link rel="canonical" href="https://edugame.digital/">
     <link rel="icon" type="image/svg+xml" href="assets/branding/logo.svg">
 
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="product">
+    <meta property="og:site_name" content="EdugameDigital">
+    <meta property="og:title" content="EsperantAI — Control gestual nativo para streaming">
+    <meta property="og:description" content="Convierte gestos faciales en acciones de streaming. Integra con OBS, Streamlabs, vMix, PRISM, XSplit. Triggers de Twitch/YouTube/Kick/Trovo. 100% local.">
+    <meta property="og:url" content="https://edugame.digital/">
+    <meta property="og:image" content="https://edugame.digital/assets/branding/hero-dashboard-es.png">
+    <meta property="og:image:width" content="1920">
+    <meta property="og:image:height" content="1080">
+    <meta property="og:image:alt" content="Dashboard de EsperantAI detectando gestos en vivo">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:locale:alternate" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EsperantAI — Control gestual nativo para streaming">
+    <meta name="twitter:description" content="Convierte gestos faciales en acciones de streaming. 100% local. Integra con OBS, Streamlabs, vMix, PRISM, XSplit.">
+    <meta name="twitter:image" content="https://edugame.digital/assets/branding/hero-dashboard-es.png">
+    <meta name="twitter:image:alt" content="Dashboard de EsperantAI detectando gestos en vivo">
+
     <link rel="stylesheet" href="css/landing.css?v=20260518e">
+
+    <!-- JSON-LD: Organization (EdugameDigital) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "EdugameDigital",
+      "url": "https://edugame.digital",
+      "logo": "https://edugame.digital/assets/branding/logo.svg",
+      "founder": {
+        "@type": "Person",
+        "name": "Joel Salazar Ramírez"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "joel@edugame.digital",
+        "contactType": "customer support"
+      }
+    }
+    </script>
+
+    <!-- JSON-LD: SoftwareApplication (EsperantAI) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "EsperantAI",
+      "applicationCategory": "MultimediaApplication",
+      "applicationSubCategory": "Streaming software controller",
+      "operatingSystem": "Windows, macOS, Linux (vía navegador Chrome/Edge/Firefox)",
+      "description": "Controlador de software de streaming por gestos faciales. Detecta gestos universales (rotación de cabeza, emociones, mirada, parpadeo) y culturales (gestos de mano) usando AI local en tu GPU. Integra con OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio y XSplit. Recibe eventos de Twitch, YouTube Live, Kick, Trovo y StreamElements.",
+      "url": "https://edugame.digital",
+      "image": "https://edugame.digital/assets/branding/hero-dashboard-es.png",
+      "softwareVersion": "3.0",
+      "inLanguage": ["es", "en", "fr", "de", "ja", "ru", "zh", "it", "pl", "ar", "ko", "pt"],
+      "publisher": {
+        "@type": "Organization",
+        "name": "EdugameDigital",
+        "url": "https://edugame.digital"
+      },
+      "featureList": [
+        "Detección facial AI local en GPU del navegador",
+        "Integración nativa con OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit Broadcaster",
+        "Recepción de eventos desde Twitch EventSub, YouTube Live, Kick, Trovo, StreamElements",
+        "Multi-acción por gesto (escena + sonido + overlay + chat simultáneo)",
+        "Combo triggers (evento de plataforma + gesto físico de confirmación)",
+        "13 idiomas con auto-detección del SO",
+        "Procesamiento 100% local — cero video enviado a la nube"
+      ],
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "EsperantAI Pro",
+          "description": "5 software · 4 plataformas · 18 triggers · calibración · hand gestures",
+          "availability": "https://schema.org/InStock",
+          "priceCurrency": "USD"
+        },
+        {
+          "@type": "Offer",
+          "name": "EsperantAI Pro+",
+          "description": "Todo Pro + combo triggers + StreamElements bridge + triggers ilimitados",
+          "availability": "https://schema.org/InStock",
+          "priceCurrency": "USD"
+        }
+      ]
+    }
+    </script>
+
+    <!-- JSON-LD: FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Cómo activo EsperantAI después de comprar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Compras Pro o Pro+, recibes tu license key por correo en menos de 30 segundos, abres la app, pegas la key y conectas tu software de streaming. La activación guiada te lleva de compra → key → stream sin perder el contexto."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuál es la diferencia entre Pro y Pro+?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pro incluye 5 software, 4 plataformas (Twitch/YouTube/Kick/Trovo), 18 triggers, calibración personalizada, hand gestures y todos los gestos universales. Pro+ agrega combo triggers (evento de plataforma + gesto físico de confirmación), StreamElements bridge (una sola integración para Twitch + YouTube + Facebook) y triggers ilimitados."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Funciona en Mac y Linux?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí. EsperantAI corre en cualquier sistema operativo con navegador moderno (Chrome / Edge / Firefox). En Mac y Linux usas la versión web. En Windows también puedes usar el instalador local."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿En cuántos dispositivos puedo usarlo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Una licencia se activa en hasta 3 dispositivos. Si pierdes uno (cambio de PC, reinstalación), puedes desactivarlo desde tu panel y activar el nuevo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Mis videos o cámara se envían a algún servidor?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Todo el procesamiento de detección facial corre 100% local en tu navegador, usando tu GPU (Human.js + WebGL). Cero video o imágenes se envían fuera de tu computadora. La única conexión externa es la validación periódica de tu license key contra LemonSqueezy (~7 días entre validaciones)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Necesito internet siempre?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No siempre. La licencia se valida online al activar y se revalida cada 7 días. Si pierdes internet, EsperantAI sigue funcionando hasta 7 días sin reconexión (grace period). Pasados 7 días offline, se bloquea hasta reconectar."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo se compara con un Stream Deck?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Un Stream Deck XL cuesta $249 USD y requiere espacio físico en tu escritorio + tener las manos disponibles para presionar botones. EsperantAI funciona con tu webcam (que ya tienes), no requiere espacio físico, y funciona aunque tus manos estén ocupadas con el control, la guitarra, el cuchillo de cocina o el lápiz de dibujo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Hay versión gratis o trial?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. EsperantAI se vende solamente en sus planes Pro y Pro+. La razón: el producto requiere activación de licencia para funcionar contra el backend de validación, y la activación es irreversible. Si quieres ver EsperantAI en acción antes de comprar, revisa los videos de demostración en la página y el manual de usuario con capturas reales de la app."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
 

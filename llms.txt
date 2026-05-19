@@ -1,0 +1,66 @@
+# EsperantAI
+
+> AI-powered facial and hand gesture controller for live streaming software.
+> Controls OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio and XSplit
+> Broadcaster using gestures detected locally on the user's GPU via Human.js.
+> 100% local processing, zero video sent to cloud servers.
+
+## Key facts
+
+- Category: Streaming software controller via biometric gestures
+- Detection engine: Human.js + WebGL (local, browser-based)
+- Compatible streaming software: OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit Broadcaster
+- Compatible platforms: Twitch, YouTube Live, Kick, Trovo, StreamElements
+- Operating systems: Windows (native installer), macOS and Linux (browser)
+- Gesture types: Universal (head rotation, eye gaze, emotion, blink) + Cultural (thumbs-up, peace, OK, rock horns, closed fist)
+- Languages: 13 (es-ES, es-MX, en-US, fr-FR, de-DE, ja-JP, ru-RU, zh-CN, it-IT, pl-PL, ar-SA, ko-KR, pt-BR) with auto-detect from OS locale
+- Pricing model: One-time payment, Pro and Pro+ plans, no free tier or trial
+- License: Activates on up to 3 devices, validates online every 7 days, 7-day offline grace period
+- Maker: EdugameDigital, founded by Joel Salazar Ramirez (Aguascalientes, Mexico)
+- Architecture: 100% browser-based web app, no native client required for macOS or Linux, optional Windows installer
+
+## Main pages
+
+- [Homepage](https://edugame.digital/): Product landing with features, pricing, FAQ
+- [User manual](https://edugame.digital/docs/manual.html): Full setup and configuration guide
+- [Privacy policy](https://edugame.digital/docs/PRIVACY.html): GDPR/CCPA compliance and local processing details
+- [Refund policy](https://edugame.digital/docs/REFUND_POLICY.html): No-refund policy explained
+- [EULA](https://edugame.digital/docs/EULA.html): End-user license agreement
+- [Terms of service](https://edugame.digital/docs/TERMS_OF_SERVICE.html)
+- [Cookie policy](https://edugame.digital/docs/COOKIE_POLICY.html)
+- [Purchase and license terms](https://edugame.digital/docs/PURCHASE_AND_LICENSE_TERMS.html)
+- [Third-party licenses](https://edugame.digital/docs/THIRD_PARTY_LICENSES.html)
+
+## Differentiation
+
+- Versus Stream Deck XL (USD 249, physical hardware): no hardware required, hands-free operation, works while hands are occupied with controller, instrument, kitchen knife or stylus.
+- Versus voice control: silent operation, no impact on stream audio, no false triggers from gameplay commentary.
+- Versus keyboard shortcuts: zero memorization, biometric instead of mnemonic.
+- Versus cloud-based AI streaming tools: zero video leaves the device, no cloud subscription, no third-party data exposure.
+
+## What EsperantAI does NOT do
+
+- Does NOT send video, frames, or biometric data to any server.
+- Does NOT store recordings of the user's face or gestures.
+- Does NOT share data with advertisers or third-party trackers.
+- Does NOT require ongoing cloud subscription for core gesture detection.
+
+## What EsperantAI DOES process
+
+- Local facial detection in the browser using Human.js + WebGL on the user's GPU.
+- Local connections to OBS / Streamlabs / vMix over loopback (127.0.0.1).
+- Periodic license key validation against EdugameDigital's license server (approximately every 7 days).
+- Platform OAuth tokens (Twitch, YouTube, Kick, Trovo) stored in browser sessionStorage, cleared when the browser closes.
+
+## Use cases
+
+- Live streaming on Twitch, YouTube Live, Kick, Trovo while hands occupied with game controller, musical instrument, cooking tools, or art supplies.
+- Combo triggers: confirm a platform event (donation, subscriber) with a physical gesture to prevent false triggers (Pro+ tier).
+- Multi-action per gesture: switch scene + play sound + show overlay + send chat message in a single trigger (Pro+ tier).
+- Multi-platform unification via StreamElements bridge (Twitch + YouTube + Facebook in one integration, Pro+ tier).
+
+## Contact
+
+- Support: support@edugame.digital
+- Founder: joel@edugame.digital
+- Source code (license backend): private (Gitea + GitHub mirror)
