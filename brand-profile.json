@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "brand_name": "EsperantAI",
+  "website_url": "https://salazarjoelo.github.io/esperantai/",
+  "extracted_at": "2026-05-19T00:00:00Z",
+  "voice": {
+    "formal_casual": 8,
+    "rational_emotional": 6,
+    "playful_serious": 7,
+    "bold_subtle": 9,
+    "traditional_innovative": 9,
+    "expert_accessible": 6,
+    "descriptors": ["bold", "philosophical", "tech-forward"],
+    "confidence": {
+      "formal_casual": "high",
+      "rational_emotional": "medium",
+      "playful_serious": "medium",
+      "bold_subtle": "high",
+      "traditional_innovative": "high",
+      "expert_accessible": "medium"
+    },
+    "evidence": {
+      "casual": "Uses 'tú/tu' consistently in landing.html ('Controla tu stream', 'tu cara y tus manos', 'tu software de streaming'); informal hero copy 'Sin Stream Deck. Sin atajos memorizados.'",
+      "bold": "Hero headline only 5 words split across 2 lines ('Controla tu stream / con un gesto.'); eyebrow declares category leadership 'Nueva categoría · Sin competencia directa'; CSS uses oversized type (clamp 2.4em-5.6em, font-weight 800, letter-spacing -0.04em)",
+      "innovative": "Self-positions as 'primera categoría de control gestual nativo' (HTML title); README opens with 'Los gestos honestos' tagline; references Esperanto 1887 universal-language attempt and Ekman 1972 as conceptual frame",
+      "expert_lean": "Mentions obs-websocket v5, WebGL, OAuth 2.1 PKCE, Human.js 3.3.6, EventSub WebSocket, Socket.IO — expects technically literate readers (streamers familiar with their stack)",
+      "emotional_lean": "Brand tagline 'Los gestos honestos' (honest gestures) is philosophical/emotional; copy variants mention 'cuando el chat va rápido, cada segundo cuenta' and 'sin perder el ritmo en vivo'"
+    }
+  },
+  "colors": {
+    "primary": "#58a6ff",
+    "secondary": ["#bc8cff", "#ff7b72"],
+    "accent": "#6ee7b7",
+    "forbidden": [],
+    "background": "#08090c",
+    "text": "#e6edf3",
+    "evidence": "All hex values extracted from :root CSS variables in css/landing.css lines 7-22. Primary is --brand-1 (#58a6ff blue, used in brand-dot-1, aurora-1, gradient stop 0%, focus outline). Secondary --brand-2 (#bc8cff purple, brand-dot-2, aurora-2, gradient 50%, eyebrow tint) and --brand-3 (#ff7b72 coral, aurora-3, gradient 100%). Background --bg (#08090c near-black) and --text (#e6edf3 off-white) define dark-mode base. Gradient: linear-gradient(135deg, #58a6ff 0%, #bc8cff 50%, #ff7b72 100%) is the signature brand expression."
+  },
+  "typography": {
+    "heading_font": "Inter",
+    "body_font": "Inter",
+    "mono_font": "JetBrains Mono",
+    "pairing_descriptor": "Single-family sans system with Inter as the named choice and system-ui fallback chain (-apple-system, BlinkMacSystemFont, Segoe UI). No @import url(fonts.googleapis.com) found; CSP meta tag (style-src 'self') blocks external font CSS, so Inter renders only when locally installed — otherwise falls back to platform UI font. Headings use font-weight 800 with letter-spacing -0.03em to -0.04em (oversized tight tracking). JetBrains Mono declared for monospace but not visible in landing hero."
+  },
+  "imagery": {
+    "style": "mixed (UI dashboard video + abstract gradient mesh + SVG line illustrations)",
+    "subjects": ["streamer dashboard UI", "abstract aurora gradients", "gesture/face detection visuals", "minimalist line-art icons"],
+    "composition": "Dark cinematic backdrop with floating gradient orbs (aurora-bg with blur 90px, opacity 0.28-0.55, mix-blend-mode screen). Hero showcase wraps a product demo video (EsperantAI-hero.mp4) in a faux browser chrome with traffic-light dots and a 'EN VIVO' indicator. Floating UI badges ('Cara detectada', 'Latencia 42 ms', '100% local') overlay the showcase. Section icons are stroke-only SVG line-art using the brand gradient.",
+    "forbidden": ["cheesy stock photos of people in headsets", "generic gamer/RGB-keyboard imagery", "before/after testimonial collages", "fake screen mockups not from the real product"]
+  },
+  "aesthetic": {
+    "mood_keywords": ["dark cinematic", "gradient mesh", "premium minimal"],
+    "texture": "minimal",
+    "negative_space": "generous"
+  },
+  "brand_values": ["privacy by design", "universal/cross-cultural design", "creator empowerment"],
+  "target_audience": {
+    "age_range": "20-40",
+    "profession": "live streamers and VTubers on Twitch, YouTube Live, Kick, Trovo who already use OBS/Streamlabs/vMix/PRISM/XSplit and want hands-free control during broadcasts",
+    "pain_points": [
+      "missing live moments while reaching for Stream Deck buttons or memorized hotkeys",
+      "breaking broadcast rhythm to switch scenes/overlays manually",
+      "privacy concerns about cloud-based AI processing of camera feed",
+      "fragmented tooling across streaming software and platform-event sources"
+    ],
+    "aspirations": [
+      "faster, more intentional reactions to live moments",
+      "premium-feeling celebrations for subs/donations without spam",
+      "professional studio-grade workflow without extra hardware",
+      "global reach via multilingual UI"
+    ]
+  },
+  "positioning": {
+    "category_claim": "Primera categoría de control gestual nativo para streaming — sin competencia directa",
+    "tagline_es": "Los gestos honestos",
+    "tagline_en": "Honest gestures",
+    "evidence": "HTML <title>: 'EsperantAI — La primera categoría de control gestual nativo para streaming'. README opening line: '> **Los gestos honestos.** Controlador AI universal por gestos para streamers.' Hero eyebrow: 'Nueva categoría · Sin competencia directa'."
+  },
+  "extraction_notes": {
+    "method": "WebFetch of production URL returned HTTP 404; extraction performed from local repo files D:\\joel-salazar\\OBS\\EsperantAI\\landing.html (lines 1-200), D:\\joel-salazar\\OBS\\EsperantAI\\README.md (full), D:\\joel-salazar\\OBS\\EsperantAI\\css\\landing.css (lines 1-500), and D:\\joel-salazar\\OBS\\EsperantAI\\docs\\LANDING_COPY_VARIANTS.md (full). All hex codes, font-family declarations, and copy strings are verbatim from these files. Screenshot capture skipped to save time (per task instruction). Confidence overall: HIGH for colors, typography, layout aesthetic; HIGH for voice positioning (category-creation + privacy values); MEDIUM for emotional/rational axis (brand mixes philosophical/emotional tagline with expert-level technical copy)."
+  }
+}
