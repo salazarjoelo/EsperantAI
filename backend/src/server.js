@@ -516,6 +516,24 @@ export function createApp(deps = {}) {
     app._jtiStore = jtiStore;
     app._jtiStorePath = jtiStorePath;
 
+    // SEC-FIX (2026-05-19): JSON error handler (último middleware).
+    // Antes: errores como SyntaxError del body-parser caían al default Express
+    // y respondían stack trace HTML (exponía paths del filesystem + estructura).
+    // Ahora: cualquier error responde JSON {error, status} limpio.
+    // eslint-disable-next-line no-unused-vars
+    app.use((err, req, res, next) => {
+        const isBodyParseError = err.type === 'entity.parse.failed' || err instanceof SyntaxError;
+        const status = isBodyParseError ? 400 : (err.status || err.statusCode || 500);
+        const code = isBodyParseError ? 'invalid_json'
+                   : (status >= 500 ? 'internal_error' : 'bad_request');
+        const message = isBodyParseError ? 'Request body is not valid JSON.'
+                      : (status >= 500 ? 'Internal server error.' : (err.message || 'Bad request.'));
+        if (status >= 500) {
+            console.error(`[error-handler] ${req.method} ${req.path}:`, err.message);
+        }
+        res.status(status).json({ error: code, message });
+    });
+
     return app;
 }
 
