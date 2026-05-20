@@ -1,8 +1,10 @@
 # EsperantAI — User Manual
 
-> **Honest gestures.** Control your streaming software with your face and hands. No Stream Deck. No extra hardware.
+> **Honest gestures.** Control your streaming software with your face and hands, with no extra dedicated hardware.
 
-**Version**: 3.0 · **Language**: English (translations available in 12 more languages)
+**Version**: 3.0 · **Language**: English (translations available in 14 more languages)
+
+**Technical validation**: reviewed against official documentation available as of **May 20, 2026** for OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit, Twitch, YouTube Live, Kick, Trovo, and StreamElements. Details: [`docs/MANUAL_PLATFORM_AUDIT_2026-05.md`](MANUAL_PLATFORM_AUDIT_2026-05.md).
 
 ---
 
@@ -30,21 +32,25 @@
 
 ## What is EsperantAI?
 
-EsperantAI is a **web app** that uses artificial intelligence to detect your facial and hand gestures in real time, and translates them into commands for your streaming software. Works with:
+EsperantAI is a **web app** that uses artificial intelligence to detect your facial and hand gestures in real time, and translates them into commands for your streaming software. Your camera video is processed locally in your browser.
+
+![EsperantAI local flow](assets/manual/01-esperantai-flow.svg)
+
+It works with these streaming programs:
 
 - **OBS Studio** 28+
 - **Streamlabs Desktop**
 - **vMix**
 - **PRISM Live Studio**
-- **XSplit Broadcaster** (beta)
+- **XSplit Broadcaster** (beta/advanced)
 
-And receives events from platforms like:
+It can also receive platform events and combine them with your gestures:
 
-- **Twitch**
-- **YouTube Live**
-- **Kick**
-- **Trovo**
-- **StreamElements** (multi-platform bridge)
+- **Twitch**: direct EventSub WebSocket support.
+- **YouTube Live**: direct YouTube Data API v3 support; requires an active live broadcast and available quota.
+- **Kick**: beta/limited browser support. Full Kick events require official backend/webhooks or a bridge.
+- **StreamElements**: multi-platform bridge using your account token/JWT.
+- **Trovo**: a technical adapter exists in the code, but the public connection panel is not exposed in the current interface yet.
 
 ### Why "honest gestures"?
 
@@ -122,21 +128,25 @@ If you have a Pro or Pro+ license, the **Calibration Wizard** launches automatic
 
 ## Connect Your Streaming Software
 
+![Streaming software connection matrix](assets/manual/02-software-setup.svg)
+
+All connections in this section are local: EsperantAI communicates with the streaming program running on your same computer through `127.0.0.1`.
+
 ### OBS Studio
 
 1. In OBS: **Tools → WebSocket Server Settings**
-2. Enable WebSocket. Note the password if you set one.
+2. Enable the WebSocket server. OBS Studio 28+ already includes obs-websocket.
 3. In EsperantAI: **Connection** panel
 4. Streaming software: **OBS Studio**
 5. WebSocket URL: `ws://127.0.0.1:4455` (default)
-6. Password: the one you set in OBS
+6. Password: the one you configured in OBS, if you enabled a password
 7. Click **Connect**
 
 ### Streamlabs Desktop
 
 1. In Streamlabs: **Settings → Remote Control**
 2. Enable Remote Control
-3. Note the API Token
+3. Copy the **API Token** from the Remote Control screen
 4. In EsperantAI: Streaming software: **Streamlabs Desktop**
 5. API Token: paste it
 6. Port: `59650` (default)
@@ -151,24 +161,28 @@ If you have a Pro or Pro+ license, the **Calibration Wizard** launches automatic
 5. Port: `8088`
 6. Click **Connect**
 
+> Note: the current EsperantAI adapter uses vMix's local HTTP API. If you protected Web Controller with network rules or credentials that are not compatible with the browser, the connection may fail.
+
 ### PRISM Live Studio
 
-1. PRISM Live Studio v4.0.5+ requires manual obs-websocket plugin installation
-2. Download `obs-websocket` from the [OBS forum](https://obsproject.com/forum/resources/obs-websocket-remote-control-of-obs-studio-made-easy.466/)
-3. Copy it to PRISM's plugins folder
+1. Use **PRISM Live Studio v4.0.5+**.
+2. Manually install the `obs-websocket` plugin compatible with OBS/PRISM.
+3. Copy it to PRISM's plugins folder by following PRISM's official guide for OBS plugins.
 4. Restart PRISM
 5. Enable WebSocket in **Tools → WebSocket Server Settings**
 6. In EsperantAI: Streaming software: **PRISM Live Studio** (works the same as OBS)
 
-### XSplit Broadcaster (beta)
+> Important difference: OBS 28+ already includes obs-websocket. PRISM requires the plugin to be installed manually.
 
-1. Install the "Remote xjs" extension in XSplit (Settings → Extensions)
-2. Enable Remote in preferences
+### XSplit Broadcaster (beta/advanced)
+
+1. Install or enable a local bridge compatible with **XSplit XJS / Remote xjs**.
+2. Verify that the bridge exposes a local WebSocket URL.
 3. In EsperantAI: Streaming software: **XSplit**
 4. Remote xjs Proxy URL: `ws://127.0.0.1:5555/xjs` (default)
 5. Click **Connect**
 
-> XSplit is in **beta**. Advanced features may be limited.
+> XSplit is a **beta/advanced** connection. Compatibility depends on the local XJS bridge installed; advanced features may be limited.
 
 ---
 
@@ -246,7 +260,9 @@ A special gesture: press both palms together in front of your chest (like a pray
 
 ## Connect Streaming Platforms
 
-For EsperantAI to receive events (donations, subs, raids), connect the platforms where you stream.
+For EsperantAI to receive events (donations, subscriptions, raids, follows, or Super Chats), connect the platforms where you stream.
+
+![Platform event status](assets/manual/03-platform-events.svg)
 
 ### Twitch
 
@@ -258,6 +274,8 @@ For EsperantAI to receive events (donations, subs, raids), connect the platforms
 6. A Twitch authorization window will open. Accept the permissions.
 7. The window will close and you'll see "Twitch Connected"
 
+EsperantAI uses EventSub WebSocket. Do not paste any Client Secret in the browser.
+
 ### YouTube Live
 
 1. Create credentials at https://console.cloud.google.com
@@ -267,28 +285,40 @@ For EsperantAI to receive events (donations, subs, raids), connect the platforms
 5. In EsperantAI: **Platform Events** panel → **YouTube Live**
 6. Paste your Client ID and click **Connect**
 
+YouTube requirements: you must have an active live broadcast with chat available, and your Google Cloud project must have enough quota to query the chat.
+
 ### Kick
 
-1. Create an app at https://kick.com/settings/developer
+1. Create an app in the Kick developer portal.
 2. Register the redirect URI
 3. In EsperantAI: **Platform Events** panel → **Kick**
 4. Paste your Client ID and click **Connect**
-5. Kick uses OAuth 2.1 with PKCE (more secure)
+5. Kick uses OAuth 2.1 with PKCE.
+
+Current status: **beta/limited**. Kick's official documentation uses webhooks for full events. In the browser, EsperantAI can only detect a limited part of the activity; for subscriptions, gifts, raids, or reliable Kick events, use a bridge such as StreamElements or your own backend/webhook.
 
 ### StreamElements (multi-platform bridge)
 
-If you already have a StreamElements account, you can unify Twitch + YouTube + Facebook with a single token:
+If you already have a StreamElements account, you can use it as a bridge for alerts from several platforms:
 
 1. Go to https://streamelements.com/dashboard/account/channels
 2. Copy your JWT Token
 3. In EsperantAI: **Platform Events** panel → **StreamElements**
 4. Paste the JWT and click **Connect**
 
+Keep that token private. Treat it like your StreamElements account password.
+
+### Trovo
+
+EsperantAI includes a technical Trovo adapter in the code, based on OAuth and Trovo's WebSocket chat service. The current public interface does not yet include a Trovo connection panel, so it is not documented as a normal user flow. If you need Trovo now, use a compatible bridge or wait for the Trovo panel to be enabled.
+
 ---
 
 ## Event + Gesture Combos (Advanced)
 
 This is EsperantAI's magic: combining **platform events** with **your gestures** as confirmation.
+
+![Event plus gesture flow](assets/manual/04-event-gesture-combo.svg)
 
 ### Example: thank donations with a thumbs up
 
@@ -392,8 +422,10 @@ Available languages:
 - 🇵🇱 Polski
 - 🇸🇦 العربية (RTL)
 - 🇰🇷 한국어
+- 🇮🇳 हिन्दी
+- 🇮🇩 Bahasa Indonesia
 
-All 13 languages are fully translated (342 keys each).
+All 15 languages are translated in the current interface files.
 
 ---
 
@@ -427,6 +459,9 @@ All 13 languages are fully translated (342 keys each).
 - Verify you're connected to the streaming software (green badge "Connected")
 - Press `R` to reload the scene list
 - If still empty, disconnect and reconnect
+- In vMix, confirm that Web Controller is enabled and reachable from `http://127.0.0.1:8088/api/`
+- In PRISM, confirm that the obs-websocket plugin is installed and enabled
+- In XSplit, confirm that the local XJS bridge is running
 
 ### Scene changes trigger without me making gestures
 
@@ -454,6 +489,17 @@ All 13 languages are fully translated (342 keys each).
 - If you set a password in OBS, it must match exactly
 - Some antivirus software blocks port 4455 — add an exception
 
+### Twitch or YouTube won't connect
+
+- Verify that the redirect URI in the platform console exactly matches the URL of `oauth-callback.html`
+- Allow pop-ups for the domain where you are using EsperantAI
+- In Twitch, use only the Client ID; do not paste a Client Secret
+- In YouTube, confirm that YouTube Data API v3 is enabled and that there is an active live broadcast
+
+### Kick does not show all events
+
+Kick is in beta/limited browser mode. Full Kick events are officially received through webhooks; use StreamElements or your own backend if you need reliable subscriptions, gifts, or raids.
+
 ---
 
 ## Privacy
@@ -468,9 +514,9 @@ All 13 languages are fully translated (342 keys each).
 ### What it DOES process
 
 - ✅ Local facial detection in your browser (Human.js + WebGL)
-- ✅ Local connections to your OBS / Streamlabs / vMix (loopback 127.0.0.1)
+- ✅ Local connections to OBS / Streamlabs / vMix / PRISM / XSplit (loopback `127.0.0.1`)
 - ✅ Periodic license key validation (every 7 days)
-- ✅ If you connect Twitch/YouTube/Kick: OAuth tokens in sessionStorage (deleted when browser closes)
+- ✅ If you connect Twitch/YouTube/Kick/StreamElements: platform tokens in local or session browser storage
 
 Full details in `docs/PRIVACY.html`.
 
@@ -485,9 +531,8 @@ Full details in `docs/PRIVACY.html`.
 Response times:
 - General questions: 24-72 hours
 - Technical bugs: 1-3 business days
-- Refund requests: 1-2 business days
 
 ---
 
-*Last updated: 2026-05-14. Version: 3.0.*
+*Last updated: 2026-05-20. Version: 3.0.*
 *© 2026 EdugameDigital — Joel Salazar Ramírez. EsperantAI™.*
