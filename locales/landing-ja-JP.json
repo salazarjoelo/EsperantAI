@@ -219,7 +219,7 @@
     "a8_p2_html": "購入前にEsperantAIの動作を見たい場合は、このページのデモ動画と、アプリの実際のスクリーンショットを含む<a href=\"/docs/manual.html\">ユーザーマニュアル</a>をご確認ください。"
   },
   "footer": {
-    "tagline": "配信向けネイティブ・ジェスチャー制御の初のカテゴリ。メキシコ・アグアスカリエンテス製。",
+    "tagline": "配信向けネイティブ・ジェスチャー制御の初のカテゴリ。",
     "col_product": "製品",
     "link_features": "機能",
     "link_how": "使い方",
@@ -238,6 +238,6 @@
     "link_privacy": "プライバシー",
     "link_cookies": "クッキー",
     "bottom_1": "© 2026 EdugameDigital",
-    "bottom_2": "EsperantAI v1.0 · アグアスカリエンテス、Ags.、メキシコ"
+    "bottom_2": "EsperantAI v1.0"
   }
 }

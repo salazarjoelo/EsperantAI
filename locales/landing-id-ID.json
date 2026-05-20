@@ -219,7 +219,7 @@
     "a8_p2_html": "Kalau kamu mau lihat EsperantAI dalam aksi sebelum beli, tonton video demo di halaman ini dan <a href=\"/docs/manual.html\">manual pengguna</a> dengan screenshot asli dari aplikasinya."
   },
   "footer": {
-    "tagline": "Kategori pertama kontrol gestur native untuk streaming. Dibuat di Aguascalientes, Meksiko.",
+    "tagline": "Kategori pertama kontrol gestur native untuk streaming.",
     "col_product": "Produk",
     "link_features": "Features",
     "link_how": "Cara kerja",
@@ -238,6 +238,6 @@
     "link_privacy": "Privasi",
     "link_cookies": "Cookies",
     "bottom_1": "© 2026 EdugameDigital",
-    "bottom_2": "EsperantAI v1.0 · Aguascalientes, Ags., Meksiko"
+    "bottom_2": "EsperantAI v1.0"
   }
 }

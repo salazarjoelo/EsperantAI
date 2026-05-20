@@ -219,7 +219,7 @@
     "a8_p2_html": "如果你想在购买前看 EsperantAI 实际运行效果,请观看本页的演示视频以及包含真实应用截图的<a href=\"/docs/manual.html\">用户手册</a>。"
   },
   "footer": {
-    "tagline": "首个原生手势控制直播品类。在墨西哥阿瓜斯卡连特斯打造。",
+    "tagline": "首个原生手势控制直播品类。",
     "col_product": "产品",
     "link_features": "功能",
     "link_how": "工作原理",
@@ -238,6 +238,6 @@
     "link_privacy": "隐私",
     "link_cookies": "Cookies",
     "bottom_1": "© 2026 EdugameDigital",
-    "bottom_2": "EsperantAI v1.0 · 墨西哥阿瓜斯卡连特斯"
+    "bottom_2": "EsperantAI v1.0"
   }
 }

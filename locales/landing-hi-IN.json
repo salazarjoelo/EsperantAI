@@ -219,7 +219,7 @@
     "a8_p2_html": "अगर खरीदने से पहले EsperantAI को action में देखना है, तो इसी page पर demo videos देखो और <a href=\"/docs/manual.html\">user manual</a> देखो app के real screenshots के साथ।"
   },
   "footer": {
-    "tagline": "Streaming के लिए पहली native gesture control category। Aguascalientes, Mexico में बना।",
+    "tagline": "Streaming के लिए पहली native gesture control category।",
     "col_product": "Product",
     "link_features": "Features",
     "link_how": "कैसे काम करता है",
@@ -238,6 +238,6 @@
     "link_privacy": "Privacy",
     "link_cookies": "Cookies",
     "bottom_1": "© 2026 EdugameDigital",
-    "bottom_2": "EsperantAI v1.0 · Aguascalientes, Ags., Mexico"
+    "bottom_2": "EsperantAI v1.0"
   }
 }

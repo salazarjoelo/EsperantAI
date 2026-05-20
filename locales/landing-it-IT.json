@@ -219,7 +219,7 @@
     "a8_p2_html": "Se vuoi vedere EsperantAI in azione prima di acquistare, guarda i video di dimostrazione su questa stessa pagina e il <a href=\"/docs/manual.html\">manuale utente</a> con screenshot reali dell'app."
   },
   "footer": {
-    "tagline": "La prima categoria di controllo gestuale nativo per lo streaming. Made in Aguascalientes, Messico.",
+    "tagline": "La prima categoria di controllo gestuale nativo per lo streaming.",
     "col_product": "Prodotto",
     "link_features": "Feature",
     "link_how": "Come funziona",
@@ -238,6 +238,6 @@
     "link_privacy": "Privacy",
     "link_cookies": "Cookie",
     "bottom_1": "© 2026 EdugameDigital",
-    "bottom_2": "EsperantAI v1.0 · Aguascalientes, Ags., Messico"
+    "bottom_2": "EsperantAI v1.0"
   }
 }

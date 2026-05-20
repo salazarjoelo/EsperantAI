@@ -219,7 +219,7 @@
     "a8_p2_html": "구매 전 EsperantAI 작동 모습을 보고 싶으시다면, 이 페이지의 데모 영상과 앱의 실제 스크린샷이 포함된 <a href=\"/docs/manual.html\">사용자 매뉴얼</a>을 확인하세요."
   },
   "footer": {
-    "tagline": "스트리밍을 위한 최초의 네이티브 제스처 제어 카테고리. 멕시코 아구아스칼리엔테스에서 제작.",
+    "tagline": "스트리밍을 위한 최초의 네이티브 제스처 제어 카테고리.",
     "col_product": "제품",
     "link_features": "기능",
     "link_how": "사용 방법",
@@ -238,6 +238,6 @@
     "link_privacy": "개인정보",
     "link_cookies": "쿠키",
     "bottom_1": "© 2026 EdugameDigital",
-    "bottom_2": "EsperantAI v1.0 · Aguascalientes, Ags., México"
+    "bottom_2": "EsperantAI v1.0"
   }
 }
