@@ -1,28 +1,30 @@
-# EsperantAI — Manual do Usuário
+# EsperantAI — Manual do usuário
 
-> **Gestos sinceros.** Controle seu software de streaming com o rosto e as mãos. Sem Stream Deck. Sem hardware extra.
+> **Gestos honestos.** Controle seu software de streaming com o rosto e as mãos, sem hardware adicional dedicado.
 
-**Versão**: 3.0 · **Idioma**: Português (Brasil) (traduções disponíveis em mais 12 idiomas)
+**Versão**: 3.0 · **Idioma**: Português (Brasil) (traduções disponíveis em outros 14 idiomas; 15 idiomas no total)
+
+**Validação técnica**: revisado contra a documentação oficial disponível em **20 de maio de 2026** para OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit, Twitch, YouTube Live, Kick, Trovo e StreamElements. Detalhes: [`docs/MANUAL_PLATFORM_AUDIT_2026-05.md`](MANUAL_PLATFORM_AUDIT_2026-05.md).
 
 ---
 
 ## Sumário
 
 1. [O que é o EsperantAI?](#o-que-é-o-esperantai)
-2. [Requisitos Mínimos](#requisitos-mínimos)
-3. [Compra e Ativação](#compra-e-ativação)
-4. [Primeiro Uso](#primeiro-uso)
-5. [Conecte Seu Software de Streaming](#conecte-seu-software-de-streaming)
-6. [Configure Gestos e Cenas](#configure-gestos-e-cenas)
-7. [Categorias de Gestos](#categorias-de-gestos)
-8. [Conecte Plataformas de Streaming](#conecte-plataformas-de-streaming)
-9. [Combinações de Evento + Gesto (Avançado)](#combinações-de-evento--gesto-avançado)
-10. [Sensibilidade e Zona Morta](#sensibilidade-e-zona-morta)
-11. [Atalhos de Teclado](#atalhos-de-teclado)
-12. [Histórico de Gatilhos](#histórico-de-gatilhos)
-13. [Alterar Idioma](#alterar-idioma)
-14. [Gerencie Sua Licença](#gerencie-sua-licença)
-15. [Solução de Problemas](#solução-de-problemas)
+2. [Requisitos mínimos](#requisitos-mínimos)
+3. [Compra e ativação](#compra-e-ativação)
+4. [Primeiro uso](#primeiro-uso)
+5. [Conecte seu software de streaming](#conecte-seu-software-de-streaming)
+6. [Configure gestos e cenas](#configure-gestos-e-cenas)
+7. [Categorias de gestos](#categorias-de-gestos)
+8. [Conecte plataformas de streaming](#conecte-plataformas-de-streaming)
+9. [Combinações de evento + gesto (Avançado)](#combinações-de-evento--gesto-avançado)
+10. [Sensibilidade e zona morta](#sensibilidade-e-zona-morta)
+11. [Atalhos de teclado](#atalhos-de-teclado)
+12. [Histórico de gatilhos](#histórico-de-gatilhos)
+13. [Alterar idioma](#alterar-idioma)
+14. [Gerencie sua licença](#gerencie-sua-licença)
+15. [Solução de problemas](#solução-de-problemas)
 16. [Privacidade](#privacidade)
 17. [Suporte](#suporte)
 
@@ -30,7 +32,11 @@
 
 ## O que é o EsperantAI?
 
-O EsperantAI é um **aplicativo web** que usa inteligência artificial para detectar seus gestos faciais e das mãos em tempo real, e os traduz em comandos para o seu software de streaming. Funciona com:
+O EsperantAI é uma **aplicação web** que usa inteligência artificial para detectar seus gestos faciais e manuais em tempo real, e os traduz em comandos para o seu software de streaming. O vídeo da sua câmera é processado localmente no navegador.
+
+![Fluxo local do EsperantAI](assets/manual/01-esperantai-flow.svg)
+
+Funciona com estes programas de transmissão:
 
 - **OBS Studio** 28+
 - **Streamlabs Desktop**
@@ -38,344 +44,368 @@ O EsperantAI é um **aplicativo web** que usa inteligência artificial para dete
 - **PRISM Live Studio**
 - **XSplit Broadcaster** (beta)
 
-E recebe eventos de plataformas como:
+Também pode receber eventos de plataformas para combiná-los com seus gestos:
 
-- **Twitch**
-- **YouTube Live**
-- **Kick**
-- **Trovo**
-- **StreamElements** (ponte multiplataforma)
+- **Twitch**: suporte direto por EventSub WebSocket.
+- **YouTube Live**: suporte direto pela YouTube Data API v3; requer live ativa e quota disponível.
+- **Kick**: suporte beta/limitado no navegador. Para eventos completos da Kick, é necessário usar backend/webhooks oficiais ou uma ponte.
+- **StreamElements**: ponte multiplataforma com token/JWT da sua conta.
+- **Trovo**: existe um adaptador técnico no código, mas o painel público de conexão ainda não está exposto na interface atual.
 
-### Por que "gestos sinceros"?
+### Por que "gestos honestos"?
 
-Expressões faciais básicas e rotação da cabeça são **universais em todas as culturas humanas** (Paul Ekman, 1972). Elas não mentem, não variam por geografia. O EsperantAI chama esses de gestos "🌐 Universais" e os distingue dos gestos "⚠️ Culturais" (sinais com as mãos), cujo significado pode variar por país.
+As expressões faciais básicas e a rotação da cabeça são **universais em todas as culturas humanas** (Paul Ekman, 1972). Elas não mentem, não variam por geografia. O EsperantAI chama esses gestos de "🌐 Universais" e os distingue dos gestos "⚠️ Culturais" (sinais com as mãos), cujo significado pode variar de país para país.
 
-Você decide quais gestos usar com base no seu público.
+Você decide quais gestos usar de acordo com o seu público.
 
 ---
 
-## Requisitos Mínimos
+## Requisitos mínimos
 
 ### Hardware
 
 - **Qualquer webcam USB** (recomendada: 1080p ou superior)
 - **CPU**: qualquer processador de 4+ núcleos dos últimos 5 anos
-- **RAM**: 8 GB no mínimo. 16 GB recomendados se você estiver fazendo streaming simultaneamente.
-- **GPU**: qualquer uma com suporte a WebGL (mesmo GPUs integradas modernas funcionam)
+- **RAM**: 8 GB no mínimo. 16 GB recomendados se você fizer streaming ao mesmo tempo.
+- **GPU**: qualquer uma com suporte a WebGL (até GPUs integradas modernas funcionam)
 
 ### Software
 
-- **SO**: Windows 10/11, macOS 12+ ou Linux com kernel recente
+- **Sistema operacional**: Windows 10/11, macOS 12+ ou Linux com kernel recente
 - **Navegador**: Chrome 90+, Edge 90+ ou Firefox 100+
 - **Software de streaming** (pelo menos um): OBS Studio 28+, Streamlabs Desktop, vMix, PRISM, XSplit
 
 ### Internet
 
 - Necessária para **ativar sua licença** e a cada **7 dias** para revalidação
-- Funciona **até 7 dias offline** (período de carência)
+- Funciona **até 7 dias sem conexão** (período de carência)
 
 ---
 
-## Compra e Ativação
+## Compra e ativação
 
 1. Acesse **https://edugame.digital**
-2. Clique em **"Buy License"**
+2. Clique em **"Comprar licença"**
 3. Conclua o pagamento via LemonSqueezy (cartão, PayPal, etc.)
 4. Você receberá um e-mail com:
    - Sua **chave de licença** (formato: `XXXX-XXXX-XXXX-XXXX-XXXX`)
    - Link para usar o EsperantAI
 5. Abra o EsperantAI no seu navegador
-6. A tela de ativação aparecerá. Cole sua chave de licença
-7. Clique em **"Activate License"**
+6. A tela de ativação será exibida. Cole sua chave de licença
+7. Clique em **"Ativar licença"**
 8. Pronto! 🎉
 
 ### Quantos dispositivos?
 
 Uma licença pode ser ativada em **até 3 dispositivos**. Para mover sua licença para outro dispositivo:
 
-1. No dispositivo antigo: painel **Advanced** → **License** → **Deactivate on this device**
-2. No novo dispositivo: ative normalmente
+1. No dispositivo antigo: painel **Avançado** → **Licença** → **Desativar neste dispositivo**
+2. No dispositivo novo: ative normalmente
 
 ---
 
-## Primeiro Uso
+## Primeiro uso
 
-### Passo 1: Permitir acesso à câmera
+### Passo 1: Permita o acesso à câmera
 
-Quando você abrir o EsperantAI pela primeira vez, o navegador pedirá permissão para usar a câmera. **Aceite**.
+Quando você abrir o EsperantAI pela primeira vez, o navegador pedirá permissão para acessar a câmera. **Aceite**.
 
 > Importante: o EsperantAI nunca envia seu vídeo para nenhum servidor. O processamento é 100% local no seu dispositivo.
 
-### Passo 2: Selecionar câmera
+### Passo 2: Selecione a câmera
 
-Se você tiver mais de uma câmera, escolha qual usar no seletor de câmeras.
+Se você tiver mais de uma câmera, escolha qual usar no menu suspenso de câmeras.
 
-### Passo 3: Verificar detecção
+### Passo 3: Verifique a detecção
 
-Você verá seu rosto no painel esquerdo. Quando o EsperantAI detectar seu rosto, os indicadores de Yaw / Pitch / Roll começarão a exibir valores.
+Você verá seu rosto no painel esquerdo. Quando o EsperantAI detectar seu rosto, os indicadores de Yaw / Pitch / Roll começarão a mostrar valores.
 
-### Passo 4: Assistente de Calibração (Pro+)
+### Passo 4: Assistente de calibração (Pro+)
 
-Se você tiver uma licença Pro ou Pro+, o **Assistente de Calibração** será iniciado automaticamente no primeiro uso. Ele mede sua amplitude natural de movimento e define a sensibilidade ideal. Você pode reexecutá-lo a qualquer momento pelo botão **Recalibrate**.
+Se você tiver uma licença Pro ou Pro+, o **Assistente de calibração** será iniciado automaticamente no primeiro uso. Ele mede sua amplitude natural de movimento e define a sensibilidade ideal. Você pode executá-lo novamente a qualquer momento pelo botão **Recalibrar**.
 
 ---
 
-## Conecte Seu Software de Streaming
+## Conecte seu software de streaming
+
+![Matriz de conexão do software de streaming](assets/manual/02-software-setup.svg)
+
+Todas as conexões desta seção são locais: o EsperantAI se comunica com o programa de transmissão que está rodando no mesmo computador por meio de `127.0.0.1`.
 
 ### OBS Studio
 
-1. No OBS: **Tools → WebSocket Server Settings**
-2. Ative o WebSocket. Anote a senha, caso tenha definido uma.
-3. No EsperantAI: painel **Connection**
+1. No OBS: **Ferramentas → Configurações do servidor WebSocket**
+2. Ative o servidor WebSocket. O OBS Studio 28+ já inclui obs-websocket.
+3. No EsperantAI: painel **Conexão**
 4. Software de streaming: **OBS Studio**
 5. URL do WebSocket: `ws://127.0.0.1:4455` (padrão)
-6. Senha: a que você definiu no OBS
-7. Clique em **Connect**
+6. Senha: a que você configurou no OBS, se tiver ativado senha
+7. Clique em **Conectar**
 
 ### Streamlabs Desktop
 
-1. No Streamlabs: **Settings → Remote Control**
-2. Ative o Remote Control
-3. Anote o API Token
+1. No Streamlabs Desktop: **Settings → Remote Control**
+2. Ative o controle remoto local
+3. Copie o **API Token** na tela de Remote Control
 4. No EsperantAI: Software de streaming: **Streamlabs Desktop**
-5. API Token: cole-o
+5. Token de API: cole o token
 6. Porta: `59650` (padrão)
-7. Clique em **Connect**
+7. Clique em **Conectar**
 
 ### vMix
 
 1. No vMix: **Settings → Web Controller**
-2. Ative o Web Controller. Porta padrão: 8088.
+2. Ative o Web Controller. Porta padrão: `8088`.
 3. No EsperantAI: Software de streaming: **vMix**
 4. Host: `127.0.0.1`
 5. Porta: `8088`
-6. Clique em **Connect**
+6. Clique em **Conectar**
+
+> Observação: o adaptador atual do EsperantAI usa a API HTTP local do vMix. Se você protegeu o Web Controller com regras de rede ou credenciais incompatíveis com o navegador, a conexão pode falhar.
 
 ### PRISM Live Studio
 
-1. O PRISM Live Studio v4.0.5+ requer instalação manual do plugin obs-websocket
-2. Baixe o `obs-websocket` no [fórum do OBS](https://obsproject.com/forum/resources/obs-websocket-remote-control-of-obs-studio-made-easy.466/)
-3. Copie para a pasta de plugins do PRISM
+1. Use **PRISM Live Studio v4.0.5+**.
+2. Instale manualmente o plugin `obs-websocket` compatível com OBS/PRISM.
+3. Copie-o para a pasta de plugins do PRISM seguindo o guia oficial da PRISM para plugins OBS.
 4. Reinicie o PRISM
-5. Ative o WebSocket em **Tools → WebSocket Server Settings**
-6. No EsperantAI: Software de streaming: **PRISM Live Studio** (funciona da mesma forma que o OBS)
+5. Ative o WebSocket em **Ferramentas → Configurações do servidor WebSocket**
+6. No EsperantAI: Software de streaming: **PRISM Live Studio** (funciona como o OBS)
+
+> Diferença importante: o OBS 28+ já inclui obs-websocket. O PRISM exige instalação manual do plugin.
 
 ### XSplit Broadcaster (beta)
 
-1. Instale a extensão "Remote xjs" no XSplit (Settings → Extensions)
-2. Ative o Remote nas preferências
+1. Instale ou habilite uma ponte local compatível com **XSplit XJS / Remote xjs**.
+2. Verifique se a ponte expõe uma URL WebSocket local.
 3. No EsperantAI: Software de streaming: **XSplit**
-4. URL do Proxy Remote xjs: `ws://127.0.0.1:5555/xjs` (padrão)
-5. Clique em **Connect**
+4. URL do proxy Remote xjs: `ws://127.0.0.1:5555/xjs` (padrão)
+5. Clique em **Conectar**
 
-> O XSplit está em **beta**. Recursos avançados podem ser limitados.
+> O XSplit está em **beta/avançado**. A compatibilidade depende da ponte XJS local instalada; recursos avançados podem estar limitados.
 
 ---
 
-## Configure Gestos e Cenas
+## Configure gestos e cenas
 
-Uma vez conectado, as cenas reais do seu software aparecerão automaticamente nos menus suspensos do painel **Triggers**.
+Depois de conectado, as cenas reais do seu software aparecerão automaticamente nos menus suspensos do painel **Gatilhos**.
 
 ### Mapeamento básico
 
-1. Para cada gesto (por exemplo, "Look Left"), escolha uma cena no menu suspenso
-2. Quando você fizer esse gesto e mantê-lo estável por ~150ms, o EsperantAI trocará para essa cena no seu software de streaming
+1. Para cada gesto (por exemplo, "Olhar para a esquerda"), escolha uma cena no menu suspenso
+2. Quando você fizer esse gesto e o mantiver estável por ~150ms, o EsperantAI mudará para essa cena no seu software de streaming
 3. A mudança é automática e praticamente instantânea
 
-### Multi-acção (Pro+)
+### Multi-ação (Pro+)
 
-Com uma licença Pro ou Pro+, um gesto pode acionar **várias ações** simultaneamente:
-- Trocar cena + reproduzir som + exibir overlay + enviar mensagem no chat
+Com uma licença Pro ou Pro+, um gesto pode acionar **múltiplas ações** ao mesmo tempo:
+- Mudar cena + reproduzir som + mostrar overlay + enviar mensagem ao chat
 
 ### Ativar / desativar categorias
 
-Cada categoria tem sua própria caixa de seleção "Enable":
+Cada categoria tem sua própria caixa "Ativar":
 
 - 🧠 **Rotação da cabeça** (universal — ativada por padrão)
-- 📏 **Distância do rosto** (aproximar/afastar)
-- 👁️ **Olhar** (mover somente os olhos)
+- 📏 **Distância facial** (aproxime-se ou afaste-se)
+- 👁️ **Olhar** (mova só os olhos)
 - 😀 **Emoções** (sorriso, surpresa, raiva, neutro)
 - 👁️‍🗨️ **Piscada dupla**
-- ✋ **Gestos com as mãos** (cultural — desativado por padrão)
+- ✋ **Gestos com as mãos** (cultural — desativados por padrão)
 
-Desative as categorias que você não precisa para economizar CPU.
+Desative as categorias de que você não precisa para economizar CPU.
 
 ---
 
-## Categorias de Gestos
+## Categorias de gestos
 
 ### 🌐 Universais (mesmo significado em qualquer cultura)
 
 | Gesto | Eixo | Como ativar |
 |---|---|---|
-| Centro | — | Olhando para frente, rosto estável |
+| Centro | — | Olhando para a frente, rosto estável |
 | Olhar para a esquerda | yaw negativo | Vire a cabeça para a sua esquerda |
 | Olhar para a direita | yaw positivo | Vire a cabeça para a sua direita |
 | Olhar para cima | pitch negativo | Levante o rosto |
 | Olhar para baixo | pitch positivo | Abaixe o rosto |
 | Inclinar para a esquerda | roll negativo | Incline a cabeça em direção ao ombro esquerdo |
 | Inclinar para a direita | roll positivo | Incline a cabeça em direção ao ombro direito |
-| Aproximar | distância | Aproxime o rosto da câmera |
-| Afastar | distância | Afaste o rosto da câmera |
-| Olhar direcional | olhar | Mova somente os olhos (cabeça centrada) |
-| Sorrindo | emoção=feliz | Sorria claramente |
-| Surpreso | emoção=surpresa | Demonstre surpresa |
-| Com raiva | emoção=raiva | Demonstre raiva |
+| Aproximar-se | distância | Aproxime-se da câmera |
+| Afastar-se | distância | Afaste-se da câmera |
+| Olhar direcional | olhar | Mova só os olhos (cabeça centralizada) |
+| Sorriso | emoção=feliz | Sorria claramente |
+| Surpresa | emoção=surpresa | Mostre surpresa |
+| Raiva | emoção=raiva | Mostre raiva |
 | Neutro | emoção=neutro | Rosto relaxado |
 | Piscada dupla | piscada | Feche os dois olhos duas vezes rapidamente (< 700ms) |
 
-### ⚠️ Culturais (significado varia por país)
+### ⚠️ Culturais (o significado varia conforme o país)
 
-| Gesto | Significado no Ocidente | Cautela em outras culturas |
+| Gesto | Significado ocidental | Cuidado em outras culturas |
 |---|---|---|
 | 👍 Joinha | Aprovação | Oriente Médio / Ásia Ocidental: pode ser ofensivo |
 | ✌️ Paz | Paz / vitória | Reino Unido / Irlanda / Austrália (palma para dentro): insulto |
-| 🤘 Chifre de rock | Rock/metal | Itália (palma para baixo): "cornuto" (insulto) |
-| 👌 OK | OK / perfeito | **🇧🇷 Brasil / Turquia / Alemanha: pode ser EXTREMAMENTE ofensivo. No Brasil, este gesto é equivalente a mostrar o dedo do meio — NUNCA o use em stream para público brasileiro.** |
-| ✊ Punho fechado | Varia conforme contexto político | — |
+| 🤘 Chifres do rock | Rock / metal | Itália (palma para baixo): "cornuto" (insulto) |
+| 👌 OK | OK / perfeito | Brasil / Turquia / Alemanha: pode ser ofensivo |
+| ✊ Punho fechado | Varia conforme o contexto político | — |
 | 🖐️ Palma aberta | "Pare" ou saudação | Grécia (mountza em direção a alguém): insulto forte |
-| ☝️ Apontar | Indicar | Ásia: apontar com o dedo é indelicado |
+| ☝️ Apontar | Indicar | Ásia: apontar com o dedo é falta de educação |
 
-O EsperantAI marca cada gesto com seu respectivo distintivo na interface. Escolha quais usar com base no seu público global.
+O EsperantAI marca cada gesto com o respectivo selo na interface. Escolha quais usar de acordo com o seu público global.
 
 ### 🙏 Gassho (合掌)
 
-Um gesto especial: junte as duas palmas à frente do peito (como uma oração ou cumprimento). Comum em culturas do Leste Asiático como sinal de respeito ou gratidão. Detectado com alta confiabilidade usando 6 verificações de pontos de referência.
+Um gesto especial: junte as duas palmas à frente do peito (como em uma oração ou reverência de saudação). Comum em culturas do Leste Asiático como sinal de respeito ou gratidão. É detectado com alta confiabilidade por meio de 6 verificações de pontos de referência.
 
 ---
 
-## Conecte Plataformas de Streaming
+## Conecte plataformas de streaming
 
-Para que o EsperantAI receba eventos (doações, subs, raids), conecte as plataformas onde você faz streaming.
+Para que o EsperantAI receba eventos (doações, inscrições, raids, follows ou Super Chats), conecte as plataformas onde você faz streaming.
+
+![Estado de eventos por plataforma](assets/manual/03-platform-events.svg)
 
 ### Twitch
 
 1. Crie um Client ID em https://dev.twitch.tv/console
 2. Registre a URI de redirecionamento: `https://edugame.digital/oauth-callback.html` (ou sua URL local)
-3. No EsperantAI: painel **Platform Events** → **Twitch EventSub**
+3. No EsperantAI: painel **Eventos de plataforma** → **Twitch EventSub**
 4. Cole seu Client ID
-5. Clique em **Connect**
+5. Clique em **Conectar**
 6. Uma janela de autorização da Twitch será aberta. Aceite as permissões.
-7. A janela será fechada e você verá "Twitch Connected"
+7. A janela será fechada e você verá "Twitch conectado"
+
+O EsperantAI usa EventSub WebSocket. Não cole nenhum Client Secret no navegador.
 
 ### YouTube Live
 
 1. Crie credenciais em https://console.cloud.google.com
 2. Ative a YouTube Data API v3
-3. Crie um OAuth Client ID (tipo: Web Application)
+3. Crie um OAuth Client ID (tipo: Aplicação web)
 4. Registre a mesma URI de redirecionamento usada na Twitch
-5. No EsperantAI: painel **Platform Events** → **YouTube Live**
-6. Cole seu Client ID e clique em **Connect**
+5. No EsperantAI: painel **Eventos de plataforma** → **YouTube Live**
+6. Cole seu Client ID e clique em **Conectar**
+
+Requisitos do YouTube: você precisa ter uma live ativa com chat disponível, e seu projeto no Google Cloud deve ter quota suficiente para consultar o chat.
 
 ### Kick
 
-1. Crie um app em https://kick.com/settings/developer
+1. Crie uma aplicação no portal de desenvolvedores da Kick.
 2. Registre a URI de redirecionamento
-3. No EsperantAI: painel **Platform Events** → **Kick**
-4. Cole seu Client ID e clique em **Connect**
-5. O Kick usa OAuth 2.1 com PKCE (mais seguro)
+3. No EsperantAI: painel **Eventos de plataforma** → **Kick**
+4. Cole seu Client ID e clique em **Conectar**
+5. A Kick usa OAuth 2.1 com PKCE.
+
+Estado atual: **beta/limitado**. A documentação oficial da Kick usa webhooks para eventos completos. No navegador, o EsperantAI só consegue detectar uma parte limitada da atividade; para inscrições, presentes, raids ou eventos confiáveis da Kick, use uma ponte como StreamElements ou um backend/webhook.
 
 ### StreamElements (ponte multiplataforma)
 
-Se você já tem uma conta no StreamElements, pode unificar Twitch + YouTube + Facebook com um único token:
+Se você já tem uma conta no StreamElements, pode usá-lo como ponte para alertas de várias plataformas:
 
 1. Acesse https://streamelements.com/dashboard/account/channels
 2. Copie seu JWT Token
-3. No EsperantAI: painel **Platform Events** → **StreamElements**
-4. Cole o JWT e clique em **Connect**
+3. No EsperantAI: painel **Eventos de plataforma** → **StreamElements**
+4. Cole o JWT e clique em **Conectar**
+
+Mantenha esse token privado. Trate-o como uma senha da sua conta do StreamElements.
+
+### Trovo
+
+O EsperantAI inclui um adaptador técnico para Trovo no código, baseado em OAuth e no serviço de chat WebSocket da Trovo. Na interface pública atual ainda não há um painel de conexão Trovo, por isso ele não é documentado como fluxo normal de usuário. Se você precisa de Trovo agora, use uma ponte compatível ou aguarde a ativação do painel Trovo.
 
 ---
 
-## Combinações de Evento + Gesto (Avançado)
+## Combinações de evento + gesto (Avançado)
 
-Essa é a mágica do EsperantAI: combinar **eventos de plataforma** com **seus gestos** como confirmação.
+Esta é a mágica do EsperantAI: combinar **eventos de plataforma** com **seus gestos** como confirmação.
+
+![Fluxo de evento mais gesto](assets/manual/04-event-gesture-combo.svg)
 
 ### Exemplo: agradecer doações com um joinha
 
-1. Painel **Event Triggers** → linha "💰 Donation"
+1. Painel **Gatilhos de eventos** → linha "💰 Doação"
 2. ✅ Ative
-3. Cena: `Thank_You_Scene`
-4. Gesto obrigatório: `👍 Thumbs up`
+3. Cena: `Cena_Obrigado`
+4. Gesto obrigatório: `👍 Joinha`
 
 **Fluxo ao vivo**:
-- Chega uma doação → o EsperantAI exibe "Waiting for gesture..."
+- Chega uma doação → o EsperantAI mostra "Aguardando gesto..."
 - Você tem 5 segundos para fazer 👍
-- Se você fizer → troca para `Thank_You_Scene` + executa quaisquer outras ações configuradas
+- Se fizer → muda para `Cena_Obrigado` + executa qualquer outra ação configurada
 - Se não fizer → é descartado automaticamente
 
 ### Sem gesto obrigatório (acionamento automático)
 
-Se você deixar "Required gesture" como `— none —`, o evento aciona a ação imediatamente.
+Se você deixar "Gesto obrigatório" como `— nenhum —`, o evento aciona a ação imediatamente.
 
 Útil para:
-- Trocar automaticamente para a cena de celebração quando chegar uma raid
-- Exibir automaticamente um overlay quando alguém se inscrever
+- Mudar automaticamente para a cena de celebração quando chegam raids
+- Mostrar automaticamente um overlay quando alguém se inscreve
 
 ---
 
-## Sensibilidade e Zona Morta
+## Sensibilidade e zona morta
 
 ### Sensibilidade
 
-Os limites controlam o tamanho que um gesto deve ter para ser acionado:
+Os limites controlam o quanto um gesto precisa ser amplo para disparar:
 
-- **Yaw**: quanto virar a cabeça para o lado (padrão: 0,15 rad ≈ 8,6°)
-- **Pitch para cima/para baixo**: inclinação vertical
+- **Yaw**: quanto você deve virar a cabeça para os lados (padrão: 0,15 rad ≈ 8,6°)
+- **Pitch para cima/baixo**: inclinação vertical
 - **Roll**: inclinação lateral
 
-Aumente os valores para exigir gestos mais exagerados. Diminua para mais sensibilidade.
+Aumente os valores para exigir gestos mais marcados. Diminua para maior sensibilidade.
 
 ### Zona morta (antifadiga)
 
-Se você estiver quase centralizado (yaw < 0,05, pitch < 0,05, roll < 0,08), **NADA dispara**. Isso permite que você se mova naturalmente sem que micromovimentos ativem gatilhos.
+Se você estiver quase centralizado (yaw < 0,05, pitch < 0,05, roll < 0,08), **NADA dispara**. Isso permite que você se mova de forma natural sem que micromovimentos ativem gatilhos.
 
-### Frames estáveis
+### Quadros estáveis
 
-`Stable frames` = quantos frames consecutivos o gesto deve ser mantido antes de acionar. Padrão: 5 frames (~150ms a 30fps).
+`Quadros estáveis` = quantos quadros consecutivos você deve manter o gesto antes que ele dispare. Padrão: 5 quadros (~150ms a 30fps).
 
-Aumente se os gatilhos estiverem sendo acionados com facilidade demais. Diminua para resposta mais rápida.
+Aumente se os gatilhos estiverem disparando com facilidade demais. Diminua para uma resposta mais rápida.
 
-### Cooldown
+### Resfriamento
 
-`Cooldown (ms)` = tempo mínimo entre trocas de cena. Padrão: 500ms.
+`Resfriamento (ms)` = tempo mínimo entre mudanças de cena. Padrão: 500ms.
 
-Evita que o alternador fique "instável" caso você oscile rapidamente.
+Evita que o alternador fique "instável" se você oscilar rapidamente.
 
 ---
 
-## Atalhos de Teclado
+## Atalhos de teclado
 
 | Tecla | Ação |
 |---|---|
 | `Espaço` | Pausar / Retomar detecção |
-| `C` | Ir manualmente para a cena CENTER |
+| `C` | Ir manualmente para a cena CENTRO |
 | `R` | Recarregar lista de cenas do software |
 | `Esc` | Desconectar |
 
 ---
 
-## Histórico de Gatilhos
+## Histórico de gatilhos
 
-O painel **Advanced → Trigger History** exibe as últimas 50 ações acionadas:
+O painel **Avançado → Histórico de gatilhos** mostra as últimas 50 ações disparadas:
 
-- ✓ verde = sucesso
+- ✓ verde = bem-sucedida
 - ✗ vermelho = falhou
 - · cinza = pendente
 
-Útil para auditar o que foi acionado sem abrir o DevTools.
+Útil para auditar o que foi disparado sem abrir o DevTools.
 
-**Export CSV**: baixe o histórico para análise offline.
+**Exportar CSV**: baixa o histórico para análise offline.
 
-**Clear**: apague o histórico (não afeta mais nada).
+**Limpar**: apaga o histórico (não afeta mais nada).
 
 ---
 
-## Alterar Idioma
+## Alterar idioma
 
-O EsperantAI detecta automaticamente o idioma do seu sistema operacional. Para alterá-lo manualmente:
+O EsperantAI detecta automaticamente o idioma do seu sistema operacional. Para alterar manualmente:
 
-- Canto superior direito: seletor de idiomas
-- Selecione o idioma de sua preferência
+- Canto superior direito: menu suspenso de idioma
+- Selecione seu idioma preferido
 - A interface é atualizada imediatamente
 
 Idiomas disponíveis:
@@ -392,67 +422,83 @@ Idiomas disponíveis:
 - 🇵🇱 Polski
 - 🇸🇦 العربية (RTL)
 - 🇰🇷 한국어
+- 🇮🇳 हिन्दी
+- 🇮🇩 Bahasa Indonesia
 
-Todos os 13 idiomas estão totalmente traduzidos (342 chaves cada).
+Os 15 idiomas estão traduzidos nos arquivos atuais da interface.
 
 ---
 
-## Gerencie Sua Licença
+## Gerencie sua licença
 
-Painel **Advanced → License**:
+Painel **Avançado → Licença**:
 
 - **Ver status**: Válida / Inválida
 - **Ver e-mail do cliente associado**
 - **Ver última validação online**
-- **Deactivate on this device**: use antes de trocar de PC ou para liberar uma vaga (das 3 disponíveis)
+- **Desativar neste dispositivo**: use antes de trocar de PC ou para liberar uma vaga (das 3 disponíveis)
 
-## Solução de Problemas
+## Solução de problemas
 
-### "Activation required" persiste após colar minha chave de licença
+### "Ativação necessária" persiste depois de colar minha chave de licença
 
-- Verifique se você copiou a chave completa (5 grupos de 4 caracteres separados por traços)
+- Verifique se você copiou a chave completa (5 grupos de 4 caracteres separados por hífens)
 - Verifique sua conexão com a internet (a ativação requer validação online na primeira vez)
 - Se você já ativou em 3 dispositivos, desative um primeiro
 - Entre em contato com soporte@edugame.digital se o problema persistir
 
-### "Searching for face..." persiste mesmo com meu rosto visível
+### "Procurando rosto..." persiste mesmo com meu rosto visível
 
 - Melhore a iluminação: seu rosto deve estar bem iluminado
 - Aproxime-se da câmera (40-80 cm é o ideal)
-- Feche outras abas que usem a GPU (o Chrome pode limitar a GPU se houver muitas abas abertas)
-- se o Memory Saver do Chrome estiver ativo, desative-o para esta aba
+- Feche outras abas que usem GPU (o Chrome pode limitar a GPU se houver muitas abas abertas)
+- Se o Economizador de memória do Chrome estiver ativo, desative-o para esta aba
 
-### Cenas não aparecem nos menus suspensos
+### As cenas não aparecem nos menus suspensos
 
-- Verifique se você está conectado ao software de streaming (distintivo verde "Connected")
+- Verifique se você está conectado ao software de streaming (selo verde "Conectado")
 - Pressione `R` para recarregar a lista de cenas
-- Se continuar vazia, desconecte e reconecte
+- Se continuar vazia, desconecte e conecte novamente
+- No vMix, confirme que o Web Controller está ativado e acessível em `http://127.0.0.1:8088/api/`
+- No PRISM, confirme que o plugin obs-websocket está instalado e habilitado
+- No XSplit, confirme que a ponte XJS local está rodando
 
-### Trocas de cena são acionadas sem eu fazer gestos
+### As mudanças de cena disparam sem eu fazer gestos
 
-- Aumente o limite de yaw / pitch / roll no painel **Sensitivity**
-- Aumente `Stable frames` de 5 para 8-10
-- Certifique-se de que a zona morta esteja configurada (yaw 0,05, pitch 0,05, roll 0,08)
-- Verifique se não há mais ninguém no enquadramento (múltiplos rostos podem causar instabilidade)
+- Aumente o limite de yaw / pitch / roll no painel **Sensibilidade**
+- Aumente os `Quadros estáveis` de 5 para 8-10
+- Verifique se a zona morta está configurada (yaw 0,05, pitch 0,05, roll 0,08)
+- Confira se não há mais ninguém no enquadramento (vários rostos podem causar instabilidade)
 
 ### Atraso na detecção
 
 - Feche aplicativos pesados (jogos, edição de vídeo)
 - Verifique se você está usando a GPU dedicada, se tiver uma (não a integrada)
-- Reduza a resolução da câmera se for 4K (1080p é o ideal para detecção)
+- Reduza a resolução da câmera se for 4K (1080p é ideal para detecção)
 
-### O OBS não reage mesmo com o EsperantAI dizendo "Scene changed"
+### O OBS não reage embora o EsperantAI indique "Cena alterada"
 
-- Verifique se o nome da cena no menu suspenso corresponde EXATAMENTE ao do OBS (diferencia maiúsculas e minúsculas)
-- Verifique se a cena não está em outra Coleção de Cenas
-- Consulte o painel **Trigger History** — se mostrar ✗ vermelho, há um erro específico
+- Verifique se o nome da cena no menu suspenso corresponde EXATAMENTE ao nome no OBS (diferencia maiúsculas de minúsculas)
+- Verifique se a cena não está em outra Coleção de cenas
+- Consulte o painel **Histórico de gatilhos** — se mostrar ✗ vermelho, há um erro específico
 
-### Erro "OBS unreachable — Connect manually"
+### Erro "OBS inalcançável — Conecte manualmente"
 
 - Verifique se o OBS está aberto
 - Verifique se o WebSocket está ativado no OBS
-- Se você definiu uma senha no OBS, ela deve corresponder exatamente
+- Se você configurou uma senha no OBS, ela deve corresponder exatamente
 - Alguns antivírus bloqueiam a porta 4455 — adicione uma exceção
+
+### Twitch ou YouTube não conectam
+
+- Verifique se a URI de redirecionamento na console da plataforma corresponde exatamente à URL de `oauth-callback.html`
+- Permita pop-ups para o domínio onde você está usando o EsperantAI
+- Na Twitch, use apenas o Client ID; não cole Client Secret
+- No YouTube, confirme que a YouTube Data API v3 está ativada e que há uma live ativa
+
+### A Kick não mostra todos os eventos
+
+A Kick está em modo beta/limitado no navegador. Os eventos completos da Kick são recebidos oficialmente por webhooks; use StreamElements ou um backend próprio se precisar de inscrições, presentes ou raids confiáveis.
 
 ---
 
@@ -461,16 +507,16 @@ Painel **Advanced → License**:
 ### O que o EsperantAI NÃO faz
 
 - ❌ NÃO envia seu vídeo para nenhum servidor
-- ❌ NÃO armazena seu vídeo ou capturas
+- ❌ NÃO armazena seu vídeo nem capturas
 - ❌ NÃO coleta informações biométricas remotamente
-- ❌ NÃO compartilha dados com anunciantes ou terceiros
+- ❌ NÃO compartilha dados com anunciantes nem terceiros
 
 ### O que ELE processa
 
 - ✅ Detecção facial local no seu navegador (Human.js + WebGL)
-- ✅ Conexões locais ao seu OBS / Streamlabs / vMix (loopback 127.0.0.1)
+- ✅ Conexões locais com OBS / Streamlabs / vMix / PRISM / XSplit (loopback `127.0.0.1`)
 - ✅ Validação periódica da chave de licença (a cada 7 dias)
-- ✅ Se você conectar Twitch/YouTube/Kick: tokens OAuth no sessionStorage (excluídos ao fechar o navegador)
+- ✅ Se você conectar Twitch/YouTube/Kick/StreamElements: tokens de plataforma em armazenamento local ou de sessão do navegador
 
 Detalhes completos em `docs/PRIVACY.html`.
 
@@ -484,10 +530,9 @@ Detalhes completos em `docs/PRIVACY.html`.
 
 Tempos de resposta:
 - Dúvidas gerais: 24-72 horas
-- Bugs técnicos: 1-3 dias úteis
-- Solicitações de reembolso: 1-2 dias úteis
+- Erros técnicos: 1-3 dias úteis
 
 ---
 
-*Última atualização: 2026-05-14. Versão: 3.0.*
+*Última atualização: 2026-05-20. Versão: 3.0.*
 *© 2026 EdugameDigital — Joel Salazar Ramírez. EsperantAI™.*
