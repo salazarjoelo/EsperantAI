@@ -78,7 +78,7 @@ Você decide quais gestos usar com base no seu público.
 
 ## Compra e Ativação
 
-1. Acesse **https://esperantai.com**
+1. Acesse **https://edugame.digital**
 2. Clique em **"Buy License"**
 3. Conclua o pagamento via LemonSqueezy (cartão, PayPal, etc.)
 4. Você receberá um e-mail com:
@@ -251,7 +251,7 @@ Para que o EsperantAI receba eventos (doações, subs, raids), conecte as plataf
 ### Twitch
 
 1. Crie um Client ID em https://dev.twitch.tv/console
-2. Registre a URI de redirecionamento: `https://esperantai.com/oauth-callback.html` (ou sua URL local)
+2. Registre a URI de redirecionamento: `https://edugame.digital/oauth-callback.html` (ou sua URL local)
 3. No EsperantAI: painel **Platform Events** → **Twitch EventSub**
 4. Cole seu Client ID
 5. Clique em **Connect**
@@ -479,7 +479,7 @@ Detalhes completos em `docs/PRIVACY.html`.
 ## Suporte
 
 - 📧 E-mail: **soporte@edugame.digital**
-- 🌐 Web: https://esperantai.com
+- 🌐 Web: https://edugame.digital
 - 📚 Documentação técnica: https://github.com/salazarjoelo/EsperantAI
 
 Tempos de resposta:

@@ -211,7 +211,7 @@ class ComboTriggerUI {
             if (typeof window.showLicenseLockout === 'function') {
                 window.showLicenseLockout();
             } else {
-                window.open('https://esperantai.com', '_blank');
+                window.open('https://edugame.digital', '_blank');
             }
         });
     }

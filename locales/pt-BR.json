@@ -213,7 +213,7 @@
   },
   "license": {
     "required_title": "Ativação necessária",
-    "required_desc": "O EsperantAI precisa de uma licença válida para funcionar. Se você já comprou, cole a sua chave abaixo. Caso contrário, compre uma em esperantai.com",
+    "required_desc": "O EsperantAI precisa de uma licença válida para funcionar. Se você já comprou, cole a sua chave abaixo. Caso contrário, compre uma em edugame.digital",
     "key_label": "Chave da licença",
     "activate_button": "Ativar licença",
     "no_license": "Ainda não tem uma licença?",

@@ -213,7 +213,7 @@
   },
   "license": {
     "required_title": "Attivazione richiesta",
-    "required_desc": "EsperantAI richiede una licenza valida per funzionare. Se l’hai già acquistata, incolla qui sotto la tua chiave. Altrimenti acquistane una su esperantai.com",
+    "required_desc": "EsperantAI richiede una licenza valida per funzionare. Se l’hai già acquistata, incolla qui sotto la tua chiave. Altrimenti acquistane una su edugame.digital",
     "key_label": "Chiave di licenza",
     "activate_button": "Attiva licenza",
     "no_license": "Non hai ancora una licenza?",

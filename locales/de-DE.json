@@ -213,7 +213,7 @@
   },
   "license": {
     "required_title": "Aktivierung erforderlich",
-    "required_desc": "EsperantAI benötigt eine gültige Lizenz. Falls du sie bereits gekauft hast, füg deinen Lizenzschlüssel unten ein. Andernfalls hol dir eine Lizenz auf esperantai.com",
+    "required_desc": "EsperantAI benötigt eine gültige Lizenz. Falls du sie bereits gekauft hast, füg deinen Lizenzschlüssel unten ein. Andernfalls hol dir eine Lizenz auf edugame.digital",
     "key_label": "Lizenzschlüssel",
     "activate_button": "Lizenz aktivieren",
     "no_license": "Noch keine Lizenz?",

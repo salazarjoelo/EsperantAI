@@ -212,7 +212,7 @@
   },
   "license": {
     "required_title": "Activation required",
-    "required_desc": "EsperantAI requires a valid license to operate. If you already purchased, paste your license key below. Otherwise, acquire one at esperantai.com",
+    "required_desc": "EsperantAI requires a valid license to operate. If you already purchased, paste your license key below. Otherwise, acquire one at edugame.digital",
     "key_label": "License key",
     "activate_button": "Activate license",
     "no_license": "Don't have a license yet?",

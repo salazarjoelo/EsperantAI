@@ -213,7 +213,7 @@
   },
   "license": {
     "required_title": "Aktivasi diperlukan",
-    "required_desc": "EsperantAI memerlukan lisensi yang valid untuk beroperasi. Jika Anda sudah membeli, tempel kunci lisensi Anda di bawah. Jika belum, dapatkan di esperantai.com",
+    "required_desc": "EsperantAI memerlukan lisensi yang valid untuk beroperasi. Jika Anda sudah membeli, tempel kunci lisensi Anda di bawah. Jika belum, dapatkan di edugame.digital",
     "key_label": "Kunci lisensi",
     "activate_button": "Aktifkan lisensi",
     "no_license": "Belum punya lisensi?",

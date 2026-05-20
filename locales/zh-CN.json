@@ -213,7 +213,7 @@
   },
   "license": {
     "required_title": "需要激活",
-    "required_desc": "EsperantAI 需要有效的许可证才能使用。如果你已经购买，请在下方粘贴许可证密钥；还未购买请前往 esperantai.com 获取。",
+    "required_desc": "EsperantAI 需要有效的许可证才能使用。如果你已经购买，请在下方粘贴许可证密钥；还未购买请前往 edugame.digital 获取。",
     "key_label": "许可证密钥",
     "activate_button": "激活许可证",
     "no_license": "还没有许可证？",

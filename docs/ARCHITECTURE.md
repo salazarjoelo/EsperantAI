@@ -247,7 +247,7 @@ i18n.setLocale(locale)              // primero intenta exacta
 
 ### Plan v1.0 (Free tier)
 - **GitHub Pages**: `https://salazarjoelo.github.io/esperantai/` (gratis)
-- **Custom domain**: `esperantai.com` (opcional, ~$15/año)
+- **Dominio público actual**: `https://edugame.digital`
 - **Cloudflare CDN**: gratis para assets estáticos
 - **GitHub Actions**: build + deploy automático en push
 

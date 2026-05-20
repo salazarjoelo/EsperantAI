@@ -213,7 +213,7 @@
   },
   "license": {
     "required_title": "Activación requerida",
-    "required_desc": "EsperantAI necesita una licencia válida para funcionar. Si ya compraste, pega tu license key abajo. Si no, adquiérela en esperantai.com",
+    "required_desc": "EsperantAI necesita una licencia válida para funcionar. Si ya compraste, pega tu license key abajo. Si no, adquiérela en edugame.digital",
     "key_label": "License key",
     "activate_button": "Activar licencia",
     "no_license": "¿Todavía no tienes licencia?",

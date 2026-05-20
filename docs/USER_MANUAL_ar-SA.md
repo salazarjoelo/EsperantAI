@@ -80,7 +80,7 @@ EsperantAI هو **تطبيق ويب** يستخدم الذكاء الاصطناع
 
 ## الشراء والتفعيل
 
-1. تفضّل بزيارة **https://esperantai.com**
+1. تفضّل بزيارة **https://edugame.digital**
 2. انقر على **«Buy License»**
 3. أتمّم الدفع عبر LemonSqueezy (بطاقة، PayPal، إلخ)
 4. ستتلقّى بريداً إلكترونياً يحتوي على:
@@ -253,7 +253,7 @@ EsperantAI هو **تطبيق ويب** يستخدم الذكاء الاصطناع
 ### Twitch
 
 1. أنشئ Client ID على https://dev.twitch.tv/console
-2. سجّل redirect URI: `https://esperantai.com/oauth-callback.html` (أو عنوانك المحلي)
+2. سجّل redirect URI: `https://edugame.digital/oauth-callback.html` (أو عنوانك المحلي)
 3. في EsperantAI: لوحة **Platform Events** ← **Twitch EventSub**
 4. الصق Client ID الخاص بك
 5. انقر **Connect**
@@ -487,7 +487,7 @@ EsperantAI هو **تطبيق ويب** يستخدم الذكاء الاصطناع
 ## الدعم الفني
 
 - 📧 البريد الإلكتروني: **soporte@edugame.digital**
-- 🌐 الموقع: https://esperantai.com
+- 🌐 الموقع: https://edugame.digital
 - 📚 التوثيق التقني: https://github.com/salazarjoelo/EsperantAI
 
 أوقات الاستجابة:

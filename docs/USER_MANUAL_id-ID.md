@@ -78,7 +78,7 @@ Anda memutuskan gestur mana yang akan digunakan berdasarkan audiens Anda.
 
 ## Pembelian & Aktivasi
 
-1. Kunjungi **https://esperantai.com**
+1. Kunjungi **https://edugame.digital**
 2. Klik **"Beli Lisensi"**
 3. Selesaikan pembayaran melalui LemonSqueezy (kartu, PayPal, dll.)
 4. Anda akan menerima email berisi:
@@ -251,7 +251,7 @@ Agar EsperantAI menerima event (donasi, subs, raid), hubungkan platform tempat A
 ### Twitch
 
 1. Buat Client ID di https://dev.twitch.tv/console
-2. Daftarkan redirect URI: `https://esperantai.com/oauth-callback.html` (atau URL lokal Anda)
+2. Daftarkan redirect URI: `https://edugame.digital/oauth-callback.html` (atau URL lokal Anda)
 3. Di EsperantAI: panel **Event Platform** → **Twitch EventSub**
 4. Tempel Client ID Anda
 5. Klik **Hubungkan**
@@ -487,7 +487,7 @@ Detail lengkap di `docs/PRIVACY.html`.
 ## Dukungan
 
 - 📧 Email: **soporte@edugame.digital**
-- 🌐 Web: https://esperantai.com
+- 🌐 Web: https://edugame.digital
 - 📚 Dokumentasi teknis: https://github.com/salazarjoelo/EsperantAI
 
 Waktu respons:

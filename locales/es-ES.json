@@ -289,7 +289,7 @@
     "error_network": "No pudimos validar la licencia por conexión. Revisa internet e inténtalo otra vez.",
     "error_invalid": "La license key no coincide. Revisa guiones, espacios o copia la key completa desde tu correo.",
     "error_generic": "No pudimos activar esta licencia. Revisa la key o intenta de nuevo en unos minutos.",
-    "required_desc": "EsperantAI necesita una licencia válida para funcionar. Si ya la has comprado, pega abajo tu clave de licencia. Si no, consíguela en esperantai.com",
+    "required_desc": "EsperantAI necesita una licencia válida para funcionar. Si ya la has comprado, pega abajo tu clave de licencia. Si no, consíguela en edugame.digital",
     "no_license": "¿Aún no tienes licencia?",
     "upgrade_hint": "Mejora tu plan para tener más disparadores y funciones",
     "tier_free": "Free",

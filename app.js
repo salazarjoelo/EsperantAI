@@ -614,7 +614,7 @@
         if (!authUrl) return;
         const popup = window.open(authUrl, 'esperantai_oauth', 'width=600,height=750');
         if (!popup) {
-            console.warn('Popup blocked. Allow popups for esperantai.com');
+            console.warn('Popup blocked. Allow popups for edugame.digital');
         }
     }
 

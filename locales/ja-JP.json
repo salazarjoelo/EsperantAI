@@ -213,7 +213,7 @@
   },
   "license": {
     "required_title": "アクティベーションが必要です",
-    "required_desc": "EsperantAI のご利用には有効なライセンスが必要です。すでにご購入済みの場合は、ライセンスキーを下に貼り付けてください。まだの場合は esperantai.com で取得できます。",
+    "required_desc": "EsperantAI のご利用には有効なライセンスが必要です。すでにご購入済みの場合は、ライセンスキーを下に貼り付けてください。まだの場合は edugame.digital で取得できます。",
     "key_label": "ライセンスキー",
     "activate_button": "ライセンスをアクティベート",
     "no_license": "まだライセンスをお持ちではありませんか？",
