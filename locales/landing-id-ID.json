@@ -65,7 +65,7 @@
     "step2_desc": "Asisten terpandu: tersenyum, anggukkan kepala, tunjukkan jempol. EsperantAI belajar rentang gerakan kamu dalam 90 detik.",
     "step2_stat": "~ 90 detik",
     "step3_title": "Streaming tanpa menyentuh apa pun",
-    "step3_desc": "Connect your streaming software and, if you want, Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ jam tanpa keyboard"
   },
   "features": {

@@ -232,7 +232,7 @@
     "step_paste_title": "Incolla",
     "step_paste_desc": "Copia la tua chiave di licenza dall’email d’acquisto.",
     "step_stream_title": "Stream",
-    "step_stream_desc": "Connetti OBS e associa i gesti a scene e azioni.",
+    "step_stream_desc": "Connetti OBS, Streamlabs, vMix, PRISM o XSplit e associa i gesti a scene e azioni.",
     "required_desc_guided": "Se hai già acquistato EsperantAI, incolla la tua chiave di licenza. In caso contrario, apri la pagina d’acquisto: questa finestra resterà aperta così potrai tornare e attivare senza perdere il riferimento.",
     "key_hint": "Suggerimento: incolla la chiave completa; EsperantAI normalizza automaticamente spazi e maiuscole/minuscole.",
     "activating_button": "Attivazione in corso…",

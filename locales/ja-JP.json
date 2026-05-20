@@ -232,7 +232,7 @@
     "step_paste_title": "貼り付け",
     "step_paste_desc": "購入確認メールからライセンスキーをコピーします。",
     "step_stream_title": "配信",
-    "step_stream_desc": "OBS に接続して、ジェスチャーをシーン / アクションに割り当てます。",
+    "step_stream_desc": "OBS、Streamlabs、vMix、PRISM、または XSplit に接続して、ジェスチャーをシーン / アクションに割り当てます。",
     "required_desc_guided": "すでに EsperantAI をご購入済みの場合は、ライセンスキーを貼り付けてください。まだの場合は購入ページを開いてください。このウィンドウは開いたままなので、戻ってきてすぐにアクティベートできます。",
     "key_hint": "ヒント：キー全体をそのまま貼り付けてください。EsperantAI が自動でスペースと大文字小文字を整えます。",
     "activating_button": "アクティベート中…",

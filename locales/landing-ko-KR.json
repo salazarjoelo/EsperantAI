@@ -65,7 +65,7 @@
     "step2_desc": "가이드 마법사: 미소 짓기, 고개 끄덕이기, 엄지 보이기. EsperantAI가 90초 안에 당신의 범위를 학습합니다.",
     "step2_stat": "~ 90초",
     "step3_title": "아무것도 만지지 않고 스트리밍",
-    "step3_desc": "Connect your streaming software and, if you want, Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ 시간, 키보드 없이"
   },
   "features": {

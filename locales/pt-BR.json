@@ -232,7 +232,7 @@
     "step_paste_title": "Colar",
     "step_paste_desc": "Copie a sua chave de licença do e-mail de compra.",
     "step_stream_title": "Transmitir",
-    "step_stream_desc": "Conecte o OBS e mapeie gestos para cenas/ações.",
+    "step_stream_desc": "Conecte OBS, Streamlabs, vMix, PRISM ou XSplit e mapeie gestos para cenas/ações.",
     "required_desc_guided": "Se você já comprou o EsperantAI, cole a sua chave de licença. Se ainda não comprou, abra a página de compra; esta janela vai continuar aberta para você voltar e ativar sem perder o lugar.",
     "key_hint": "Dica: cole a chave completa; o EsperantAI normaliza espaços e letras minúsculas automaticamente.",
     "activating_button": "Ativando…",

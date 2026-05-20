@@ -65,7 +65,7 @@
     "step2_desc": "Guided wizard: smile, nod, give a thumbs-up. EsperantAI learns your ranges in 90 seconds.",
     "step2_stat": "~ 90 seconds",
     "step3_title": "Stream without touching anything",
-    "step3_desc": "Connect your streaming software and, if you want, Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ hours without a keyboard"
   },
   "features": {

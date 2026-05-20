@@ -232,7 +232,7 @@
     "step_paste_title": "粘贴",
     "step_paste_desc": "从购买邮件中复制许可证密钥。",
     "step_stream_title": "开播",
-    "step_stream_desc": "连接 OBS，把手势映射到场景或动作。",
+    "step_stream_desc": "连接 OBS、Streamlabs、vMix、PRISM 或 XSplit，把手势映射到场景或动作。",
     "required_desc_guided": "如果你已经购买 EsperantAI，请在此粘贴许可证密钥。还没买的话可以打开购买页面；这个窗口会保留在原处，方便你回来激活，进度不会丢。",
     "key_hint": "提示：直接粘贴完整密钥即可，EsperantAI 会自动处理空格和大小写。",
     "activating_button": "正在激活……",

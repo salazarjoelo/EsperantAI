@@ -65,7 +65,7 @@
     "step2_desc": "مساعد موجَّه: ابتسم، أومئ برأسك، أظهر الإبهام. يتعلم EsperantAI نطاقاتك في 90 ثانية.",
     "step2_stat": "~ 90 ثانية",
     "step3_title": "ابثّ دون لمس أي شيء",
-    "step3_desc": "Connect your streaming software and, if you want, Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ ساعات بدون لوحة مفاتيح"
   },
   "features": {

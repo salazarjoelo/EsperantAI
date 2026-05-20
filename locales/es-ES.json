@@ -275,7 +275,7 @@
     "step_paste_title": "Pega",
     "step_paste_desc": "Copia tu license key del correo de compra.",
     "step_stream_title": "Transmite",
-    "step_stream_desc": "Conecta OBS y asigna gestos a escenas/acciones.",
+    "step_stream_desc": "Conecta OBS, Streamlabs, vMix, PRISM o XSplit y asigna gestos a escenas/acciones.",
     "required_title": "Activación requerida",
     "required_desc_guided": "Si ya compraste EsperantAI, pega tu license key. Si todavía no la tienes, abre la página de compra; esta ventana seguirá aquí para que regreses y actives sin perder el paso.",
     "key_label": "License key",

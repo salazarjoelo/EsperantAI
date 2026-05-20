@@ -65,7 +65,7 @@
     "step2_desc": "Assistente guidato: sorridi, annuisci, mostra il pollice. EsperantAI impara i tuoi range in 90 secondi.",
     "step2_stat": "~ 90 secondi",
     "step3_title": "Streamma senza toccare nulla",
-    "step3_desc": "Connect your streaming software and, if you want, Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ ore senza tastiera"
   },
   "features": {

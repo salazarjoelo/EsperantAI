@@ -232,7 +232,7 @@
     "step_paste_title": "Tempel",
     "step_paste_desc": "Salin kunci lisensi Anda dari email pembelian.",
     "step_stream_title": "Stream",
-    "step_stream_desc": "Hubungkan OBS dan petakan gestur ke adegan/tindakan.",
+    "step_stream_desc": "Hubungkan OBS, Streamlabs, vMix, PRISM, atau XSplit dan petakan gestur ke adegan/tindakan.",
     "required_desc_guided": "Jika Anda sudah membeli EsperantAI, tempel kunci lisensi Anda. Jika belum, buka halaman pembelian; jendela ini akan tetap di sini supaya Anda bisa kembali dan mengaktifkan tanpa kehilangan posisi.",
     "key_hint": "Tip: tempel kunci lengkap; EsperantAI otomatis menormalkan spasi dan huruf kecil.",
     "activating_button": "Mengaktifkan…",

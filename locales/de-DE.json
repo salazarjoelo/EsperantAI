@@ -232,7 +232,7 @@
     "step_paste_title": "Einfügen",
     "step_paste_desc": "Kopier deinen Lizenzschlüssel aus der Kauf-E-Mail.",
     "step_stream_title": "Streamen",
-    "step_stream_desc": "Verbinde OBS und leg Gesten auf Szenen/Aktionen.",
+    "step_stream_desc": "Verbinde OBS, Streamlabs, vMix, PRISM oder XSplit und leg Gesten auf Szenen/Aktionen.",
     "required_desc_guided": "Falls du EsperantAI schon gekauft hast, füg deinen Lizenzschlüssel ein. Falls nicht, öffne die Kaufseite — dieses Fenster bleibt offen, damit du zurückkommen und aktivieren kannst, ohne deinen Platz zu verlieren.",
     "key_hint": "Tipp: Füg den kompletten Schlüssel ein — EsperantAI normalisiert Leerzeichen und Groß-/Kleinschreibung automatisch.",
     "activating_button": "Aktiviere…",

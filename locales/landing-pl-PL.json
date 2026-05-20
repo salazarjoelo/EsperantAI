@@ -65,7 +65,7 @@
     "step2_desc": "Kreator z instrukcjami: uśmiechnij się, skiń głową, pokaż kciuk. EsperantAI uczy się twoich zakresów w 90 sekund.",
     "step2_stat": "~ 90 sekund",
     "step3_title": "Streamuj nic nie dotykając",
-    "step3_desc": "Connect your streaming software and, if you want, Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ godzin bez klawiatury"
   },
   "features": {

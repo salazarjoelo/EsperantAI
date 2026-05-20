@@ -232,7 +232,7 @@
     "step_paste_title": "Coller",
     "step_paste_desc": "Copie ta clé de licence depuis l’e-mail d’achat.",
     "step_stream_title": "Streamer",
-    "step_stream_desc": "Connecte OBS et associe tes gestes à des scènes ou à des actions.",
+    "step_stream_desc": "Connecte OBS, Streamlabs, vMix, PRISM ou XSplit et associe tes gestes à des scènes ou à des actions.",
     "required_desc_guided": "Si tu as déjà acheté EsperantAI, colle ta clé de licence. Sinon, ouvre la page d’achat ; cette fenêtre reste ouverte pour que tu puisses revenir et activer sans perdre ta place.",
     "key_hint": "Astuce : colle la clé complète, EsperantAI normalise automatiquement les espaces et les minuscules.",
     "activating_button": "Activation…",

@@ -65,7 +65,7 @@
     "step2_desc": "引导式向导:微笑、点头、竖起拇指。EsperantAI 在 90 秒内学习你的动作范围。",
     "step2_stat": "约 90 秒",
     "step3_title": "无需触碰即可直播",
-    "step3_desc": "Connect your streaming software and, if you want, Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ 小时无需键盘"
   },
   "features": {

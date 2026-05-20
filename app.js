@@ -928,7 +928,7 @@ function showLicenseLockout() {
                 <ol class="activation-steps" aria-label="${t('license.steps_label', 'Activation steps')}">
                     <li><strong>${t('license.step_buy_title', 'Compra')}</strong><br>${t('license.step_buy_desc', 'Adquiere una licencia única desde la web oficial.')}</li>
                     <li><strong>${t('license.step_paste_title', 'Pega')}</strong><br>${t('license.step_paste_desc', 'Copia tu license key del correo de compra.')}</li>
-                    <li><strong>${t('license.step_stream_title', 'Transmite')}</strong><br>${t('license.step_stream_desc', 'Conecta OBS y asigna gestos a escenas/acciones.')}</li>
+                    <li><strong>${t('license.step_stream_title', 'Transmite')}</strong><br>${t('license.step_stream_desc', 'Conecta OBS, Streamlabs, vMix, PRISM o XSplit y asigna gestos a escenas/acciones.')}</li>
                 </ol>
 
                 <div id="license-desc" class="license-guidance">

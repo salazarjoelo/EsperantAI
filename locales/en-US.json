@@ -231,7 +231,7 @@
     "step_paste_title": "Paste",
     "step_paste_desc": "Copy your license key from the purchase email.",
     "step_stream_title": "Stream",
-    "step_stream_desc": "Connect OBS and map gestures to scenes/actions.",
+    "step_stream_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit and map gestures to scenes/actions.",
     "required_desc_guided": "If you already bought EsperantAI, paste your license key. If not, open the purchase page; this window will stay here so you can return and activate without losing your place.",
     "key_hint": "Tip: paste the full key; EsperantAI normalizes spaces and lowercase automatically.",
     "activating_button": "Activating…",

@@ -65,7 +65,7 @@
     "step2_desc": "Geführter Assistent: lächeln, nicken, Daumen hoch zeigen. EsperantAI lernt deine Bewegungsbereiche in 90 Sekunden.",
     "step2_stat": "~ 90 Sekunden",
     "step3_title": "Streame ohne anzufassen",
-    "step3_desc": "Connect your streaming software and, if you want, Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ Stunden ohne Tastatur"
   },
   "features": {

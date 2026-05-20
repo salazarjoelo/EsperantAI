@@ -65,7 +65,7 @@
     "step2_desc": "Assistant guidé : souris, hoche la tête, lève le pouce. EsperantAI apprend tes amplitudes en 90 secondes.",
     "step2_stat": "~ 90 secondes",
     "step3_title": "Streame sans rien toucher",
-    "step3_desc": "Connect your streaming software and, if you want, Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ heures sans clavier"
   },
   "features": {

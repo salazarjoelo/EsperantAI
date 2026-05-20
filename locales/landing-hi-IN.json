@@ -65,7 +65,7 @@
     "step2_desc": "Guided assistant: smile करो, सिर हिलाओ, thumb दिखाओ। EsperantAI 90 seconds में तुम्हारी ranges सीख लेता है।",
     "step2_stat": "~ 90 seconds",
     "step3_title": "कुछ छुए बिना stream करो",
-    "step3_desc": "Connect your streaming software and, if you want, Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ hours बिना keyboard"
   },
   "features": {

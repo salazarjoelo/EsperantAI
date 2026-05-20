@@ -232,7 +232,7 @@
     "step_paste_title": "붙여넣기",
     "step_paste_desc": "구매 이메일에서 라이선스 키를 복사해 주세요.",
     "step_stream_title": "방송 시작",
-    "step_stream_desc": "OBS를 연결하고 제스처를 장면/액션에 매핑해 주세요.",
+    "step_stream_desc": "OBS, Streamlabs, vMix, PRISM 또는 XSplit을 연결하고 제스처를 장면/액션에 매핑해 주세요.",
     "required_desc_guided": "EsperantAI를 이미 구매하셨다면 라이선스 키를 붙여넣어 주세요. 아직이라면 구매 페이지를 열어 보세요. 이 창은 그대로 남아 있어서 돌아오시면 바로 인증하실 수 있어요.",
     "key_hint": "팁: 전체 키를 붙여넣어 주세요. EsperantAI가 공백과 소문자를 자동으로 정리해요.",
     "activating_button": "인증 중…",

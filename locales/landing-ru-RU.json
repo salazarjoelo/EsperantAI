@@ -65,7 +65,7 @@
     "step2_desc": "Пошаговый ассистент: улыбнись, кивни, покажи большой палец. EsperantAI выучивает твои диапазоны за 90 секунд.",
     "step2_stat": "~ 90 секунд",
     "step3_title": "Стримь, не трогая ничего",
-    "step3_desc": "Connect your streaming software and, if you want, Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ часов без клавиатуры"
   },
   "features": {
