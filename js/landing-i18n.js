@@ -137,7 +137,7 @@
        ---------------------------------------------------------------------- */
 
     function fetchLocale(locale) {
-        return fetch('/locales/landing-' + locale + '.json?v=20260519c', { credentials: 'same-origin' })
+        return fetch('/locales/landing-' + locale + '.json?v=20260520a', { credentials: 'same-origin' })
             .then(function (res) {
                 if (!res.ok) return null;
                 return res.json();

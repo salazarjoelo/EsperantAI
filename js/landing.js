@@ -36,5 +36,20 @@ function wireCheckout(buttonId, checkoutUrl, planLabel) {
     });
 }
 
+function preferLightMediaOnMobile() {
+    const shouldUseLightMedia =
+        window.matchMedia?.('(max-width: 760px)').matches ||
+        navigator.connection?.saveData;
+
+    if (!shouldUseLightMedia) return;
+
+    document.querySelectorAll('video[autoplay]').forEach((video) => {
+        video.pause();
+        video.removeAttribute('autoplay');
+        video.preload = 'none';
+    });
+}
+
+preferLightMediaOnMobile();
 wireCheckout('cta-buy-pro', LEMONSQUEEZY_CHECKOUT_PRO, 'Pro');
 wireCheckout('cta-buy-pro-plus', LEMONSQUEEZY_CHECKOUT_PRO_PLUS, 'Pro+');
