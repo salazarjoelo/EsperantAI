@@ -54,6 +54,7 @@
     "/app/platforms/platform-twitch.js",
     "/app/platforms/platform-youtube.js",
     "/app/platforms/platform-kick.js",
+    "/app/platforms/platform-streamerbot-kick.js",
     "/app/platforms/platform-trovo.js",
     "/app/platforms/platform-streamelements.js",
     "/app/locales/es-ES.json",

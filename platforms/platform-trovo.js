@@ -35,9 +35,16 @@ class PlatformTrovo extends PlatformBase {
 
     authMethod() { return 'oauth_implicit'; }
 
-    oauthUrl(clientId, redirectUri) {
-        const scopes = ['user_details_self', 'channel_details_self', 'send_to_my_channel'].join('+');
-        return `https://open.trovo.live/page/login.html?client_id=${clientId}&response_type=token&scope=${scopes}&redirect_uri=${encodeURIComponent(redirectUri)}`;
+    oauthUrl(clientId, redirectUri, state) {
+        const scopes = ['user_details_self', 'chat_connect'].join('+');
+        const params = new URLSearchParams({
+            client_id: clientId,
+            response_type: 'token',
+            scope: scopes,
+            redirect_uri: redirectUri
+        });
+        if (state) params.set('state', state);
+        return `https://open.trovo.live/page/login.html?${params}`;
     }
 
     /**
@@ -65,7 +72,7 @@ class PlatformTrovo extends PlatformBase {
 
         // Obtener chat token
         try {
-            const chatToken = await this._apiGet('/chat/channel-token');
+            const chatToken = await this._apiGet('/chat/token');
             return this._connectChat(chatToken.token);
         } catch (e) {
             this.emit('auth_error', e);
@@ -107,7 +114,7 @@ class PlatformTrovo extends PlatformBase {
                     return resolve(true);
                 }
                 if (msg.type === 'CHAT') {
-                    this._handleChat(msg.data);
+                    this._handleChat(msg.data || msg);
                 }
             };
             this.ws.onclose = () => {
@@ -146,27 +153,71 @@ class PlatformTrovo extends PlatformBase {
     _handleChat(data) {
         if (!data?.chats) return;
         for (const chat of data.chats) {
-            // type semantics from Trovo docs
+            const contentData = this._parseContentData(chat.content_data);
             switch (chat.type) {
-                case 5: // Subscription
-                    this.emit('sub', { user: chat.nick_name, tier: chat.sub_tier, months: chat.months });
+                case 5: // Spells: mana / elixir gifts
+                case 5009: // Custom spells
+                    this.emit('gift', {
+                        user: chat.nick_name,
+                        gift_name: contentData.gift || contentData.gift_display_name || chat.content,
+                        amount: Number(contentData.num || contentData.gift_num || 1),
+                        value: contentData.gift_value,
+                        currency: contentData.value_type || 'trovo'
+                    });
                     break;
-                case 7: // Gift sub (channel)
-                    this.emit('gift_sub', { gifter: chat.nick_name });
+                case 6: // Magic chat: super cap chat
+                case 7: // Magic chat: colorful chat
+                case 8: // Magic chat: spell chat
+                case 9: // Magic chat: bullet screen chat
+                    this.emit('super_chat', {
+                        user: chat.nick_name,
+                        amount: Number(contentData.value || contentData.gift_value || 0),
+                        currency: contentData.value_type || 'trovo',
+                        message: chat.content
+                    });
                     break;
-                case 5001: // Magic chat (super chat equivalente)
-                    this.emit('super_chat', { user: chat.nick_name, amount: chat.content_data?.value, message: chat.content });
+                case 5001: // Subscription
+                    this.emit(contentData.isReSub === 1 ? 'resub' : 'sub', {
+                        user: chat.nick_name,
+                        tier: chat.sub_tier,
+                        months: Number(contentData.months || 1)
+                    });
                     break;
-                case 5004: // Stream activation (raid)
-                    this.emit('raid', { from: chat.nick_name, viewers: chat.content_data?.viewers });
-                    break;
-                case 6: // Spell (gift)
-                    this.emit('gift', { user: chat.nick_name, gift_name: chat.content_data?.gift, amount: chat.content_data?.value });
-                    break;
-                case 5008: // Follow
+                case 5003: // Follow
                     this.emit('follow', { user: chat.nick_name });
                     break;
+                case 5005: // Random gift subscriptions
+                    this.emit('gift_sub', {
+                        gifter: chat.nick_name,
+                        total: Number(chat.content || contentData.num || 1)
+                    });
+                    break;
+                case 5006: { // Gift subscription to a specific viewer
+                    const [recipientId, recipientName] = String(chat.content || '').split(',');
+                    this.emit('gift_sub', {
+                        gifter: chat.nick_name,
+                        recipient: recipientName || undefined,
+                        recipientId: recipientId || undefined
+                    });
+                    break;
+                }
+                case 5008: // Raid welcome
+                    this.emit('raid', {
+                        from: chat.nick_name,
+                        viewers: Number(contentData.raiderNum || contentData.viewers || 0)
+                    });
+                    break;
             }
+        }
+    }
+
+    _parseContentData(value) {
+        if (!value) return {};
+        if (typeof value === 'object') return value;
+        try {
+            return JSON.parse(value);
+        } catch {
+            return {};
         }
     }
 
@@ -178,7 +229,7 @@ class PlatformTrovo extends PlatformBase {
     }
 
     supportedEvents() {
-        return ['sub', 'gift_sub', 'super_chat', 'raid', 'gift', 'follow'];
+        return ['sub', 'resub', 'gift_sub', 'super_chat', 'raid', 'gift', 'follow'];
     }
 }
 

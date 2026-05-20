@@ -567,14 +567,28 @@
                 openOAuthPopup('youtube', clientId);
             });
         }
-        // Kick
-        const btnKick = document.getElementById('btn-kick-connect');
-        if (btnKick) {
-            btnKick.addEventListener('click', async () => {
-                const clientId = document.getElementById('kick-client-id').value.trim();
-                if (!clientId) return;
-                config.set('platforms.kick.clientId', clientId);
-                await openOAuthPopup('kick', clientId);
+        // Kick via Streamer.bot bridge
+        const btnKickStreamerBot = document.getElementById('btn-kick-streamerbot-connect');
+        if (btnKickStreamerBot) {
+            btnKickStreamerBot.addEventListener('click', async () => {
+                const host = (document.getElementById('kick-sb-host').value || '127.0.0.1').trim();
+                const port = Number(document.getElementById('kick-sb-port').value || 8080);
+                const endpoint = (document.getElementById('kick-sb-endpoint').value || '/').trim();
+                const password = document.getElementById('kick-sb-password').value;
+                await connectStreamerBotKick({ host, port, endpoint, password });
+            });
+        }
+        // Trovo
+        const btnTrovo = document.getElementById('btn-trovo-connect');
+        if (btnTrovo) {
+            btnTrovo.addEventListener('click', () => {
+                const clientId = document.getElementById('trovo-client-id').value.trim();
+                if (!clientId) {
+                    setStatusBadge(DOM.statusAdapter, 'warn', 'errors.missing_client_id');
+                    return;
+                }
+                config.set('platforms.trovo.clientId', clientId);
+                openOAuthPopup('trovo', clientId);
             });
         }
         // StreamElements (manual token, no OAuth flow)
@@ -609,6 +623,9 @@
             const platform = new PlatformKick();
             activePlatforms.kick = platform; // guardar para usar code_verifier después
             authUrl = await platform.oauthUrl(clientId, redirectUri, state);
+        } else if (provider === 'trovo') {
+            const platform = new PlatformTrovo();
+            authUrl = platform.oauthUrl(clientId, redirectUri, state);
         }
 
         if (!authUrl) return;
@@ -645,6 +662,8 @@
         } else if (provider === 'kick') {
             // Kick usa code, no token directo, pero por compatibilidad
             platform = activePlatforms.kick || new PlatformKick();
+        } else if (provider === 'trovo') {
+            platform = new PlatformTrovo();
         }
 
         if (platform) {
@@ -687,6 +706,24 @@
         wirePlatformEvents(platform, 'streamelements');
         const ok = await platform.connect({ jwt });
         if (ok) activePlatforms.streamelements = platform;
+    }
+
+    async function connectStreamerBotKick(settings) {
+        config.set('platforms.kickStreamerBot.host', settings.host);
+        config.set('platforms.kickStreamerBot.port', settings.port);
+        config.set('platforms.kickStreamerBot.endpoint', settings.endpoint);
+        config.set('platforms.kickStreamerBot.password', settings.password || '');
+        config.set('platforms.kickStreamerBot.enabled', true);
+        const platform = new PlatformStreamerBotKick();
+        wirePlatformEvents(platform, 'kick');
+        const ok = await platform.connect(settings);
+        if (ok) {
+            activePlatforms.kick = platform;
+            console.log('✅ Connected to Kick via Streamer.bot');
+        } else {
+            config.set('platforms.kickStreamerBot.enabled', false);
+            console.warn('Failed to connect to Kick via Streamer.bot');
+        }
     }
 
     function wirePlatformEvents(platform, providerName) {

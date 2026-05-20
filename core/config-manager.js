@@ -29,7 +29,8 @@ const DEFAULT_CONFIG = {
         twitch: { enabled: false, token: '', clientId: '' },
         youtube: { enabled: false, token: '', clientId: '' },
         kick: { enabled: false, token: '', clientId: '', channelSlug: '' },
-        trovo: { enabled: false },
+        kickStreamerBot: { enabled: false, host: '127.0.0.1', port: 8080, endpoint: '/', password: '' },
+        trovo: { enabled: false, token: '', clientId: '' },
         streamelements: { enabled: false, jwt: '' }
     },
 

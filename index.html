@@ -42,6 +42,7 @@
     <script src="platforms/platform-twitch.js"></script>
     <script src="platforms/platform-youtube.js"></script>
     <script src="platforms/platform-kick.js"></script>
+    <script src="platforms/platform-streamerbot-kick.js"></script>
     <script src="platforms/platform-trovo.js"></script>
     <script src="platforms/platform-streamelements.js"></script>
 
@@ -166,11 +167,26 @@
                     </div>
                 </details>
                 <details>
-                    <summary>🟢 Kick</summary>
-                    <label>Client ID</label>
-                    <input type="text" id="kick-client-id" placeholder="From kick developer portal">
+                    <summary>🟢 Kick via Streamer.bot</summary>
+                    <label>Host</label>
+                    <input type="text" id="kick-sb-host" placeholder="127.0.0.1">
+                    <label>Port</label>
+                    <input type="number" id="kick-sb-port" placeholder="8080" min="1" max="65535">
+                    <label>Endpoint</label>
+                    <input type="text" id="kick-sb-endpoint" placeholder="/">
+                    <label>Password (optional)</label>
+                    <input type="password" id="kick-sb-password" placeholder="Only if Streamer.bot WebSocket auth is enabled">
                     <div class="row">
-                        <button id="btn-kick-connect" class="secondary" data-i18n="ui.connect">Connect</button>
+                        <button id="btn-kick-streamerbot-connect" class="secondary" data-i18n="ui.connect">Connect</button>
+                    </div>
+                    <p class="muted-small">Requires Streamer.bot 1.0.0+ with Kick connected and WebSocket Server enabled.</p>
+                </details>
+                <details>
+                    <summary>🔵 Trovo</summary>
+                    <label>Client ID</label>
+                    <input type="text" id="trovo-client-id" placeholder="From developer.trovo.live">
+                    <div class="row">
+                        <button id="btn-trovo-connect" class="secondary" data-i18n="ui.connect">Connect</button>
                     </div>
                 </details>
                 <details>
