@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560" role="img" aria-labelledby="title desc">
+  <title id="title">Event plus gesture combo flow</title>
+  <desc id="desc">A platform event waits for a streamer gesture before executing a scene, overlay, sound, or chat action.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08111f"/>
+      <stop offset="1" stop-color="#241828"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#62d9ff"/>
+      <stop offset="0.5" stop-color="#8e7dff"/>
+      <stop offset="1" stop-color="#ff6f91"/>
+    </linearGradient>
+  </defs>
+  <rect width="1120" height="560" fill="url(#bg)"/>
+  <text x="58" y="78" fill="#f8fbff" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="34" font-weight="800">Event + gesture confirmation</text>
+  <text x="58" y="114" fill="#aeb9c9" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18">This turns audience activity into a natural on-camera response.</text>
+
+  <g font-family="Inter,Segoe UI,Arial,sans-serif">
+    <rect x="72" y="184" width="230" height="154" rx="18" fill="#111827" stroke="#31435f"/>
+    <text x="102" y="230" fill="#62d9ff" font-size="22" font-weight="800">Audience event</text>
+    <text x="102" y="266" fill="#d9e5f2" font-size="16">Donation, sub, follow,</text>
+    <text x="102" y="292" fill="#d9e5f2" font-size="16">raid, points, super chat</text>
+
+    <rect x="446" y="184" width="230" height="154" rx="18" fill="#111827" stroke="#4b4a72"/>
+    <text x="476" y="230" fill="#b7a7ff" font-size="22" font-weight="800">Streamer gesture</text>
+    <text x="476" y="266" fill="#d9e5f2" font-size="16">Thumbs up, nod, smile,</text>
+    <text x="476" y="292" fill="#d9e5f2" font-size="16">Gassho, head turn</text>
+
+    <rect x="820" y="184" width="230" height="154" rx="18" fill="#111827" stroke="#71445b"/>
+    <text x="850" y="230" fill="#ff8aa6" font-size="22" font-weight="800">Action chain</text>
+    <text x="850" y="266" fill="#d9e5f2" font-size="16">Scene + overlay + sound</text>
+    <text x="850" y="292" fill="#d9e5f2" font-size="16">+ chat response</text>
+  </g>
+
+  <g stroke="url(#line)" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M306 260H438"/>
+    <path d="M680 260H812"/>
+  </g>
+  <g fill="#f8fbff" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="15" font-weight="800">
+    <text x="342" y="246">wait window</text>
+    <text x="724" y="246">execute</text>
+  </g>
+  <rect x="270" y="398" width="580" height="74" rx="16" fill="#141827" stroke="#35445f"/>
+  <text x="306" y="443" fill="#d9e5f2" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="19">Example: a viewer donates, the streamer gives a thumbs up, EsperantAI shows a thank-you overlay.</text>
+</svg>

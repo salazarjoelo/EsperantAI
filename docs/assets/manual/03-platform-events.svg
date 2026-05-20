@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="650" viewBox="0 0 1120 650" role="img" aria-labelledby="title desc">
+  <title id="title">Platform event support matrix</title>
+  <desc id="desc">Compatibility status for Twitch, YouTube Live, Kick, StreamElements, and Trovo.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111d"/>
+      <stop offset="1" stop-color="#251a2d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1120" height="650" fill="url(#bg)"/>
+  <text x="54" y="78" fill="#f8fbff" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="34" font-weight="800">Platform event status</text>
+  <text x="54" y="114" fill="#aeb9c9" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="18">These events are optional. They enable event + gesture combos.</text>
+
+  <g font-family="Inter,Segoe UI,Arial,sans-serif">
+    <rect x="54" y="162" width="1012" height="76" rx="16" fill="#111827" stroke="#2d3e5e"/>
+    <text x="84" y="208" fill="#62d9ff" font-size="22" font-weight="800">Twitch</text>
+    <text x="242" y="208" fill="#d9e5f2" font-size="17">EventSub WebSocket. Requires Client ID and registered redirect URI.</text>
+    <text x="904" y="208" fill="#7ef7c4" font-size="17" font-weight="800">Production</text>
+
+    <rect x="54" y="256" width="1012" height="76" rx="16" fill="#111827" stroke="#2d3e5e"/>
+    <text x="84" y="302" fill="#62d9ff" font-size="22" font-weight="800">YouTube Live</text>
+    <text x="242" y="302" fill="#d9e5f2" font-size="17">Data API v3. Requires an active live broadcast and API quota.</text>
+    <text x="904" y="302" fill="#7ef7c4" font-size="17" font-weight="800">Production</text>
+
+    <rect x="54" y="350" width="1012" height="76" rx="16" fill="#111827" stroke="#704656"/>
+    <text x="84" y="396" fill="#ff8aa6" font-size="22" font-weight="800">Kick</text>
+    <text x="242" y="396" fill="#d9e5f2" font-size="17">Browser mode is limited. Full events require official webhooks/backend.</text>
+    <text x="904" y="396" fill="#ffd36b" font-size="17" font-weight="800">Beta</text>
+
+    <rect x="54" y="444" width="1012" height="76" rx="16" fill="#111827" stroke="#4b4a72"/>
+    <text x="84" y="490" fill="#b7a7ff" font-size="22" font-weight="800">StreamElements</text>
+    <text x="242" y="490" fill="#d9e5f2" font-size="17">Bridge for multi-platform alerts. Uses account token/JWT.</text>
+    <text x="904" y="490" fill="#7ef7c4" font-size="17" font-weight="800">Bridge</text>
+
+    <rect x="54" y="538" width="1012" height="76" rx="16" fill="#111827" stroke="#704656"/>
+    <text x="84" y="584" fill="#ff8aa6" font-size="22" font-weight="800">Trovo</text>
+    <text x="242" y="584" fill="#d9e5f2" font-size="17">Adapter exists in code. Public UI connection panel is not exposed yet.</text>
+    <text x="904" y="584" fill="#ffd36b" font-size="17" font-weight="800">Advanced</text>
+  </g>
+</svg>
