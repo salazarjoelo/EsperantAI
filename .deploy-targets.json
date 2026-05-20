@@ -29,7 +29,6 @@
     "/app/oauth-callback.html",
     "/app/libs/human.js",
     "/app/libs/obs-ws.min.js",
-    "/app/libs/socket.io.min.js",
     "/app/libs/marked.min.js",
     "/app/css/index.css",
     "/app/css/oauth-callback.css",
