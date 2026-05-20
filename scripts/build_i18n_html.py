@@ -137,17 +137,15 @@ def render_locale(html_source, locale_data, locale_code, og_locale, is_rtl, alte
         elif el.name == 'meta':
             el['content'] = val
         else:
-            # If key ends with _html: parse as HTML (preserves inline tags)
+            # If key ends with _html: parse as HTML fragment (preserves inline tags)
+            # Use html.parser (NOT lxml) — lxml auto-wraps text-only content in
+            # <html><body><p>...</p></body></html>, causing nested <p><p> bugs
+            # when the host element is already a <p data-i18n="..._html">.
             if key.endswith('_html'):
-                inner_soup = BeautifulSoup(val, 'lxml')
-                # bs4 wraps fragments in <html><body>, extract inner content
-                body = inner_soup.find('body')
-                if body:
-                    el.clear()
-                    for child in list(body.children):
-                        el.append(child)
-                else:
-                    el.string = val
+                inner_soup = BeautifulSoup(val, 'html.parser')
+                el.clear()
+                for child in list(inner_soup.children):
+                    el.append(child)
             else:
                 el.clear()
                 el.append(NavigableString(val))
