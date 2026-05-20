@@ -18,7 +18,7 @@ class AdapterBase {
      * @param {Object} config { url, port, password, ... } específico de cada adapter
      * @returns {Promise<boolean>} true si conectó, false si falló
      */
-    async connect(config) {
+    async connect(_config) {
         throw new Error(`${this.name}.connect() must be implemented by subclass`);
     }
 
@@ -47,7 +47,7 @@ class AdapterBase {
     /**
      * Cambia la escena de programa.
      */
-    async switchScene(sceneName) {
+    async switchScene(_sceneName) {
         throw new Error(`${this.name}.switchScene() must be implemented by subclass`);
     }
 
@@ -55,7 +55,7 @@ class AdapterBase {
      * Studio Mode: pone una escena en Preview (no programa).
      * Si el adapter no soporta, debe lanzar excepción o caer a switchScene.
      */
-    async setPreviewScene(sceneName) {
+    async setPreviewScene(_sceneName) {
         throw new Error(`${this.name}.setPreviewScene() not supported`);
     }
 

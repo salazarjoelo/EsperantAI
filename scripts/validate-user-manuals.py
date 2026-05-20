@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate localized user manuals and their embedded manual.html copies."""
+"""Validate localized user manuals and their manual viewer copies."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 MANUAL_HTML = DOCS / "manual.html"
+MANUAL_JS = DOCS / "manual-viewer.js"
 IMAGE_REFS = [
     "assets/manual/01-esperantai-flow.svg",
     "assets/manual/02-software-setup.svg",
@@ -67,15 +68,20 @@ def main() -> int:
             if required.lower() not in low:
                 failures.append(f"{locale}: missing required platform term {required}")
 
-    if MANUAL_HTML.exists():
+    if MANUAL_JS.exists():
+        embedded = extract_embedded_manuals(MANUAL_JS.read_text(encoding="utf-8"))
+    elif MANUAL_HTML.exists():
         embedded = extract_embedded_manuals(MANUAL_HTML.read_text(encoding="utf-8"))
+    else:
+        failures.append("docs/manual.html is missing")
+        embedded = {}
+
+    if embedded:
         for path in manual_paths:
             locale = path.stem.removeprefix("USER_MANUAL_")
             markdown = path.read_text(encoding="utf-8")
             if embedded.get(locale) != markdown:
-                failures.append(f"{locale}: docs/manual.html embedded content is out of sync")
-    else:
-        failures.append("docs/manual.html is missing")
+                failures.append(f"{locale}: manual viewer content is out of sync")
 
     if failures:
         print("Manual validation failed:")

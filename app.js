@@ -70,7 +70,7 @@
     // Trigger UI Builder — panel de mapeo gesto → escena (extrae escenas del adapter)
     const triggerMappingArea = document.getElementById('trigger-mapping-area');
     const triggerUI = new TriggerUIBuilder(triggerMappingArea, config, window.i18n);
-    triggerUI.onCategoryToggle = async (category, enabled) => {
+    triggerUI.onCategoryToggle = async (category, _enabled) => {
         // Si toggle gaze/emotion/blink/hand cambia, recargar modelo Human.js
         if (['gaze', 'emotion', 'blink', 'hand'].includes(category)) {
             await detector.reload();
@@ -130,7 +130,7 @@
     }
 
     // ====== 6. Detection loop ======
-    detector.startLoop((result, frameCount) => {
+    detector.startLoop((result, _frameCount) => {
         // Update metrics UI
         updateMetricsUI(result);
 

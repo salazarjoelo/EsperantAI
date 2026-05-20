@@ -34,7 +34,7 @@ class PlatformBase {
     /**
      * @param {Object} authConfig { token, clientId, channelId, ... } específico
      */
-    async connect(authConfig) {
+    async connect(_authConfig) {
         throw new Error(`${this.name}.connect() must be implemented`);
     }
 
@@ -81,7 +81,7 @@ class PlatformBase {
     /**
      * URL para iniciar OAuth (popup window).
      */
-    oauthUrl(redirectUri) {
+    oauthUrl(_redirectUri) {
         return null;
     }
 

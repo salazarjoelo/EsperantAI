@@ -14,7 +14,7 @@ import { readdirSync, statSync } from 'node:fs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-const SKIP_DIRS = new Set(['node_modules', '.git', 'libs', 'models', '.vps-work']);
+const SKIP_DIRS = new Set(['node_modules', '.git', 'libs', 'models', '.vps-work', 'dist']);
 
 function* walkHtml(dir) {
   let entries;
@@ -59,8 +59,10 @@ for (const file of walkHtml(ROOT)) {
   }
 
   // <script>...</script> sin src (script inline)
-  const scriptInlineMatches = content.match(/<script\b(?![^>]*\bsrc=)[^>]*>[\s\S]*?<\/script>/gi);
-  if (scriptInlineMatches) {
+  const scriptInlineMatches = [...content.matchAll(/<script\b(?![^>]*\bsrc=)[^>]*>[\s\S]*?<\/script>/gi)]
+    .map(match => match[0])
+    .filter(block => !/\btype=["']application\/ld\+json["']/i.test(block));
+  if (scriptInlineMatches.length > 0) {
     const n = scriptInlineMatches.length;
     console.warn(`WARN ${rel}: ${n} bloque(s) <script> inline sin src`);
     inlineScriptCount += n;

@@ -264,7 +264,7 @@
     "delay_then": "Attendre, puis exécuter",
     "configure_short": "Actions",
     "configure_for_trigger": "Configurer les actions pour {trigger}",
-    "count": "{count} actions",
+    "count": "Nombre d’actions : {count}",
     "quick_scene_only": "Scène rapide",
     "missing_scene_suffix": "(manquante)",
     "modal_desc": "Construis la réaction exacte que ce geste doit déclencher pendant ton stream.",

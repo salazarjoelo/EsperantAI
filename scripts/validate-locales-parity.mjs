@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Valida paridad estructural de los locales contra en-US.json.
+ * Valida paridad estructural de los locales de app y landing.
  *
  * Para cada locale:
  *   - Mismo conjunto de keys que en-US (cero missing, cero extra)
@@ -60,11 +60,6 @@ function legitimatelyUntranslated(value) {
   return false;
 }
 
-// === Load baseline ===
-const enRaw = JSON.parse(readFileSync(join(LOCALES, 'en-US.json'), 'utf-8'));
-const enFlat = flatten(enRaw);
-const enKeys = new Set(enFlat.keys());
-
 // Keys whose value, by design, is the same in every locale.
 // Brand names, technical aeronautical/3D terms ("Yaw", "Pitch", "Roll"),
 // debug format strings, and Unicode-only symbol strings.
@@ -75,71 +70,107 @@ const KEYS_ALWAYS_EQUAL = new Set([
   'platforms.kick',
   'platforms.trovo',
   'platforms.facebook',
+  'events.gesture_ok',
+  'events.gesture_rock',
   'metrics.yaw_label',     // "Yaw (←/→)" — aeronautical term, universal
   'metrics.pitch_label',   // "Pitch (↑/↓)" — aeronautical term, universal
   'metrics.roll_label',    // "Roll (tilt)" — aeronautical term, universal
   'diagnostic.video_info', // debug format string, intentionally untranslated
+  'trust.label',
+  'compat.col_os_3',
+  'compat.col_os_4',
+  'universal.quote_cite_author',
+  'universal.quote_cite_work',
+  'universal.quote_cite_year',
+  'story.quote',
+  'pricing.sec_mor',
+  'footer.bottom_1',
 ]);
-
-console.log(`Baseline en-US.json: ${enKeys.size} leaves\n`);
-console.log(`Mode: ${STRICT ? 'STRICT (CI gate)' : 'AUDIT (warning only)'}\n`);
 
 let hardFail = 0;
 const reports = [];
+const allFiles = readdirSync(LOCALES).sort().filter(file => file.endsWith('.json'));
 
-for (const file of readdirSync(LOCALES).sort()) {
-  if (!file.endsWith('.json') || file === 'en-US.json') continue;
-  const locale = file.replace(/\.json$/, '');
-  const data = JSON.parse(readFileSync(join(LOCALES, file), 'utf-8'));
-  const flat = flatten(data);
-  const keys = new Set(flat.keys());
+const GROUPS = [
+  {
+    label: 'app',
+    baseline: 'en-US.json',
+    files: allFiles.filter(file => !file.startsWith('landing-') && file !== 'en-US.json'),
+    localeFromFile: file => file.replace(/\.json$/, '')
+  },
+  {
+    label: 'landing',
+    baseline: 'landing-en-US.json',
+    files: allFiles.filter(file => file.startsWith('landing-') && file !== 'landing-en-US.json'),
+    localeFromFile: file => file.replace(/^landing-/, '').replace(/\.json$/, '')
+  }
+];
 
-  const missing = [...enKeys].filter(k => !keys.has(k));
-  const extra = [...keys].filter(k => !enKeys.has(k));
+console.log(`Mode: ${STRICT ? 'STRICT (CI gate)' : 'AUDIT (warning only)'}\n`);
 
-  // Placeholder integrity
-  const placeholderErrors = [];
-  for (const [k, v] of flat) {
-    if (!enFlat.has(k)) continue;
-    const expected = placeholders(enFlat.get(k));
-    const actual = placeholders(v);
-    if (JSON.stringify(expected) !== JSON.stringify(actual)) {
-      placeholderErrors.push({ key: k, expected, actual });
+for (const group of GROUPS) {
+  const enRaw = JSON.parse(readFileSync(join(LOCALES, group.baseline), 'utf-8'));
+  const enFlat = flatten(enRaw);
+  const enKeys = new Set(enFlat.keys());
+
+  console.log(`Baseline ${group.label}: ${group.baseline} (${enKeys.size} leaves)\n`);
+
+  for (const file of group.files) {
+    const locale = group.localeFromFile(file);
+    const label = group.label === 'landing' ? `landing-${locale}` : locale;
+    const data = JSON.parse(readFileSync(join(LOCALES, file), 'utf-8'));
+    const flat = flatten(data);
+    const keys = new Set(flat.keys());
+
+    const missing = [...enKeys].filter(k => !keys.has(k));
+    const extra = [...keys].filter(k => !enKeys.has(k));
+
+    // Placeholder integrity
+    const placeholderErrors = [];
+    for (const [k, v] of flat) {
+      if (!enFlat.has(k)) continue;
+      const expected = placeholders(enFlat.get(k));
+      const actual = placeholders(v);
+      if (JSON.stringify(expected) !== JSON.stringify(actual)) {
+        placeholderErrors.push({ key: k, expected, actual });
+      }
     }
-  }
 
-  // Untranslated strings (value identical to en-US for a non-trivial string)
-  const untranslated = [];
-  for (const [k, v] of flat) {
-    if (!enFlat.has(k)) continue;
-    if (KEYS_ALWAYS_EQUAL.has(k)) continue;
-    const enVal = enFlat.get(k);
-    if (typeof v === 'string' && v === enVal && !legitimatelyUntranslated(enVal)) {
-      untranslated.push(k);
+    // Untranslated strings (value identical to en-US for a non-trivial string)
+    const untranslated = [];
+    for (const [k, v] of flat) {
+      if (!enFlat.has(k)) continue;
+      if (KEYS_ALWAYS_EQUAL.has(k)) continue;
+      const enVal = enFlat.get(k);
+      if (typeof v === 'string' && v === enVal && !legitimatelyUntranslated(enVal)) {
+        untranslated.push(k);
+      }
     }
+
+    // _meta sanity
+    const meta = data._meta || {};
+    const metaWarn = [];
+    if (!meta.language) metaWarn.push('missing _meta.language');
+    if (!meta.code) metaWarn.push('missing _meta.code');
+    else if (meta.code !== locale) metaWarn.push(`_meta.code ${JSON.stringify(meta.code)} ≠ filename locale ${locale}`);
+    if (typeof meta.rtl !== 'boolean') metaWarn.push('missing _meta.rtl (boolean)');
+    if (typeof meta.completion === 'number' && meta.completion !== keys.size) {
+      metaWarn.push(`_meta.completion=${meta.completion} but actual leaves=${keys.size}`);
+    }
+
+    const ok = missing.length === 0 && extra.length === 0 && placeholderErrors.length === 0;
+    const symbol = ok ? '✓' : '✗';
+    const summary = `${symbol} ${label}: ${keys.size} leaves, ${missing.length} missing, ${extra.length} extra, ${placeholderErrors.length} bad placeholders, ${untranslated.length} untranslated`;
+    console.log(summary);
+
+    if (STRICT && (missing.length > 0 || extra.length > 0 || placeholderErrors.length > 0)) {
+      hardFail++;
+    }
+
+    reports.push({ locale: label, missing, extra, placeholderErrors, untranslated, metaWarn });
   }
 
-  // _meta sanity
-  const meta = data._meta || {};
-  const metaWarn = [];
-  if (!meta.language) metaWarn.push('missing _meta.language');
-  if (!meta.code) metaWarn.push('missing _meta.code');
-  else if (meta.code !== locale) metaWarn.push(`_meta.code ${JSON.stringify(meta.code)} ≠ filename ${locale}`);
-  if (typeof meta.rtl !== 'boolean') metaWarn.push('missing _meta.rtl (boolean)');
-  if (typeof meta.completion === 'number' && meta.completion !== keys.size) {
-    metaWarn.push(`_meta.completion=${meta.completion} but actual leaves=${keys.size}`);
-  }
-
-  const ok = missing.length === 0 && extra.length === 0 && placeholderErrors.length === 0;
-  const symbol = ok ? '✓' : '✗';
-  const summary = `${symbol} ${locale}: ${keys.size} leaves, ${missing.length} missing, ${extra.length} extra, ${placeholderErrors.length} bad placeholders, ${untranslated.length} untranslated`;
-  console.log(summary);
-
-  if (STRICT && (missing.length > 0 || extra.length > 0 || placeholderErrors.length > 0)) {
-    hardFail++;
-  }
-
-  reports.push({ locale, missing, extra, placeholderErrors, untranslated, metaWarn });
+  console.log('');
 }
 
 // Detailed report

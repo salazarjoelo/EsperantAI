@@ -43,7 +43,7 @@
     "meta_cloud": "nube",
     "cta_primary": "Obtener acceso",
     "cta_secondary": "Ver cómo funciona",
-    "showcase_chrome_title": "EsperantAI · Live preview",
+    "showcase_chrome_title": "EsperantAI · Vista previa en vivo",
     "showcase_live": "EN VIVO",
     "badge_face_detected": "Gesto detectado",
     "badge_latency": "Acción en vivo",
@@ -155,7 +155,7 @@
     "col_hw_4": "GPU con WebGL"
   },
   "story": {
-    "eyebrow": "Why \"EsperantAI\"",
+    "eyebrow": "Por qué \"EsperantAI\"",
     "quote": "Eksponentigu viajn fluojn per gestoj.",
     "quote_cite": "— en esperanto: \"Multiplica tus streams con gestos.\"",
     "h2_main": "El idioma universal ",
@@ -183,7 +183,7 @@
     "pro_note": "Pago único · Activación instantánea · 3 dispositivos",
     "pro_feat_1": "Gestos universales (cabeza, ojos, emoción, parpadeo)",
     "pro_feat_2": "Gestos culturales (thumbs-up, peace, OK, rock)",
-    "pro_feat_3": "5 software: OBS, Streamlabs, vMix, PRISM, XSplit",
+    "pro_feat_3": "5 programas: OBS, Streamlabs, vMix, PRISM, XSplit",
     "pro_feat_4": "4 plataformas: Twitch, YouTube, Trovo, Kick via Streamer.bot",
     "pro_feat_5": "Hasta 18 triggers configurables",
     "pro_feat_6": "Acciones múltiples por gesto",
