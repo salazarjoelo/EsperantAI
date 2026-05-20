@@ -1,8 +1,10 @@
 # EsperantAI — Panduan Pengguna
 
-> **Gestur jujur.** Kontrol software streaming Anda dengan wajah dan tangan. Tanpa Stream Deck. Tanpa perangkat tambahan.
+> **Gestur jujur.** Kontrol software streaming Anda dengan wajah dan tangan, tanpa perangkat keras khusus tambahan.
 
-**Versi**: 3.0 · **Bahasa**: Bahasa Indonesia (terjemahan tersedia dalam 12 bahasa lainnya)
+**Versi**: 3.0 · **Bahasa**: Bahasa Indonesia (terjemahan tersedia dalam 14 bahasa lainnya)
+
+**Validasi teknis**: ditinjau terhadap dokumentasi resmi yang tersedia pada **20 Mei 2026** untuk OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit, Twitch, YouTube Live, Kick, Trovo, dan StreamElements. Detail: [`docs/MANUAL_PLATFORM_AUDIT_2026-05.md`](MANUAL_PLATFORM_AUDIT_2026-05.md).
 
 ---
 
@@ -30,7 +32,11 @@
 
 ## Apa itu EsperantAI?
 
-EsperantAI adalah **aplikasi web** yang menggunakan kecerdasan buatan untuk mendeteksi gestur wajah dan tangan Anda secara real-time, dan menerjemahkannya menjadi perintah untuk software streaming Anda. Bekerja dengan:
+EsperantAI adalah **aplikasi web** yang menggunakan kecerdasan buatan untuk mendeteksi gestur wajah dan tangan Anda secara real-time, lalu menerjemahkannya menjadi perintah untuk software streaming Anda. Video kamera diproses secara lokal di browser Anda.
+
+![Alur lokal EsperantAI](assets/manual/01-esperantai-flow.svg)
+
+Bekerja dengan software streaming berikut:
 
 - **OBS Studio** 28+
 - **Streamlabs Desktop**
@@ -38,13 +44,13 @@ EsperantAI adalah **aplikasi web** yang menggunakan kecerdasan buatan untuk mend
 - **PRISM Live Studio**
 - **XSplit Broadcaster** (beta)
 
-Dan menerima event dari platform seperti:
+EsperantAI juga dapat menerima event platform dan menggabungkannya dengan gestur Anda:
 
-- **Twitch**
-- **YouTube Live**
-- **Kick**
-- **Trovo**
-- **StreamElements** (bridge multi-platform)
+- **Twitch**: dukungan langsung melalui EventSub WebSocket.
+- **YouTube Live**: dukungan langsung melalui YouTube Data API v3; memerlukan siaran live aktif dan quota API tersedia.
+- **Kick**: dukungan browser masih beta/terbatas. Event Kick lengkap memerlukan backend/webhook resmi atau bridge.
+- **StreamElements**: bridge multi-platform dengan token/JWT akun Anda.
+- **Trovo**: adapter teknis ada di kode, tetapi panel koneksi publik belum tersedia di antarmuka saat ini.
 
 ### Mengapa "gestur jujur"?
 
@@ -122,21 +128,25 @@ Jika Anda memiliki lisensi Pro atau Pro+, **Wizard Kalibrasi** diluncurkan secar
 
 ## Hubungkan Software Streaming Anda
 
+![Matriks koneksi software streaming](assets/manual/02-software-setup.svg)
+
+Semua koneksi di bagian ini bersifat lokal: EsperantAI berkomunikasi dengan software streaming yang berjalan di komputer yang sama melalui `127.0.0.1`.
+
 ### OBS Studio
 
 1. Di OBS: **Tools → WebSocket Server Settings**
-2. Aktifkan WebSocket. Catat password jika Anda mengaturnya.
+2. Aktifkan server WebSocket. OBS Studio 28+ sudah menyertakan obs-websocket.
 3. Di EsperantAI: panel **Koneksi**
 4. Software streaming: **OBS Studio**
 5. WebSocket URL: `ws://127.0.0.1:4455` (default)
-6. Password: yang Anda atur di OBS
+6. Password: yang Anda atur di OBS, jika Anda mengaktifkan password
 7. Klik **Hubungkan**
 
 ### Streamlabs Desktop
 
 1. Di Streamlabs: **Settings → Remote Control**
-2. Aktifkan Remote Control
-3. Catat API Token
+2. Aktifkan Remote Control lokal
+3. Salin **API Token** dari layar Remote Control
 4. Di EsperantAI: Software streaming: **Streamlabs Desktop**
 5. API Token: tempel
 6. Port: `59650` (default)
@@ -151,24 +161,28 @@ Jika Anda memiliki lisensi Pro atau Pro+, **Wizard Kalibrasi** diluncurkan secar
 5. Port: `8088`
 6. Klik **Hubungkan**
 
+> Catatan: adapter vMix EsperantAI saat ini menggunakan API HTTP lokal vMix. Jika Web Controller dilindungi aturan jaringan atau kredensial yang tidak kompatibel dengan browser, koneksi dapat gagal.
+
 ### PRISM Live Studio
 
-1. PRISM Live Studio v4.0.5+ memerlukan instalasi manual plugin obs-websocket
-2. Unduh `obs-websocket` dari [forum OBS](https://obsproject.com/forum/resources/obs-websocket-remote-control-of-obs-studio-made-easy.466/)
-3. Salin ke folder plugin PRISM
+1. Gunakan **PRISM Live Studio v4.0.5+**.
+2. Instal plugin `obs-websocket` yang kompatibel dengan OBS/PRISM secara manual.
+3. Salin plugin ke folder plugin PRISM sesuai panduan resmi PRISM untuk plugin OBS.
 4. Mulai ulang PRISM
 5. Aktifkan WebSocket di **Tools → WebSocket Server Settings**
 6. Di EsperantAI: Software streaming: **PRISM Live Studio** (bekerja sama seperti OBS)
 
+> Perbedaan penting: OBS 28+ sudah menyertakan obs-websocket. PRISM memerlukan plugin yang diinstal manual.
+
 ### XSplit Broadcaster (beta)
 
-1. Instal ekstensi "Remote xjs" di XSplit (Settings → Extensions)
-2. Aktifkan Remote di preferensi
+1. Instal atau aktifkan bridge lokal yang kompatibel dengan **XSplit XJS / Remote xjs**.
+2. Pastikan bridge tersebut mengekspos URL WebSocket lokal.
 3. Di EsperantAI: Software streaming: **XSplit**
 4. Remote xjs Proxy URL: `ws://127.0.0.1:5555/xjs` (default)
 5. Klik **Hubungkan**
 
-> XSplit dalam **beta**. Fitur lanjutan mungkin terbatas.
+> XSplit berada dalam mode **beta/lanjutan**. Kompatibilitas bergantung pada bridge XJS lokal yang terpasang; fitur lanjutan mungkin terbatas.
 
 ---
 
@@ -246,7 +260,9 @@ Gestur khusus: tekan kedua telapak tangan bersama di depan dada (seperti doa ata
 
 ## Hubungkan Platform Streaming
 
-Agar EsperantAI menerima event (donasi, subs, raid), hubungkan platform tempat Anda streaming.
+Agar EsperantAI menerima event (donasi, langganan, raid, follow, atau Super Chat), hubungkan platform tempat Anda streaming.
+
+![Status event per platform](assets/manual/03-platform-events.svg)
 
 ### Twitch
 
@@ -258,6 +274,8 @@ Agar EsperantAI menerima event (donasi, subs, raid), hubungkan platform tempat A
 6. Jendela otorisasi Twitch akan terbuka. Terima izinnya.
 7. Jendela akan tertutup dan Anda akan melihat "Twitch Terhubung"
 
+EsperantAI menggunakan EventSub WebSocket. Jangan pernah menempelkan Client Secret di browser.
+
 ### YouTube Live
 
 1. Buat kredensial di https://console.cloud.google.com
@@ -267,28 +285,40 @@ Agar EsperantAI menerima event (donasi, subs, raid), hubungkan platform tempat A
 5. Di EsperantAI: panel **Event Platform** → **YouTube Live**
 6. Tempel Client ID Anda dan klik **Hubungkan**
 
+Persyaratan YouTube: Anda harus memiliki siaran live aktif dengan chat tersedia, dan project Google Cloud harus memiliki quota API yang cukup untuk membaca chat.
+
 ### Kick
 
-1. Buat aplikasi di https://kick.com/settings/developer
+1. Buat aplikasi di portal developer Kick.
 2. Daftarkan redirect URI
 3. Di EsperantAI: panel **Event Platform** → **Kick**
 4. Tempel Client ID Anda dan klik **Hubungkan**
-5. Kick menggunakan OAuth 2.1 dengan PKCE (lebih aman)
+5. Kick menggunakan OAuth 2.1 dengan PKCE.
+
+Status saat ini: **beta/terbatas**. Dokumentasi resmi Kick menggunakan webhooks untuk event lengkap. Di browser, EsperantAI hanya dapat mendeteksi sebagian aktivitas; untuk langganan, gift, raid, atau event Kick yang andal, gunakan bridge seperti StreamElements atau backend/webhook.
 
 ### StreamElements (bridge multi-platform)
 
-Jika Anda sudah memiliki akun StreamElements, Anda dapat menyatukan Twitch + YouTube + Facebook dengan satu token:
+Jika Anda sudah memiliki akun StreamElements, Anda dapat menggunakannya sebagai bridge untuk alert dari beberapa platform:
 
 1. Buka https://streamelements.com/dashboard/account/channels
 2. Salin JWT Token Anda
 3. Di EsperantAI: panel **Event Platform** → **StreamElements**
 4. Tempel JWT dan klik **Hubungkan**
 
+Jaga token ini tetap privat. Perlakukan seperti password akun StreamElements Anda.
+
+### Trovo
+
+EsperantAI menyertakan adapter teknis untuk Trovo di kode, berbasis OAuth dan layanan chat WebSocket Trovo. Antarmuka publik saat ini belum menampilkan panel koneksi Trovo, sehingga belum didokumentasikan sebagai alur pengguna normal. Jika Anda membutuhkan Trovo sekarang, gunakan bridge yang kompatibel atau tunggu sampai panel Trovo diaktifkan.
+
 ---
 
 ## Kombinasi Event + Gestur (Lanjutan)
 
 Ini adalah keajaiban EsperantAI: menggabungkan **event platform** dengan **gestur Anda** sebagai konfirmasi.
+
+![Alur event plus gestur](assets/manual/04-event-gesture-combo.svg)
 
 ### Contoh: berterima kasih untuk donasi dengan jempol ke atas
 
@@ -395,7 +425,7 @@ Bahasa yang tersedia:
 - 🇮🇳 हिंदी
 - 🇮🇩 Bahasa Indonesia
 
-Semua 15 bahasa diterjemahkan secara lengkap.
+Semua 15 bahasa diterjemahkan dalam file antarmuka saat ini.
 
 ---
 
@@ -407,12 +437,6 @@ Panel **Lanjutan → Lisensi**:
 - **Lihat email pelanggan terkait**
 - **Lihat validasi online terakhir**
 - **Nonaktifkan di perangkat ini**: gunakan sebelum mengganti PC atau untuk membebaskan slot (dari 3 yang tersedia)
-
-### Pengembalian Dana
-
-Jika EsperantAI tidak memenuhi ekspektasi Anda, Anda memiliki **14 hari** sejak pembelian untuk meminta pengembalian dana penuh. Email ke soporte@edugame.digital dengan kunci lisensi Anda.
-
----
 
 ## Pemecahan Masalah
 
@@ -435,6 +459,9 @@ Jika EsperantAI tidak memenuhi ekspektasi Anda, Anda memiliki **14 hari** sejak 
 - Verifikasi bahwa Anda terhubung ke software streaming (lencana hijau "Terhubung")
 - Tekan `R` untuk memuat ulang daftar scene
 - Jika masih kosong, putuskan koneksi dan hubungkan kembali
+- Di vMix, pastikan Web Controller aktif dan dapat diakses dari `http://127.0.0.1:8088/api/`
+- Di PRISM, pastikan plugin obs-websocket sudah terinstal dan aktif
+- Di XSplit, pastikan bridge XJS lokal sedang berjalan
 
 ### Perubahan scene terpicu tanpa saya membuat gestur
 
@@ -462,6 +489,17 @@ Jika EsperantAI tidak memenuhi ekspektasi Anda, Anda memiliki **14 hari** sejak 
 - Jika Anda mengatur password di OBS, harus cocok persis
 - Beberapa antivirus memblokir port 4455 — tambahkan pengecualian
 
+### Twitch atau YouTube tidak terhubung
+
+- Pastikan redirect URI di console platform sama persis dengan URL `oauth-callback.html`
+- Izinkan pop-up untuk domain tempat Anda menjalankan EsperantAI
+- Di Twitch, gunakan hanya Client ID; jangan tempel Client Secret
+- Di YouTube, pastikan YouTube Data API v3 aktif dan ada siaran live aktif
+
+### Kick tidak menampilkan semua event
+
+Kick berada dalam mode beta/terbatas di browser. Event Kick lengkap secara resmi diterima melalui webhooks; gunakan StreamElements atau backend sendiri jika Anda membutuhkan langganan, gift, atau raid yang andal.
+
 ---
 
 ## Privasi
@@ -476,9 +514,9 @@ Jika EsperantAI tidak memenuhi ekspektasi Anda, Anda memiliki **14 hari** sejak 
 ### Apa yang DIPROSES
 
 - ✅ Deteksi wajah lokal di browser Anda (Human.js + WebGL)
-- ✅ Koneksi lokal ke OBS / Streamlabs / vMix Anda (loopback 127.0.0.1)
+- ✅ Koneksi lokal ke OBS / Streamlabs / vMix / PRISM / XSplit (loopback `127.0.0.1`)
 - ✅ Validasi kunci lisensi berkala (setiap 7 hari)
-- ✅ Jika Anda menghubungkan Twitch/YouTube/Kick: token OAuth di sessionStorage (dihapus saat browser ditutup)
+- ✅ Jika Anda menghubungkan Twitch/YouTube/Kick/StreamElements: token platform di penyimpanan lokal atau sesi browser
 
 Detail lengkap di `docs/PRIVACY.html`.
 
@@ -493,9 +531,8 @@ Detail lengkap di `docs/PRIVACY.html`.
 Waktu respons:
 - Pertanyaan umum: 24-72 jam
 - Bug teknis: 1-3 hari kerja
-- Permintaan pengembalian dana: 1-2 hari kerja
 
 ---
 
-*Terakhir diperbarui: 2026-05-14. Versi: 3.0.*
+*Terakhir diperbarui: 2026-05-20. Versi: 3.0.*
 *© 2026 EdugameDigital — Joel Salazar Ramírez. EsperantAI™.*
