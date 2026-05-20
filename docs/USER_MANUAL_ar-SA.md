@@ -4,7 +4,7 @@
 
 > **إيماءات صادقة.** تحكّم في برامج البث باستخدام وجهك ويديك، بدون أي عتاد إضافي مخصّص.
 
-**الإصدار**: 3.0 · **اللغة**: العربية (المجموع: 15 لغة مدعومة)
+**الإصدار**: 2.0 · **اللغة**: العربية (المجموع: 15 لغة مدعومة)
 
 **التحقق التقني**: تمت المراجعة مقارنةً بالوثائق الرسمية المتاحة حتى **20 مايو 2026** لكل من OBS Studio وStreamlabs Desktop وvMix وPRISM Live Studio وXSplit وTwitch وYouTube Live وKick وTrovo وStreamElements. التفاصيل: [`docs/MANUAL_PLATFORM_AUDIT_2026-05.md`](MANUAL_PLATFORM_AUDIT_2026-05.md).
 
@@ -50,9 +50,9 @@ EsperantAI هو **تطبيق ويب** يستخدم الذكاء الاصطناع
 
 - **Twitch**: دعم مباشر عبر EventSub WebSocket.
 - **YouTube Live**: دعم مباشر عبر YouTube Data API v3؛ يتطلب بثاً مباشراً نشطاً وحصة API متاحة.
-- **Kick**: supported through the local **Streamer.bot bridge**. Streamer.bot receives Kick through its official integration and EsperantAI listens to those events through local WebSocket.
+- **Kick**: مدعوم عبر **جسر Streamer.bot المحلي**؛ لا يخزن EsperantAI أسرار Kick في المتصفح.
 - **StreamElements**: جسر متعدد المنصات باستخدام token/JWT من حسابك.
-- **Trovo**: native support through Trovo OAuth + chat WebSocket.
+- **Trovo**: دعم مباشر عبر OAuth وخدمة WebSocket الرسمية لدردشة Trovo.
 
 ### لماذا «إيماءات صادقة»؟
 
@@ -269,7 +269,7 @@ EsperantAI هو **تطبيق ويب** يستخدم الذكاء الاصطناع
 ### Twitch
 
 1. أنشئ Client ID على https://dev.twitch.tv/console
-2. سجّل redirect URI: `https://edugame.digital/oauth-callback.html` (أو عنوانك المحلي)
+2. سجّل redirect URI: `https://TU-DOMINIO/oauth-callback.html` (أو عنوانك المحلي)
 3. في EsperantAI: لوحة **أحداث المنصة** ← **Twitch EventSub**
 4. الصق Client ID الخاص بك
 5. انقر **اتصال**
@@ -289,18 +289,18 @@ EsperantAI هو **تطبيق ويب** يستخدم الذكاء الاصطناع
 
 متطلبات YouTube: يجب أن يكون لديك بث مباشر نشط مع دردشة متاحة، ويجب أن يملك مشروع Google Cloud حصة API كافية للاستعلام عن الدردشة.
 
-### Kick via Streamer.bot
+### Kick عبر Streamer.bot
 
-EsperantAI supports Kick through the **Streamer.bot bridge**. This is the recommended sales-ready route because it does not expose Kick secrets in the browser and does not rely on reverse engineering.
+يتلقى EsperantAI أحداث Kick عبر **جسر Streamer.bot**. هذه هي الطريقة الجاهزة للبيع لأنها لا تكشف أسرار Kick داخل المتصفح ولا تعتمد على الهندسة العكسية.
 
-1. Install Streamer.bot 1.0.0 or newer.
-2. In Streamer.bot, connect your Kick account.
-3. In Streamer.bot: **Servers/Clients -> WebSocket Server** and enable the server.
-4. Use `127.0.0.1`, port `8080`, and endpoint `/`, unless you changed those values.
-5. In EsperantAI: **Platform Events** panel -> **Kick via Streamer.bot**.
-6. Click **Connect**.
+1. ثبّت Streamer.bot 1.0.0 أو أحدث.
+2. داخل Streamer.bot، اربط حساب Kick الخاص بك.
+3. في Streamer.bot: **Servers/Clients -> WebSocket Server** ثم فعّل الخادم.
+4. استخدم `127.0.0.1` والمنفذ `8080` والـ endpoint `/` ما لم تغيّر هذه القيم.
+5. في EsperantAI: لوحة **أحداث المنصة** -> **Kick via Streamer.bot**.
+6. انقر **اتصال**.
 
-Events available through this bridge: follows, subscriptions, resubscriptions, gift subscriptions, and redemptions supported by Streamer.bot. Native official Kick backend/webhooks remain an advanced roadmap item.
+الأحداث المتاحة تعتمد على تكامل Kick النشط داخل Streamer.bot. التكامل الرسمي الأصلي مع backend/webhooks يبقى بنداً متقدماً في خارطة الطريق.
 
 ### StreamElements (جسر متعدد المنصات)
 
@@ -315,15 +315,15 @@ Events available through this bridge: follows, subscriptions, resubscriptions, g
 
 ### Trovo
 
-EsperantAI supports Trovo natively through OAuth and Trovo's official chat WebSocket.
+يدعم EsperantAI منصة Trovo مباشرة عبر OAuth و WebSocket الرسمي لدردشة Trovo.
 
-1. Create an app in the Trovo developer portal.
-2. Register the EsperantAI redirect URI: `oauth-callback.html` on the same domain where you open the app.
-3. In EsperantAI: **Platform Events** panel -> **Trovo**.
-4. Paste your Client ID and click **Connect**.
-5. Authorize the requested permissions.
+1. أنشئ تطبيقاً في بوابة مطوري Trovo.
+2. سجّل URI إعادة التوجيه الخاص بـ EsperantAI: `https://TU-DOMINIO/oauth-callback.html` على نفس النطاق الذي تفتح منه التطبيق.
+3. في EsperantAI: لوحة **أحداث المنصة** -> **Trovo**.
+4. الصق Client ID وانقر **اتصال**.
+5. وافق على الأذونات المطلوبة.
 
-Available events: subscriptions, resubscriptions, gift subscriptions, follows, raids, spells/gifts, and magic chat.
+الأحداث المتاحة تعتمد على رسائل دردشة Trovo وتدفق رمز الدردشة الرسمي.
 
 ---
 
@@ -511,9 +511,9 @@ Available events: subscriptions, resubscriptions, gift subscriptions, follows, r
 - في Twitch، استخدم Client ID فقط؛ لا تلصق Client Secret
 - في YouTube، تأكد من تفعيل YouTube Data API v3 ومن وجود بث مباشر نشط
 
-### Kick does not connect through Streamer.bot
+### Kick لا يتصل عبر Streamer.bot
 
-Confirm that Streamer.bot 1.0.0+ is open, Kick is connected inside Streamer.bot, and **WebSocket Server** is enabled. Use `127.0.0.1:8080/` unless you changed the configuration. If Streamer.bot requires a password, enter the same password in EsperantAI.
+تأكد من أن Streamer.bot 1.0.0+ مفتوح، وأن Kick متصل داخل Streamer.bot، وأن **WebSocket Server** مفعّل. استخدم `127.0.0.1:8080/` ما لم تغيّر الإعدادات. إذا طلب Streamer.bot كلمة مرور، أدخل كلمة المرور نفسها في EsperantAI.
 
 ---
 
@@ -541,7 +541,7 @@ Confirm that Streamer.bot 1.0.0+ is open, Kick is connected inside Streamer.bot,
 
 - 📧 البريد الإلكتروني: **soporte@edugame.digital**
 - 🌐 الموقع: https://edugame.digital
-- 📚 التوثيق التقني: https://github.com/salazarjoelo/EsperantAI
+- 📚 الدليل على الويب: https://edugame.digital/docs/manual.html
 
 أوقات الاستجابة:
 - الاستفسارات العامة: 24-72 ساعة
@@ -549,7 +549,7 @@ Confirm that Streamer.bot 1.0.0+ is open, Kick is connected inside Streamer.bot,
 
 ---
 
-*آخر تحديث: 2026-05-20. الإصدار: 3.0.*
+*آخر تحديث: 2026-05-20. الإصدار: 2.0.*
 *© 2026 EdugameDigital — Joel Salazar Ramírez. EsperantAI™.*
 
 </div>

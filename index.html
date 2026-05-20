@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSP fixes (2026-05-15):
-         B-03: removed cdn.socket.io (socket.io loaded locally from libs/)
+    <!-- CSP fixes (2026-05-20):
+         B-03: removed cdn.socket.io and the unused Socket.IO client dependency
          M-03: removed vladmandic.github.io (Human.js models loaded locally from models/)
          H-02: added license.edugame.digital, id.twitch.tv, open-api.trovo.live,
-               wss://open-chat.trovo.live (runtime endpoints used by platforms/) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' https://license.edugame.digital wss://eventsub.wss.twitch.tv https://api.twitch.tv https://id.twitch.tv https://www.googleapis.com https://api.kick.com https://id.kick.com https://api.streamelements.com https://realtime.streamelements.com https://api.lemonsqueezy.com https://open-api.trovo.live wss://open-chat.trovo.live ws://127.0.0.1:* http://127.0.0.1:*; img-src 'self' data:; media-src 'self'; style-src 'self'; worker-src 'self' blob:;">
+               wss://open-chat.trovo.live and wss://astro.streamelements.com -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' https://license.edugame.digital wss://eventsub.wss.twitch.tv https://api.twitch.tv https://id.twitch.tv https://www.googleapis.com https://api.kick.com https://id.kick.com https://api.streamelements.com wss://astro.streamelements.com https://api.lemonsqueezy.com https://open-api.trovo.live wss://open-chat.trovo.live ws://127.0.0.1:* http://127.0.0.1:*; img-src 'self' data:; media-src 'self'; style-src 'self'; worker-src 'self' blob:;">
     <title>EsperantAI — Honest gestures</title>
     <link rel="icon" type="image/png" href="assets/branding/logo-icon.png">
     <link rel="apple-touch-icon" href="assets/branding/logo-icon.png">
@@ -210,6 +210,10 @@
             <!-- Combo Triggers (Pro+ feature — populated by ComboTriggerUI) -->
             <div class="panel panel-mt">
                 <h2 data-i18n="ui.combo_triggers">Combo Triggers</h2>
+                <div class="hint" data-i18n="hints.platform_hint">Connect to streaming platforms to trigger actions on events.</div>
+                <div id="event-triggers-area" class="event-triggers-area">
+                    <p class="muted-small">Loading event actions...</p>
+                </div>
                 <div id="combo-trigger-area">
                     <p class="muted-small">Loading combo panel...</p>
                 </div>
@@ -250,6 +254,13 @@
                     <p class="muted-small" data-i18n="advanced.calibration_desc">Personaliza los rangos de detección a tu cuerpo y tu cámara.</p>
                     <div class="row">
                         <button id="btn-recalibrate" class="secondary" data-i18n="advanced.recalibrate">Recalibrate</button>
+                    </div>
+                </details>
+                <details>
+                    <summary data-i18n="license.panel_title">License</summary>
+                    <div id="license-info" class="legal-list"></div>
+                    <div class="row">
+                        <button id="btn-deactivate-license" class="danger" data-i18n="license.deactivate_button">Deactivate license</button>
                     </div>
                 </details>
             </div>

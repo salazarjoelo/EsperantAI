@@ -44,6 +44,7 @@ let warningCount = 0;
 let unsafeInlineCount = 0;
 let inlineScriptCount = 0;
 let inlineStyleCount = 0;
+let inlineStyleAttrCount = 0;
 
 const FAIL_ON_FINDINGS = process.env.CSP_STRICT === '1';
 
@@ -78,6 +79,15 @@ for (const file of walkHtml(ROOT)) {
     warningCount += n;
   }
 
+  // style="..." inline
+  const styleAttrMatches = content.match(/\bstyle\s*=\s*["'][^"']*["']/gi);
+  if (styleAttrMatches) {
+    const n = styleAttrMatches.length;
+    console.warn(`WARN ${rel}: ${n} atributo(s) style inline`);
+    inlineStyleAttrCount += n;
+    warningCount += n;
+  }
+
   // onclick=, onerror=, onload= inline
   const onAttrMatches = content.match(/\bon[a-z]+\s*=\s*["'][^"']*["']/gi);
   if (onAttrMatches) {
@@ -92,6 +102,7 @@ console.log(`Resumen CSP audit:`);
 console.log(`  unsafe-inline en meta:     ${unsafeInlineCount}`);
 console.log(`  <script> inline sin src:   ${inlineScriptCount}`);
 console.log(`  <style> inline:            ${inlineStyleCount}`);
+console.log(`  style="" inline:           ${inlineStyleAttrCount}`);
 console.log(`  Total warnings:            ${warningCount}`);
 console.log('');
 console.log('Fase 1 actual: solo reporta. Set CSP_STRICT=1 para fallar (Fase 2).');

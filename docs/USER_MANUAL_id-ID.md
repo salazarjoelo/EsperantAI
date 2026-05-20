@@ -2,7 +2,7 @@
 
 > **Gestur jujur.** Kontrol software streaming Anda dengan wajah dan tangan, tanpa perangkat keras khusus tambahan.
 
-**Versi**: 3.0 · **Bahasa**: Bahasa Indonesia (terjemahan tersedia dalam 14 bahasa lainnya)
+**Versi**: 2.0 · **Bahasa**: Bahasa Indonesia (terjemahan tersedia dalam 14 bahasa lainnya)
 
 **Validasi teknis**: ditinjau terhadap dokumentasi resmi yang tersedia pada **20 Mei 2026** untuk OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit, Twitch, YouTube Live, Kick, Trovo, dan StreamElements. Detail: [`docs/MANUAL_PLATFORM_AUDIT_2026-05.md`](MANUAL_PLATFORM_AUDIT_2026-05.md).
 
@@ -48,9 +48,9 @@ EsperantAI juga dapat menerima event platform dan menggabungkannya dengan gestur
 
 - **Twitch**: dukungan langsung melalui EventSub WebSocket.
 - **YouTube Live**: dukungan langsung melalui YouTube Data API v3; memerlukan siaran live aktif dan quota API tersedia.
-- **Kick**: supported through the local **Streamer.bot bridge**. Streamer.bot receives Kick through its official integration and EsperantAI listens to those events through local WebSocket.
+- **Kick**: didukung melalui **bridge lokal Streamer.bot**; EsperantAI tidak menyimpan secret Kick di browser.
 - **StreamElements**: bridge multi-platform dengan token/JWT akun Anda.
-- **Trovo**: native support through Trovo OAuth + chat WebSocket.
+- **Trovo**: dukungan langsung melalui OAuth dan WebSocket chat resmi Trovo.
 
 ### Mengapa "gestur jujur"?
 
@@ -267,7 +267,7 @@ Agar EsperantAI menerima event (donasi, langganan, raid, follow, atau Super Chat
 ### Twitch
 
 1. Buat Client ID di https://dev.twitch.tv/console
-2. Daftarkan redirect URI: `https://edugame.digital/oauth-callback.html` (atau URL lokal Anda)
+2. Daftarkan redirect URI: `https://TU-DOMINIO/oauth-callback.html` (atau URL lokal Anda)
 3. Di EsperantAI: panel **Event Platform** → **Twitch EventSub**
 4. Tempel Client ID Anda
 5. Klik **Hubungkan**
@@ -289,16 +289,16 @@ Persyaratan YouTube: Anda harus memiliki siaran live aktif dengan chat tersedia,
 
 ### Kick via Streamer.bot
 
-EsperantAI supports Kick through the **Streamer.bot bridge**. This is the recommended sales-ready route because it does not expose Kick secrets in the browser and does not rely on reverse engineering.
+EsperantAI menerima event Kick melalui **bridge Streamer.bot**. Ini rute yang direkomendasikan untuk penjualan karena tidak mengekspos secret Kick di browser dan tidak bergantung pada reverse engineering.
 
-1. Install Streamer.bot 1.0.0 or newer.
-2. In Streamer.bot, connect your Kick account.
-3. In Streamer.bot: **Servers/Clients -> WebSocket Server** and enable the server.
-4. Use `127.0.0.1`, port `8080`, and endpoint `/`, unless you changed those values.
-5. In EsperantAI: **Platform Events** panel -> **Kick via Streamer.bot**.
-6. Click **Connect**.
+1. Instal Streamer.bot 1.0.0 atau lebih baru.
+2. Di Streamer.bot, hubungkan akun Kick Anda.
+3. Di Streamer.bot: **Servers/Clients -> WebSocket Server** lalu aktifkan server.
+4. Gunakan `127.0.0.1`, port `8080`, dan endpoint `/`, kecuali Anda mengubahnya.
+5. Di EsperantAI: panel **Event Platform** -> **Kick via Streamer.bot**.
+6. Klik **Hubungkan**.
 
-Events available through this bridge: follows, subscriptions, resubscriptions, gift subscriptions, and redemptions supported by Streamer.bot. Native official Kick backend/webhooks remain an advanced roadmap item.
+Event yang tersedia bergantung pada integrasi Kick yang aktif di Streamer.bot. Integrasi resmi Kick dengan backend/webhook tetap menjadi item roadmap lanjutan.
 
 ### StreamElements (bridge multi-platform)
 
@@ -313,15 +313,15 @@ Jaga token ini tetap privat. Perlakukan seperti password akun StreamElements And
 
 ### Trovo
 
-EsperantAI supports Trovo natively through OAuth and Trovo's official chat WebSocket.
+EsperantAI terhubung ke Trovo melalui OAuth dan WebSocket chat resmi Trovo.
 
-1. Create an app in the Trovo developer portal.
-2. Register the EsperantAI redirect URI: `oauth-callback.html` on the same domain where you open the app.
-3. In EsperantAI: **Platform Events** panel -> **Trovo**.
-4. Paste your Client ID and click **Connect**.
-5. Authorize the requested permissions.
+1. Buat app di portal developer Trovo.
+2. Daftarkan redirect URI EsperantAI: `https://TU-DOMINIO/oauth-callback.html` pada domain yang sama tempat Anda membuka app.
+3. Di EsperantAI: panel **Event Platform** -> **Trovo**.
+4. Tempel Client ID Anda dan klik **Hubungkan**.
+5. Izinkan permission yang diminta.
 
-Available events: subscriptions, resubscriptions, gift subscriptions, follows, raids, spells/gifts, and magic chat.
+Event yang tersedia bergantung pada pesan chat Trovo dan flow token chat resminya.
 
 ---
 
@@ -507,9 +507,9 @@ Panel **Lanjutan → Lisensi**:
 - Di Twitch, gunakan hanya Client ID; jangan tempel Client Secret
 - Di YouTube, pastikan YouTube Data API v3 aktif dan ada siaran live aktif
 
-### Kick does not connect through Streamer.bot
+### Kick tidak terhubung melalui Streamer.bot
 
-Confirm that Streamer.bot 1.0.0+ is open, Kick is connected inside Streamer.bot, and **WebSocket Server** is enabled. Use `127.0.0.1:8080/` unless you changed the configuration. If Streamer.bot requires a password, enter the same password in EsperantAI.
+Pastikan Streamer.bot 1.0.0+ terbuka, Kick sudah terhubung di dalam Streamer.bot, dan **WebSocket Server** aktif. Gunakan `127.0.0.1:8080/` kecuali Anda mengubah konfigurasi. Jika Streamer.bot meminta password, masukkan password yang sama di EsperantAI.
 
 ---
 
@@ -537,7 +537,7 @@ Detail lengkap di `docs/PRIVACY.html`.
 
 - 📧 Email: **soporte@edugame.digital**
 - 🌐 Web: https://edugame.digital
-- 📚 Dokumentasi teknis: https://github.com/salazarjoelo/EsperantAI
+- 📚 Manual web: https://edugame.digital/docs/manual.html
 
 Waktu respons:
 - Pertanyaan umum: 24-72 jam
@@ -545,5 +545,5 @@ Waktu respons:
 
 ---
 
-*Terakhir diperbarui: 2026-05-20. Versi: 3.0.*
+*Terakhir diperbarui: 2026-05-20. Versi: 2.0.*
 *© 2026 EdugameDigital — Joel Salazar Ramírez. EsperantAI™.*

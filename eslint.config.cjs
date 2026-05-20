@@ -26,7 +26,6 @@ const appGlobals = {
     TriggerHistory: 'readonly',
     TriggerUIBuilder: 'readonly',
     detectGassho: 'readonly',
-    io: 'readonly',
     licenseManager: 'readonly'
 };
 
@@ -37,11 +36,6 @@ const adapterGlobals = {
 
 const platformGlobals = {
     PlatformBase: 'readonly'
-};
-
-const streamElementsGlobals = {
-    ...platformGlobals,
-    io: 'readonly'
 };
 
 module.exports = [
@@ -90,7 +84,7 @@ module.exports = [
     {
         files: ['platforms/platform-streamelements.js'],
         languageOptions: {
-            globals: streamElementsGlobals
+            globals: platformGlobals
         }
     },
     {

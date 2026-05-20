@@ -29,6 +29,34 @@ FORBIDDEN = [
     "refund policy",
     "full refund",
     "reembolso completo",
+    "https://edugame.digital/oauth-callback.html",
+    "github.com/salazarjoelo/EsperantAI",
+    "native support through trovo oauth",
+    "supports trovo natively",
+    "native official kick",
+    "official native",
+    "nativo",
+    "nativa",
+    "nativamente",
+    "natively",
+    "nativ ",
+    "natyw",
+    "native ",
+    " 原生 ",
+    "ネイティブ",
+    "네이티브",
+]
+UNTRANSLATED_NON_EN = [
+    "EsperantAI supports Kick through",
+    "Install Streamer.bot",
+    "Events available through this bridge",
+    "EsperantAI supports Trovo natively",
+    "native support through Trovo OAuth",
+    "Trovo OAuth + chat WebSocket",
+    "Create an app in the Trovo",
+    "Available events:",
+    "Kick does not connect through Streamer.bot",
+    "Confirm that Streamer.bot",
 ]
 
 
@@ -67,6 +95,10 @@ def main() -> int:
         for required in ["Kick", "Trovo", "StreamElements", "YouTube", "XSplit"]:
             if required.lower() not in low:
                 failures.append(f"{locale}: missing required platform term {required}")
+        if locale != "en-US":
+            for token in UNTRANSLATED_NON_EN:
+                if token in text:
+                    failures.append(f"{locale}: untranslated English fragment {token}")
 
     if MANUAL_JS.exists():
         embedded = extract_embedded_manuals(MANUAL_JS.read_text(encoding="utf-8"))

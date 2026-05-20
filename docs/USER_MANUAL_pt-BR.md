@@ -2,7 +2,7 @@
 
 > **Gestos honestos.** Controle seu software de streaming com o rosto e as mãos, sem hardware adicional dedicado.
 
-**Versão**: 3.0 · **Idioma**: Português (Brasil) (traduções disponíveis em outros 14 idiomas; 15 idiomas no total)
+**Versão**: 2.0 · **Idioma**: Português (Brasil) (traduções disponíveis em outros 14 idiomas; 15 idiomas no total)
 
 **Validação técnica**: revisado contra a documentação oficial disponível em **20 de maio de 2026** para OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit, Twitch, YouTube Live, Kick, Trovo e StreamElements. Detalhes: [`docs/MANUAL_PLATFORM_AUDIT_2026-05.md`](MANUAL_PLATFORM_AUDIT_2026-05.md).
 
@@ -50,7 +50,7 @@ Também pode receber eventos de plataformas para combiná-los com seus gestos:
 - **YouTube Live**: suporte direto pela YouTube Data API v3; requer live ativa e quota disponível.
 - **Kick**: suporte pelo **bridge local do Streamer.bot**. O Streamer.bot recebe Kick por sua integracao oficial e o EsperantAI escuta esses eventos por WebSocket local.
 - **StreamElements**: ponte multiplataforma com token/JWT da sua conta.
-- **Trovo**: suporte nativo por OAuth + WebSocket de chat do Trovo.
+- **Trovo**: suporte direto por OAuth + WebSocket oficial de chat do Trovo.
 
 ### Por que "gestos honestos"?
 
@@ -267,7 +267,7 @@ Para que o EsperantAI receba eventos (doações, inscrições, raids, follows ou
 ### Twitch
 
 1. Crie um Client ID em https://dev.twitch.tv/console
-2. Registre a URI de redirecionamento: `https://edugame.digital/oauth-callback.html` (ou sua URL local)
+2. Registre a URI de redirecionamento: `https://TU-DOMINIO/oauth-callback.html` (ou sua URL local)
 3. No EsperantAI: painel **Eventos de plataforma** → **Twitch EventSub**
 4. Cole seu Client ID
 5. Clique em **Conectar**
@@ -289,16 +289,16 @@ Requisitos do YouTube: você precisa ter uma live ativa com chat disponível, e 
 
 ### Kick via Streamer.bot
 
-O EsperantAI oferece suporte ao Kick pelo **bridge Streamer.bot**. Esta é a rota recomendada para venda porque não expõe segredos do Kick no navegador e não depende de engenharia reversa.
+O EsperantAI recebe eventos da Kick por meio do **bridge do Streamer.bot**. Esta é a rota recomendada para venda porque não expõe segredos da Kick no navegador e evita depender de engenharia reversa.
 
 1. Instale o Streamer.bot 1.0.0 ou superior.
-2. No Streamer.bot, conecte sua conta Kick.
-3. No Streamer.bot: **Servers/Clients → WebSocket Server** e ative o servidor.
-4. Use `127.0.0.1`, porta `8080` e endpoint `/`, a menos que tenha alterado esses valores.
-5. No EsperantAI: painel **Eventos de plataforma** → **Kick via Streamer.bot**.
+2. No Streamer.bot, conecte sua conta da Kick.
+3. No Streamer.bot: **Servers/Clients -> WebSocket Server** e ative o servidor.
+4. Use `127.0.0.1`, porta `8080` e endpoint `/`, a menos que você tenha alterado esses valores.
+5. No EsperantAI: painel **Eventos de plataforma** -> **Kick via Streamer.bot**.
 6. Clique em **Conectar**.
 
-Eventos disponíveis por este bridge: follows, assinaturas, reassinaturas, assinaturas presenteadas e resgates suportados pelo Streamer.bot. Kick nativo oficial com backend/webhooks fica no roadmap avançado.
+Os eventos disponíveis dependem da integração da Kick ativa no Streamer.bot. A integração oficial da Kick com backend/webhooks permanece como item avançado de roadmap.
 
 ### StreamElements (ponte multiplataforma)
 
@@ -313,15 +313,15 @@ Mantenha esse token privado. Trate-o como uma senha da sua conta do StreamElemen
 
 ### Trovo
 
-O EsperantAI oferece suporte nativo ao Trovo usando OAuth e o WebSocket oficial de chat do Trovo.
+O EsperantAI conecta-se ao Trovo por OAuth e pelo WebSocket oficial de chat do Trovo.
 
 1. Crie um app no portal de desenvolvedores do Trovo.
-2. Registre a URI de redirecionamento do EsperantAI: `oauth-callback.html` no mesmo domínio em que você abre o app.
-3. No EsperantAI: painel **Eventos de plataforma** → **Trovo**.
+2. Registre a URI de redirecionamento do EsperantAI: `https://TU-DOMINIO/oauth-callback.html` no mesmo domínio onde você abre o app.
+3. No EsperantAI: painel **Eventos de plataforma** -> **Trovo**.
 4. Cole seu Client ID e clique em **Conectar**.
 5. Autorize as permissões solicitadas.
 
-Eventos disponíveis: assinaturas, reassinaturas, assinaturas presenteadas, follows, raids, spells/gifts e magic chat.
+Os eventos disponíveis dependem das mensagens do chat do Trovo e do fluxo oficial de token de chat.
 
 ---
 
@@ -537,7 +537,7 @@ Detalhes completos em `docs/PRIVACY.html`.
 
 - 📧 E-mail: **soporte@edugame.digital**
 - 🌐 Web: https://edugame.digital
-- 📚 Documentação técnica: https://github.com/salazarjoelo/EsperantAI
+- 📚 Manual web: https://edugame.digital/docs/manual.html
 
 Tempos de resposta:
 - Dúvidas gerais: 24-72 horas
@@ -545,5 +545,5 @@ Tempos de resposta:
 
 ---
 
-*Última atualização: 2026-05-20. Versão: 3.0.*
+*Última atualização: 2026-05-20. Versão: 2.0.*
 *© 2026 EdugameDigital — Joel Salazar Ramírez. EsperantAI™.*

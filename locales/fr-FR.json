@@ -3,7 +3,7 @@
     "language": "Français (France)",
     "code": "fr-FR",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "Native-quality French revision by Claude Opus 4.7 (2026-05-17). Tutoiement (tu) — French streamer register. Acentos correctos verificados."
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "Cette licence a atteint sa limite d’appareils. Désactive un ancien appareil ou contacte le support.",
     "error_network": "Impossible de valider la licence à cause de la connexion. Vérifie ta connexion Internet et réessaie.",
     "error_invalid": "La clé de licence ne correspond pas. Vérifie les tirets, les espaces, ou recopie la clé complète depuis ton e-mail.",
-    "error_generic": "Impossible d’activer cette licence. Vérifie la clé ou réessaie dans quelques minutes."
+    "error_generic": "Impossible d’activer cette licence. Vérifie la clé ou réessaie dans quelques minutes.",
+    "panel_title": "Licence",
+    "deactivate_button": "Désactiver la licence"
   },
   "actions": {
     "scene_switch": "Changer de scène",

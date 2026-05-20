@@ -166,7 +166,9 @@ class I18n {
             { code: 'it-IT', name: 'Italiano', rtl: false },
             { code: 'pl-PL', name: 'Polski', rtl: false },
             { code: 'ar-SA', name: 'العربية', rtl: true },
-            { code: 'ko-KR', name: '한국어', rtl: false }
+            { code: 'ko-KR', name: '한국어', rtl: false },
+            { code: 'hi-IN', name: 'हिन्दी', rtl: false },
+            { code: 'id-ID', name: 'Bahasa Indonesia', rtl: false }
         ];
     }
 

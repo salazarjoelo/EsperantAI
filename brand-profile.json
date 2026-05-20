@@ -22,8 +22,8 @@
     "evidence": {
       "casual": "Uses 'tú/tu' consistently in landing.html ('Controla tu stream', 'tu cara y tus manos', 'tu software de streaming'); informal hero copy 'Sin Stream Deck. Sin atajos memorizados.'",
       "bold": "Hero headline only 5 words split across 2 lines ('Controla tu stream / con un gesto.'); eyebrow declares category leadership 'Nueva categoría · Sin competencia directa'; CSS uses oversized type (clamp 2.4em-5.6em, font-weight 800, letter-spacing -0.04em)",
-      "innovative": "Self-positions as 'primera categoría de control gestual nativo' (HTML title); README opens with 'Los gestos honestos' tagline; references Esperanto 1887 universal-language attempt and Ekman 1972 as conceptual frame",
-      "expert_lean": "Mentions obs-websocket v5, WebGL, OAuth 2.1 PKCE, Human.js 3.3.6, EventSub WebSocket, Socket.IO — expects technically literate readers (streamers familiar with their stack)",
+      "innovative": "Self-positions as gestural control for streaming; README opens with 'Los gestos honestos' tagline; references Esperanto 1887 universal-language attempt and Ekman 1972 as conceptual frame",
+      "expert_lean": "Mentions obs-websocket v5, WebGL, Human.js 3.3.6, EventSub WebSocket, Astro WebSocket Gateway, OAuth flows and local bridges — expects technically literate readers (streamers familiar with their stack)",
       "emotional_lean": "Brand tagline 'Los gestos honestos' (honest gestures) is philosophical/emotional; copy variants mention 'cuando el chat va rápido, cada segundo cuenta' and 'sin perder el ritmo en vivo'"
     }
   },
@@ -71,10 +71,10 @@
     ]
   },
   "positioning": {
-    "category_claim": "Primera categoría de control gestual nativo para streaming — sin competencia directa",
+    "category_claim": "Control gestual para streaming con privacidad local y sin hardware adicional",
     "tagline_es": "Los gestos honestos",
     "tagline_en": "Honest gestures",
-    "evidence": "HTML <title>: 'EsperantAI — La primera categoría de control gestual nativo para streaming'. README opening line: '> **Los gestos honestos.** Controlador AI universal por gestos para streamers.' Hero eyebrow: 'Nueva categoría · Sin competencia directa'."
+    "evidence": "Landing and README position EsperantAI as gestural control for streaming, with local video processing and no extra dedicated hardware."
   },
   "extraction_notes": {
     "method": "WebFetch of production URL returned HTTP 404; extraction performed from local repo files D:\\joel-salazar\\OBS\\EsperantAI\\landing.html (lines 1-200), D:\\joel-salazar\\OBS\\EsperantAI\\README.md (full), D:\\joel-salazar\\OBS\\EsperantAI\\css\\landing.css (lines 1-500), and D:\\joel-salazar\\OBS\\EsperantAI\\docs\\LANDING_COPY_VARIANTS.md (full). All hex codes, font-family declarations, and copy strings are verbatim from these files. Screenshot capture skipped to save time (per task instruction). Confidence overall: HIGH for colors, typography, layout aesthetic; HIGH for voice positioning (category-creation + privacy values); MEDIUM for emotional/rational axis (brand mixes philosophical/emotional tagline with expert-level technical copy)."

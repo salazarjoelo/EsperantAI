@@ -3,7 +3,7 @@
     "language": "العربية (السعودية)",
     "code": "ar-SA",
     "rtl": true,
-    "completion": 342,
+    "completion": 344,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "Native-quality Arabic (MSA) revision by Claude Opus 4.7 (2026-05-17). RTL preserved, comprehensible across the Arab world."
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "بلغت هذه الرخصة الحدّ الأقصى للأجهزة. عطّل جهازًا قديمًا أو تواصل مع الدعم.",
     "error_network": "تعذّر التحقّق من الرخصة بسبب الاتصال. تحقّق من الإنترنت وحاول مرّة أخرى.",
     "error_invalid": "مفتاح الرخصة غير مطابق. تحقّق من الشُّرَط والمسافات أو انسخ المفتاح كاملًا من بريدك.",
-    "error_generic": "تعذّر تفعيل هذه الرخصة. تحقّق من المفتاح أو حاول مرّة أخرى بعد دقائق."
+    "error_generic": "تعذّر تفعيل هذه الرخصة. تحقّق من المفتاح أو حاول مرّة أخرى بعد دقائق.",
+    "panel_title": "الترخيص",
+    "deactivate_button": "إلغاء تفعيل الترخيص"
   },
   "actions": {
     "scene_switch": "تبديل المشهد",

@@ -3,7 +3,7 @@
     "language": "Polski (Polska)",
     "code": "pl-PL",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "Native-quality Polish revision by Claude Opus 4.7 (2026-05-17). Informal you (ty) — Polish streamer register. Polish diacritics verified."
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "Ta licencja osiągnęła limit urządzeń. Dezaktywuj stare urządzenie lub skontaktuj się ze wsparciem.",
     "error_network": "Nie udało się zweryfikować licencji z powodu problemu z połączeniem. Sprawdź internet i spróbuj ponownie.",
     "error_invalid": "Klucz licencji się nie zgadza. Sprawdź myślniki, spacje lub skopiuj pełny klucz z e-maila.",
-    "error_generic": "Nie udało się aktywować tej licencji. Sprawdź klucz lub spróbuj ponownie za kilka minut."
+    "error_generic": "Nie udało się aktywować tej licencji. Sprawdź klucz lub spróbuj ponownie za kilka minut.",
+    "panel_title": "Licencja",
+    "deactivate_button": "Dezaktywuj licencję"
   },
   "actions": {
     "scene_switch": "Przełącz scenę",

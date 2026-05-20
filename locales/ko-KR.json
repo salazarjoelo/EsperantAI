@@ -3,7 +3,7 @@
     "language": "한국어",
     "code": "ko-KR",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "Native-quality Korean revision by Claude Opus 4.7 (2026-05-17). 해요체 (informal-polite) register for streamer voice."
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "이 라이선스의 기기 한도에 도달했어요. 이전 기기를 비활성화하시거나 고객지원에 문의해 주세요.",
     "error_network": "연결 문제로 라이선스를 검증할 수 없어요. 인터넷 연결을 확인하신 뒤 다시 시도해 주세요.",
     "error_invalid": "라이선스 키가 일치하지 않아요. 하이픈과 공백을 확인하시거나 이메일에서 전체 키를 다시 복사해 주세요.",
-    "error_generic": "이 라이선스를 인증할 수 없어요. 키를 확인하시거나 잠시 후 다시 시도해 주세요."
+    "error_generic": "이 라이선스를 인증할 수 없어요. 키를 확인하시거나 잠시 후 다시 시도해 주세요.",
+    "panel_title": "라이선스",
+    "deactivate_button": "라이선스 비활성화"
   },
   "actions": {
     "scene_switch": "장면 전환",

@@ -3,7 +3,7 @@
     "language": "Español (España)",
     "code": "es-ES",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "translator": "Joel Salazar (native)",
     "note": "es-ES parity fill 2026-05-14"
   },
@@ -296,7 +296,9 @@
     "tier_pro": "Pro",
     "tier_pro_plus": "Pro+ Director",
     "feature_locked": "Disponible en el plan {tier}",
-    "triggers_remaining": "{count}/{max} disparadores usados (plan {tier})"
+    "triggers_remaining": "{count}/{max} disparadores usados (plan {tier})",
+    "panel_title": "Licencia",
+    "deactivate_button": "Desactivar licencia"
   },
   "calibration": {
     "kicker": "Configuración personalizada",

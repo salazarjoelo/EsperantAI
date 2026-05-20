@@ -3,7 +3,7 @@
     "language": "Italiano (Italia)",
     "code": "it-IT",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "Native-quality Italian revision by Claude Opus 4.7 (2026-05-17). Tu informale — Italian streamer register."
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "Questa licenza ha raggiunto il limite di dispositivi. Disattiva un vecchio dispositivo o contatta il supporto.",
     "error_network": "Non è stato possibile convalidare la licenza a causa della connessione. Verifica la rete e riprova.",
     "error_invalid": "La chiave di licenza non corrisponde. Controlla trattini e spazi, oppure copia di nuovo la chiave completa dall’email.",
-    "error_generic": "Non è stato possibile attivare questa licenza. Controlla la chiave o riprova tra qualche minuto."
+    "error_generic": "Non è stato possibile attivare questa licenza. Controlla la chiave o riprova tra qualche minuto.",
+    "panel_title": "Licenza",
+    "deactivate_button": "Disattiva licenza"
   },
   "actions": {
     "scene_switch": "Cambia scena",

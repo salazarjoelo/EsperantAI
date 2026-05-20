@@ -3,7 +3,7 @@
     "language": "日本語",
     "code": "ja-JP",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "Native-quality Japanese revision by Claude Opus 4.7 (2026-05-17). VTuber/streaming katakana conventions for loanwords. Casual register suitable for solo streamers and small audiences."
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "このライセンスはデバイス登録数の上限に達しています。古いデバイスを無効化するか、サポートまでお問い合わせください。",
     "error_network": "接続の問題でライセンスを検証できませんでした。インターネット接続をご確認のうえ、もう一度お試しください。",
     "error_invalid": "ライセンスキーが一致しません。ハイフンやスペースをご確認いただくか、メールからキー全体をコピーし直してください。",
-    "error_generic": "このライセンスをアクティベートできませんでした。キーをご確認いただくか、数分後にもう一度お試しください。"
+    "error_generic": "このライセンスをアクティベートできませんでした。キーをご確認いただくか、数分後にもう一度お試しください。",
+    "panel_title": "ライセンス",
+    "deactivate_button": "ライセンスを無効化"
   },
   "actions": {
     "scene_switch": "シーン切替",

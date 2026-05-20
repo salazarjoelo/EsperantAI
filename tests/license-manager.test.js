@@ -4,8 +4,9 @@
  * Cobertura prioritaria:
  *   - TIER_FEATURES define los 3 tiers (free, pro, pro_plus)
  *   - hasFeature() respeta el tier
- *   - generateFingerprint() usa crypto.subtle.digest (no btoa)
- *   - C-05 (license bypass) documentado pero NO testable sin backend
+ *   - _getDeviceFingerprint() usa crypto.subtle.digest (no btoa)
+ *   - deactivate() manda el JWT requerido por el backend
+ *   - C-05: cliente usa backend con JWT firmado, no LemonSqueezy directo
  */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { loadWindowScript } from './helpers/load-window-script.js';
@@ -50,8 +51,8 @@ describe('core/license-manager.js', () => {
   describe('Fingerprint (fix H-04 — SHA-256 en lugar de btoa)', () => {
     it('generateFingerprint usa crypto.subtle.digest', async () => {
       const digestSpy = vi.spyOn(globalThis.crypto.subtle, 'digest');
-      if (typeof licMgr.generateFingerprint === 'function') {
-        await licMgr.generateFingerprint();
+      if (typeof licMgr._getDeviceFingerprint === 'function') {
+        await licMgr._getDeviceFingerprint();
         expect(digestSpy).toHaveBeenCalled();
         const algoArg = digestSpy.mock.calls[0]?.[0];
         // Algoritmo debe ser SHA-256, no MD5/SHA-1
@@ -61,26 +62,64 @@ describe('core/license-manager.js', () => {
     });
 
     it('fingerprint es string hexadecimal de longitud 64 (SHA-256 → 32 bytes hex)', async () => {
-      if (typeof licMgr.generateFingerprint === 'function') {
-        const fp = await licMgr.generateFingerprint();
+      if (typeof licMgr._getDeviceFingerprint === 'function') {
+        const fp = await licMgr._getDeviceFingerprint();
         if (typeof fp === 'string') {
-          expect(fp.length).toBe(64);
+          expect(fp.length).toBe(32);
           expect(/^[0-9a-f]+$/i.test(fp)).toBe(true);
         }
       }
     });
   });
 
-  describe('C-05 — license bypass (documentado, no testable sin backend)', () => {
-    it('NOTA: la validación es 100% client-side', () => {
-      // Este test es un recordatorio explícito:
-      // sin backend (TASK-001), cualquier atacante puede:
-      //   1. Modificar core/license-manager.js en navegador
-      //   2. Editar localStorage directamente
-      //   3. Interceptar fetch() a LemonSqueezy
-      // No hay forma de bloquear esto sin un endpoint server-side
-      // que emita JWT firmado. Ver docs/TASKS.md TASK-001.
-      expect(true).toBe(true); // placeholder intencional
+  describe('C-05 — backend firmado para licencias', () => {
+    it('usa backend propio y clave pública para verificar JWT', () => {
+      expect(LicenseManager.BACKEND_URL).toBe('https://license.edugame.digital');
+      expect(LicenseManager.PUBLIC_KEY_PEM).toContain('BEGIN PUBLIC KEY');
+      expect(LicenseManager.PUBLIC_KEY_PEM).not.toContain('REPLACE_WITH_PUB_PEM');
+    });
+
+    it('deactivate() envía Authorization: Bearer <jwt> requerido por el backend', async () => {
+      licMgr.state = {
+        licenseKey: 'license-key-123',
+        jwt: 'header.payload.signature',
+        jwtExpires: Math.floor(Date.now() / 1000) + 3600,
+        tier: 'pro',
+        instanceId: 'instance-123',
+        activatedAt: Date.now(),
+        lastValidatedAt: Date.now(),
+      };
+      const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue({
+        json: async () => ({ ok: true }),
+      });
+
+      const result = await licMgr.deactivate();
+
+      expect(result).toEqual({ ok: true });
+      expect(fetchSpy).toHaveBeenCalledWith(
+        'https://license.edugame.digital/deactivate',
+        expect.objectContaining({
+          method: 'POST',
+          headers: expect.objectContaining({
+            Authorization: 'Bearer header.payload.signature',
+          }),
+        }),
+      );
+      fetchSpy.mockRestore();
+    });
+
+    it('deactivate() rechaza state incompleto sin JWT', async () => {
+      licMgr.state = {
+        licenseKey: 'license-key-123',
+        jwt: null,
+        instanceId: 'instance-123',
+        tier: 'pro',
+      };
+      const fetchSpy = vi.spyOn(globalThis, 'fetch');
+
+      await expect(licMgr.deactivate()).resolves.toEqual({ ok: false, error: 'no_active_license' });
+      expect(fetchSpy).not.toHaveBeenCalled();
+      fetchSpy.mockRestore();
     });
   });
 });

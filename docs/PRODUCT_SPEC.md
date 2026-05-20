@@ -24,11 +24,11 @@
 
 EsperantAI traduce **gestos faciales y corporales** en **comandos** para cualquier software de streaming, en cualquier plataforma, en cualquier idioma.
 
-- **Cero hardware extra** (compite con Stream Deck XL $249)
+- **Cero hardware extra** (alternativa hands-free frente a otras soluciones físicas o táctiles)
 - **Cero instalación nativa** (web app, funciona en cualquier OS con navegador)
 - **Multi-plataforma** (Twitch + YouTube Live + Kick + más)
 - **Multi-software** (OBS + Streamlabs + vMix + PRISM + XSplit)
-- **Multi-idioma** (12+ idiomas, auto-detección del SO)
+- **Multi-idioma** (15 locales, auto-detección del SO)
 
 ---
 
@@ -83,14 +83,14 @@ Datos de [WorldPopulationReview Twitch Users 2026](https://worldpopulationreview
 | 🇲🇽 México | 9.2M | Spanish |
 | 🇮🇹 Italia | 8.3M | Italian |
 
-### Comparable de precio: Stream Deck
+### Comparable de precio: otras soluciones físicas
 
 | Métrica | Valor | Fuente |
 |---|---|---|
 | Stream Deck market 2024 | $383.7M | [Growth Market Reports](https://growthmarketreports.com/report/stream-deck-market) |
 | Stream Deck market 2024 (estimación alternativa) | $430M | [Dataintelo](https://dataintelo.com/report/stream-deck-market) |
-| Stream Deck XL price | $249 | Elgato official |
-| Stream Deck Mini price | $79 | Elgato official |
+| Solución física de 32 teclas programables | $249 | Precio oficial consultado como referencia de mercado, no como copy comparativo público |
+| Solución física mini de 6 teclas programables | $79 | Precio oficial consultado como referencia de mercado, no como copy comparativo público |
 
 ---
 
@@ -100,12 +100,12 @@ Datos de [WorldPopulationReview Twitch Users 2026](https://worldpopulationreview
 |---|---|---|---|
 | Twitch | EventSub WebSocket | ✅ Sí | [dev.twitch.tv/docs/eventsub](https://dev.twitch.tv/docs/eventsub/) |
 | YouTube Live | REST polling + gRPC | ✅ Sí | [developers.google.com/youtube/v3/live](https://developers.google.com/youtube/v3/live/docs) |
-| Kick | OAuth 2.1 PKCE + Webhooks | ⚠️ Webhooks requieren backend; REST polling sí browser | [github.com/KickEngineering/KickDevDocs](https://github.com/KickEngineering/KickDevDocs) |
+| Kick | Streamer.bot bridge local; backend oficial en roadmap | ✅ vía Streamer.bot; ⚠️ OAuth/eventos oficiales requieren backend y client secret | [docs.kick.com](https://docs.kick.com/) + [docs.streamer.bot](https://docs.streamer.bot/) |
 | Trovo | WebSocket Chat | ✅ Sí | [developer.trovo.live](https://developer.trovo.live/docs/Chat%20Service.html) |
 | TikTok Live | Reverse-engineered | ❌ Requiere backend pagado | [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector) |
 | Rumble | REST limitado | ⚠️ Sin eventos en tiempo real ricos | [rumble.com/account/livestream-api](https://rumblefaq.groovehq.com/help/how-to-use-rumble-s-live-stream-api) |
 | Facebook Gaming | Graph API | ⚠️ Requiere app review Meta | — |
-| **StreamElements bridge** | Socket.IO | ✅ Sí — unifica Twitch+YT+FB+Kick | [streamelements.com](https://streamelements.com/) |
+| **StreamElements bridge** | Astro WebSocket `channel.activities` | ✅ Sí — eventos multi-proveedor según cuenta conectada | [StreamElements Websockets](https://docs.streamelements.com/websockets) |
 
 ---
 
@@ -116,7 +116,7 @@ Datos de [WorldPopulationReview Twitch Users 2026](https://worldpopulationreview
 | **OBS Studio** | obs-websocket v5 | Direct WebSocket :4455 | [github.com/obsproject/obs-websocket](https://github.com/obsproject/obs-websocket) |
 | **Streamlabs Desktop** | Local API | WebSocket :59650 con token | [github.com/streamlabs/streamlabs-desktop-api-docs](https://github.com/streamlabs/streamlabs-desktop-api-docs) |
 | **PRISM Live Studio** | obs-websocket plugin (basado en OBS) | Mismo adapter que OBS | [guide.prismlive.com](https://guide.prismlive.com/desktop/guides/features/obs-plugins/using-obs-plugins) |
-| **vMix** | HTTP Web Controller API | HTTP REST :8088 | [vmix.com/help25/WebController.html](https://www.vmix.com/help25/WebController.html) |
+| **vMix** | HTTP Web Controller API | HTTP REST :8088 | [vmix.com/help29/DeveloperAPI.html](https://www.vmix.com/help29/DeveloperAPI.html) |
 | **XSplit Broadcaster** | XJS Framework (Remote xjs proxy) | WebSocket proxy via XJS | [github.com/xjsframework/xjs](https://github.com/xjsframework/xjs) |
 | **Ecamm Live** | HTTP API local | HTTP REST :65194 | (Mac-only, postponer) |
 | ~~Wirecast~~ | Excluido por decisión de producto | — | — |
@@ -140,7 +140,7 @@ Datos de [WorldPopulationReview Twitch Users 2026](https://worldpopulationreview
 
 ### v2.0 — Multi-plataforma de eventos (semanas 6-7)
 - YouTube Live REST polling
-- StreamElements bridge (unifica Twitch+YT+Kick+FB)
+- StreamElements bridge por Astro WebSocket (`channel.activities`)
 - Triggers combinados: evento plataforma + gesto streamer = acción
 
 ### v2.5 — Hand gestures completos (semana 8)
@@ -149,11 +149,11 @@ Datos de [WorldPopulationReview Twitch Users 2026](https://worldpopulationreview
 - Combos cabeza+mano
 
 ### v3.0 — Idiomas masivos (semana 9)
-- Traducción a 12 idiomas via DeepL API
+- Traducción a 15 locales
 - Auto-detección locale del SO
 
 ### v3.5 — Kick + XSplit (semana 10)
-- Kick OAuth 2.1 PKCE + REST polling
+- Kick vía Streamer.bot local bridge
 - XSplit XJS adapter
 
 ### v4.0 — TikTok + Facebook (futuro)
@@ -169,17 +169,16 @@ Datos de [WorldPopulationReview Twitch Users 2026](https://worldpopulationreview
 
 | Tier | Precio | Features |
 |---|---|---|
-| **Free** | $0 | OBS + Twitch + 5 triggers + 2 idiomas + marca de agua sutil |
-| **Pro** | $X (TBD) lifetime | Todas las apps + todas las plataformas + 18 triggers + 12 idiomas + sin marca |
-| **Pro+ Director** | $Y (TBD) lifetime | Pro + hand gestures + combo triggers + StreamElements bridge + soporte directo |
+| **Pro** | $49 lifetime | 5 software + triggers de plataforma + 18 triggers + 15 locales + calibración |
+| **Pro+ Director** | $89 lifetime | Pro + hand gestures + combo triggers + StreamElements bridge + triggers ilimitados + soporte prioritario |
 
-**Nota honesta**: Los precios X e Y deben validarse con mercado real. Mi recomendación previa de $19/$59 fue basada en comparación con Stream Deck XL ($249) pero NO con datos reales de conversión en este nicho. Joel decide precio final tras lanzamiento gratis + validación de demanda.
+**Nota honesta**: No hay plan gratuito ni trial. Los precios deben validarse con conversión real después del lanzamiento comercial.
 
 ### Distribución
 
 - **GitHub Pages gratis** para hosting de la app web
 - **LemonSqueezy** para Pro tiers (Merchant of Record — maneja IVA mundial)
-- **License keys nativos LemonSqueezy** (sin costo extra de Cryptlex/Keygen)
+- **Backend EdugameDigital** valida las license keys con LemonSqueezy server-side y entrega JWT firmados al cliente
 
 ---
 

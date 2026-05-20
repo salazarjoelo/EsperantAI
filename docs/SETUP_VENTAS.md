@@ -71,13 +71,16 @@
 
 ## 7. Integrar License API en EsperantAI
 
-Ya está integrado en `core/license-manager.js`. Los endpoints usados son:
+La app no debe llamar LemonSqueezy directamente desde el navegador. `core/license-manager.js` usa el backend de licencias de EdugameDigital, y ese backend valida con LemonSqueezy del lado servidor.
 
 | Endpoint | Uso |
 |---|---|
-| `POST /v1/licenses/activate` | Activar licencia al primer inicio |
-| `POST /v1/licenses/validate` | Re-validación cada 7 días |
-| `POST /v1/licenses/deactivate` | Desactivar instancia al cambiar de dispositivo |
+| `POST /verify` | Activar o revalidar una licencia y emitir JWT firmado |
+| `POST /deactivate` | Desactivar este dispositivo; requiere JWT vigente |
+| `POST /verify-jwt` | Verificar JWT local emitido por el backend |
+| `POST /webhook` | Recibir eventos de LemonSqueezy |
+
+Solo el backend llama endpoints de LemonSqueezy como `/v1/licenses/activate`, `/v1/licenses/validate` o `/v1/licenses/deactivate`, usando credenciales server-side.
 
 ## 8. Checklist pre-lanzamiento
 

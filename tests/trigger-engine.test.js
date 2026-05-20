@@ -79,6 +79,39 @@ describe('core/trigger-engine.js', () => {
       // que el streamer debe hacer para confirmarlo.
       expect(pending.scene).not.toBe('thumbs-up');
     });
+
+    it('un gesto requerido por un combo confirma el evento antes de dispararse como gesto normal', () => {
+      cm.set('enabled.hand', true);
+      cm.set('scenes.thumbs-up', 'Gesture Thanks');
+      cm.set('comboTriggers', [{
+        id: 'combo-sub-thanks',
+        enabled: true,
+        eventType: 'sub',
+        requireGesture: 'thumbs-up',
+      }]);
+      cm.set('triggerActions.combo:combo-sub-thanks', [{
+        type: 'scene_switch',
+        target: 'adapter',
+        params: { sceneName: 'Subscriber Thanks' },
+      }]);
+
+      const pending = engine.handlePlatformEvent('sub', { user: 'tester' });
+      expect(pending.type).toBe('pending_confirmation');
+
+      const result = engine.process({
+        face: [{ rotation: { angle: { yaw: 0, pitch: 0, roll: 0 } } }],
+        gesture: [{ hand: 0, gesture: 'thumb up' }],
+        hand: [],
+      });
+
+      expect(result).toMatchObject({
+        type: 'action',
+        trigger: 'combo:combo-sub-thanks',
+        comboId: 'combo-sub-thanks',
+      });
+      expect(result.sourceEvent).toMatchObject({ type: 'sub', data: { user: 'tester' } });
+      expect(engine.pendingEventConfirmations).toHaveLength(0);
+    });
   });
 
   describe('Dead zone (anti-fatiga)', () => {

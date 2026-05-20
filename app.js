@@ -204,7 +204,10 @@
     // ====== 9.2. License info + deactivate ======
     setupLicensePanel();
 
-    // ====== 9.3. Event Triggers UI (mapeo evento de plataforma → escena/gesto) ======
+    // ====== 9.3. Profiles ======
+    setupProfileBar();
+
+    // ====== 9.4. Event Triggers UI (mapeo evento de plataforma → escena/gesto) ======
     setupEventTriggersPanel();
 
     // ====== 9.5. Platform OAuth buttons + postMessage handler ======
@@ -438,9 +441,9 @@
         ];
         DOM.slidersArea.innerHTML = fields.map(f => `
             <label data-i18n="${f.i18n}">${window.i18n.t(f.i18n)}</label>
-            <div style="display:flex; gap:8px; align-items:center;">
-                <input type="range" id="slider-${f.key}" min="${f.min}" max="${f.max}" step="${f.step}" value="${config.get('thresholds.' + f.key)}" style="flex:1; accent-color: var(--brand-1);">
-                <span id="val-${f.key}" style="font-family:monospace; color:var(--brand-1); min-width:50px; text-align:right;">${config.get('thresholds.' + f.key)}</span>
+            <div class="slider-row">
+                <input class="threshold-slider" type="range" id="slider-${f.key}" min="${f.min}" max="${f.max}" step="${f.step}" value="${config.get('thresholds.' + f.key)}">
+                <span class="threshold-value" id="val-${f.key}">${config.get('thresholds.' + f.key)}</span>
             </div>
         `).join('');
         fields.forEach(f => {
@@ -503,6 +506,9 @@
         } else if (action.trigger) {
             // Gesto del streamer → buscar mapeo en config
             actions = config.getActionsForTrigger(action.trigger);
+            if (!actions.length && action.scene) {
+                actions = [{ type: 'scene_switch', target: 'adapter', params: { sceneName: action.scene } }];
+            }
         } else if (action.scene) {
             // Legacy: evento directo con solo scene
             actions = [{ type: 'scene_switch', target: 'adapter', params: { sceneName: action.scene } }];
@@ -619,10 +625,6 @@
         } else if (provider === 'youtube') {
             const platform = new PlatformYouTube();
             authUrl = platform.oauthUrl(clientId, redirectUri, state);
-        } else if (provider === 'kick') {
-            const platform = new PlatformKick();
-            activePlatforms.kick = platform; // guardar para usar code_verifier después
-            authUrl = await platform.oauthUrl(clientId, redirectUri, state);
         } else if (provider === 'trovo') {
             const platform = new PlatformTrovo();
             authUrl = platform.oauthUrl(clientId, redirectUri, state);
@@ -649,6 +651,10 @@
 
     async function handleOAuthToken(data) {
         const { provider, access_token } = data;
+        if (provider === 'kick') {
+            console.warn('Kick native OAuth is disabled in the browser. Use Kick via Streamer.bot.');
+            return;
+        }
         const clientId = config.get(`platforms.${provider}.clientId`);
         config.set(`platforms.${provider}.token`, access_token);
         config.set(`platforms.${provider}.enabled`, true);
@@ -659,9 +665,6 @@
             platform = new PlatformTwitch();
         } else if (provider === 'youtube') {
             platform = new PlatformYouTube();
-        } else if (provider === 'kick') {
-            // Kick usa code, no token directo, pero por compatibilidad
-            platform = activePlatforms.kick || new PlatformKick();
         } else if (provider === 'trovo') {
             platform = new PlatformTrovo();
         }
@@ -681,21 +684,7 @@
     async function handleOAuthCode(data) {
         const { provider, code } = data;
         if (provider === 'kick') {
-            // Intercambiar code por token via PKCE
-            const platform = activePlatforms.kick;
-            if (!platform) return;
-            try {
-                const redirectUri = `${window.location.origin}${window.location.pathname.replace(/index\.html?$/, '')}oauth-callback.html`;
-                const clientId = config.get('platforms.kick.clientId');
-                const tokenData = await platform.exchangeCodeForToken(code, clientId, redirectUri);
-                config.set('platforms.kick.token', tokenData.access_token);
-                config.set('platforms.kick.enabled', true);
-                wirePlatformEvents(platform, 'kick');
-                await platform.connect({ token: tokenData.access_token, clientId });
-                console.log('✅ Connected to Kick via PKCE');
-            } catch (e) {
-                console.error('Kick PKCE exchange failed:', e);
-            }
+            console.warn('Kick native OAuth code flow is disabled in the browser. Use Kick via Streamer.bot.', code);
         }
     }
 
@@ -733,9 +722,7 @@
                 console.log(`🔔 ${providerName} event:`, eventType, data);
                 // Pasar al TriggerEngine para combo triggers
                 const result = triggerEngine.handlePlatformEvent(eventType, data);
-                if (result?.type === 'action') {
-                    handleAction({ trigger: result.trigger || eventType, label: result.label });
-                }
+                if (result?.type === 'action') handleAction(result);
             });
         }
         platform.on('disconnected', () => {
@@ -751,7 +738,7 @@
 
     function setupTriggerHistoryPanel() {
         const area = document.getElementById('trigger-history-area');
-        const btnCSV = document.getElementById('btn-history-csv');
+        const btnCSV = document.getElementById('btn-history-export') || document.getElementById('btn-history-csv');
         const btnClear = document.getElementById('btn-history-clear');
         if (!area) return;
 
@@ -759,19 +746,19 @@
 
         const render = (entries) => {
             if (!entries.length) {
-                area.innerHTML = '<div style="padding:8px;color:var(--text-muted);">Sin triggers todavía. Haz un gesto para empezar.</div>';
+                area.innerHTML = '<div class="history-empty-note">Sin triggers todavía. Haz un gesto para empezar.</div>';
                 return;
             }
             area.innerHTML = entries.slice(0, 50).map(e => {
                 const t = new Date(e.ts).toLocaleTimeString();
                 const ok = e.success === true ? '✓' : (e.success === false ? '✗' : '·');
-                const okColor = e.success === true ? '#56d364' : (e.success === false ? '#ff7b72' : 'var(--text-muted)');
-                return `<div style="padding:4px 0; border-bottom:1px solid var(--border);">
-                    <span style="color:${okColor}; font-weight:700;">${ok}</span>
-                    <span style="color:var(--text-muted);">${escape(t)}</span>
-                    <span style="color:var(--brand-1);">${escape(e.trigger)}</span>
-                    ${e.scene ? `→ <span style="color:var(--brand-2);">${escape(e.scene)}</span>` : ''}
-                    <span style="color:var(--text-muted); font-size:10px;">(${escape(e.source)})</span>
+                const okClass = e.success === true ? 'ok' : (e.success === false ? 'fail' : 'pending');
+                return `<div class="history-entry">
+                    <span class="history-status ${okClass}">${ok}</span>
+                    <span class="history-time">${escape(t)}</span>
+                    <span class="history-trigger">${escape(e.trigger)}</span>
+                    ${e.scene ? `→ <span class="history-scene">${escape(e.scene)}</span>` : ''}
+                    <span class="history-source">(${escape(e.source)})</span>
                 </div>`;
             }).join('');
         };
@@ -820,6 +807,89 @@
                 location.reload();
             });
         }
+    }
+
+    // ====== Profiles ======
+
+    function setupProfileBar() {
+        const select = document.getElementById('profile-select');
+        const btnSave = document.getElementById('btn-profile-save');
+        const btnNew = document.getElementById('btn-profile-new');
+        const btnDelete = document.getElementById('btn-profile-delete');
+        if (!select) return;
+
+        const render = () => {
+            const profiles = config.getProfiles();
+            const current = config.getCurrentProfile();
+            while (select.firstChild) select.removeChild(select.firstChild);
+            for (const [id, profile] of Object.entries(profiles)) {
+                const option = document.createElement('option');
+                option.value = id;
+                option.textContent = profile?.name || id;
+                select.appendChild(option);
+            }
+            select.value = current;
+        };
+
+        const slugify = (name) => {
+            const slug = String(name || '')
+                .trim()
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+                .slice(0, 40);
+            return slug || `profile-${Date.now()}`;
+        };
+
+        select.addEventListener('change', () => {
+            const next = select.value;
+            if (!next || next === config.getCurrentProfile()) return;
+            const ok = confirm(window.i18n.t('profiles.switch_confirm'));
+            if (!ok) {
+                render();
+                return;
+            }
+            config.switchProfile(next);
+            location.reload();
+        });
+
+        btnSave?.addEventListener('click', () => {
+            config.saveCurrentProfile();
+            config.flush();
+        });
+
+        btnNew?.addEventListener('click', () => {
+            const name = prompt(window.i18n.t('profiles.new_name'));
+            if (!name) return;
+            let id = slugify(name);
+            const profiles = config.getProfiles();
+            let suffix = 2;
+            while (profiles[id]) {
+                id = `${slugify(name)}-${suffix}`;
+                suffix++;
+            }
+            config.createProfile(id, name.trim());
+            config.switchProfile(id);
+            location.reload();
+        });
+
+        btnDelete?.addEventListener('click', () => {
+            const current = config.getCurrentProfile();
+            if (current === 'default') {
+                alert(window.i18n.t('profiles.cannot_delete_default'));
+                return;
+            }
+            if (!confirm(window.i18n.t('profiles.delete_confirm'))) return;
+            config.switchProfile('default');
+            config.deleteProfile(current);
+            config.flush();
+            location.reload();
+        });
+
+        config.onChange(render);
+        render();
     }
 
     // ====== Event Triggers Panel ======

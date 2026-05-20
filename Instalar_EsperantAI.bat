@@ -34,10 +34,9 @@ copy /Y "%~dp0README.md" "%DEST_DIR%\README.md" >nul
 copy /Y "%~dp0LICENSE.txt" "%DEST_DIR%\LICENSE.txt" >nul 2>&1
 copy /Y "%~dp0Lanzar_EsperantAI.bat" "%DEST_DIR%\Lanzar_EsperantAI.bat" >nul
 
-echo [2/4] Copiando libs (Human.js + obs-websocket + Socket.IO)...
+echo [2/4] Copiando libs (Human.js + obs-websocket)...
 copy /Y "%~dp0libs\human.js" "%DEST_DIR%\libs\human.js" >nul
 copy /Y "%~dp0libs\obs-ws.min.js" "%DEST_DIR%\libs\obs-ws.min.js" >nul
-copy /Y "%~dp0libs\socket.io.min.js" "%DEST_DIR%\libs\socket.io.min.js" >nul
 
 echo [3/4] Copiando modulos core/adapters/platforms/locales/assets/models + docs legales...
 xcopy /Y /E /Q "%~dp0core\*" "%DEST_DIR%\core\" >nul

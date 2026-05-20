@@ -2,7 +2,7 @@
 
 > **Gesti onesti.** Controlla il tuo software di streaming con il viso e le mani, senza hardware dedicato aggiuntivo.
 
-**Versione**: 3.0 · **Lingua**: Italiano (traduzioni disponibili in altre 14 lingue)
+**Versione**: 2.0 · **Lingua**: Italiano (traduzioni disponibili in altre 14 lingue)
 
 **Controllo tecnico**: allineato alla documentazione ufficiale disponibile al **20 maggio 2026** per OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit, Twitch, YouTube Live, Kick, Trovo e StreamElements. Dettaglio: [`docs/MANUAL_PLATFORM_AUDIT_2026-05.md`](MANUAL_PLATFORM_AUDIT_2026-05.md).
 
@@ -48,9 +48,9 @@ Può anche ricevere eventi dalle piattaforme e combinarli con i tuoi gesti:
 
 - **Twitch**: supporto diretto tramite EventSub WebSocket.
 - **YouTube Live**: supporto diretto tramite YouTube Data API v3; richiede una diretta attiva e quota disponibile.
-- **Kick**: supported through the local **Streamer.bot bridge**. Streamer.bot receives Kick through its official integration and EsperantAI listens to those events through local WebSocket.
+- **Kick**: compatibile tramite il **bridge locale Streamer.bot**; EsperantAI non conserva segreti Kick nel browser.
 - **StreamElements**: ponte multipiattaforma con token/JWT del tuo account.
-- **Trovo**: native support through Trovo OAuth + chat WebSocket.
+- **Trovo**: supporto diretto tramite OAuth e WebSocket ufficiale della chat Trovo.
 
 ### Perché «gesti onesti»?
 
@@ -267,7 +267,7 @@ Per far sì che EsperantAI riceva eventi (donazioni, abbonamenti, raid, follow o
 ### Twitch
 
 1. Crea un Client ID su https://dev.twitch.tv/console
-2. Registra l'URI di reindirizzamento: `https://edugame.digital/oauth-callback.html` (o il tuo URL locale)
+2. Registra l'URI di reindirizzamento: `https://TU-DOMINIO/oauth-callback.html` (o il tuo URL locale)
 3. In EsperantAI: pannello **Eventi piattaforma** → **Twitch EventSub**
 4. Incolla il tuo Client ID
 5. Fai clic su **Connetti**
@@ -289,16 +289,16 @@ Requisiti di YouTube: devi avere una diretta attiva con chat disponibile, e il t
 
 ### Kick via Streamer.bot
 
-EsperantAI supports Kick through the **Streamer.bot bridge**. This is the recommended sales-ready route because it does not expose Kick secrets in the browser and does not rely on reverse engineering.
+EsperantAI riceve gli eventi Kick tramite il **bridge di Streamer.bot**. È la strada consigliata per la vendita perché non espone segreti Kick nel browser e non dipende da reverse engineering.
 
-1. Install Streamer.bot 1.0.0 or newer.
-2. In Streamer.bot, connect your Kick account.
-3. In Streamer.bot: **Servers/Clients -> WebSocket Server** and enable the server.
-4. Use `127.0.0.1`, port `8080`, and endpoint `/`, unless you changed those values.
-5. In EsperantAI: **Platform Events** panel -> **Kick via Streamer.bot**.
-6. Click **Connect**.
+1. Installa Streamer.bot 1.0.0 o superiore.
+2. In Streamer.bot, collega il tuo account Kick.
+3. In Streamer.bot: **Servers/Clients -> WebSocket Server** e abilita il server.
+4. Usa `127.0.0.1`, porta `8080` ed endpoint `/`, salvo modifiche.
+5. In EsperantAI: pannello **Eventi piattaforma** -> **Kick via Streamer.bot**.
+6. Fai clic su **Connetti**.
 
-Events available through this bridge: follows, subscriptions, resubscriptions, gift subscriptions, and redemptions supported by Streamer.bot. Native official Kick backend/webhooks remain an advanced roadmap item.
+Gli eventi disponibili dipendono dall'integrazione Kick attiva in Streamer.bot. L'integrazione ufficiale di Kick con backend/webhook resta un elemento avanzato della roadmap.
 
 ### StreamElements (ponte multipiattaforma)
 
@@ -313,15 +313,15 @@ Mantieni privato questo token. Trattalo come una password del tuo account Stream
 
 ### Trovo
 
-EsperantAI supports Trovo natively through OAuth and Trovo's official chat WebSocket.
+EsperantAI si connette a Trovo tramite OAuth e WebSocket ufficiale della chat Trovo.
 
-1. Create an app in the Trovo developer portal.
-2. Register the EsperantAI redirect URI: `oauth-callback.html` on the same domain where you open the app.
-3. In EsperantAI: **Platform Events** panel -> **Trovo**.
-4. Paste your Client ID and click **Connect**.
-5. Authorize the requested permissions.
+1. Crea un'app nel portale sviluppatori Trovo.
+2. Registra l'URI di reindirizzamento di EsperantAI: `https://TU-DOMINIO/oauth-callback.html` sullo stesso dominio in cui apri l'app.
+3. In EsperantAI: pannello **Eventi piattaforma** -> **Trovo**.
+4. Incolla il Client ID e fai clic su **Connetti**.
+5. Autorizza i permessi richiesti.
 
-Available events: subscriptions, resubscriptions, gift subscriptions, follows, raids, spells/gifts, and magic chat.
+Gli eventi disponibili dipendono dai messaggi della chat Trovo e dal flusso ufficiale del token chat.
 
 ---
 
@@ -507,9 +507,9 @@ Pannello **Avanzate → Licenza**:
 - In Twitch, usa solo il Client ID; non incollare il Client Secret
 - In YouTube, conferma che YouTube Data API v3 sia abilitata e che ci sia una diretta attiva
 
-### Kick does not connect through Streamer.bot
+### Kick non si connette tramite Streamer.bot
 
-Confirm that Streamer.bot 1.0.0+ is open, Kick is connected inside Streamer.bot, and **WebSocket Server** is enabled. Use `127.0.0.1:8080/` unless you changed the configuration. If Streamer.bot requires a password, enter the same password in EsperantAI.
+Verifica che Streamer.bot 1.0.0+ sia aperto, che Kick sia collegato in Streamer.bot e che **WebSocket Server** sia attivo. Usa `127.0.0.1:8080/` salvo modifiche alla configurazione. Se Streamer.bot richiede una password, inserisci la stessa in EsperantAI.
 
 ---
 
@@ -537,7 +537,7 @@ Dettagli completi in `docs/PRIVACY.html`.
 
 - 📧 Email: **soporte@edugame.digital**
 - 🌐 Web: https://edugame.digital
-- 📚 Documentazione tecnica: https://github.com/salazarjoelo/EsperantAI
+- 📚 Manuale web: https://edugame.digital/docs/manual.html
 
 Tempi di risposta:
 - Domande generali: 24-72 ore
@@ -545,5 +545,5 @@ Tempi di risposta:
 
 ---
 
-*Ultimo aggiornamento: 2026-05-20. Versione: 3.0.*
+*Ultimo aggiornamento: 2026-05-20. Versione: 2.0.*
 *© 2026 EdugameDigital — Joel Salazar Ramírez. EsperantAI™.*

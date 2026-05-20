@@ -3,7 +3,7 @@
     "language": "Deutsch (Deutschland)",
     "code": "de-DE",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "Native-quality German revision by Claude Opus 4.7 (2026-05-17). du-Anrede (informal) for streamer voice. Standard German tech vocabulary."
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "Diese Lizenz hat ihr Gerätelimit erreicht. Deaktivier ein altes Gerät oder wende dich an den Support.",
     "error_network": "Die Lizenz konnte wegen der Verbindung nicht validiert werden. Prüf deine Internetverbindung und versuch es erneut.",
     "error_invalid": "Der Lizenzschlüssel passt nicht. Prüf Bindestriche und Leerzeichen oder kopier den vollständigen Schlüssel aus deiner E-Mail.",
-    "error_generic": "Diese Lizenz konnte nicht aktiviert werden. Prüf den Schlüssel oder versuch es in ein paar Minuten erneut."
+    "error_generic": "Diese Lizenz konnte nicht aktiviert werden. Prüf den Schlüssel oder versuch es in ein paar Minuten erneut.",
+    "panel_title": "Lizenz",
+    "deactivate_button": "Lizenz deaktivieren"
   },
   "actions": {
     "scene_switch": "Szene wechseln",

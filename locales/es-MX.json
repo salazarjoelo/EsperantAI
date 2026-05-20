@@ -3,7 +3,7 @@
     "language": "Español (México)",
     "code": "es-MX",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "AI-generated — needs native Mexican Spanish speaker review"
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "Esta licencia ya llegó a su límite de dispositivos. Desactiva una computadora anterior o contacta a soporte.",
     "error_network": "No pudimos validar la licencia por la conexión. Checa tu internet e inténtalo otra vez.",
     "error_invalid": "La license key no coincide. Revisa guiones, espacios o copia la key completa desde tu correo.",
-    "error_generic": "No pudimos activar esta licencia. Revisa la key o intenta de nuevo en unos minutos."
+    "error_generic": "No pudimos activar esta licencia. Revisa la key o intenta de nuevo en unos minutos.",
+    "panel_title": "Licencia",
+    "deactivate_button": "Desactivar licencia"
   },
   "actions": {
     "scene_switch": "Cambiar escena",

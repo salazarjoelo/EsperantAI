@@ -1,25 +1,16 @@
 /* ============================================================================
- * EsperantAI — Platform Kick
- * Kick OAuth 2.1 PKCE + REST polling para eventos.
- *
- * Kick es importante: 10M MAU (early 2026), dominante en LATAM + MENA + Polonia.
- * 6 de los top 10 followed channels son hispanohablantes.
+ * EsperantAI — Platform Kick (referencia nativa, no expuesta en UI)
  *
  * Docs:
- *   - https://github.com/KickEngineering/KickDevDocs
  *   - https://docs.kick.com/
  *
- * Kick API soporta:
- *   - chat.message.sent
- *   - channel.followed
- *   - channel.subscription.new / renewal / gifts
- *   - livestream.status.updated
+ * Estado real al 2026-05-20:
+ *   - El OAuth oficial pide client_secret en el token endpoint.
+ *   - Los eventos oficiales son webhooks y requieren backend.
+ *   - Por regla de seguridad, EsperantAI NO pone secretos de Kick en frontend.
  *
- * Webhook-only nativamente (requiere servidor). En browser-only usamos REST polling
- * a los endpoints de followers/subscribers/livestream cada N segundos.
- * (Polling no es ideal pero browser-only sin backend obliga a esto.)
- *
- * NOTA: Kick anunció WebSocket EventSub futuro — cuando llegue, migrar a WS.
+ * Ruta de producto activa: platforms/platform-streamerbot-kick.js.
+ * Ruta futura: backend propio que maneje OAuth + webhooks server-side.
  * ========================================================================== */
 
 'use strict';
@@ -40,7 +31,7 @@ class PlatformKick extends PlatformBase {
     }
 
     authMethod() {
-        return 'oauth_pkce';
+        return 'backend_required';
     }
 
     /**
@@ -62,66 +53,27 @@ class PlatformKick extends PlatformBase {
         return Array.from(random, b => chars[b % chars.length]).join('');
     }
 
-    async oauthUrl(clientId, redirectUri, state) {
-        const { challenge } = await this.generatePKCE();
-        const params = new URLSearchParams({
-            response_type: 'code',
-            client_id: clientId,
-            redirect_uri: redirectUri,
-            scope: 'user:read channel:read events:subscribe',
-            code_challenge: challenge,
-            code_challenge_method: 'S256',
-            // Usar state pasado desde app.js (validado en callback). Fallback a random si no se pasa.
-            state: state || this._randomString(16)
-        });
-        return `https://id.kick.com/oauth/authorize?${params}`;
+    async oauthUrl(_clientId, _redirectUri, _state) {
+        throw new Error('Kick native OAuth requires a server-side client_secret. Use Kick via Streamer.bot in this browser app.');
     }
 
     /**
-     * Exchange code → token. PKCE no requiere client_secret.
+     * Exchange code → token. La documentación oficial de Kick requiere
+     * client_secret, así que este intercambio debe vivir en backend.
      */
-    async exchangeCodeForToken(code, clientId, redirectUri) {
-        const params = new URLSearchParams({
-            grant_type: 'authorization_code',
-            client_id: clientId,
-            redirect_uri: redirectUri,
-            code,
-            code_verifier: this.codeVerifier
-        });
-        const res = await fetch('https://id.kick.com/oauth/token', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: params
-        });
-        if (!res.ok) throw new Error(`Kick token exchange failed: ${res.status}`);
-        return res.json();
+    async exchangeCodeForToken(_code, _clientId, _redirectUri) {
+        throw new Error('Kick token exchange is backend-only because it requires client_secret.');
     }
 
     /**
      * @param {Object} cfg { token, clientId, channelSlug }
      */
-    async connect(cfg) {
-        this.token = cfg.token;
-        this.clientId = cfg.clientId;
-
-        // Obtener info del canal del usuario actual
-        try {
-            const channels = await this._fetchChannels();
-            if (!channels?.[0]) {
-                this.emit('auth_error', new Error('No Kick channel found'));
-                return false;
-            }
-            this.channelId = channels[0].broadcaster_user_id;
-            this.channelSlug = channels[0].slug;
-        } catch (e) {
-            this.emit('auth_error', e);
-            return false;
-        }
-
-        this.connected = true;
-        this.emit('connected');
-        this._startPolling();
-        return true;
+    async connect(_cfg) {
+        this.emit(
+            'auth_error',
+            new Error('Kick native browser connection is disabled. Use Kick via Streamer.bot.')
+        );
+        return false;
     }
 
     async _fetchChannels() {
@@ -172,9 +124,8 @@ class PlatformKick extends PlatformBase {
     }
 
     supportedEvents() {
-        // Eventos detectables por polling browser-only (limitado)
-        return ['follow'];
-        // Para sub/donation/raid completos: requiere webhook server (futura v3.5+)
+        // Eventos oficiales de Kick requieren backend/webhooks o bridge local.
+        return [];
     }
 }
 

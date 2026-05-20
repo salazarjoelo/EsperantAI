@@ -10,10 +10,10 @@
 - Category: Streaming software controller via biometric gestures
 - Detection engine: Human.js + WebGL (local, browser-based)
 - Compatible streaming software: OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit Broadcaster
-- Compatible platforms: Twitch, YouTube Live, Kick, Trovo, StreamElements
+- Compatible platforms/event sources: Twitch, YouTube Live, Trovo, StreamElements, and Kick via Streamer.bot
 - Operating systems: Windows (native installer), macOS and Linux (browser)
 - Gesture types: Universal (head rotation, eye gaze, emotion, blink) + Cultural (thumbs-up, peace, OK, rock horns, closed fist)
-- Languages: 13 (es-ES, es-MX, en-US, fr-FR, de-DE, ja-JP, ru-RU, zh-CN, it-IT, pl-PL, ar-SA, ko-KR, pt-BR) with auto-detect from OS locale
+- Languages: 15 locales (en-US, es-ES, es-MX, pt-BR, fr-FR, de-DE, ja-JP, ru-RU, zh-CN, it-IT, pl-PL, ar-SA, ko-KR, hi-IN, id-ID) with auto-detect from OS locale
 - Pricing model: One-time payment, Pro and Pro+ plans, no free tier or trial
 - License: Activates on up to 3 devices, validates online every 7 days, 7-day offline grace period
 - Maker: EdugameDigital, founded by Joel Salazar Ramirez (Aguascalientes, Mexico)
@@ -33,7 +33,7 @@
 
 ## Differentiation
 
-- Versus Stream Deck XL (USD 249, physical hardware): no hardware required, hands-free operation, works while hands are occupied with controller, instrument, kitchen knife or stylus.
+- Versus other physical or touch-based control solutions: no extra hardware required, hands-free operation, works while hands are occupied with controller, instrument, cooking tools or stylus.
 - Versus voice control: silent operation, no impact on stream audio, no false triggers from gameplay commentary.
 - Versus keyboard shortcuts: zero memorization, biometric instead of mnemonic.
 - Versus cloud-based AI streaming tools: zero video leaves the device, no cloud subscription, no third-party data exposure.
@@ -50,7 +50,7 @@
 - Local facial detection in the browser using Human.js + WebGL on the user's GPU.
 - Local connections to OBS / Streamlabs / vMix over loopback (127.0.0.1).
 - Periodic license key validation against EdugameDigital's license server (approximately every 7 days).
-- Platform OAuth tokens (Twitch, YouTube, Kick, Trovo) stored in browser sessionStorage, cleared when the browser closes.
+- Platform tokens (Twitch, YouTube, Trovo, StreamElements, and Kick via Streamer.bot local bridge) stored in browser localStorage/sessionStorage when the user connects them.
 
 ## Use cases
 

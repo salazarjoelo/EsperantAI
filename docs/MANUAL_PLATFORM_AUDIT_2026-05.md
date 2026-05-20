@@ -26,18 +26,18 @@ This audit is the source of truth for the May 2026 user manual refresh. It compa
 | YouTube Live | Supported by `PlatformYouTube` using OAuth token, active broadcast lookup, and live chat polling. | YouTube docs require `youtube.readonly` authorization for `liveBroadcasts.list`; live chat messages are available only while the live event is active and `liveChatMessages.list`/`streamList` are documented. | Keep as production with clear requirement: active live broadcast, YouTube Data API v3 enabled, quota applies. |
 | Kick | Supported through `PlatformStreamerBotKick`, which connects to Streamer.bot's local WebSocket server and subscribes to Kick events. The older browser-only `PlatformKick` remains code-level roadmap/advanced and is not the recommended user path. | Kick official OAuth 2.1 token endpoint requires `client_secret`; official event subscriptions are webhook-based. Streamer.bot documents Kick support and a local WebSocket API that EsperantAI can consume without exposing Kick secrets. | Keep Kick as supported via Streamer.bot bridge. Do not market native browser-only Kick. Native official Kick backend/webhooks remain roadmap. |
 | Trovo | Supported by `PlatformTrovo` plus public UI and OAuth flow in `index.html`/`app.js`. The adapter uses Trovo OAuth, `/chat/token`, and `wss://open-chat.trovo.live/chat`. | Trovo docs confirm WebSocket chat service at `wss://open-chat.trovo.live/chat`, OAuth/API token flow, and the own-channel chat token endpoint. | Keep Trovo as native supported. Mention Client ID, redirect URI, and supported chat events. |
-| StreamElements | Supported by `PlatformStreamElements` with manual JWT and Socket.IO legacy realtime endpoint. | StreamElements current docs describe the Astro WebSocket Gateway at `wss://astro.streamelements.com/`, topics like `channel.activities`, and JWT/OAuth2/API key subscription tokens. | Keep as bridge, but avoid overpromising exact legacy endpoint. Say current app uses StreamElements bridge with JWT and may depend on the active StreamElements account/provider token. Add technical note that the code should migrate to Astro Gateway. |
+| StreamElements | Supported by `PlatformStreamElements` with manual JWT and the current Astro WebSocket Gateway at `wss://astro.streamelements.com/`. | StreamElements current docs describe the Astro WebSocket Gateway, topics like `channel.activities`, and JWT/OAuth2/API key subscription tokens. | Keep as bridge. Say current app uses StreamElements bridge with JWT and may depend on the active StreamElements account/provider token. |
 
-## Manual corrections required
+## Manual corrections applied
 
-1. Replace generic Kick wording with "Kick via Streamer.bot bridge".
-2. Mark native browser-only Kick as roadmap/backend, not the current user path.
-3. Add YouTube requirements: active live broadcast, YouTube Data API v3, quota.
-4. Add vMix local API requirement and no-password limitation of the current adapter.
-5. Clarify PRISM needs obs-websocket plugin installation, while OBS 28+ includes obs-websocket.
-6. Add images for the user flow, streaming software setup, platform event status, and event+gesture combinations.
-7. Remove refund/free/trial promises from manuals unless commercial policy documents explicitly require them.
-8. Synchronize `docs/manual.html` from the markdown manuals after translation updates.
+1. Kick wording says "Kick via Streamer.bot bridge".
+2. Native browser-only Kick is marked as roadmap/backend, not the current user path.
+3. YouTube requirements include active live broadcast, YouTube Data API v3, and quota.
+4. vMix section states the local HTTP API requirement and browser limitation.
+5. PRISM section states manual obs-websocket plugin installation, while OBS 28+ includes obs-websocket.
+6. The manuals include images for the local flow, streaming software setup, platform event status, and event+gesture combinations.
+7. The manuals do not promise a free trial or refund outside the legal policy.
+8. `docs/manual-viewer.js` is synchronized from the markdown manuals.
 
 ## Official sources used
 

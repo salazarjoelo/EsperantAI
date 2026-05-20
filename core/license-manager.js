@@ -30,8 +30,8 @@ const JWT_ISSUER = 'license.edugame.digital';
 
 /**
  * Clave pública Ed25519 del backend de Joel.
- * REEMPLAZAR con el contenido de backend/pub.pem tras ejecutar:
- *   cd backend && node scripts/generate-keypair.js
+ * Debe coincidir con backend/pub.pem. Si se rota la key privada en backend,
+ * actualizar esta clave pública en el mismo despliegue.
  *
  * El cliente verifica que los JWT vengan firmados por la clave privada del
  * backend. Si se cambia la clave pública aquí, los JWT existentes dejan de
@@ -405,13 +405,17 @@ class LicenseManager {
     }
 
     async deactivate() {
-        if (!this.state.licenseKey || !this.state.instanceId) {
+        if (!this.state.licenseKey || !this.state.instanceId || !this.state.jwt) {
             return { ok: false, error: 'no_active_license' };
         }
         try {
             const res = await fetch(`${LICENSE_BACKEND_URL}/deactivate`, {
                 method: 'POST',
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.state.jwt}`,
+                },
                 body: JSON.stringify({
                     license_key: this.state.licenseKey,
                     instance_id: this.state.instanceId,

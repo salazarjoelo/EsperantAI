@@ -238,7 +238,7 @@ class CalibrationWizard {
                     </div>
                     <button type="button" class="cw-close" id="cw-close" aria-label="${t('ui.close', 'Close')}">×</button>
                 </header>
-                <div class="cw-progress"><span style="width:${progress}%"></span></div>
+                <progress class="cw-progress" max="100" value="${progress}">${progress}%</progress>
                 <div class="cw-step-body">${body}</div>
                 <footer class="cw-footer">
                     <button type="button" class="secondary" id="cw-back" ${this.step === 0 ? 'disabled' : ''}>${t('calibration.back', 'Back')}</button>
@@ -323,7 +323,7 @@ class CalibrationWizard {
                     <button type="button" data-capture-kind="${currentKind}">${s.btn}</button>
                     ${isCollectingThis ? `<span class="cw-capture-pill">${t('calibration.capturing','Capturing')} ${this.captureCount}/${this.captureTarget}</span>` : ''}
                 </div>
-                ${isCollectingThis ? `<div class="cw-inline-progress"><span style="width:${progress}%"></span></div>` : ''}
+                ${isCollectingThis ? `<progress class="cw-inline-progress" max="100" value="${progress}">${progress}%</progress>` : ''}
                 ${s.status ? `<div class="cw-status ok">${s.status}</div>` : `<div class="cw-status">${t('calibration.ready_when_you_are','Ready when you are.')}</div>`}
             </div>
         `;
@@ -361,9 +361,9 @@ class CalibrationWizard {
     }
 
     _updateProgress() {
-        const bar = this.overlay.querySelector('.cw-inline-progress span');
+        const bar = this.overlay.querySelector('.cw-inline-progress');
         if (bar && this.captureTarget) {
-            bar.style.width = `${Math.min(100, Math.round((this.captureCount / this.captureTarget) * 100))}%`;
+            bar.value = Math.min(100, Math.round((this.captureCount / this.captureTarget) * 100));
         }
         const pill = this.overlay.querySelector('.cw-capture-pill');
         if (pill) pill.textContent = `${this.i18n.t('calibration.capturing', {}, 'Capturing')} ${this.captureCount}/${this.captureTarget}`;

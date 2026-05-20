@@ -62,13 +62,14 @@ class TriggerEngine {
         // (ej. gassho, que necesita los 21 landmarks de ambas manos simultáneo).
         this._handsArray = result.hand || [];
 
-        // 1) Acciones puntuales primero — pueden override la pose continua
-        const punctualTrigger = this._evaluatePunctual(face, gestures);
-        if (punctualTrigger) return punctualTrigger;
-
-        // 2) Verificar confirmación de evento pendiente
+        // 1) Verificar confirmación de evento pendiente antes de acciones
+        // puntuales. Si no, el gesto confirmador se consume como gesto normal.
         const eventConfirm = this._checkEventConfirmation(face, gestures);
         if (eventConfirm) return eventConfirm;
+
+        // 2) Acciones puntuales — pueden override la pose continua
+        const punctualTrigger = this._evaluatePunctual(face, gestures);
+        if (punctualTrigger) return punctualTrigger;
 
         // 3) Pose continua (head → distance → gaze)
         const posTrigger = this._evaluateContinuous(face);
@@ -362,8 +363,7 @@ class TriggerEngine {
 
         for (let i = 0; i < this.pendingEventConfirmations.length; i++) {
             const pending = this.pendingEventConfirmations[i];
-            // Detectar el gesto requerido
-            const handGesture = this._mapHandGesture(gestures.find(g => g.hand !== undefined) || {});
+            const handGesture = this._detectConfirmationGesture(pending.requireGesture, gestures);
             if (handGesture === pending.requireGesture) {
                 this.pendingEventConfirmations.splice(i, 1);
                 // Si viene de la UI de Combo Triggers, usar el actionKey 'combo:<id>'
@@ -386,6 +386,19 @@ class TriggerEngine {
                     label: `${pending.eventType} confirmed by ${handGesture}`
                 };
             }
+        }
+        return null;
+    }
+
+    _detectConfirmationGesture(requiredGesture, gestures) {
+        if (requiredGesture === 'gassho' && this._handsArray && typeof window.detectGassho === 'function') {
+            const gasshoResult = window.detectGassho(this._handsArray, performance.now());
+            if (gasshoResult.detected && gasshoResult.confidence >= 0.5) return 'gassho';
+        }
+
+        for (const gesture of gestures) {
+            const handGesture = this._mapHandGesture(gesture);
+            if (handGesture === requiredGesture) return handGesture;
         }
         return null;
     }

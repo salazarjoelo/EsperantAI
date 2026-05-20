@@ -3,7 +3,7 @@
     "language": "हिन्दी (India)",
     "code": "hi-IN",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "translator": "Native-quality Hindi translation by Claude Opus 4.7 (2026-05-17). Devanagari with English tech loanwords where natural. Informal register (तुम) for streamer voice.",
     "note": "Full Hindi translation completed 2026-05-17"
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "इस लाइसेंस ने अपनी डिवाइस सीमा पूरी कर ली। एक पुरानी डिवाइस को निष्क्रिय करें या सपोर्ट से संपर्क करें।",
     "error_network": "कनेक्शन के कारण हम लाइसेंस को सत्यापित नहीं कर सके। इंटरनेट जांचें और पुनः प्रयास करें।",
     "error_invalid": "लाइसेंस कुंजी मेल नहीं खाती। हाइफ़न, स्पेस जांचें, या अपने ईमेल से पूरी कुंजी कॉपी करें।",
-    "error_generic": "हम इस लाइसेंस को सक्रिय नहीं कर सके। कुंजी जांचें या कुछ मिनटों में पुनः प्रयास करें।"
+    "error_generic": "हम इस लाइसेंस को सक्रिय नहीं कर सके। कुंजी जांचें या कुछ मिनटों में पुनः प्रयास करें।",
+    "panel_title": "लाइसेंस",
+    "deactivate_button": "लाइसेंस निष्क्रिय करें"
   },
   "actions": {
     "scene_switch": "सीन स्विच कर",

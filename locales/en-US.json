@@ -3,7 +3,7 @@
     "language": "English (US)",
     "code": "en-US",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "translator": "native (source language)"
   },
   "app": {
@@ -240,7 +240,9 @@
     "error_activation_limit": "This license reached its device limit. Deactivate an old device or contact support.",
     "error_network": "We could not validate the license because of the connection. Check internet and try again.",
     "error_invalid": "The license key does not match. Check hyphens, spaces, or copy the full key from your email.",
-    "error_generic": "We could not activate this license. Check the key or try again in a few minutes."
+    "error_generic": "We could not activate this license. Check the key or try again in a few minutes.",
+    "panel_title": "License",
+    "deactivate_button": "Deactivate license"
   },
   "actions": {
     "scene_switch": "Switch scene",

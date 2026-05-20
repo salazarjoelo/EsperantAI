@@ -3,7 +3,7 @@
     "language": "Português (Brasil)",
     "code": "pt-BR",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "Native-quality Brazilian Portuguese revision by Claude Opus 4.7 (2026-05-17). você (informal) — Brazilian streamer register. Brazilian vocabulary, not European."
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "Esta licença atingiu o limite de dispositivos. Desative um dispositivo antigo ou fale com o suporte.",
     "error_network": "Não foi possível validar a licença por causa da conexão. Verifique a sua internet e tente de novo.",
     "error_invalid": "A chave da licença não confere. Confira hifens, espaços ou copie a chave completa do seu e-mail.",
-    "error_generic": "Não foi possível ativar esta licença. Confira a chave ou tente de novo daqui a alguns minutos."
+    "error_generic": "Não foi possível ativar esta licença. Confira a chave ou tente de novo daqui a alguns minutos.",
+    "panel_title": "Licença",
+    "deactivate_button": "Desativar licença"
   },
   "actions": {
     "scene_switch": "Trocar de cena",

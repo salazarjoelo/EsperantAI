@@ -3,7 +3,7 @@
     "language": "Bahasa Indonesia",
     "code": "id-ID",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "translator": "Native-quality Indonesian translation by Claude Opus 4.7 (2026-05-17). Casual-formal mix appropriate for tech UI. kamu/Anda used contextually.",
     "note": "Full Indonesian translation completed 2026-05-17"
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "Lisensi ini sudah mencapai batas perangkat. Nonaktifkan perangkat lama atau hubungi support.",
     "error_network": "Kami tidak bisa memvalidasi lisensi karena masalah koneksi. Cek internet lalu coba lagi.",
     "error_invalid": "Kunci lisensi tidak cocok. Cek tanda hubung, spasi, atau salin kunci lengkap dari email Anda.",
-    "error_generic": "Kami tidak bisa mengaktifkan lisensi ini. Cek kunci atau coba lagi dalam beberapa menit."
+    "error_generic": "Kami tidak bisa mengaktifkan lisensi ini. Cek kunci atau coba lagi dalam beberapa menit.",
+    "panel_title": "Lisensi",
+    "deactivate_button": "Nonaktifkan lisensi"
   },
   "actions": {
     "scene_switch": "Ganti adegan",

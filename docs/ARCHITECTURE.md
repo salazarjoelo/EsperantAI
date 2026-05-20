@@ -19,7 +19,7 @@
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │              UI Layer (HTML/CSS)                     │   │
 │  │  • Configuración · Métricas · Status                 │   │
-│  │  • i18n auto-detect locale del SO (12 idiomas)       │   │
+│  │  • i18n auto-detect locale del SO (15 locales)       │   │
 │  └────────────────────┬─────────────────────────────────┘   │
 │                       │                                     │
 │  ┌────────────────────▼─────────────────────────────────┐   │
@@ -45,7 +45,7 @@
    ┌────┴────┬────┬────┬────┐    ├────┬────┬────┬────────┐
    ▼         ▼    ▼    ▼    ▼    ▼    ▼    ▼    ▼        ▼
   OBS    Streamlabs vMix PRISM XSplit Twitch YT Kick Trovo StreamElements
-  ws5    ws:59650   :8088 ws5  XJS    EventSub REST OAuth WS Bridge
+  ws5    ws:59650   :8088 ws5  XJS    EventSub REST S.bot WS Astro WS
 ```
 
 ---
@@ -62,7 +62,7 @@ EsperantAI/                        ← (renombre futuro de Mira_Mira)
 │   ├── trigger-engine.js          ← Sistema de triggers + cooldown
 │   ├── action-engine.js           ← Motor de ejecución de acciones
 │   ├── trigger-ui-builder.js      ← Panel visual de triggers
-│   ├── license-manager.js         ← LemonSqueezy License API
+│   ├── license-manager.js         ← EdugameDigital license backend + JWT local
 │   ├── config-manager.js          ← localStorage + import/export
 │   └── i18n.js                    ← Sistema de traducciones
 │
@@ -78,9 +78,10 @@ EsperantAI/                        ← (renombre futuro de Mira_Mira)
 │   ├── platform-base.js           ← Interface común
 │   ├── platform-twitch.js         ← Twitch EventSub WebSocket
 │   ├── platform-youtube.js        ← YouTube Live REST polling
-│   ├── platform-kick.js           ← Kick OAuth 2.1 + REST polling
+│   ├── platform-kick.js           ← Referencia nativa backend-only, no UI frontend
+│   ├── platform-streamerbot-kick.js ← Kick vía Streamer.bot WebSocket local
 │   ├── platform-trovo.js          ← Trovo Chat WebSocket
-│   └── platform-streamelements.js ← StreamElements unified bridge
+│   └── platform-streamelements.js ← StreamElements Astro WebSocket bridge
 │
 ├── locales/                       ← Traducciones JSON
 │   ├── en-US.json                 ← English (base)
@@ -95,7 +96,9 @@ EsperantAI/                        ← (renombre futuro de Mira_Mira)
 │   ├── it-IT.json                 ← Italian
 │   ├── pl-PL.json                 ← Polish
 │   ├── ar-SA.json                 ← Arabic (RTL)
-│   └── ko-KR.json                 ← Korean (SOOP/CHZZK market)
+│   ├── ko-KR.json                 ← Korean (SOOP/CHZZK market)
+│   ├── hi-IN.json                 ← Hindi
+│   └── id-ID.json                 ← Indonesian
 │
 ├── libs/                          ← Vendor libraries
 │   ├── human.js                   ← Human.js 3.3.6 IIFE
@@ -245,16 +248,11 @@ i18n.setLocale(locale)              // primero intenta exacta
 
 ## Distribución y hosting
 
-### Plan v1.0 (Free tier)
-- **GitHub Pages**: `https://salazarjoelo.github.io/esperantai/` (gratis)
-- **Dominio público actual**: `https://edugame.digital`
-- **Cloudflare CDN**: gratis para assets estáticos
-- **GitHub Actions**: build + deploy automático en push
-
-### Plan v2.0 (Pro tiers)
-- **LemonSqueezy** para checkout + license keys
-- **License validation**: la app verifica online cada N días contra LS API
-- **Sin backend propio**: LemonSqueezy actúa como backend
+### Plan comercial vigente
+- **Dominio público**: `https://edugame.digital`
+- **LemonSqueezy** para checkout + emisión de license keys
+- **Backend EdugameDigital** para activar/desactivar licencias, validar contra LemonSqueezy server-side y emitir JWT firmados para el cliente
+- **Sin versión gratuita ni trial**: la app requiere licencia activa para operar
 
 ---
 
@@ -267,16 +265,16 @@ i18n.setLocale(locale)              // primero intenta exacta
 - ❌ NO incluye trackers de terceros.
 
 ### Lo que SÍ hace
-- ✅ Conexiones locales a OBS/Streamlabs/vMix (loopback 127.0.0.1)
-- ✅ OAuth con Twitch/YouTube/Kick — tokens guardados en localStorage encriptado
-- ✅ License check (cuando hay tier Pro) — solo envía license key, no datos personales
+- ✅ Conexiones locales a OBS/Streamlabs/vMix/PRISM/XSplit (loopback 127.0.0.1)
+- ✅ Tokens de Twitch, YouTube, Trovo y StreamElements guardados en `localStorage` o `sessionStorage` cuando el usuario los autoriza. No se describen como cifrados.
+- ✅ License check: envía license key y huella técnica de dispositivo al backend EdugameDigital para activar, validar o desactivar la licencia. El backend llama a LemonSqueezy server-side.
 
 ### CSP propuesto
 ```
 Content-Security-Policy:
   default-src 'self';
   script-src 'self';
-  connect-src 'self' wss://eventsub.wss.twitch.tv https://api.twitch.tv https://www.googleapis.com https://api.kick.com https://api.streamelements.com ws://127.0.0.1:* http://127.0.0.1:*;
+  connect-src 'self' wss://eventsub.wss.twitch.tv https://api.twitch.tv https://www.googleapis.com https://api.trovo.live wss://open-chat.trovo.live wss://astro.streamelements.com ws://127.0.0.1:* http://127.0.0.1:*;
   img-src 'self' data:;
   media-src 'self';
   worker-src 'self' blob:;
@@ -297,14 +295,15 @@ Content-Security-Policy:
 | Trigger engine | ✅ Implementado | 18+ triggers con cooldown |
 | Action engine | ✅ Implementado | 16 tipos de acción |
 | Trigger UI Builder | ✅ Implementado | Panel con universal/cultural badges |
-| i18n system | ✅ Implementado | 13 locales con auto-detect |
-| License manager | ✅ Implementado | LemonSqueezy License API |
+| i18n system | ✅ Implementado | 15 locales con auto-detect |
+| License manager | ✅ Implementado | Backend EdugameDigital + LemonSqueezy server-side + JWT local |
 | Config manager | ✅ Implementado | localStorage + import/export |
 | Platform Twitch | ✅ Implementado | EventSub WebSocket directo |
 | Platform YouTube | ✅ Implementado | REST polling |
-| Platform Kick | ✅ Implementado | OAuth 2.1 PKCE + REST polling |
+| Platform Kick via Streamer.bot | ✅ Implementado | WebSocket local de Streamer.bot; ruta recomendada |
+| Platform Kick nativo | 🗺️ Roadmap backend | OAuth/eventos oficiales requieren backend y client secret; no exponer secretos en frontend |
 | Platform Trovo | ✅ Implementado | Chat WebSocket |
-| Platform StreamElements | ✅ Implementado | Socket.IO bridge |
+| Platform StreamElements | ✅ Implementado | Astro WebSocket `channel.activities` |
 | Hand gestures | ✅ Implementado | 7 gestos con cultural notes |
 | Combo triggers | ✅ Implementado | Evento + gesto = acción |
 | CSP headers | ✅ Implementado | Content-Security-Policy en HTML |

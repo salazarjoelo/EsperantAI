@@ -2,7 +2,7 @@
 
 > **Szczere gesty.** Steruj swoim oprogramowaniem do streamingu za pomocą twarzy i rąk, bez dodatkowego dedykowanego sprzętu.
 
-**Wersja**: 3.0 · **Język**: Polski (łącznie dostępnych jest 15 języków)
+**Wersja**: 2.0 · **Język**: Polski (łącznie dostępnych jest 15 języków)
 
 **Walidacja techniczna**: sprawdzono z oficjalną dokumentacją dostępną na dzień **20 maja 2026** dla OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit, Twitch, YouTube Live, Kick, Trovo i StreamElements. Szczegóły: [`docs/MANUAL_PLATFORM_AUDIT_2026-05.md`](MANUAL_PLATFORM_AUDIT_2026-05.md).
 
@@ -48,9 +48,9 @@ Może też odbierać zdarzenia z platform i łączyć je z twoimi gestami:
 
 - **Twitch**: bezpośrednia obsługa przez EventSub WebSocket.
 - **YouTube Live**: bezpośrednia obsługa przez YouTube Data API v3; wymaga aktywnej transmisji na żywo i dostępnego limitu/kwoty API.
-- **Kick**: supported through the local **Streamer.bot bridge**. Streamer.bot receives Kick through its official integration and EsperantAI listens to those events through local WebSocket.
+- **Kick**: obsługiwany przez lokalny **most Streamer.bot**; EsperantAI nie zapisuje sekretów Kick w przeglądarce.
 - **StreamElements**: most wieloplatformowy używający tokena/JWT twojego konta.
-- **Trovo**: native support through Trovo OAuth + chat WebSocket.
+- **Trovo**: bezpośrednia obsługa przez OAuth i oficjalny WebSocket czatu Trovo.
 
 ### Dlaczego „szczere gesty"?
 
@@ -267,7 +267,7 @@ Aby EsperantAI odbierał zdarzenia (donacje, subskrypcje, raidy, nowych obserwuj
 ### Twitch
 
 1. Utwórz Client ID na https://dev.twitch.tv/console
-2. Zarejestruj redirect URI: `https://edugame.digital/oauth-callback.html` (lub swój lokalny URL)
+2. Zarejestruj redirect URI: `https://TU-DOMINIO/oauth-callback.html` (lub swój lokalny URL)
 3. W EsperantAI: panel **Zdarzenia platform** → **Twitch EventSub**
 4. Wklej swój Client ID
 5. Kliknij **Połącz**
@@ -287,18 +287,18 @@ EsperantAI używa EventSub WebSocket. Nie wklejaj żadnego Client Secret w przeg
 
 Wymagania YouTube: musisz mieć aktywną transmisję na żywo z dostępnym czatem, a projekt Google Cloud musi mieć wystarczający limit/kwotę API do odpytywania czatu.
 
-### Kick via Streamer.bot
+### Kick przez Streamer.bot
 
-EsperantAI supports Kick through the **Streamer.bot bridge**. This is the recommended sales-ready route because it does not expose Kick secrets in the browser and does not rely on reverse engineering.
+EsperantAI odbiera zdarzenia Kick przez **most Streamer.bot**. To zalecana ścieżka sprzedażowa, bo nie ujawnia sekretów Kick w przeglądarce i nie opiera się na inżynierii wstecznej.
 
-1. Install Streamer.bot 1.0.0 or newer.
-2. In Streamer.bot, connect your Kick account.
-3. In Streamer.bot: **Servers/Clients -> WebSocket Server** and enable the server.
-4. Use `127.0.0.1`, port `8080`, and endpoint `/`, unless you changed those values.
-5. In EsperantAI: **Platform Events** panel -> **Kick via Streamer.bot**.
-6. Click **Connect**.
+1. Zainstaluj Streamer.bot 1.0.0 lub nowszy.
+2. W Streamer.bot połącz swoje konto Kick.
+3. W Streamer.bot: **Servers/Clients -> WebSocket Server** i włącz serwer.
+4. Użyj `127.0.0.1`, portu `8080` i endpointu `/`, chyba że zmieniłeś te wartości.
+5. W EsperantAI: panel **Zdarzenia platform** -> **Kick via Streamer.bot**.
+6. Kliknij **Połącz**.
 
-Events available through this bridge: follows, subscriptions, resubscriptions, gift subscriptions, and redemptions supported by Streamer.bot. Native official Kick backend/webhooks remain an advanced roadmap item.
+Dostępne zdarzenia zależą od aktywnej integracji Kick w Streamer.bot. Oficjalna integracja Kick z backendem/webhookami pozostaje zaawansowanym elementem roadmapy.
 
 ### StreamElements (most wieloplatformowy)
 
@@ -313,15 +313,15 @@ Nie udostępniaj tego tokena. Traktuj go jak hasło do swojego konta StreamEleme
 
 ### Trovo
 
-EsperantAI supports Trovo natively through OAuth and Trovo's official chat WebSocket.
+EsperantAI łączy się z Trovo przez OAuth i oficjalny WebSocket czatu Trovo.
 
-1. Create an app in the Trovo developer portal.
-2. Register the EsperantAI redirect URI: `oauth-callback.html` on the same domain where you open the app.
-3. In EsperantAI: **Platform Events** panel -> **Trovo**.
-4. Paste your Client ID and click **Connect**.
-5. Authorize the requested permissions.
+1. Utwórz aplikację w portalu deweloperskim Trovo.
+2. Zarejestruj URI przekierowania EsperantAI: `https://TU-DOMINIO/oauth-callback.html` w tej samej domenie, w której otwierasz aplikację.
+3. W EsperantAI: panel **Zdarzenia platform** -> **Trovo**.
+4. Wklej Client ID i kliknij **Połącz**.
+5. Zatwierdź wymagane uprawnienia.
 
-Available events: subscriptions, resubscriptions, gift subscriptions, follows, raids, spells/gifts, and magic chat.
+Dostępne zdarzenia zależą od wiadomości czatu Trovo oraz oficjalnego przepływu tokena czatu.
 
 ---
 
@@ -509,9 +509,9 @@ Panel **Zaawansowane → Licencja**:
 - W Twitch używaj tylko Client ID; nie wklejaj Client Secret
 - W YouTube potwierdź, że YouTube Data API v3 jest włączone i że masz aktywną transmisję na żywo
 
-### Kick does not connect through Streamer.bot
+### Kick nie łączy się przez Streamer.bot
 
-Confirm that Streamer.bot 1.0.0+ is open, Kick is connected inside Streamer.bot, and **WebSocket Server** is enabled. Use `127.0.0.1:8080/` unless you changed the configuration. If Streamer.bot requires a password, enter the same password in EsperantAI.
+Sprawdź, czy Streamer.bot 1.0.0+ jest otwarty, Kick jest połączony w Streamer.bot i **WebSocket Server** jest włączony. Użyj `127.0.0.1:8080/`, chyba że zmieniłeś konfigurację. Jeśli Streamer.bot wymaga hasła, wpisz to samo hasło w EsperantAI.
 
 ---
 
@@ -539,7 +539,7 @@ Szczegóły w `docs/PRIVACY.html`.
 
 - 📧 E-mail: **soporte@edugame.digital**
 - 🌐 Web: https://edugame.digital
-- 📚 Dokumentacja techniczna: https://github.com/salazarjoelo/EsperantAI
+- 📚 Podręcznik web: https://edugame.digital/docs/manual.html
 
 Czas odpowiedzi:
 - Pytania ogólne: 24–72 godziny
@@ -547,5 +547,5 @@ Czas odpowiedzi:
 
 ---
 
-*Ostatnia aktualizacja: 2026-05-20. Wersja: 3.0.*
+*Ostatnia aktualizacja: 2026-05-20. Wersja: 2.0.*
 *© 2026 EdugameDigital — Joel Salazar Ramírez. EsperantAI™.*

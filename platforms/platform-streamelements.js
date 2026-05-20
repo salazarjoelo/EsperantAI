@@ -6,13 +6,11 @@
  * sola conexión cubre todas sus plataformas.
  *
  * Docs:
- *   - https://dev.streamelements.com/docs/socket-api
+ *   - https://docs.streamelements.com/websockets
+ *   - https://docs.streamelements.com/websockets/topics/channel-activities
  *
- * Tipo de conexión: Socket.IO 2.x (no nativo WebSocket)
+ * Tipo de conexión: Astro WebSocket Gateway
  * El usuario obtiene su JWT token en https://streamelements.com/dashboard/account/channels
- *
- * NOTA: requiere cargar Socket.IO client externamente o implementación nativa.
- * Para v1 usamos approach manual con WebSocket polling al endpoint REST como fallback.
  * ========================================================================== */
 
 'use strict';
@@ -24,7 +22,10 @@ class PlatformStreamElements extends PlatformBase {
         this.jwt = null;
         this.channelId = null;
         this.apiBase = 'https://api.streamelements.com/kappa/v2';
-        this.socketUrl = 'https://realtime.streamelements.com';
+        this.baseSocketUrl = 'wss://astro.streamelements.com/';
+        this.socketUrl = this.baseSocketUrl;
+        this._subscribeNonce = null;
+        this._subscriptionSent = false;
     }
 
     authMethod() {
@@ -39,6 +40,8 @@ class PlatformStreamElements extends PlatformBase {
     async connect(cfg) {
         this.jwt = cfg.jwt;
         this.channelId = cfg.channelId || null;
+        this.socketUrl = this.baseSocketUrl;
+        this._subscriptionSent = false;
 
         if (!this.jwt) {
             this.emit('auth_error', new Error('Missing StreamElements JWT'));
@@ -69,64 +72,107 @@ class PlatformStreamElements extends PlatformBase {
         return res.json();
     }
 
-    /**
-     * SE usa Socket.IO. Como evitar dependencia, cargamos su cliente desde CDN.
-     * Si Socket.IO no está disponible, usamos REST polling al endpoint de actividad.
-     */
     async _connectSocket() {
-        if (typeof io === 'undefined') {
-            await this._loadSocketIO();
-        }
-
         return new Promise((resolve) => {
-            this.socket = io(this.socketUrl, {
-                transports: ['websocket']
-            });
+            let settled = false;
+            this.socket = new WebSocket(this.socketUrl);
 
-            this.socket.on('connect', () => {
-                this.socket.emit('authenticate', { method: 'jwt', token: this.jwt });
-            });
+            const finish = (ok) => {
+                if (settled) return;
+                settled = true;
+                resolve(ok);
+            };
 
-            this.socket.on('authenticated', () => {
-                this.connected = true;
-                this.emit('connected');
-                resolve(true);
-            });
+            this.socket.onopen = () => {
+                // Astro envía un welcome primero; si no llega, de todos modos
+                // suscribimos al abrir para no bloquear clientes compatibles.
+                setTimeout(() => {
+                    if (!this.connected && this.socket) this._subscribeActivities();
+                }, 250);
+            };
 
-            this.socket.on('unauthorized', (err) => {
-                this.emit('auth_error', err);
-                resolve(false);
-            });
+            this.socket.onmessage = (event) => {
+                let message;
+                try {
+                    message = JSON.parse(event.data);
+                } catch (e) {
+                    console.warn('StreamElements Astro bad message:', e);
+                    return;
+                }
 
-            this.socket.on('event', (event) => this._handleEvent(event));
-            this.socket.on('event:test', (event) => this._handleEvent(event));
+                if (message.type === 'welcome') {
+                    this._subscribeActivities();
+                    return;
+                }
 
-            this.socket.on('disconnect', () => {
+                if (message.type === 'response' && message.nonce === this._subscribeNonce) {
+                    if (message.error) {
+                        this.emit('auth_error', new Error(message.error));
+                        finish(false);
+                        return;
+                    }
+                    this.connected = true;
+                    this.emit('connected');
+                    finish(true);
+                    return;
+                }
+
+                if (message.type === 'message' && message.topic === 'channel.activities') {
+                    this._handleEvent(message.data);
+                    return;
+                }
+
+                if (message.type === 'reconnect') {
+                    this._reconnect(message.data?.reconnect_token);
+                }
+            };
+
+            this.socket.onerror = (event) => {
+                this.emit('auth_error', event);
+                finish(false);
+            };
+
+            this.socket.onclose = () => {
+                const wasConnected = this.connected;
                 this.connected = false;
-                this.emit('disconnected');
-            });
+                if (wasConnected) this.emit('disconnected');
+                finish(false);
+            };
 
             setTimeout(() => {
-                if (!this.connected) resolve(false);
+                if (!settled && !this.connected && this.socket?.readyState < 2) {
+                    try { this.socket.close(); } catch { /* ignore */ }
+                }
+                finish(false);
             }, 10000);
         });
     }
 
-    /**
-     * Fix audit H-05: Socket.IO empaquetado localmente, sin CDN externo.
-     * Elimina dependencia de supply chain + permite operación 100% offline después de la carga inicial.
-     */
-    _loadSocketIO() {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = 'libs/socket.io.min.js';
-            script.onload = resolve;
-            script.onerror = (e) => {
-                console.error('Failed to load local socket.io.min.js. ¿Está en libs/?');
-                reject(e);
-            };
-            document.head.appendChild(script);
-        });
+    _subscribeActivities() {
+        if (!this.socket || this.socket.readyState !== 1) return;
+        if (this._subscriptionSent) return;
+        this._subscriptionSent = true;
+        this._subscribeNonce = `se-activities-${Date.now()}`;
+        this.socket.send(JSON.stringify({
+            type: 'subscribe',
+            nonce: this._subscribeNonce,
+            data: {
+                topic: 'channel.activities',
+                room: this.channelId || '',
+                token: this.jwt,
+                token_type: 'jwt'
+            }
+        }));
+    }
+
+    _reconnect(reconnectToken) {
+        if (!reconnectToken) return;
+        try {
+            this.socket?.close();
+        } catch { /* ignore */ }
+        this.socketUrl = `wss://astro.streamelements.com/?reconnect_token=${encodeURIComponent(reconnectToken)}`;
+        this._subscriptionSent = false;
+        this._connectSocket();
     }
 
     _handleEvent(event) {
@@ -142,6 +188,7 @@ class PlatformStreamElements extends PlatformBase {
         switch (type) {
             case 'subscriber':
                 return { type: 'sub', data: { user: data.username, tier: data.tier, months: data.amount, provider } };
+            case 'follow':
             case 'follower':
                 return { type: 'follow', data: { user: data.username, provider } };
             case 'tip':
@@ -164,7 +211,7 @@ class PlatformStreamElements extends PlatformBase {
 
     async disconnect() {
         if (this.socket) {
-            try { this.socket.disconnect(); } catch { /* ignore */ }
+            try { this.socket.close(); } catch { /* ignore */ }
             this.socket = null;
         }
         this.connected = false;

@@ -9,6 +9,7 @@ class TriggerHistory {
     constructor(maxSize = 100) {
         this.maxSize = maxSize;
         this.entries = [];
+        this.listeners = [];
     }
 
     /**
@@ -16,17 +17,22 @@ class TriggerHistory {
      * @param {Object} entry { trigger, label, action, success, source }
      */
     add(entry) {
+        const time = Date.now();
         this.entries.unshift({
-            time: Date.now(),
+            time,
+            ts: time,
             trigger: entry.trigger || 'unknown',
             label: entry.label || '',
             action: entry.action || '',
+            scene: entry.scene || '',
+            actionsCount: Number.isFinite(entry.actionsCount) ? entry.actionsCount : 0,
             success: entry.success !== false,
-            source: entry.source || 'gesture' // 'gesture' | 'platform' | 'combo'
+            source: entry.source || 'gesture' // 'gesture' | 'event' | 'platform' | 'combo' | 'manual'
         });
         if (this.entries.length > this.maxSize) {
             this.entries.length = this.maxSize;
         }
+        this._notify();
     }
 
     /**
@@ -34,6 +40,13 @@ class TriggerHistory {
      */
     getRecent(count = 50) {
         return this.entries.slice(0, count);
+    }
+
+    /**
+     * Devuelve todo el historial visible para app.js.
+     */
+    getAll() {
+        return this.entries.slice();
     }
 
     /**
@@ -58,11 +71,36 @@ class TriggerHistory {
      * Exportar como CSV.
      */
     exportCsv() {
-        const header = 'time,trigger,label,action,success,source\n';
+        const header = 'time,trigger,label,action,scene,actionsCount,success,source\n';
         const rows = this.entries.map(e =>
-            `${new Date(e.time).toISOString()},"${e.trigger}","${e.label}","${e.action}",${e.success},${e.source}`
+            [
+                new Date(e.time).toISOString(),
+                e.trigger,
+                e.label,
+                e.action,
+                e.scene,
+                e.actionsCount,
+                e.success,
+                e.source
+            ].map(v => this._csv(v)).join(',')
         ).join('\n');
         return header + rows;
+    }
+
+    /**
+     * Descarga el historial como CSV desde la UI.
+     */
+    downloadCSV(filename = null) {
+        const csv = this.exportCsv();
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename || `esperantai-trigger-history-${new Date().toISOString().slice(0, 10)}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
 
     /**
@@ -70,6 +108,7 @@ class TriggerHistory {
      */
     clear() {
         this.entries = [];
+        this._notify();
     }
 
     /**
@@ -86,6 +125,30 @@ class TriggerHistory {
             if (e.success) successCount++;
         }
         return { total, byTrigger, bySource, successRate: total ? (successCount / total * 100).toFixed(1) : 0 };
+    }
+
+    onChange(fn) {
+        if (typeof fn !== 'function') return () => {};
+        this.listeners.push(fn);
+        return () => {
+            this.listeners = this.listeners.filter(listener => listener !== fn);
+        };
+    }
+
+    _notify() {
+        const snapshot = this.getAll();
+        for (const listener of this.listeners) {
+            try {
+                listener(snapshot);
+            } catch (e) {
+                console.error('[TriggerHistory] listener failed:', e);
+            }
+        }
+    }
+
+    _csv(value) {
+        const text = String(value ?? '');
+        return `"${text.replace(/"/g, '""')}"`;
     }
 }
 

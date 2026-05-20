@@ -13,7 +13,7 @@ EsperantAI traduce **gestos faciales y corporales** en **comandos** para cualqui
 - 🧠 **Detecta gestos universales** (rotación de cabeza, emociones, mirada, parpadeo) y culturales (gestos de mano)
 - 🎬 **Controla cualquier streaming software**: OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit
 - 📡 **Recibe eventos de plataformas**: Twitch, YouTube Live, Trovo, StreamElements y Kick via Streamer.bot
-- 🌍 **Multi-idioma con auto-detección del SO**: 13 locales (en-US, es-ES, es-MX, pt-BR, fr-FR, de-DE, ja-JP, ru-RU, zh-CN, it-IT, pl-PL, ar-SA, ko-KR)
+- 🌍 **Multi-idioma con auto-detección del SO**: 15 locales (en-US, es-ES, es-MX, pt-BR, fr-FR, de-DE, ja-JP, ru-RU, zh-CN, it-IT, pl-PL, ar-SA, ko-KR, hi-IN, id-ID)
 - 🎯 **Multi-acción por gesto**: un mismo gesto puede cambiar escena + reproducir sonido + mostrar overlay + enviar chat simultáneamente
 - 🤝 **Combo triggers**: combina eventos de plataforma + gestos del streamer (ej: "donación + 👍 = activar escena celebración")
 
@@ -73,7 +73,7 @@ EsperantAI es una **web app** que corre 100% en el navegador. Cero instalación 
 
 - **[Human.js 3.3.6](https://github.com/vladmandic/human)** (MIT) — detección facial AI local en GPU del navegador (WebGL)
 - **[obs-websocket-js 5.0.8](https://github.com/obs-websocket-community-projects/obs-websocket-js)** (MIT) — control de OBS Studio v28+
-- **APIs y puentes oficiales**: Twitch EventSub WebSocket, YouTube Live REST, Trovo WebSocket, StreamElements Socket.IO y Kick via Streamer.bot local bridge
+- **APIs y puentes oficiales**: Twitch EventSub WebSocket, YouTube Live REST, Trovo WebSocket, StreamElements Astro WebSocket y Kick via Streamer.bot local bridge
 - **i18n**: sistema propio con auto-detección de locale del SO via `navigator.language`
 
 ### Privacy by design
@@ -104,7 +104,7 @@ EsperantAI es una **web app** que corre 100% en el navegador. Cero instalación 
 | **YouTube Live** | OAuth Implicit (Google) | REST polling |
 | **Kick** | Streamer.bot local WebSocket bridge | Follows, subs, resubs, gift subs, redemptions |
 | **Trovo** | OAuth Implicit | Chat WebSocket |
-| **StreamElements** | JWT manual | Socket.IO (unifica Twitch+YT+Kick+FB) |
+| **StreamElements** | JWT manual | Astro WebSocket `channel.activities` |
 
 ---
 
@@ -112,19 +112,19 @@ EsperantAI es una **web app** que corre 100% en el navegador. Cero instalación 
 
 ### Windows (recomendado)
 
-1. Descarga la última versión desde [GitHub Releases](https://github.com/salazarjoelo/esperantai/releases)
+1. Descarga la última versión desde la página oficial o el release privado que Joel publique
 2. Ejecuta `Instalar_EsperantAI.bat`
 3. Listo: encontrarás "EsperantAI" en tu Escritorio y Menú Inicio
 
 ### Cualquier OS (sin instalación)
 
-Abre en tu navegador: **https://salazarjoelo.github.io/esperantai/**
+Abre en tu navegador: **https://edugame.digital/**
 
 ### Desarrollo local
 
 ```bash
-git clone https://github.com/salazarjoelo/esperantai.git
-cd esperantai
+git clone https://github.com/salazarjoelo/EsperantAI.git
+cd EsperantAI
 python -m http.server 8765
 # Abre http://127.0.0.1:8765/index.html
 ```
@@ -172,7 +172,7 @@ python -m http.server 8765
 
 - [x] Multi-software (OBS / Streamlabs / vMix / PRISM / XSplit)
 - [x] Multi-plataforma (Twitch / YouTube / Trovo / StreamElements / Kick via Streamer.bot)
-- [x] Multi-idioma 13 locales (auto-detect SO)
+- [x] Multi-idioma 15 locales (auto-detect SO)
 - [x] Sistema multi-acción por gesto (16 tipos)
 - [x] OAuth flow para Twitch/YouTube/Trovo
 - [x] Cultural insight (Ekman 1972) en UI

@@ -2,7 +2,7 @@
 
 > **Ehrliche Gesten.** Steuern Sie Ihre Streaming-Software mit Gesicht und Händen, ohne zusätzliche Spezialhardware.
 
-**Version**: 3.0 · **Sprache**: Deutsch (Übersetzungen in 14 weiteren Sprachen verfügbar)
+**Version**: 2.0 · **Sprache**: Deutsch (Übersetzungen in 14 weiteren Sprachen verfügbar)
 
 **Technische Validierung**: geprüft gegen die zum **20. Mai 2026** verfügbare offizielle Dokumentation für OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit, Twitch, YouTube Live, Kick, Trovo und StreamElements. Details: [`docs/MANUAL_PLATFORM_AUDIT_2026-05.md`](MANUAL_PLATFORM_AUDIT_2026-05.md).
 
@@ -48,9 +48,9 @@ Außerdem kann EsperantAI Plattform-Events empfangen und mit Ihren Gesten kombin
 
 - **Twitch**: direkte Unterstützung über EventSub WebSocket.
 - **YouTube Live**: direkte Unterstützung über YouTube Data API v3; erfordert einen aktiven Livestream und verfügbare API-Quota.
-- **Kick**: supported through the local **Streamer.bot bridge**. Streamer.bot receives Kick through its official integration and EsperantAI listens to those events through local WebSocket.
+- **Kick**: kompatibel über die lokale **Streamer.bot-Bridge**; EsperantAI speichert keine Kick-Secrets im Browser.
 - **StreamElements**: plattformübergreifende Bridge mit Token/JWT Ihres Kontos.
-- **Trovo**: native support through Trovo OAuth + chat WebSocket.
+- **Trovo**: direkte Unterstützung über Trovo OAuth und den offiziellen Chat-WebSocket.
 
 ### Warum „ehrliche Gesten“?
 
@@ -267,7 +267,7 @@ Damit EsperantAI Events empfangen kann (Spenden, Abos, Raids, Follows oder Super
 ### Twitch
 
 1. Erstellen Sie eine Client ID unter https://dev.twitch.tv/console
-2. Registrieren Sie die Redirect-URI: `https://edugame.digital/oauth-callback.html` (oder Ihre lokale URL)
+2. Registrieren Sie die Redirect-URI: `https://TU-DOMINIO/oauth-callback.html` (oder Ihre lokale URL)
 3. In EsperantAI: Panel **Plattform-Events** → **Twitch EventSub**
 4. Fügen Sie Ihre Client ID ein
 5. Klicken Sie auf **Verbinden**
@@ -287,18 +287,18 @@ EsperantAI verwendet EventSub WebSocket. Fügen Sie niemals ein Client Secret im
 
 YouTube-Anforderungen: Sie müssen einen aktiven Livestream mit verfügbarem Chat haben, und Ihr Google-Cloud-Projekt muss über ausreichende Quota für Chat-Abfragen verfügen.
 
-### Kick via Streamer.bot
+### Kick über Streamer.bot
 
-EsperantAI supports Kick through the **Streamer.bot bridge**. This is the recommended sales-ready route because it does not expose Kick secrets in the browser and does not rely on reverse engineering.
+EsperantAI empfängt Kick-Ereignisse über die **Streamer.bot-Bridge**. Das ist die empfohlene verkaufsfertige Route, weil keine Kick-Secrets im Browser offengelegt werden und keine Reverse-Engineering-Abhängigkeit entsteht.
 
-1. Install Streamer.bot 1.0.0 or newer.
-2. In Streamer.bot, connect your Kick account.
-3. In Streamer.bot: **Servers/Clients -> WebSocket Server** and enable the server.
-4. Use `127.0.0.1`, port `8080`, and endpoint `/`, unless you changed those values.
-5. In EsperantAI: **Platform Events** panel -> **Kick via Streamer.bot**.
-6. Click **Connect**.
+1. Installieren Sie Streamer.bot 1.0.0 oder neuer.
+2. Verbinden Sie in Streamer.bot Ihr Kick-Konto.
+3. Aktivieren Sie in Streamer.bot **Servers/Clients -> WebSocket Server**.
+4. Verwenden Sie `127.0.0.1`, Port `8080` und Endpoint `/`, sofern Sie diese Werte nicht geändert haben.
+5. In EsperantAI: Panel **Plattform-Ereignisse** -> **Kick via Streamer.bot**.
+6. Klicken Sie auf **Verbinden**.
 
-Events available through this bridge: follows, subscriptions, resubscriptions, gift subscriptions, and redemptions supported by Streamer.bot. Native official Kick backend/webhooks remain an advanced roadmap item.
+Die verfügbaren Ereignisse hängen von der aktiven Kick-Integration in Streamer.bot ab. Die offizielle Kick-Integration mit Backend/Webhooks bleibt ein fortgeschrittener Roadmap-Punkt.
 
 ### StreamElements (plattformübergreifende Bridge)
 
@@ -313,15 +313,15 @@ Halten Sie diesen Token privat. Behandeln Sie ihn wie das Passwort Ihres StreamE
 
 ### Trovo
 
-EsperantAI supports Trovo natively through OAuth and Trovo's official chat WebSocket.
+EsperantAI verbindet sich mit Trovo über OAuth und den offiziellen Trovo-Chat-WebSocket.
 
-1. Create an app in the Trovo developer portal.
-2. Register the EsperantAI redirect URI: `oauth-callback.html` on the same domain where you open the app.
-3. In EsperantAI: **Platform Events** panel -> **Trovo**.
-4. Paste your Client ID and click **Connect**.
-5. Authorize the requested permissions.
+1. Erstellen Sie eine App im Trovo-Entwicklerportal.
+2. Registrieren Sie die EsperantAI-Redirect-URI: `https://TU-DOMINIO/oauth-callback.html` auf derselben Domain, auf der Sie die App öffnen.
+3. In EsperantAI: Panel **Plattform-Ereignisse** -> **Trovo**.
+4. Fügen Sie Ihre Client ID ein und klicken Sie auf **Verbinden**.
+5. Autorisieren Sie die angeforderten Berechtigungen.
 
-Available events: subscriptions, resubscriptions, gift subscriptions, follows, raids, spells/gifts, and magic chat.
+Die verfügbaren Ereignisse hängen von Trovo-Chatnachrichten und dem offiziellen Chat-Token-Flow ab.
 
 ---
 
@@ -507,9 +507,9 @@ Panel **Erweitert → Lizenz**:
 - Bei Twitch: verwenden Sie nur die Client ID; fügen Sie kein Client Secret ein
 - Bei YouTube: bestätigen Sie, dass die YouTube Data API v3 aktiviert ist und ein aktiver Livestream läuft
 
-### Kick does not connect through Streamer.bot
+### Kick verbindet sich nicht über Streamer.bot
 
-Confirm that Streamer.bot 1.0.0+ is open, Kick is connected inside Streamer.bot, and **WebSocket Server** is enabled. Use `127.0.0.1:8080/` unless you changed the configuration. If Streamer.bot requires a password, enter the same password in EsperantAI.
+Prüfen Sie, dass Streamer.bot 1.0.0+ geöffnet ist, Kick in Streamer.bot verbunden ist und **WebSocket Server** aktiviert wurde. Verwenden Sie `127.0.0.1:8080/`, sofern Sie die Konfiguration nicht geändert haben. Falls Streamer.bot ein Passwort verlangt, tragen Sie dasselbe Passwort in EsperantAI ein.
 
 ---
 
@@ -537,7 +537,7 @@ Vollständige Details stehen in `docs/PRIVACY.html`.
 
 - 📧 E-Mail: **soporte@edugame.digital**
 - 🌐 Web: https://edugame.digital
-- 📚 Technische Dokumentation: https://github.com/salazarjoelo/EsperantAI
+- 📚 Webhandbuch: https://edugame.digital/docs/manual.html
 
 Reaktionszeiten:
 - Allgemeine Fragen: 24-72 Stunden
@@ -545,5 +545,5 @@ Reaktionszeiten:
 
 ---
 
-*Letzte Aktualisierung: 2026-05-20. Version: 3.0.*
+*Letzte Aktualisierung: 2026-05-20. Version: 2.0.*
 *© 2026 EdugameDigital — Joel Salazar Ramírez. EsperantAI™.*

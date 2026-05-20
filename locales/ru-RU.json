@@ -3,7 +3,7 @@
     "language": "Русский (Россия)",
     "code": "ru-RU",
     "rtl": false,
-    "completion": 342,
+    "completion": 344,
     "note": "v3.x — TASK-112 combo keys added by ChatGPT 2026-05-14",
     "translator": "Native-quality Russian revision by Claude Opus 4.7 (2026-05-17). Informal ты — Russian streamer register. Cyrillic verified."
   },
@@ -241,7 +241,9 @@
     "error_activation_limit": "Эта лицензия достигла лимита устройств. Отвяжи старое устройство или напиши в поддержку.",
     "error_network": "Не удалось проверить лицензию — проблема с соединением. Проверь интернет и попробуй снова.",
     "error_invalid": "Лицензионный ключ не совпадает. Проверь дефисы и пробелы или скопируй ключ из письма целиком.",
-    "error_generic": "Не удалось активировать эту лицензию. Проверь ключ или попробуй снова через несколько минут."
+    "error_generic": "Не удалось активировать эту лицензию. Проверь ключ или попробуй снова через несколько минут.",
+    "panel_title": "Лицензия",
+    "deactivate_button": "Деактивировать лицензию"
   },
   "actions": {
     "scene_switch": "Переключить сцену",
