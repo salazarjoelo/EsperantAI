@@ -14,7 +14,7 @@
 
 1. Dashboard → **Products** → **+ New Product**
 2. Nombre: `EsperantAI — AI Gesture Controller for Streamers`
-3. Descripción: `Switchea escenas, overlays y alertas con gestos de rostro y señas de mano. EsperantAI detecta tus gestos en local desde el navegador para controlar OBS, Streamlabs, vMix, PRISM y XSplit, y reaccionar a Twitch, YouTube, Kick y Trovo sin hardware extra.`
+3. Descripción: `Switchea escenas, overlays y alertas con gestos de rostro y señas de mano. EsperantAI detecta tus gestos en local desde el navegador para controlar OBS, Streamlabs, vMix, PRISM y XSplit, y reaccionar a Twitch, YouTube, Trovo, StreamElements y Kick via Streamer.bot sin hardware extra.`
 4. Tipo: **Digital Product**
 5. Usar **Variants** para los planes:
    - `EsperantAI Pro` — $49 USD
@@ -28,7 +28,7 @@
 
 **EsperantAI Pro**
 
-`Para streamers individuales que quieren controlar su directo sin tocar teclado durante momentos clave. Incluye hasta 18 triggers configurables, gestos de rostro y manos, acciones múltiples por gesto, calibración, perfiles guardados e historial. Compatible con OBS, Streamlabs, vMix, PRISM y XSplit; integra Twitch, YouTube, Kick y Trovo. Pago único. Hasta 3 dispositivos.`
+`Para streamers individuales que quieren controlar su directo sin tocar teclado durante momentos clave. Incluye hasta 18 triggers configurables, gestos de rostro y manos, acciones múltiples por gesto, calibración, perfiles guardados e historial. Compatible con OBS, Streamlabs, vMix, PRISM y XSplit; integra Twitch, YouTube, Trovo, StreamElements y Kick via Streamer.bot. Pago único. Hasta 3 dispositivos.`
 
 **EsperantAI Pro+**
 

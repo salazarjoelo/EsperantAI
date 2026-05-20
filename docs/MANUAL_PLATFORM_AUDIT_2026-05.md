@@ -24,14 +24,14 @@ This audit is the source of truth for the May 2026 user manual refresh. It compa
 |---|---|---|---|
 | Twitch | Supported by `PlatformTwitch` using OAuth implicit flow and EventSub WebSocket. | Twitch docs say implicit flow is intended for apps without a server, and EventSub supports WebSocket at `wss://eventsub.wss.twitch.tv/ws`. | Keep as production. Mention Client ID, registered redirect URI, and no client secret in the browser. |
 | YouTube Live | Supported by `PlatformYouTube` using OAuth token, active broadcast lookup, and live chat polling. | YouTube docs require `youtube.readonly` authorization for `liveBroadcasts.list`; live chat messages are available only while the live event is active and `liveChatMessages.list`/`streamList` are documented. | Keep as production with clear requirement: active live broadcast, YouTube Data API v3 enabled, quota applies. |
-| Kick | Partially supported by `PlatformKick`. The UI has a Kick button, but code exchanges a PKCE code without `client_secret` and only detects follower count by polling. | Kick official OAuth 2.1 token endpoint currently requires `client_secret`; official event subscriptions are webhook-based and require `events:subscribe`. | Mark as beta/limited in the user manual. Do not promise subscriptions, donations, or raids directly from Kick browser-only. Recommend StreamElements bridge or backend/webhook for full Kick events. |
-| Trovo | `PlatformTrovo` exists and is loaded, but `index.html` and `app.js` do not expose a Trovo connect panel or OAuth flow. | Trovo docs confirm WebSocket chat service at `wss://open-chat.trovo.live/chat`, OAuth/API token flow, and chat-token requirements. | Do not list Trovo as a normal UI-supported platform in the manual. State it is technical/advanced support in code until the UI connection panel is added. |
+| Kick | Supported through `PlatformStreamerBotKick`, which connects to Streamer.bot's local WebSocket server and subscribes to Kick events. The older browser-only `PlatformKick` remains code-level roadmap/advanced and is not the recommended user path. | Kick official OAuth 2.1 token endpoint requires `client_secret`; official event subscriptions are webhook-based. Streamer.bot documents Kick support and a local WebSocket API that EsperantAI can consume without exposing Kick secrets. | Keep Kick as supported via Streamer.bot bridge. Do not market native browser-only Kick. Native official Kick backend/webhooks remain roadmap. |
+| Trovo | Supported by `PlatformTrovo` plus public UI and OAuth flow in `index.html`/`app.js`. The adapter uses Trovo OAuth, `/chat/token`, and `wss://open-chat.trovo.live/chat`. | Trovo docs confirm WebSocket chat service at `wss://open-chat.trovo.live/chat`, OAuth/API token flow, and the own-channel chat token endpoint. | Keep Trovo as native supported. Mention Client ID, redirect URI, and supported chat events. |
 | StreamElements | Supported by `PlatformStreamElements` with manual JWT and Socket.IO legacy realtime endpoint. | StreamElements current docs describe the Astro WebSocket Gateway at `wss://astro.streamelements.com/`, topics like `channel.activities`, and JWT/OAuth2/API key subscription tokens. | Keep as bridge, but avoid overpromising exact legacy endpoint. Say current app uses StreamElements bridge with JWT and may depend on the active StreamElements account/provider token. Add technical note that the code should migrate to Astro Gateway. |
 
 ## Manual corrections required
 
-1. Replace generic "receives events from Trovo" wording with a clear status note.
-2. Mark Kick as beta/limited and explain that full Kick events require backend/webhooks or a bridge.
+1. Replace generic Kick wording with "Kick via Streamer.bot bridge".
+2. Mark native browser-only Kick as roadmap/backend, not the current user path.
 3. Add YouTube requirements: active live broadcast, YouTube Data API v3, quota.
 4. Add vMix local API requirement and no-password limitation of the current adapter.
 5. Clarify PRISM needs obs-websocket plugin installation, while OBS 28+ includes obs-websocket.
@@ -51,6 +51,8 @@ This audit is the source of truth for the May 2026 user manual refresh. It compa
 - YouTube Live Chat Messages: https://developers.google.com/youtube/v3/live/docs/liveChatMessages
 - Kick OAuth 2.1: https://docs.kick.com/getting-started/generating-tokens-oauth2-flow
 - Kick event subscriptions: https://docs.kick.com/events/subscribe-to-events
+- Streamer.bot WebSocket configuration: https://docs.streamer.bot/api/websocket/guide/configuration
+- Streamer.bot Kick events: https://docs.streamer.bot/api/websocket/events/kick
 - Trovo Chat Service: https://developer.trovo.live/docs/Chat%20Service.html
 - Trovo APIs: https://developer.trovo.live/docs/APIs.html
 - StreamElements Websockets: https://docs.streamelements.com/websockets

@@ -7,9 +7,9 @@
   },
   "meta": {
     "title": "EsperantAI — La primera categoría de control gestual nativo para streaming",
-    "description": "EsperantAI convierte gestos faciales y manuales en acciones de streaming. Integración nativa con OBS, Streamlabs, vMix, PRISM, XSplit. Triggers de Twitch/YouTube/Kick/Trovo. 100% local.",
+    "description": "EsperantAI convierte gestos faciales y manuales en acciones de streaming. Integración nativa con OBS, Streamlabs, vMix, PRISM, XSplit. Triggers de Twitch/YouTube/Trovo + Kick via Streamer.bot. 100% local.",
     "og_title": "EsperantAI — Control gestual nativo para streaming",
-    "og_description": "Convierte gestos faciales en acciones de streaming. Integra con OBS, Streamlabs, vMix, PRISM, XSplit. Triggers de Twitch/YouTube/Kick/Trovo. 100% local.",
+    "og_description": "Convierte gestos faciales en acciones de streaming. Integra con OBS, Streamlabs, vMix, PRISM, XSplit. Triggers de Twitch/YouTube/Trovo + Kick via Streamer.bot. 100% local.",
     "og_image_alt": "Dashboard de EsperantAI detectando gestos en vivo",
     "twitter_title": "EsperantAI — Control gestual nativo para streaming",
     "twitter_description": "Convierte gestos faciales en acciones de streaming. 100% local. Integra con OBS, Streamlabs, vMix, PRISM, XSplit.",
@@ -36,7 +36,7 @@
     "headline_line_1": "Switchea escenas,",
     "headline_line_2_prefix": "overlays y alertas ",
     "headline_line_2_keyword": "con gestos.",
-    "sub": "Detecta rostro y manos en local para activar escenas, overlays y alertas en OBS, Streamlabs, vMix, PRISM y XSplit. Reacciona a eventos de Twitch, YouTube, Kick y Trovo para que tus gestos se sientan como interacción humana en vivo.",
+    "sub": "Detecta rostro y manos en local para activar escenas, overlays y alertas en OBS, Streamlabs, vMix, PRISM y XSplit. Reacciona a eventos de Twitch, YouTube, Trovo y Kick via Streamer.bot para que tus gestos se sientan como interacción humana en vivo.",
     "meta_gestures": "gestos",
     "meta_software": "software",
     "meta_platforms": "plataformas",
@@ -48,10 +48,10 @@
     "badge_face_detected": "Gesto detectado",
     "badge_latency": "Acción en vivo",
     "badge_local": "Video 100% local",
-    "fineprint": "Sin trial · 3 dispositivos · Twitch/YouTube/Kick/Trovo · Actualizaciones incluidas"
+    "fineprint": "Sin trial · 3 dispositivos · Twitch/YouTube/Trovo + Kick via Streamer.bot · Actualizaciones incluidas"
   },
   "trust": {
-    "label": "OBS, Streamlabs, vMix, PRISM, XSplit + Twitch, YouTube, Kick, Trovo"
+    "label": "OBS, Streamlabs, vMix, PRISM, XSplit + Twitch, YouTube, Trovo, Kick via Streamer.bot"
   },
   "how": {
     "eyebrow": "Cómo funciona",
@@ -65,7 +65,7 @@
     "step2_desc": "Asistente guiado: sonríe, asiente, muestra el pulgar. EsperantAI aprende tus rangos en 90 segundos.",
     "step2_stat": "~ 90 segundos",
     "step3_title": "Streamea sin tocar nada",
-    "step3_desc": "Conecta OBS, Streamlabs, vMix, PRISM o XSplit; si quieres, suma Twitch/YouTube/Kick/Trovo. Cada gesto puede cambiar escena, overlay, alerta o sonido.",
+    "step3_desc": "Conecta OBS, Streamlabs, vMix, PRISM o XSplit; si quieres, suma Twitch/YouTube/Trovo + Kick via Streamer.bot. Cada gesto puede cambiar escena, overlay, alerta o sonido.",
     "step3_stat": "∞ horas sin teclado"
   },
   "features": {
@@ -96,7 +96,9 @@
     "bento_privacy_row_2": " procesamiento local",
     "bento_privacy_row_3": " trackers de terceros",
     "bento_privacy_title": "Tu cara nunca sale del dispositivo",
-    "bento_privacy_desc": "Modelos de IA corren en tu GPU. Cero video subido. Cero telemetría externa."
+    "bento_privacy_desc": "Modelos de IA corren en tu GPU. Cero video subido. Cero telemetría externa.",
+    "col_platforms_3": "Kick via Streamer.bot",
+    "col_platforms_4": "Trovo"
   },
   "interaction": {
     "eyebrow": "Interacción humana",
@@ -182,7 +184,7 @@
     "pro_feat_1": "Gestos universales (cabeza, ojos, emoción, parpadeo)",
     "pro_feat_2": "Gestos culturales (thumbs-up, peace, OK, rock)",
     "pro_feat_3": "5 software: OBS, Streamlabs, vMix, PRISM, XSplit",
-    "pro_feat_4": "4 plataformas: Twitch, YouTube, Kick, Trovo",
+    "pro_feat_4": "4 plataformas: Twitch, YouTube, Trovo, Kick via Streamer.bot",
     "pro_feat_5": "Hasta 18 triggers configurables",
     "pro_feat_6": "Acciones múltiples por gesto",
     "pro_feat_7": "Asistente de calibración personalizada",
@@ -213,7 +215,7 @@
     "q1": "¿Cómo activo EsperantAI después de comprar?",
     "a1": "Compras Pro o Pro+, recibes tu license key por correo en menos de 30 segundos, abres la app, pegas la key y conectas tu software de streaming. La activación guiada te lleva de compra → key → stream sin perder el contexto.",
     "q2": "¿Cuál es la diferencia entre Pro y Pro+?",
-    "a2_p1_html": "<strong>Pro</strong> incluye todo lo que un streamer individual necesita: 5 software, 4 plataformas (Twitch/YouTube/Kick/Trovo), 18 triggers, calibración personalizada, hand gestures, todos los gestos universales.",
+    "a2_p1_html": "<strong>Pro</strong> incluye todo lo que un streamer individual necesita: 5 software, 4 plataformas (Twitch/YouTube/Trovo + Kick via Streamer.bot), 18 triggers, calibración personalizada, hand gestures, todos los gestos universales.",
     "a2_p2_html": "<strong>Pro+</strong> agrega 3 features adicionales: <em>combo triggers</em> (evento de plataforma + gesto físico de confirmación humana), <em>StreamElements bridge</em> (una sola integración para Twitch + YouTube + Facebook) y <em>triggers ilimitados</em>.",
     "q3": "¿Funciona en Mac y Linux?",
     "a3": "Sí. EsperantAI corre en cualquier sistema operativo con navegador moderno (Chrome / Edge / Firefox). En Mac y Linux usas la versión web. En Windows también puedes usar el instalador local.",

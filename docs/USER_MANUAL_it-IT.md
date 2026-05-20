@@ -48,9 +48,9 @@ Può anche ricevere eventi dalle piattaforme e combinarli con i tuoi gesti:
 
 - **Twitch**: supporto diretto tramite EventSub WebSocket.
 - **YouTube Live**: supporto diretto tramite YouTube Data API v3; richiede una diretta attiva e quota disponibile.
-- **Kick**: supporto beta/limitato nel browser. Per gli eventi completi di Kick serve un backend con webhook ufficiali oppure un ponte.
+- **Kick**: supported through the local **Streamer.bot bridge**. Streamer.bot receives Kick through its official integration and EsperantAI listens to those events through local WebSocket.
 - **StreamElements**: ponte multipiattaforma con token/JWT del tuo account.
-- **Trovo**: esiste un adattatore tecnico nel codice, ma il pannello pubblico di connessione non è ancora esposto nell'interfaccia attuale.
+- **Trovo**: native support through Trovo OAuth + chat WebSocket.
 
 ### Perché «gesti onesti»?
 
@@ -287,15 +287,18 @@ EsperantAI usa EventSub WebSocket. Non incollare nessun Client Secret nel browse
 
 Requisiti di YouTube: devi avere una diretta attiva con chat disponibile, e il tuo progetto Google Cloud deve avere quota sufficiente per consultare la chat.
 
-### Kick
+### Kick via Streamer.bot
 
-1. Crea un'applicazione nel portale sviluppatori di Kick.
-2. Registra l'URI di reindirizzamento
-3. In EsperantAI: pannello **Eventi piattaforma** → **Kick**
-4. Incolla il tuo Client ID e fai clic su **Connetti**
-5. Kick usa OAuth 2.1 con PKCE.
+EsperantAI supports Kick through the **Streamer.bot bridge**. This is the recommended sales-ready route because it does not expose Kick secrets in the browser and does not rely on reverse engineering.
 
-Stato attuale: **beta/limitato**. La documentazione ufficiale di Kick usa webhook per gli eventi completi. Nel browser, EsperantAI può rilevare solo una parte limitata dell'attività; per abbonamenti, regali, raid o eventi affidabili di Kick usa un ponte come StreamElements oppure un backend/webhook.
+1. Install Streamer.bot 1.0.0 or newer.
+2. In Streamer.bot, connect your Kick account.
+3. In Streamer.bot: **Servers/Clients -> WebSocket Server** and enable the server.
+4. Use `127.0.0.1`, port `8080`, and endpoint `/`, unless you changed those values.
+5. In EsperantAI: **Platform Events** panel -> **Kick via Streamer.bot**.
+6. Click **Connect**.
+
+Events available through this bridge: follows, subscriptions, resubscriptions, gift subscriptions, and redemptions supported by Streamer.bot. Native official Kick backend/webhooks remain an advanced roadmap item.
 
 ### StreamElements (ponte multipiattaforma)
 
@@ -310,7 +313,15 @@ Mantieni privato questo token. Trattalo come una password del tuo account Stream
 
 ### Trovo
 
-EsperantAI include nel codice un adattatore tecnico per Trovo, basato su OAuth e sul servizio di chat WebSocket di Trovo. Nell'interfaccia pubblica attuale non esiste ancora un pannello di connessione Trovo, quindi non è documentato come flusso utente normale. Se hai bisogno di Trovo adesso, usa un ponte compatibile o attendi l'attivazione del pannello Trovo.
+EsperantAI supports Trovo natively through OAuth and Trovo's official chat WebSocket.
+
+1. Create an app in the Trovo developer portal.
+2. Register the EsperantAI redirect URI: `oauth-callback.html` on the same domain where you open the app.
+3. In EsperantAI: **Platform Events** panel -> **Trovo**.
+4. Paste your Client ID and click **Connect**.
+5. Authorize the requested permissions.
+
+Available events: subscriptions, resubscriptions, gift subscriptions, follows, raids, spells/gifts, and magic chat.
 
 ---
 
@@ -496,9 +507,9 @@ Pannello **Avanzate → Licenza**:
 - In Twitch, usa solo il Client ID; non incollare il Client Secret
 - In YouTube, conferma che YouTube Data API v3 sia abilitata e che ci sia una diretta attiva
 
-### Kick non mostra tutti gli eventi
+### Kick does not connect through Streamer.bot
 
-Kick è in modalità beta/limitata nel browser. Gli eventi completi di Kick vengono ricevuti ufficialmente tramite webhook; usa StreamElements o un backend tuo se ti servono abbonamenti, regali o raid affidabili.
+Confirm that Streamer.bot 1.0.0+ is open, Kick is connected inside Streamer.bot, and **WebSocket Server** is enabled. Use `127.0.0.1:8080/` unless you changed the configuration. If Streamer.bot requires a password, enter the same password in EsperantAI.
 
 ---
 

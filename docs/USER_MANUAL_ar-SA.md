@@ -50,9 +50,9 @@ EsperantAI هو **تطبيق ويب** يستخدم الذكاء الاصطناع
 
 - **Twitch**: دعم مباشر عبر EventSub WebSocket.
 - **YouTube Live**: دعم مباشر عبر YouTube Data API v3؛ يتطلب بثاً مباشراً نشطاً وحصة API متاحة.
-- **Kick**: دعم بيتا / محدود داخل المتصفح. أحداث Kick الكاملة تحتاج إلى backend/webhooks رسمية أو جسر.
+- **Kick**: supported through the local **Streamer.bot bridge**. Streamer.bot receives Kick through its official integration and EsperantAI listens to those events through local WebSocket.
 - **StreamElements**: جسر متعدد المنصات باستخدام token/JWT من حسابك.
-- **Trovo**: يوجد محوّل تقني في الكود، لكن لوحة الاتصال العامة غير معروضة بعد في الواجهة الحالية.
+- **Trovo**: native support through Trovo OAuth + chat WebSocket.
 
 ### لماذا «إيماءات صادقة»؟
 
@@ -289,15 +289,18 @@ EsperantAI هو **تطبيق ويب** يستخدم الذكاء الاصطناع
 
 متطلبات YouTube: يجب أن يكون لديك بث مباشر نشط مع دردشة متاحة، ويجب أن يملك مشروع Google Cloud حصة API كافية للاستعلام عن الدردشة.
 
-### Kick
+### Kick via Streamer.bot
 
-1. أنشئ تطبيقاً على https://kick.com/settings/developer
-2. سجّل redirect URI
-3. في EsperantAI: لوحة **أحداث المنصة** ← **Kick**
-4. الصق Client ID الخاص بك وانقر **اتصال**
-5. يستخدم Kick بروتوكول OAuth 2.1 مع PKCE.
+EsperantAI supports Kick through the **Streamer.bot bridge**. This is the recommended sales-ready route because it does not expose Kick secrets in the browser and does not rely on reverse engineering.
 
-الحالة الحالية: **بيتا / محدود**. تستخدم وثائق Kick الرسمية webhooks للأحداث الكاملة. داخل المتصفح لا يستطيع EsperantAI إلا اكتشاف جزء محدود من النشاط؛ للاشتراكات أو الهدايا أو الغارات أو أحداث Kick الموثوقة استخدم جسراً مثل StreamElements أو backend/webhook.
+1. Install Streamer.bot 1.0.0 or newer.
+2. In Streamer.bot, connect your Kick account.
+3. In Streamer.bot: **Servers/Clients -> WebSocket Server** and enable the server.
+4. Use `127.0.0.1`, port `8080`, and endpoint `/`, unless you changed those values.
+5. In EsperantAI: **Platform Events** panel -> **Kick via Streamer.bot**.
+6. Click **Connect**.
+
+Events available through this bridge: follows, subscriptions, resubscriptions, gift subscriptions, and redemptions supported by Streamer.bot. Native official Kick backend/webhooks remain an advanced roadmap item.
 
 ### StreamElements (جسر متعدد المنصات)
 
@@ -312,7 +315,15 @@ EsperantAI هو **تطبيق ويب** يستخدم الذكاء الاصطناع
 
 ### Trovo
 
-يتضمن EsperantAI محوّلاً تقنياً لـ Trovo في الكود، مبنياً على OAuth وخدمة دردشة Trovo عبر WebSocket. لكن الواجهة العامة الحالية لا تعرض بعد لوحة اتصال Trovo، لذلك لا يوثَّق كمسار استخدام عادي. إذا كنت تحتاج Trovo الآن، استخدم جسراً متوافقاً أو انتظر تفعيل لوحة Trovo.
+EsperantAI supports Trovo natively through OAuth and Trovo's official chat WebSocket.
+
+1. Create an app in the Trovo developer portal.
+2. Register the EsperantAI redirect URI: `oauth-callback.html` on the same domain where you open the app.
+3. In EsperantAI: **Platform Events** panel -> **Trovo**.
+4. Paste your Client ID and click **Connect**.
+5. Authorize the requested permissions.
+
+Available events: subscriptions, resubscriptions, gift subscriptions, follows, raids, spells/gifts, and magic chat.
 
 ---
 
@@ -500,9 +511,9 @@ EsperantAI هو **تطبيق ويب** يستخدم الذكاء الاصطناع
 - في Twitch، استخدم Client ID فقط؛ لا تلصق Client Secret
 - في YouTube، تأكد من تفعيل YouTube Data API v3 ومن وجود بث مباشر نشط
 
-### Kick لا يعرض كل الأحداث
+### Kick does not connect through Streamer.bot
 
-Kick في وضع بيتا / محدود داخل المتصفح. أحداث Kick الكاملة تُستقبل رسمياً عبر webhooks؛ استخدم StreamElements أو backend خاصاً إذا كنت تحتاج اشتراكات أو هدايا أو غارات موثوقة.
+Confirm that Streamer.bot 1.0.0+ is open, Kick is connected inside Streamer.bot, and **WebSocket Server** is enabled. Use `127.0.0.1:8080/` unless you changed the configuration. If Streamer.bot requires a password, enter the same password in EsperantAI.
 
 ---
 

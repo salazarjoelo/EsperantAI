@@ -7,9 +7,9 @@
   },
   "meta": {
     "title": "EsperantAI — 스트리밍을 위한 최초의 네이티브 제스처 제어 카테고리",
-    "description": "EsperantAI는 얼굴과 손의 제스처를 스트리밍 액션으로 변환합니다. OBS, Streamlabs, vMix, PRISM, XSplit과 네이티브 통합. Twitch/YouTube/Kick/Trovo 트리거. 100% 로컬.",
+    "description": "EsperantAI는 얼굴과 손의 제스처를 스트리밍 액션으로 변환합니다. OBS, Streamlabs, vMix, PRISM, XSplit과 네이티브 통합. Twitch/YouTube/Trovo + Kick via Streamer.bot 트리거. 100% 로컬.",
     "og_title": "EsperantAI — 스트리밍을 위한 네이티브 제스처 제어",
-    "og_description": "얼굴 제스처를 스트리밍 액션으로 변환하세요. OBS, Streamlabs, vMix, PRISM, XSplit과 통합. Twitch/YouTube/Kick/Trovo 트리거. 100% 로컬.",
+    "og_description": "얼굴 제스처를 스트리밍 액션으로 변환하세요. OBS, Streamlabs, vMix, PRISM, XSplit과 통합. Twitch/YouTube/Trovo + Kick via Streamer.bot 트리거. 100% 로컬.",
     "og_image_alt": "실시간으로 제스처를 감지하는 EsperantAI 대시보드",
     "twitter_title": "EsperantAI — 스트리밍을 위한 네이티브 제스처 제어",
     "twitter_description": "얼굴 제스처를 스트리밍 액션으로 변환하세요. 100% 로컬. OBS, Streamlabs, vMix, PRISM, XSplit과 통합.",
@@ -36,7 +36,7 @@
     "headline_line_1": "Switch scenes,",
     "headline_line_2_prefix": "overlays and alerts ",
     "headline_line_2_keyword": "with gestures.",
-    "sub": "Detects face and hands locally to activate scenes, overlays and alerts in OBS, Streamlabs, vMix, PRISM and XSplit. Reacts to Twitch, YouTube, Kick and Trovo events so your gestures feel like live human interaction.",
+    "sub": "Detects face and hands locally to activate scenes, overlays and alerts in OBS, Streamlabs, vMix, PRISM and XSplit. Reacts to Twitch, YouTube, Trovo and Kick via Streamer.bot events so your gestures feel like live human interaction.",
     "meta_gestures": "제스처",
     "meta_software": "소프트웨어",
     "meta_platforms": "플랫폼",
@@ -48,10 +48,10 @@
     "badge_face_detected": "Gesture detected",
     "badge_latency": "Live action",
     "badge_local": "100% local video",
-    "fineprint": "No trial · 3 devices · Twitch/YouTube/Kick/Trovo · Updates included"
+    "fineprint": "No trial · 3 devices · Twitch/YouTube/Trovo + Kick via Streamer.bot · Updates included"
   },
   "trust": {
-    "label": "OBS, Streamlabs, vMix, PRISM, XSplit + Twitch, YouTube, Kick, Trovo"
+    "label": "OBS, Streamlabs, vMix, PRISM, XSplit + Twitch, YouTube, Trovo, Kick via Streamer.bot"
   },
   "how": {
     "eyebrow": "사용 방법",
@@ -65,7 +65,7 @@
     "step2_desc": "가이드 마법사: 미소 짓기, 고개 끄덕이기, 엄지 보이기. EsperantAI가 90초 안에 당신의 범위를 학습합니다.",
     "step2_stat": "~ 90초",
     "step3_title": "아무것도 만지지 않고 스트리밍",
-    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Trovo + Kick via Streamer.bot. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ 시간, 키보드 없이"
   },
   "features": {
@@ -96,7 +96,9 @@
     "bento_privacy_row_2": " 로컬 처리",
     "bento_privacy_row_3": " 서드파티 트래커",
     "bento_privacy_title": "당신의 얼굴은 디바이스를 떠나지 않습니다",
-    "bento_privacy_desc": "AI 모델이 당신의 GPU에서 실행됩니다. 영상 업로드 제로. 외부 텔레메트리 제로."
+    "bento_privacy_desc": "AI 모델이 당신의 GPU에서 실행됩니다. 영상 업로드 제로. 외부 텔레메트리 제로.",
+    "col_platforms_3": "Kick via Streamer.bot",
+    "col_platforms_4": "Trovo"
   },
   "interaction": {
     "eyebrow": "Human interaction",
@@ -182,7 +184,7 @@
     "pro_feat_1": "보편 제스처 (머리, 눈, 감정, 눈 깜빡임)",
     "pro_feat_2": "문화적 제스처 (엄지, 평화, OK, 락)",
     "pro_feat_3": "5개 소프트웨어: OBS, Streamlabs, vMix, PRISM, XSplit",
-    "pro_feat_4": "4개 플랫폼: Twitch, YouTube, Kick, Trovo",
+    "pro_feat_4": "4개 플랫폼: Twitch, YouTube, Trovo, Kick via Streamer.bot",
     "pro_feat_5": "최대 18개 구성 가능한 트리거",
     "pro_feat_6": "제스처당 다중 액션",
     "pro_feat_7": "맞춤 캘리브레이션 마법사",
@@ -213,7 +215,7 @@
     "q1": "구매 후 EsperantAI를 어떻게 활성화하나요?",
     "a1": "Pro 또는 Pro+를 구매하시면 30초 이내에 이메일로 라이센스 키를 받습니다. 앱을 열고 키를 붙여넣은 후 스트리밍 소프트웨어를 연결하세요. 가이드 활성화가 구매 → 키 → 스트림까지 컨텍스트를 잃지 않고 안내합니다.",
     "q2": "Pro와 Pro+의 차이점은 무엇인가요?",
-    "a2_p1_html": "<strong>Pro</strong>는 개인 스트리머에게 필요한 모든 것을 포함합니다: 5개 소프트웨어, 4개 플랫폼 (Twitch/YouTube/Kick/Trovo), 18개 트리거, 맞춤 캘리브레이션, 손 제스처, 모든 보편 제스처.",
+    "a2_p1_html": "<strong>Pro</strong>는 개인 스트리머에게 필요한 모든 것을 포함합니다: 5개 소프트웨어, 4개 플랫폼 (Twitch/YouTube/Trovo + Kick via Streamer.bot), 18개 트리거, 맞춤 캘리브레이션, 손 제스처, 모든 보편 제스처.",
     "a2_p2_html": "<strong>Pro+</strong> adds 3 extra features: <em>combo triggers</em> (platform event + physical human confirmation gesture), <em>StreamElements bridge</em> (a single integration for Twitch + YouTube + Facebook), and <em>unlimited triggers</em>.",
     "q3": "Mac과 Linux에서도 작동하나요?",
     "a3": "네. EsperantAI는 최신 브라우저 (Chrome / Edge / Firefox)가 있는 모든 운영 체제에서 작동합니다. Mac과 Linux에서는 웹 버전을 사용합니다. Windows에서는 로컬 인스톨러도 사용할 수 있습니다.",

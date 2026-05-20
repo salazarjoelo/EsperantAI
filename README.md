@@ -12,7 +12,7 @@ EsperantAI traduce **gestos faciales y corporales** en **comandos** para cualqui
 
 - 🧠 **Detecta gestos universales** (rotación de cabeza, emociones, mirada, parpadeo) y culturales (gestos de mano)
 - 🎬 **Controla cualquier streaming software**: OBS Studio, Streamlabs Desktop, vMix, PRISM Live Studio, XSplit
-- 📡 **Recibe eventos de plataformas**: Twitch, YouTube Live, Kick, Trovo, StreamElements
+- 📡 **Recibe eventos de plataformas**: Twitch, YouTube Live, Trovo, StreamElements y Kick via Streamer.bot
 - 🌍 **Multi-idioma con auto-detección del SO**: 13 locales (en-US, es-ES, es-MX, pt-BR, fr-FR, de-DE, ja-JP, ru-RU, zh-CN, it-IT, pl-PL, ar-SA, ko-KR)
 - 🎯 **Multi-acción por gesto**: un mismo gesto puede cambiar escena + reproducir sonido + mostrar overlay + enviar chat simultáneamente
 - 🤝 **Combo triggers**: combina eventos de plataforma + gestos del streamer (ej: "donación + 👍 = activar escena celebración")
@@ -73,7 +73,7 @@ EsperantAI es una **web app** que corre 100% en el navegador. Cero instalación 
 
 - **[Human.js 3.3.6](https://github.com/vladmandic/human)** (MIT) — detección facial AI local en GPU del navegador (WebGL)
 - **[obs-websocket-js 5.0.8](https://github.com/obs-websocket-community-projects/obs-websocket-js)** (MIT) — control de OBS Studio v28+
-- **APIs nativas**: Twitch EventSub WebSocket, YouTube Live REST, Kick OAuth 2.1 PKCE, Trovo WebSocket, StreamElements Socket.IO
+- **APIs y puentes oficiales**: Twitch EventSub WebSocket, YouTube Live REST, Trovo WebSocket, StreamElements Socket.IO y Kick via Streamer.bot local bridge
 - **i18n**: sistema propio con auto-detección de locale del SO via `navigator.language`
 
 ### Privacy by design
@@ -102,7 +102,7 @@ EsperantAI es una **web app** que corre 100% en el navegador. Cero instalación 
 |---|---|---|
 | **Twitch** | OAuth Implicit | EventSub WebSocket |
 | **YouTube Live** | OAuth Implicit (Google) | REST polling |
-| **Kick** | OAuth 2.1 PKCE | REST polling (WebSocket roadmap) |
+| **Kick** | Streamer.bot local WebSocket bridge | Follows, subs, resubs, gift subs, redemptions |
 | **Trovo** | OAuth Implicit | Chat WebSocket |
 | **StreamElements** | JWT manual | Socket.IO (unifica Twitch+YT+Kick+FB) |
 
@@ -138,7 +138,7 @@ python -m http.server 8765
 3. **Conecta a tu streaming software** (OBS, Streamlabs, vMix, PRISM o XSplit)
 4. Las escenas reales aparecerán automáticamente en los dropdowns del panel **Triggers**
 5. **Mapea cada gesto a la escena** (o múltiples acciones) que quieres activar
-6. **Opcional**: conecta plataformas (Twitch, YouTube, Kick) para combo triggers
+6. **Opcional**: conecta plataformas (Twitch, YouTube, Trovo, StreamElements o Kick via Streamer.bot) para combo triggers
 7. ¡Listo! Mueve tu cabeza, los ojos, sonríe o haz gestos y EsperantAI ejecuta las acciones
 
 ### Atajos de teclado
@@ -171,10 +171,10 @@ python -m http.server 8765
 ## Roadmap
 
 - [x] Multi-software (OBS / Streamlabs / vMix / PRISM / XSplit)
-- [x] Multi-plataforma (Twitch / YouTube / Kick / Trovo / StreamElements)
+- [x] Multi-plataforma (Twitch / YouTube / Trovo / StreamElements / Kick via Streamer.bot)
 - [x] Multi-idioma 13 locales (auto-detect SO)
 - [x] Sistema multi-acción por gesto (16 tipos)
-- [x] OAuth flow para Twitch/YouTube/Kick
+- [x] OAuth flow para Twitch/YouTube/Trovo
 - [x] Cultural insight (Ekman 1972) en UI
 - [ ] Combo triggers UI completa (evento + gesto = acción)
 - [ ] Traducción humana revisada de 11 idiomas

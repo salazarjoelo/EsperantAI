@@ -7,9 +7,9 @@
   },
   "meta": {
     "title": "EsperantAI — 配信向けネイティブ・ジェスチャー制御の初のカテゴリ",
-    "description": "EsperantAIは顔と手のジェスチャーを配信アクションに変換します。OBS、Streamlabs、vMix、PRISM、XSplitとネイティブ統合。Twitch/YouTube/Kick/Trovoのトリガー対応。100%ローカル処理。",
+    "description": "EsperantAIは顔と手のジェスチャーを配信アクションに変換します。OBS、Streamlabs、vMix、PRISM、XSplitとネイティブ統合。Twitch/YouTube/Trovo + Kick via Streamer.botのトリガー対応。100%ローカル処理。",
     "og_title": "EsperantAI — 配信向けネイティブ・ジェスチャー制御",
-    "og_description": "顔のジェスチャーを配信アクションに変換。OBS、Streamlabs、vMix、PRISM、XSplitと統合。Twitch/YouTube/Kick/Trovoのトリガー対応。100%ローカル。",
+    "og_description": "顔のジェスチャーを配信アクションに変換。OBS、Streamlabs、vMix、PRISM、XSplitと統合。Twitch/YouTube/Trovo + Kick via Streamer.botのトリガー対応。100%ローカル。",
     "og_image_alt": "EsperantAIがライブでジェスチャーを検出しているダッシュボード",
     "twitter_title": "EsperantAI — 配信向けネイティブ・ジェスチャー制御",
     "twitter_description": "顔のジェスチャーを配信アクションに変換。100%ローカル。OBS、Streamlabs、vMix、PRISM、XSplitと統合。",
@@ -36,7 +36,7 @@
     "headline_line_1": "Switch scenes,",
     "headline_line_2_prefix": "overlays and alerts ",
     "headline_line_2_keyword": "with gestures.",
-    "sub": "Detects face and hands locally to activate scenes, overlays and alerts in OBS, Streamlabs, vMix, PRISM and XSplit. Reacts to Twitch, YouTube, Kick and Trovo events so your gestures feel like live human interaction.",
+    "sub": "Detects face and hands locally to activate scenes, overlays and alerts in OBS, Streamlabs, vMix, PRISM and XSplit. Reacts to Twitch, YouTube, Trovo and Kick via Streamer.bot events so your gestures feel like live human interaction.",
     "meta_gestures": "ジェスチャー",
     "meta_software": "ソフトウェア",
     "meta_platforms": "プラットフォーム",
@@ -48,10 +48,10 @@
     "badge_face_detected": "Gesture detected",
     "badge_latency": "Live action",
     "badge_local": "100% local video",
-    "fineprint": "No trial · 3 devices · Twitch/YouTube/Kick/Trovo · Updates included"
+    "fineprint": "No trial · 3 devices · Twitch/YouTube/Trovo + Kick via Streamer.bot · Updates included"
   },
   "trust": {
-    "label": "OBS, Streamlabs, vMix, PRISM, XSplit + Twitch, YouTube, Kick, Trovo"
+    "label": "OBS, Streamlabs, vMix, PRISM, XSplit + Twitch, YouTube, Trovo, Kick via Streamer.bot"
   },
   "how": {
     "eyebrow": "使い方",
@@ -65,7 +65,7 @@
     "step2_desc": "ガイド付きアシスタント:笑顔、うなずき、サムズアップ。EsperantAIは90秒であなたの範囲を学習します。",
     "step2_stat": "~ 90秒",
     "step3_title": "何も触らずに配信",
-    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Trovo + Kick via Streamer.bot. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ キーボードなし時間"
   },
   "features": {
@@ -96,7 +96,9 @@
     "bento_privacy_row_2": " ローカル処理",
     "bento_privacy_row_3": " サードパーティトラッカー",
     "bento_privacy_title": "顔データはデバイスから出ない",
-    "bento_privacy_desc": "AIモデルはあなたのGPUで動作。映像アップロードゼロ。外部テレメトリゼロ。"
+    "bento_privacy_desc": "AIモデルはあなたのGPUで動作。映像アップロードゼロ。外部テレメトリゼロ。",
+    "col_platforms_3": "Kick via Streamer.bot",
+    "col_platforms_4": "Trovo"
   },
   "interaction": {
     "eyebrow": "Human interaction",
@@ -182,7 +184,7 @@
     "pro_feat_1": "ユニバーサル・ジェスチャー(首、目、感情、まばたき)",
     "pro_feat_2": "カルチュラル・ジェスチャー(サムズアップ、ピース、OK、ロック)",
     "pro_feat_3": "5つのソフトウェア:OBS, Streamlabs, vMix, PRISM, XSplit",
-    "pro_feat_4": "4つのプラットフォーム:Twitch, YouTube, Kick, Trovo",
+    "pro_feat_4": "4つのプラットフォーム:Twitch, YouTube, Trovo, Kick via Streamer.bot",
     "pro_feat_5": "最大18個の設定可能なトリガー",
     "pro_feat_6": "1ジェスチャーで複数アクション",
     "pro_feat_7": "パーソナルキャリブレーションアシスタント",
@@ -213,7 +215,7 @@
     "q1": "購入後どうやってEsperantAIをアクティベートしますか?",
     "a1": "ProまたはPro+を購入し、30秒以内にライセンスキーがメールで届きます。アプリを開いてキーを貼り付け、配信ソフトを接続します。ガイド付きアクティベーションが購入 → キー → 配信まで、コンテキストを失わずに導きます。",
     "q2": "ProとPro+の違いは何ですか?",
-    "a2_p1_html": "<strong>Pro</strong>には個人ストリーマーが必要なすべてが含まれます:5つのソフトウェア、4つのプラットフォーム(Twitch/YouTube/Kick/Trovo)、18トリガー、パーソナルキャリブレーション、ハンドジェスチャー、すべてのユニバーサル・ジェスチャー。",
+    "a2_p1_html": "<strong>Pro</strong>には個人ストリーマーが必要なすべてが含まれます:5つのソフトウェア、4つのプラットフォーム(Twitch/YouTube/Trovo + Kick via Streamer.bot)、18トリガー、パーソナルキャリブレーション、ハンドジェスチャー、すべてのユニバーサル・ジェスチャー。",
     "a2_p2_html": "<strong>Pro+</strong> adds 3 extra features: <em>combo triggers</em> (platform event + physical human confirmation gesture), <em>StreamElements bridge</em> (a single integration for Twitch + YouTube + Facebook), and <em>unlimited triggers</em>.",
     "q3": "MacとLinuxで動作しますか?",
     "a3": "はい。EsperantAIはモダンブラウザ(Chrome / Edge / Firefox)を搭載した任意のOSで動作します。MacとLinuxではWeb版を使用します。Windowsではローカルインストーラーも使用できます。",

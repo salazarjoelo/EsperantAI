@@ -24,17 +24,17 @@
 
     <rect x="54" y="350" width="1012" height="76" rx="16" fill="#111827" stroke="#704656"/>
     <text x="84" y="396" fill="#ff8aa6" font-size="22" font-weight="800">Kick</text>
-    <text x="242" y="396" fill="#d9e5f2" font-size="17">Browser mode is limited. Full events require official webhooks/backend.</text>
-    <text x="904" y="396" fill="#ffd36b" font-size="17" font-weight="800">Beta</text>
+    <text x="242" y="396" fill="#d9e5f2" font-size="17">Supported through Streamer.bot local bridge for Kick events.</text>
+    <text x="904" y="396" fill="#7ef7c4" font-size="17" font-weight="800">Bridge</text>
 
     <rect x="54" y="444" width="1012" height="76" rx="16" fill="#111827" stroke="#4b4a72"/>
     <text x="84" y="490" fill="#b7a7ff" font-size="22" font-weight="800">StreamElements</text>
     <text x="242" y="490" fill="#d9e5f2" font-size="17">Bridge for multi-platform alerts. Uses account token/JWT.</text>
     <text x="904" y="490" fill="#7ef7c4" font-size="17" font-weight="800">Bridge</text>
 
-    <rect x="54" y="538" width="1012" height="76" rx="16" fill="#111827" stroke="#704656"/>
-    <text x="84" y="584" fill="#ff8aa6" font-size="22" font-weight="800">Trovo</text>
-    <text x="242" y="584" fill="#d9e5f2" font-size="17">Adapter exists in code. Public UI connection panel is not exposed yet.</text>
-    <text x="904" y="584" fill="#ffd36b" font-size="17" font-weight="800">Advanced</text>
+    <rect x="54" y="538" width="1012" height="76" rx="16" fill="#111827" stroke="#2d3e5e"/>
+    <text x="84" y="584" fill="#62d9ff" font-size="22" font-weight="800">Trovo</text>
+    <text x="242" y="584" fill="#d9e5f2" font-size="17">Native OAuth plus official Trovo chat WebSocket events.</text>
+    <text x="904" y="584" fill="#7ef7c4" font-size="17" font-weight="800">Production</text>
   </g>
 </svg>

@@ -48,9 +48,9 @@ Também pode receber eventos de plataformas para combiná-los com seus gestos:
 
 - **Twitch**: suporte direto por EventSub WebSocket.
 - **YouTube Live**: suporte direto pela YouTube Data API v3; requer live ativa e quota disponível.
-- **Kick**: suporte beta/limitado no navegador. Para eventos completos da Kick, é necessário usar backend/webhooks oficiais ou uma ponte.
+- **Kick**: suporte pelo **bridge local do Streamer.bot**. O Streamer.bot recebe Kick por sua integracao oficial e o EsperantAI escuta esses eventos por WebSocket local.
 - **StreamElements**: ponte multiplataforma com token/JWT da sua conta.
-- **Trovo**: existe um adaptador técnico no código, mas o painel público de conexão ainda não está exposto na interface atual.
+- **Trovo**: suporte nativo por OAuth + WebSocket de chat do Trovo.
 
 ### Por que "gestos honestos"?
 
@@ -287,15 +287,18 @@ O EsperantAI usa EventSub WebSocket. Não cole nenhum Client Secret no navegador
 
 Requisitos do YouTube: você precisa ter uma live ativa com chat disponível, e seu projeto no Google Cloud deve ter quota suficiente para consultar o chat.
 
-### Kick
+### Kick via Streamer.bot
 
-1. Crie uma aplicação no portal de desenvolvedores da Kick.
-2. Registre a URI de redirecionamento
-3. No EsperantAI: painel **Eventos de plataforma** → **Kick**
-4. Cole seu Client ID e clique em **Conectar**
-5. A Kick usa OAuth 2.1 com PKCE.
+O EsperantAI oferece suporte ao Kick pelo **bridge Streamer.bot**. Esta é a rota recomendada para venda porque não expõe segredos do Kick no navegador e não depende de engenharia reversa.
 
-Estado atual: **beta/limitado**. A documentação oficial da Kick usa webhooks para eventos completos. No navegador, o EsperantAI só consegue detectar uma parte limitada da atividade; para inscrições, presentes, raids ou eventos confiáveis da Kick, use uma ponte como StreamElements ou um backend/webhook.
+1. Instale o Streamer.bot 1.0.0 ou superior.
+2. No Streamer.bot, conecte sua conta Kick.
+3. No Streamer.bot: **Servers/Clients → WebSocket Server** e ative o servidor.
+4. Use `127.0.0.1`, porta `8080` e endpoint `/`, a menos que tenha alterado esses valores.
+5. No EsperantAI: painel **Eventos de plataforma** → **Kick via Streamer.bot**.
+6. Clique em **Conectar**.
+
+Eventos disponíveis por este bridge: follows, assinaturas, reassinaturas, assinaturas presenteadas e resgates suportados pelo Streamer.bot. Kick nativo oficial com backend/webhooks fica no roadmap avançado.
 
 ### StreamElements (ponte multiplataforma)
 
@@ -310,7 +313,15 @@ Mantenha esse token privado. Trate-o como uma senha da sua conta do StreamElemen
 
 ### Trovo
 
-O EsperantAI inclui um adaptador técnico para Trovo no código, baseado em OAuth e no serviço de chat WebSocket da Trovo. Na interface pública atual ainda não há um painel de conexão Trovo, por isso ele não é documentado como fluxo normal de usuário. Se você precisa de Trovo agora, use uma ponte compatível ou aguarde a ativação do painel Trovo.
+O EsperantAI oferece suporte nativo ao Trovo usando OAuth e o WebSocket oficial de chat do Trovo.
+
+1. Crie um app no portal de desenvolvedores do Trovo.
+2. Registre a URI de redirecionamento do EsperantAI: `oauth-callback.html` no mesmo domínio em que você abre o app.
+3. No EsperantAI: painel **Eventos de plataforma** → **Trovo**.
+4. Cole seu Client ID e clique em **Conectar**.
+5. Autorize as permissões solicitadas.
+
+Eventos disponíveis: assinaturas, reassinaturas, assinaturas presenteadas, follows, raids, spells/gifts e magic chat.
 
 ---
 
@@ -498,7 +509,7 @@ Painel **Avançado → Licença**:
 
 ### A Kick não mostra todos os eventos
 
-A Kick está em modo beta/limitado no navegador. Os eventos completos da Kick são recebidos oficialmente por webhooks; use StreamElements ou um backend próprio se precisar de inscrições, presentes ou raids confiáveis.
+Confirme que o Streamer.bot 1.0.0+ está aberto, que o Kick está conectado dentro do Streamer.bot e que **WebSocket Server** está ativo. Use 127.0.0.1:8080/ a menos que tenha alterado a configuração. Se o Streamer.bot exigir senha, informe a mesma senha no EsperantAI.
 
 ---
 

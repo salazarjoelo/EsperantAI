@@ -287,15 +287,18 @@ EsperantAI utilise EventSub WebSocket. Ne collez aucun Client Secret dans le nav
 
 Conditions YouTube : vous devez avoir un direct actif avec un chat disponible, et votre projet Google Cloud doit disposer d'un quota suffisant pour interroger le chat.
 
-### Kick
+### Kick via Streamer.bot
 
-1. Créez une application dans le portail développeur de Kick.
-2. Enregistrez l'URI de redirection
-3. Dans EsperantAI : panneau **Événements de plateforme** → **Kick**
-4. Collez votre Client ID et cliquez sur **Connecter**
-5. Kick utilise OAuth 2.1 avec PKCE.
+EsperantAI supports Kick through the **Streamer.bot bridge**. This is the recommended sales-ready route because it does not expose Kick secrets in the browser and does not rely on reverse engineering.
 
-État actuel : **bêta/limité**. La documentation officielle de Kick utilise des webhooks pour les événements complets. Dans le navigateur, EsperantAI ne peut détecter qu'une partie limitée de l'activité ; pour les abonnements, cadeaux, raids ou événements Kick fiables, utilisez un pont comme StreamElements ou un backend/webhook.
+1. Install Streamer.bot 1.0.0 or newer.
+2. In Streamer.bot, connect your Kick account.
+3. In Streamer.bot: **Servers/Clients -> WebSocket Server** and enable the server.
+4. Use `127.0.0.1`, port `8080`, and endpoint `/`, unless you changed those values.
+5. In EsperantAI: **Platform Events** panel -> **Kick via Streamer.bot**.
+6. Click **Connect**.
+
+Events available through this bridge: follows, subscriptions, resubscriptions, gift subscriptions, and redemptions supported by Streamer.bot. Native official Kick backend/webhooks remain an advanced roadmap item.
 
 ### StreamElements (pont multiplateforme)
 
@@ -310,7 +313,15 @@ Gardez ce token privé. Traitez-le comme un mot de passe de votre compte StreamE
 
 ### Trovo
 
-EsperantAI inclut dans le code un adaptateur technique pour Trovo, basé sur OAuth et le service de chat WebSocket de Trovo. Dans l'interface publique actuelle, il n'existe pas encore de panneau de connexion Trovo ; Trovo n'est donc pas documenté comme un parcours utilisateur normal. Si vous avez besoin de Trovo maintenant, utilisez un pont compatible ou attendez l'activation du panneau Trovo.
+EsperantAI supports Trovo natively through OAuth and Trovo's official chat WebSocket.
+
+1. Create an app in the Trovo developer portal.
+2. Register the EsperantAI redirect URI: `oauth-callback.html` on the same domain where you open the app.
+3. In EsperantAI: **Platform Events** panel -> **Trovo**.
+4. Paste your Client ID and click **Connect**.
+5. Authorize the requested permissions.
+
+Available events: subscriptions, resubscriptions, gift subscriptions, follows, raids, spells/gifts, and magic chat.
 
 ---
 
@@ -498,9 +509,9 @@ Panneau **Avancé → Licence** :
 - Sur Twitch, utilisez uniquement le Client ID ; ne collez pas de Client Secret
 - Sur YouTube, confirmez que YouTube Data API v3 est activée et qu'un direct est actif
 
-### Kick n'affiche pas tous les événements
+### Kick does not connect through Streamer.bot
 
-Kick est en mode bêta/limité dans le navigateur. Les événements Kick complets sont officiellement reçus par webhooks ; utilisez StreamElements ou votre propre backend si vous avez besoin d'abonnements, de cadeaux ou de raids fiables.
+Confirm that Streamer.bot 1.0.0+ is open, Kick is connected inside Streamer.bot, and **WebSocket Server** is enabled. Use `127.0.0.1:8080/` unless you changed the configuration. If Streamer.bot requires a password, enter the same password in EsperantAI.
 
 ---
 

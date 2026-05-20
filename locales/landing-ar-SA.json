@@ -36,7 +36,7 @@
     "headline_line_1": "Switch scenes,",
     "headline_line_2_prefix": "overlays and alerts ",
     "headline_line_2_keyword": "with gestures.",
-    "sub": "Detects face and hands locally to activate scenes, overlays and alerts in OBS, Streamlabs, vMix, PRISM and XSplit. Reacts to Twitch, YouTube, Kick and Trovo events so your gestures feel like live human interaction.",
+    "sub": "Detects face and hands locally to activate scenes, overlays and alerts in OBS, Streamlabs, vMix, PRISM and XSplit. Reacts to Twitch, YouTube, Trovo and Kick via Streamer.bot events so your gestures feel like live human interaction.",
     "meta_gestures": "إيماءات",
     "meta_software": "برامج",
     "meta_platforms": "منصات",
@@ -48,10 +48,10 @@
     "badge_face_detected": "Gesture detected",
     "badge_latency": "Live action",
     "badge_local": "100% local video",
-    "fineprint": "No trial · 3 devices · Twitch/YouTube/Kick/Trovo · Updates included"
+    "fineprint": "No trial · 3 devices · Twitch/YouTube/Trovo + Kick via Streamer.bot · Updates included"
   },
   "trust": {
-    "label": "OBS, Streamlabs, vMix, PRISM, XSplit + Twitch, YouTube, Kick, Trovo"
+    "label": "OBS, Streamlabs, vMix, PRISM, XSplit + Twitch, YouTube, Trovo, Kick via Streamer.bot"
   },
   "how": {
     "eyebrow": "كيف يعمل",
@@ -65,7 +65,7 @@
     "step2_desc": "مساعد موجَّه: ابتسم، أومئ برأسك، أظهر الإبهام. يتعلم EsperantAI نطاقاتك في 90 ثانية.",
     "step2_stat": "~ 90 ثانية",
     "step3_title": "ابثّ دون لمس أي شيء",
-    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Trovo + Kick via Streamer.bot. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ ساعات بدون لوحة مفاتيح"
   },
   "features": {
@@ -96,7 +96,9 @@
     "bento_privacy_row_2": " معالجة محلية",
     "bento_privacy_row_3": " متعقبات خارجية",
     "bento_privacy_title": "وجهك لا يغادر جهازك أبداً",
-    "bento_privacy_desc": "نماذج الذكاء الاصطناعي تعمل على GPU الخاص بك. صفر فيديو مرفوع. صفر بيانات تتبع خارجية."
+    "bento_privacy_desc": "نماذج الذكاء الاصطناعي تعمل على GPU الخاص بك. صفر فيديو مرفوع. صفر بيانات تتبع خارجية.",
+    "col_platforms_3": "Kick via Streamer.bot",
+    "col_platforms_4": "Trovo"
   },
   "interaction": {
     "eyebrow": "Human interaction",
@@ -213,7 +215,7 @@
     "q1": "كيف أفعّل EsperantAI بعد الشراء؟",
     "a1": "تشتري Pro أو Pro+، تستلم license key الخاص بك عبر البريد الإلكتروني في أقل من 30 ثانية، تفتح التطبيق، تلصق المفتاح وتوصّل برنامج البث الخاص بك. التفعيل الموجَّه ينقلك من الشراء → المفتاح → البث دون فقدان السياق.",
     "q2": "ما الفرق بين Pro و Pro+؟",
-    "a2_p1_html": "<strong>Pro</strong> يتضمن كل ما يحتاجه الستريمر الفرد: 5 برامج، 4 منصات (Twitch/YouTube/Kick/Trovo)، 18 trigger، معايرة مخصصة، إيماءات اليد، وجميع الإيماءات العالمية.",
+    "a2_p1_html": "<strong>Pro</strong> يتضمن كل ما يحتاجه الستريمر الفرد: 5 برامج، 4 منصات (Twitch/YouTube/Trovo + Kick via Streamer.bot)، 18 trigger، معايرة مخصصة، إيماءات اليد، وجميع الإيماءات العالمية.",
     "a2_p2_html": "<strong>Pro+</strong> adds 3 extra features: <em>combo triggers</em> (platform event + physical human confirmation gesture), <em>StreamElements bridge</em> (a single integration for Twitch + YouTube + Facebook), and <em>unlimited triggers</em>.",
     "q3": "هل يعمل على Mac و Linux؟",
     "a3": "نعم. يعمل EsperantAI على أي نظام تشغيل يحتوي على متصفح حديث (Chrome / Edge / Firefox). على Mac و Linux تستخدم النسخة الويب. على Windows يمكنك أيضاً استخدام المثبّت المحلي.",

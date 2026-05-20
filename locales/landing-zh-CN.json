@@ -7,9 +7,9 @@
   },
   "meta": {
     "title": "EsperantAI — 首个原生手势控制直播品类",
-    "description": "EsperantAI 将面部和手势转化为直播操作。原生集成 OBS、Streamlabs、vMix、PRISM、XSplit。支持 Twitch/YouTube/Kick/Trovo 触发器。100% 本地运行。",
+    "description": "EsperantAI 将面部和手势转化为直播操作。原生集成 OBS、Streamlabs、vMix、PRISM、XSplit。支持 Twitch/YouTube/Trovo + Kick via Streamer.bot 触发器。100% 本地运行。",
     "og_title": "EsperantAI — 原生手势控制直播",
-    "og_description": "将面部手势转化为直播操作。集成 OBS、Streamlabs、vMix、PRISM、XSplit。支持 Twitch/YouTube/Kick/Trovo 触发器。100% 本地运行。",
+    "og_description": "将面部手势转化为直播操作。集成 OBS、Streamlabs、vMix、PRISM、XSplit。支持 Twitch/YouTube/Trovo + Kick via Streamer.bot 触发器。100% 本地运行。",
     "og_image_alt": "EsperantAI 实时检测手势的仪表盘",
     "twitter_title": "EsperantAI — 原生手势控制直播",
     "twitter_description": "将面部手势转化为直播操作。100% 本地运行。集成 OBS、Streamlabs、vMix、PRISM、XSplit。",
@@ -36,7 +36,7 @@
     "headline_line_1": "Switch scenes,",
     "headline_line_2_prefix": "overlays and alerts ",
     "headline_line_2_keyword": "with gestures.",
-    "sub": "Detects face and hands locally to activate scenes, overlays and alerts in OBS, Streamlabs, vMix, PRISM and XSplit. Reacts to Twitch, YouTube, Kick and Trovo events so your gestures feel like live human interaction.",
+    "sub": "Detects face and hands locally to activate scenes, overlays and alerts in OBS, Streamlabs, vMix, PRISM and XSplit. Reacts to Twitch, YouTube, Trovo and Kick via Streamer.bot events so your gestures feel like live human interaction.",
     "meta_gestures": "手势",
     "meta_software": "软件",
     "meta_platforms": "平台",
@@ -48,10 +48,10 @@
     "badge_face_detected": "Gesture detected",
     "badge_latency": "Live action",
     "badge_local": "100% local video",
-    "fineprint": "No trial · 3 devices · Twitch/YouTube/Kick/Trovo · Updates included"
+    "fineprint": "No trial · 3 devices · Twitch/YouTube/Trovo + Kick via Streamer.bot · Updates included"
   },
   "trust": {
-    "label": "OBS, Streamlabs, vMix, PRISM, XSplit + Twitch, YouTube, Kick, Trovo"
+    "label": "OBS, Streamlabs, vMix, PRISM, XSplit + Twitch, YouTube, Trovo, Kick via Streamer.bot"
   },
   "how": {
     "eyebrow": "工作原理",
@@ -65,7 +65,7 @@
     "step2_desc": "引导式向导:微笑、点头、竖起拇指。EsperantAI 在 90 秒内学习你的动作范围。",
     "step2_stat": "约 90 秒",
     "step3_title": "无需触碰即可直播",
-    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Kick/Trovo. Each gesture can switch a scene, overlay, alert, or sound.",
+    "step3_desc": "Connect OBS, Streamlabs, vMix, PRISM, or XSplit; optionally add Twitch/YouTube/Trovo + Kick via Streamer.bot. Each gesture can switch a scene, overlay, alert, or sound.",
     "step3_stat": "∞ 小时无需键盘"
   },
   "features": {
@@ -96,7 +96,9 @@
     "bento_privacy_row_2": " 本地处理",
     "bento_privacy_row_3": " 第三方追踪器",
     "bento_privacy_title": "你的脸永不离开设备",
-    "bento_privacy_desc": "AI 模型运行在你的 GPU 上。零视频上传。零外部遥测。"
+    "bento_privacy_desc": "AI 模型运行在你的 GPU 上。零视频上传。零外部遥测。",
+    "col_platforms_3": "Kick via Streamer.bot",
+    "col_platforms_4": "Trovo"
   },
   "interaction": {
     "eyebrow": "Human interaction",
@@ -213,7 +215,7 @@
     "q1": "购买后如何激活 EsperantAI?",
     "a1": "购买 Pro 或 Pro+ 后,你会在 30 秒内收到许可证密钥邮件,打开应用,粘贴密钥并连接你的直播软件。引导式激活会带你从购买 → 密钥 → 直播一气呵成。",
     "q2": "Pro 和 Pro+ 有什么区别?",
-    "a2_p1_html": "<strong>Pro</strong> 包含个人主播所需的一切:5 款软件、4 个平台(Twitch/YouTube/Kick/Trovo)、18 个触发器、个性化校准、手部手势、所有通用手势。",
+    "a2_p1_html": "<strong>Pro</strong> 包含个人主播所需的一切:5 款软件、4 个平台(Twitch/YouTube/Trovo + Kick via Streamer.bot)、18 个触发器、个性化校准、手部手势、所有通用手势。",
     "a2_p2_html": "<strong>Pro+</strong> adds 3 extra features: <em>combo triggers</em> (platform event + physical human confirmation gesture), <em>StreamElements bridge</em> (a single integration for Twitch + YouTube + Facebook), and <em>unlimited triggers</em>.",
     "q3": "在 Mac 和 Linux 上能用吗?",
     "a3": "可以。EsperantAI 可在任何带现代浏览器(Chrome / Edge / Firefox)的操作系统运行。在 Mac 和 Linux 上使用网页版。在 Windows 上也可以使用本地安装程序。",
