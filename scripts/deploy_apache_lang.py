@@ -11,6 +11,7 @@ Cambios:
  3. configtest + reload Apache.
  4. HTTP verify: bot sees /, JA browser redirects to /ja-jp/, etc.
 """
+import os
 import paramiko, sys, urllib.request, urllib.error
 from pathlib import Path
 if sys.platform == 'win32':
@@ -19,6 +20,10 @@ if sys.platform == 'win32':
 
 LOCAL_DIST = Path(r'D:\joel-salazar\OBS\EsperantAI\dist\landing-i18n')
 REMOTE = '/var/www/sites/edugame-landing'
+DEPLOY_HOST = os.environ.get('ESPERANTAI_DEPLOY_HOST')
+DEPLOY_USER = os.environ.get('ESPERANTAI_DEPLOY_USER', 'root')
+DEPLOY_PASSWORD = os.environ.get('ESPERANTAI_DEPLOY_PASSWORD')
+DEPLOY_PORT = int(os.environ.get('ESPERANTAI_DEPLOY_PORT', '22'))
 
 # ============================================================
 # 1. PREP index.html nuevo (x-default = en-us con canonical /)
@@ -61,8 +66,15 @@ print(f"[LOCAL] .htaccess content ready ({len(HTACCESS)} bytes)\n")
 # ============================================================
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect('187.77.23.49', username='root', password='Coatequitl2026-+',
-            timeout=30, allow_agent=False, look_for_keys=False)
+if not DEPLOY_HOST or not DEPLOY_PASSWORD:
+    print(
+        'Faltan variables de entorno: ESPERANTAI_DEPLOY_HOST y '
+        'ESPERANTAI_DEPLOY_PASSWORD. No se aceptan secretos hardcodeados.'
+    )
+    sys.exit(2)
+ssh.connect(DEPLOY_HOST, port=DEPLOY_PORT, username=DEPLOY_USER,
+            password=DEPLOY_PASSWORD, timeout=30,
+            allow_agent=False, look_for_keys=False)
 print("Conectado al VPS\n")
 
 def run(cmd, timeout=30):

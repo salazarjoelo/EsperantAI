@@ -1057,11 +1057,11 @@ function showLicenseLockout() {
 
                 <div class="license-actions">
                     <button id="btn-activate-license" class="primary">${t('license.activate_button', 'Activar licencia')}</button>
-                    <a id="btn-buy-license" class="secondary" href="landing.html" target="_blank" rel="noopener">${t('license.buy_button', 'Comprar licencia')}</a>
+                    <a id="btn-buy-license" class="secondary" href="/" target="_blank" rel="noopener">${t('license.buy_button', 'Comprar licencia')}</a>
                 </div>
 
                 <p class="license-legal">
-                    © 2026 EdugameDigital · <a href="docs/EULA.html">EULA</a> · <a href="docs/TERMS_OF_SERVICE.html">ToS</a> · <a href="docs/PURCHASE_AND_LICENSE_TERMS.html">Compra</a> · <a href="docs/REFUND_POLICY.html">Reembolsos</a> · <a href="docs/PRIVACY.html">Privacidad</a> · <a href="docs/COOKIE_POLICY.html">Cookies</a> · <a href="docs/THIRD_PARTY_LICENSES.html">Terceros</a>
+                    © 2026 EdugameDigital · <a href="/docs/EULA.html">EULA</a> · <a href="/docs/TERMS_OF_SERVICE.html">ToS</a> · <a href="/docs/PURCHASE_AND_LICENSE_TERMS.html">Compra</a> · <a href="/docs/REFUND_POLICY.html">Reembolsos</a> · <a href="/docs/PRIVACY.html">Privacidad</a> · <a href="/docs/COOKIE_POLICY.html">Cookies</a> · <a href="/docs/THIRD_PARTY_LICENSES.html">Terceros</a>
                 </p>
             </div>
         </div>

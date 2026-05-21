@@ -12,6 +12,7 @@ desktop.ini
 # Build / dist
 node_modules/
 dist/
+_site/
 build/
 *.zip
 *.tar.gz
