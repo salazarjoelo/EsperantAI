@@ -61,7 +61,7 @@
 }
 ```
 
-4. No commitear `checkout-config.json`: puede publicarse como configuración del servidor o del deploy. `js/landing.js` lo carga desde el mismo dominio y cae al fallback de reserva si el archivo no existe.
+4. No commitear `checkout-config.json`: puede publicarse como configuración del servidor o del deploy. `js/landing.js` lo carga siempre desde `/checkout-config.json` para que funcione igual en `/`, `/es-mx/` y cualquier landing localizada. Si el archivo no existe, cae al fallback de reserva.
 5. Si usas checkout URLs con query params, puedes agregar `checkout[custom][plan]=pro` o `checkout[custom][plan]=pro_plus`. LemonSqueezy devuelve esos datos en `meta.custom_data` de webhooks y eventos relacionados.
 
 ## 5. Configurar webhooks

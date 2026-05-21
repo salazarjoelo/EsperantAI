@@ -29,18 +29,27 @@ No afirmo "cero errores absolutos": queda una validacion comercial que requiere 
 5. **CSP audit reportaba artefactos no desplegados.**
    - Fix: `scripts/validate-csp.mjs` ignora `coverage/`; el audit de producto queda sin warnings.
 
+6. **Hotfix post-auditoria: checkout config roto en rutas localizadas.** Desde `/es-mx/`, `js/landing.js` buscaba `checkout-config.json` como ruta relativa y podia pedir `/es-mx/checkout-config.json`, causando fallback de "tienda online lista pronto".
+   - Fix: `js/landing.js` carga siempre `/checkout-config.json`.
+   - Fix: `landing.html` usa `landing.js?v=20260521a` para romper cache del JS anterior.
+   - Fix: test de regresion `tests/landing-checkout-config.test.js` cubre ruta localizada.
+   - Fix: `scripts/build-deploy-site.mjs` copia `fonts/` y `.deploy-targets.json` ahora cubre `hot-sale.css`, `hot-sale.js`, `hot-sale.json` y fuentes Inter para evitar 404 de assets.
+
 ## Evidencia local
 
 - `npm run lint`: OK.
-- `npm test`: 12 archivos, 152 tests passed, 11 skipped.
+- `npm test`: 13 archivos, 153 tests passed, 11 skipped.
 - `npm run validate`: JSON OK, CSP 0 warnings, i18n app + landing 0 missing/extra/placeholders/untranslated.
 - `python scripts/validate-user-manuals.py`: 15 manuales OK.
 - `cd backend && npm test`: 38 tests passed.
-- `npm run build:deploy`: 111 targets cubiertos en `_site`.
+- `npm run build:deploy`: 117 targets cubiertos en `_site`.
 
 ## Evidencia produccion
 
-- `node scripts/check-deploy-targets.mjs --compare-local`: 111 URLs OK con hash local.
+- `node scripts/check-deploy-targets.mjs --compare-local`: 117 URLs OK con hash local.
+- Chrome headless real en `https://edugame.digital/es-mx/#comprar`:
+  - `Comprar Pro`: carga `/checkout-config.json`, no pide `/es-mx/checkout-config.json`, sin warning de fallback, sin 404, navega a `checkout.edugame.digital/checkout/cart/...`.
+  - `Comprar Pro+`: carga `/checkout-config.json`, no pide `/es-mx/checkout-config.json`, sin warning de fallback, sin 404, navega a `checkout.edugame.digital/checkout/cart/...`.
 - Rutas muestreadas: `/`, `/es-mx/`, `/es-es/`, `/en-us/`, `/ja-jp/`, `/ru-ru/`, `/zh-cn/`, `/ar-sa/`, `/ko-kr/`, `/hi-in/`, `/id-id/`.
   - Todas: HTTP 200, `MX$`, `999.99`, `1,999.99`, `Pro+`, sin `$49`, sin `$89`, sin `USD pricing`, sin replacement char.
 - `https://edugame.digital/checkout-config.json`: HTTP 200, links `/checkout/buy/`, sin secretos.
@@ -81,6 +90,7 @@ Consultado contra API de Lemon Squeezy desde el VPS sin imprimir secretos:
 
 - Static incremental: `/root/esperantai-backups/edugame-landing-incremental-20260521-103359.tar.gz`
 - Backend incremental: `/root/esperantai-backups/esperantai-license-server-incremental-20260521-103359.js`
+- Checkout/fonts hotfix: `/root/esperantai-backups/edugame-landing-checkout-fonts-fix-20260521-111555.tar.gz`
 
 ## Pendiente obligatorio antes de anunciar venta abierta
 

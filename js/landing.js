@@ -10,7 +10,7 @@ const LEMONSQUEEZY_CHECKOUT_PRO_PLUS = '';
 
 async function loadCheckoutConfig() {
     try {
-        const res = await fetch('checkout-config.json', { cache: 'no-store' });
+        const res = await fetch('/checkout-config.json', { cache: 'no-store' });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         return {

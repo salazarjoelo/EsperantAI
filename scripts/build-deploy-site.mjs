@@ -110,6 +110,7 @@ copyFile('README.md', 'README.md', true);
 copyDir('css', 'css');
 copyDir('js', 'js');
 copyDir('assets', 'assets');
+copyDir('fonts', 'fonts');
 copyDir('docs', 'docs');
 copyDir('locales', 'locales');
 copyFile('dist/landing-i18n/sitemap.xml', 'sitemap.xml', true);
@@ -131,6 +132,7 @@ copyDir('models', 'app/models');
 copyDir('css', 'app/css');
 copyDir('js', 'app/js');
 copyDir('assets', 'app/assets');
+copyDir('fonts', 'app/fonts');
 
 validateDeployTargets();
 console.log(`OK deploy build: ${OUT}`);
