@@ -3,14 +3,17 @@
  * Verifica HTTP 200 para las URLs declaradas en .deploy-targets.json.
  * Uso normal despues de publicar: npm run check:deploy
  */
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readFileSync } from 'node:fs';
+import { join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
+import { createHash } from 'node:crypto';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const manifest = JSON.parse(readFileSync(join(ROOT, '.deploy-targets.json'), 'utf-8'));
 const baseUrl = process.env.DEPLOY_BASE_URL || manifest.base_url;
+const compareLocal = process.argv.includes('--compare-local');
+const outDir = join(ROOT, '_site');
 
 if (!baseUrl) {
   console.error('ERR falta base_url en .deploy-targets.json');
@@ -18,6 +21,17 @@ if (!baseUrl) {
 }
 
 const failures = [];
+
+function targetToFilePath(urlPath) {
+  let path = urlPath;
+  if (path === '/') path = '/index.html';
+  if (path.endsWith('/')) path += 'index.html';
+  return normalize(path.replace(/^\/+/, ''));
+}
+
+function sha256(bytes) {
+  return createHash('sha256').update(bytes).digest('hex');
+}
 
 for (const path of manifest.urls || []) {
   const url = new URL(path, baseUrl).toString();
@@ -33,6 +47,23 @@ for (const path of manifest.urls || []) {
       failures.push(`${res.status} ${url}`);
       console.error(`ERR ${res.status} ${url}`);
     } else {
+      if (compareLocal) {
+        const localPath = join(outDir, targetToFilePath(path));
+        if (!existsSync(localPath)) {
+          failures.push(`LOCAL-MISSING ${path}`);
+          console.error(`ERR LOCAL-MISSING ${path}`);
+          continue;
+        }
+        const remoteBytes = Buffer.from(await res.arrayBuffer());
+        const localBytes = readFileSync(localPath);
+        const remoteHash = sha256(remoteBytes);
+        const localHash = sha256(localBytes);
+        if (remoteHash !== localHash) {
+          failures.push(`HASH ${url}`);
+          console.error(`ERR HASH ${url} local=${localHash.slice(0, 12)} remote=${remoteHash.slice(0, 12)}`);
+          continue;
+        }
+      }
       console.log(`OK  ${url}`);
     }
   } catch (error) {
@@ -48,4 +79,5 @@ if (failures.length) {
 }
 
 console.log('');
-console.log(`Deploy target check OK: ${(manifest.urls || []).length} URL(s)`);
+const suffix = compareLocal ? ' con hash local' : '';
+console.log(`Deploy target check OK${suffix}: ${(manifest.urls || []).length} URL(s)`);

@@ -20,7 +20,8 @@
     "validate": "npm run validate-json && npm run validate-csp && npm run validate-locales",
     "benchmark": "node scripts/benchmark-detector.mjs",
     "build:deploy": "node scripts/build-deploy-site.mjs",
-    "check:deploy": "node scripts/check-deploy-targets.mjs"
+    "check:deploy": "node scripts/check-deploy-targets.mjs",
+    "check:deploy:hash": "npm run build:deploy && node scripts/check-deploy-targets.mjs --compare-local"
   },
   "devDependencies": {
     "@napi-rs/canvas": "^1.0.0",
