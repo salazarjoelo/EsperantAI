@@ -169,10 +169,10 @@ Datos de [WorldPopulationReview Twitch Users 2026](https://worldpopulationreview
 
 | Tier | Precio | Features |
 |---|---|---|
-| **Pro** | $49 lifetime | 5 software + triggers de plataforma + 18 triggers + 15 locales + calibración |
-| **Pro+ Director** | $89 lifetime | Pro + hand gestures + combo triggers + StreamElements bridge + triggers ilimitados + soporte prioritario |
+| **Pro** | MX$999.99 MXN lifetime | 5 software + triggers de plataforma + 18 triggers + 15 locales + calibración |
+| **Pro+ Director** | MX$1,999.99 MXN lifetime | Pro + hand gestures + combo triggers + StreamElements bridge + triggers ilimitados + soporte prioritario |
 
-**Nota honesta**: No hay plan gratuito ni trial. Los precios deben validarse con conversión real después del lanzamiento comercial.
+**Nota honesta**: No hay plan gratuito ni trial. Los precios de lanzamiento están configurados en pesos mexicanos en LemonSqueezy.
 
 ### Distribución
 

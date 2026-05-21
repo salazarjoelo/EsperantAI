@@ -17,10 +17,11 @@
 3. Descripción: `Switchea escenas, overlays y alertas con gestos de rostro y señas de mano. EsperantAI detecta tus gestos en local desde el navegador para controlar OBS, Streamlabs, vMix, PRISM y XSplit, y reaccionar a Twitch, YouTube, Trovo, StreamElements y Kick via Streamer.bot sin hardware extra.`
 4. Tipo: **Digital Product**
 5. Usar **Variants** para los planes:
-   - `EsperantAI Pro` — $49 USD
-   - `EsperantAI Pro+` — $89 USD
+   - `EsperantAI Pro` — MX$999.99 MXN
+   - `EsperantAI Pro+` — MX$1,999.99 MXN
 6. Configurar License Key por variante:
    - Activación: hasta **3 dispositivos** por licencia
+   - Duración: **sin expiración / unlimited**. En LemonSqueezy, marcar la casilla que indica que la licencia no expira.
    - Formato: `XXXX-XXXX-XXXX-XXXX-XXXX`
 7. Guardar producto
 
@@ -28,11 +29,11 @@
 
 **EsperantAI Pro**
 
-`Para streamers individuales que quieren controlar su directo sin tocar teclado durante momentos clave. Incluye hasta 18 triggers configurables, gestos de rostro y manos, acciones múltiples por gesto, calibración, perfiles guardados e historial. Compatible con OBS, Streamlabs, vMix, PRISM y XSplit; integra Twitch, YouTube, Trovo, StreamElements y Kick via Streamer.bot. Pago único. Hasta 3 dispositivos.`
+`Para streamers individuales que quieren controlar su directo sin tocar teclado durante momentos clave. Incluye hasta 18 triggers configurables, gestos de rostro y manos, acciones múltiples por gesto, calibración, perfiles guardados e historial. Compatible con OBS, Streamlabs, vMix, PRISM y XSplit; integra Twitch, YouTube, Trovo, StreamElements y Kick via Streamer.bot. Pago único en pesos mexicanos. Licencia sin expiración. Hasta 3 dispositivos.`
 
 **EsperantAI Pro+**
 
-`Para creadores que monetizan, producen directos más complejos o necesitan automatización avanzada. Incluye todo lo de Pro, más triggers ilimitados, combo triggers de evento + gesto, StreamElements bridge multi-plataforma y soporte prioritario. Diseñado para streams donde cada gesto puede disparar una secuencia completa sin interrumpir el ritmo en vivo. Pago único. Hasta 3 dispositivos.`
+`Para creadores que monetizan, producen directos más complejos o necesitan automatización avanzada. Incluye todo lo de Pro, más triggers ilimitados, combo triggers de evento + gesto, StreamElements bridge multi-plataforma y soporte prioritario. Diseñado para streams donde cada gesto puede disparar una secuencia completa sin interrumpir el ritmo en vivo. Pago único en pesos mexicanos. Licencia sin expiración. Hasta 3 dispositivos.`
 
 ## 3. Configurar checkout
 
@@ -55,8 +56,8 @@
 
 ```json
 {
-  "pro": "https://TU-TIENDA.lemonsqueezy.com/checkout/buy/VARIANT_ID_PRO",
-  "pro_plus": "https://TU-TIENDA.lemonsqueezy.com/checkout/buy/VARIANT_ID_PRO_PLUS"
+  "pro": "https://checkout.edugame.digital/checkout/buy/2e8e57db-2213-4626-9163-8ae060540462",
+  "pro_plus": "https://checkout.edugame.digital/checkout/buy/44c63553-64b0-4537-8734-e937664e597d"
 }
 ```
 
@@ -114,6 +115,24 @@ Y estos valores públicos para el checkout:
 ```
 
 El backend rechaza licencias de variants desconocidos con `product_mismatch`; por eso los IDs `LEMONSQUEEZY_VARIANT_PRO` y `LEMONSQUEEZY_VARIANT_PRO_PLUS` son obligatorios.
+
+### Estado real verificado en LemonSqueezy
+
+```env
+LEMONSQUEEZY_STORE_ID=375741
+LEMONSQUEEZY_PRODUCT_ID=1071782
+LEMONSQUEEZY_VARIANT_PRO=1680087
+LEMONSQUEEZY_VARIANT_PRO_PLUS=1685295
+```
+
+```json
+{
+  "pro": "https://checkout.edugame.digital/checkout/buy/2e8e57db-2213-4626-9163-8ae060540462",
+  "pro_plus": "https://checkout.edugame.digital/checkout/buy/44c63553-64b0-4537-8734-e937664e597d"
+}
+```
+
+Antes de publicar los botones de compra, ambos variants deben mostrar `is_license_length_unlimited=true` en la API de LemonSqueezy. Si aparece `false`, la casilla de licencia sin expiración todavía no está marcada.
 
 ## 8. Regalar licencias a streamers
 
