@@ -115,13 +115,58 @@ Y estos valores públicos para el checkout:
 
 El backend rechaza licencias de variants desconocidos con `product_mismatch`; por eso los IDs `LEMONSQUEEZY_VARIANT_PRO` y `LEMONSQUEEZY_VARIANT_PRO_PLUS` son obligatorios.
 
-## 8. Checklist pre-lanzamiento
+## 8. Regalar licencias a streamers
+
+Estado confirmado contra la documentación vigente de LemonSqueezy: la License API permite `activate`, `validate` y `deactivate`; la API principal permite listar/actualizar license keys ya generadas. No hay endpoint público para crear una license key suelta sin una orden. La ruta segura para regalar licencias y conservar trazabilidad legal/comercial es generar una orden de $0 con cupón 100%.
+
+### Opción recomendada: cupón 100% de un solo uso
+
+1. En LemonSqueezy, crear un discount:
+   - `amount_type=percent`
+   - `amount=100`
+   - `is_limited_redemptions=true`
+   - `max_redemptions=1`
+   - `is_limited_to_products=true`
+   - limitarlo al variant `Pro` o `Pro+`
+   - definir `expires_at` si el regalo es temporal
+2. Crear o compartir un checkout del variant regalado con el discount prellenado.
+3. Enviar al streamer un link directo, no la landing pública.
+4. El streamer completa el checkout de $0, acepta términos y LemonSqueezy emite la license key en su recibo.
+5. EsperantAI valida esa key sin cambios de código: el backend revisa LemonSqueezy server-side y sólo acepta `LEMONSQUEEZY_VARIANT_PRO` o `LEMONSQUEEZY_VARIANT_PRO_PLUS`.
+
+### Si Joel quiere mandar la key ya generada
+
+También se puede completar internamente el checkout de $0 usando el email real del streamer, recuperar la license key desde LemonSqueezy y enviarla por correo. Esta opción debe usarse con más cuidado porque Joel tendría que conservar evidencia de:
+
+- email del destinatario
+- variant regalado
+- fecha de emisión
+- aceptación o envío de EULA/ToS
+- código de cupón usado
+- license key parcial, nunca completa en documentos públicos
+
+### Datos mínimos por licencia regalada
+
+Registrar cada regalo en una bitácora privada, fuera de la landing:
+
+```csv
+fecha,email,streamer,plan,variant_id,discount_code,order_id,license_key_short,expira,notas
+```
+
+No poner esta bitácora en el frontend ni en repos públicos.
+
+### No recomendado para lanzamiento
+
+No conviene inventar claves manuales fuera de LemonSqueezy en esta etapa. Para hacerlo bien habría que extender el backend con una tabla propia de `gift_licenses`, panel/admin script de emisión, revocación, expiración y auditoría. Es viable, pero ya sería otro sistema de licencias paralelo al Merchant of Record.
+
+## 9. Checklist pre-lanzamiento
 
 - [ ] Cuenta LemonSqueezy verificada
 - [ ] Producto creado con License Key habilitado
 - [ ] Checkout personalizado con marca
 - [ ] `checkout-config.json` publicado con las URLs `/checkout/buy/`
 - [ ] `LEMONSQUEEZY_API_KEY`, `LEMONSQUEEZY_WEBHOOK_SECRET` y variant IDs configurados sólo en backend
+- [ ] Flujo de licencias regaladas definido: cupón 100% single-use por streamer o checkout interno con bitácora privada
 - [ ] Página de ventas revisada en móvil y desktop
 - [ ] Flujo de compra probado con tarjeta de prueba
 - [ ] Email de confirmación personalizado
