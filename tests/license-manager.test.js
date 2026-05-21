@@ -121,5 +121,27 @@ describe('core/license-manager.js', () => {
       expect(fetchSpy).not.toHaveBeenCalled();
       fetchSpy.mockRestore();
     });
+
+    it('validate() rechaza JWT falsificado aunque el backend esté inaccesible', async () => {
+      licMgr.state = {
+        licenseKey: 'license-key-123',
+        jwt: 'forged.jwt.signature',
+        jwtExpires: Math.floor(Date.now() / 1000) + 3600,
+        tier: 'pro_plus',
+        instanceId: 'instance-123',
+        activatedAt: Date.now(),
+        lastValidatedAt: Date.now(),
+      };
+      licMgr._jwtCryptoValid = false;
+      vi.spyOn(licMgr, '_verifyJWT').mockResolvedValue(null);
+      const fetchSpy = vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('network blocked'));
+
+      await expect(licMgr.validate()).resolves.toBe(false);
+
+      expect(fetchSpy).not.toHaveBeenCalled();
+      expect(licMgr.state.jwt).toBeNull();
+      expect(licMgr.state.tier).toBe('free');
+      fetchSpy.mockRestore();
+    });
   });
 });

@@ -18,11 +18,7 @@
 
     // ====== 1.5. License check — lockout total si no hay license válida ======
     const lic = window.licenseManager;
-    let licenseValid = lic.isValid();
-    if (licenseValid) {
-        // Re-validate online en background
-        licenseValid = await lic.validate();
-    }
+    const licenseValid = await lic.validate();
     if (!licenseValid) {
         showLicenseLockout();
         return; // detiene bootstrap aquí. Sin license = sin app.

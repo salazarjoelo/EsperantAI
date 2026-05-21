@@ -138,18 +138,15 @@ class LicenseManager {
             return;
         }
         try {
-            const payload = await this._verifyJWT(this.state.jwt);
+            const payload = await this._verifyJWT(this.state.jwt, { allowExpired: true });
             this._jwtCryptoValid = !!payload;
             this._jwtCheckedAt = Date.now();
             if (!payload) {
-                // JWT no verifica → invalidar en memoria + disco. La próxima
+                // JWT no verifica → invalidar en memoria + disco. La siguiente
                 // llamada a isValid() retornará false. validate() también
                 // detectará el state limpio y forzará lockout o re-refresh.
                 console.warn('[License] JWT criptográficamente inválido — invalidando state');
-                this.state.jwt = null;
-                this.state.jwtExpires = 0;
-                this.state.tier = 'free';
-                this._saveState();
+                this._invalidateStoredLicense();
             }
         } catch (e) {
             console.error('[License] _kickoffJwtVerification falló:', e);
@@ -188,6 +185,16 @@ class LicenseManager {
         }
     }
 
+    _invalidateStoredLicense() {
+        this.state.jwt = null;
+        this.state.jwtExpires = 0;
+        this.state.tier = 'free';
+        this.state.instanceId = null;
+        this._jwtCryptoValid = false;
+        this._jwtCheckedAt = Date.now();
+        this._saveState();
+    }
+
     // ─── Public key handling (Ed25519 via crypto.subtle) ──────────────────
 
     async _getPublicKey() {
@@ -222,8 +229,9 @@ class LicenseManager {
      * Verifica un JWT firmado por el backend.
      * @returns {Promise<object|null>} payload del JWT si válido, null si no
      */
-    async _verifyJWT(token) {
+    async _verifyJWT(token, options = {}) {
         if (!token || typeof token !== 'string') return null;
+        const allowExpired = !!options.allowExpired;
         const parts = token.split('.');
         if (parts.length !== 3) return null;
 
@@ -246,7 +254,7 @@ class LicenseManager {
         const now = Math.floor(Date.now() / 1000);
         if (payload.iss !== JWT_ISSUER) return null;
         if (payload.aud !== JWT_AUDIENCE) return null;
-        if (!payload.exp || payload.exp < now) return null;
+        if (!payload.exp || (!allowExpired && payload.exp < now)) return null;
 
         // Verificar firma
         const key = await this._getPublicKey();
@@ -317,6 +325,8 @@ class LicenseManager {
                     activatedAt: Date.now(),
                     lastValidatedAt: Date.now(),
                 };
+                this._jwtCryptoValid = true;
+                this._jwtCheckedAt = Date.now();
                 this._saveState();
                 return { ok: true, tier: this.state.tier };
             } catch (e) {
@@ -341,8 +351,18 @@ class LicenseManager {
         // Verificar JWT criptográficamente
         const payload = await this._verifyJWT(this.state.jwt);
         if (!payload) {
-            // JWT inválido o expirado — intentar refrescar
-            return await this._refresh();
+            const signedExpiredPayload = await this._verifyJWT(this.state.jwt, { allowExpired: true });
+            if (!signedExpiredPayload) {
+                // Un JWT falsificado no recibe grace offline. Si la key es real,
+                // el usuario puede reactivarla contra el backend.
+                this._invalidateStoredLicense();
+                return false;
+            }
+            // JWT firmado por Joel pero expirado: intentar refrescar; sólo aquí
+            // aplica el grace offline.
+            this._jwtCryptoValid = true;
+            this._jwtCheckedAt = Date.now();
+            return await this._refresh({ allowOfflineGrace: true });
         }
 
         // JWT válido. Si está por expirar (< 7 días) Y hay conexión, refrescar.
@@ -355,6 +375,8 @@ class LicenseManager {
 
         this.state.tier = payload.tier || 'pro';
         this.state.lastValidatedAt = Date.now();
+        this._jwtCryptoValid = true;
+        this._jwtCheckedAt = Date.now();
         this._saveState();
         return true;
     }
@@ -362,10 +384,13 @@ class LicenseManager {
     /**
      * Pide al backend un JWT nuevo.
      */
-    async _refresh() {
+    async _refresh(options = {}) {
+        const allowOfflineGrace = options.allowOfflineGrace !== false;
         if (this._operationLock) return this.state.tier !== 'free';
         if (!navigator.onLine) {
-            // Offline grace: el JWT puede haber expirado pero respetamos los 30 días
+            if (!allowOfflineGrace || this._jwtCryptoValid !== true) return false;
+            // Offline grace: el JWT puede haber expirado pero respetamos el periodo
+            // sólo si previamente se verificó la firma criptográfica.
             const sinceValidated = Date.now() - this.state.lastValidatedAt;
             if (sinceValidated < OFFLINE_GRACE_MS) {
                 return true; // Acepta provisionalmente
@@ -381,22 +406,26 @@ class LicenseManager {
             });
             const data = await res.json();
             if (!data.ok) {
-                this.state.jwt = null;
-                this.state.tier = 'free';
-                this._saveState();
+                this._invalidateStoredLicense();
                 return false;
             }
             const payload = await this._verifyJWT(data.token);
-            if (!payload) return false;
+            if (!payload) {
+                this._invalidateStoredLicense();
+                return false;
+            }
             this.state.jwt = data.token;
             this.state.jwtExpires = payload.exp;
             this.state.tier = data.tier || 'pro';
             this.state.lastValidatedAt = Date.now();
+            this._jwtCryptoValid = true;
+            this._jwtCheckedAt = Date.now();
             this._saveState();
             return true;
         } catch (e) {
             console.warn('[license-manager] refresh failed (network):', e);
-            // Offline grace si dentro del periodo
+            if (!allowOfflineGrace || this._jwtCryptoValid !== true) return false;
+            // Offline grace si dentro del periodo y con firma ya verificada
             const sinceValidated = Date.now() - this.state.lastValidatedAt;
             return sinceValidated < OFFLINE_GRACE_MS;
         } finally {
@@ -457,18 +486,12 @@ class LicenseManager {
         // Z-SEC-01: además de timestamp, consultar el cache de verificación
         // criptográfica. Si la firma del JWT ya se demostró inválida
         // (_jwtCryptoValid === false), retornar false inmediatamente.
-        // Si aún no se verificó (null) o el cache TTL venció, aceptamos
-        // basado en timestamp; la verificación async va a corregir state
-        // si la firma no valida, y la próxima llamada retornará false.
-        if (this._jwtCryptoValid === false) return false;
+        // Si aún no se verificó (null) o el cache TTL venció, no se concede
+        // validez sin una llamada async a validate().
+        if (this._jwtCryptoValid !== true) return false;
         const cacheStale = !this._jwtCheckedAt
             || (Date.now() - this._jwtCheckedAt) > JWT_CRYPTO_CACHE_TTL_MS;
-        if (cacheStale) {
-            // Re-disparar verificación en background (fire-and-forget).
-            // La llamada actual se basa en timestamp; futuras llamadas
-            // tendrán el resultado fresco.
-            this._kickoffJwtVerification().catch(() => {});
-        }
+        if (cacheStale) return false;
         return !!this.state.jwt && (this.state.jwtExpires * 1000) > Date.now();
     }
 
