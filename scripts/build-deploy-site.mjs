@@ -80,6 +80,7 @@ copyFile('robots.txt');
 copyFile('sitemap.xml');
 copyFile('llms.txt');
 copyFile('hot-sale.json', 'hot-sale.json', true);
+copyFile('checkout-config.json', 'checkout-config.json', true);
 copyFile('LICENSE.txt', 'LICENSE.txt', true);
 copyFile('README.md', 'README.md', true);
 copyDir('css', 'css');

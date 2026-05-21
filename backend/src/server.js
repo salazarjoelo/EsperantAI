@@ -51,7 +51,7 @@ function inferTierFromMeta(meta) {
         [process.env.LEMONSQUEEZY_VARIANT_PRO_PLUS]: 'pro_plus',
     };
     delete VARIANT_MAP[undefined];
-    return VARIANT_MAP[variantId] || 'pro';
+    return VARIANT_MAP[variantId] || null;
 }
 
 function safeEqual(a, b) {
@@ -352,6 +352,10 @@ export function createApp(deps = {}) {
         const license = lemonResponse.license_key || {};
         const meta = lemonResponse.meta || {};
         const tier = inferTierFromMeta(meta);
+        if (!tier) {
+            logger.warn(`[verify] LemonSqueezy variant no autorizado: ${meta.variant_id || 'missing'}`);
+            return res.status(403).json({ ok: false, error: 'product_mismatch' });
+        }
 
         const now = Math.floor(Date.now() / 1000);
         const exp = now + JWT_TTL_DAYS * 24 * 60 * 60;

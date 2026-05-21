@@ -5,8 +5,29 @@
 
 // URLs de checkout LemonSqueezy. Joel configura estos URLs después de
 // crear los productos en LemonSqueezy Dashboard (uno por variant).
-const LEMONSQUEEZY_CHECKOUT_PRO = 'REEMPLAZAR_CON_URL_LEMONSQUEEZY_PRO';
-const LEMONSQUEEZY_CHECKOUT_PRO_PLUS = 'REEMPLAZAR_CON_URL_LEMONSQUEEZY_PRO_PLUS';
+const LEMONSQUEEZY_CHECKOUT_PRO = '';
+const LEMONSQUEEZY_CHECKOUT_PRO_PLUS = '';
+
+async function loadCheckoutConfig() {
+    try {
+        const res = await fetch('checkout-config.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        return {
+            pro: data.pro || LEMONSQUEEZY_CHECKOUT_PRO,
+            proPlus: data.pro_plus || data.proPlus || LEMONSQUEEZY_CHECKOUT_PRO_PLUS,
+        };
+    } catch {
+        return {
+            pro: LEMONSQUEEZY_CHECKOUT_PRO,
+            proPlus: LEMONSQUEEZY_CHECKOUT_PRO_PLUS,
+        };
+    }
+}
+
+function isConfiguredCheckout(checkoutUrl) {
+    return typeof checkoutUrl === 'string' && checkoutUrl && !checkoutUrl.startsWith('REEMPLAZAR');
+}
 
 function showPlaceholderFeedback(planLabel) {
     const fb = document.getElementById('cta-feedback');
@@ -24,11 +45,11 @@ function wireCheckout(buttonId, checkoutUrl, planLabel) {
     if (!btn) return;
     btn.addEventListener('click', (e) => {
         e.preventDefault();
-        if (checkoutUrl.startsWith('REEMPLAZAR')) {
+        if (!isConfiguredCheckout(checkoutUrl)) {
             showPlaceholderFeedback(planLabel);
             console.warn(
                 `[${planLabel}] LemonSqueezy checkout URL no configurado. ` +
-                'Editar js/landing.js líneas 9-10.'
+                'Crear checkout-config.json a partir de checkout-config.example.json.'
             );
             return;
         }
@@ -51,5 +72,7 @@ function preferLightMediaOnMobile() {
 }
 
 preferLightMediaOnMobile();
-wireCheckout('cta-buy-pro', LEMONSQUEEZY_CHECKOUT_PRO, 'Pro');
-wireCheckout('cta-buy-pro-plus', LEMONSQUEEZY_CHECKOUT_PRO_PLUS, 'Pro+');
+loadCheckoutConfig().then((checkout) => {
+    wireCheckout('cta-buy-pro', checkout.pro, 'Pro');
+    wireCheckout('cta-buy-pro-plus', checkout.proPlus, 'Pro+');
+});

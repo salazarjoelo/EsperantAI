@@ -41,6 +41,9 @@ function createInMemoryRevocationsDb() {
 }
 
 before(async () => {
+    process.env.LEMONSQUEEZY_VARIANT_PRO = 'pro';
+    process.env.LEMONSQUEEZY_VARIANT_PRO_PLUS = 'pro_plus';
+
     const kp = await generateKeyPair('EdDSA', { crv: 'Ed25519' });
     privateKey = kp.privateKey;
     publicKey = kp.publicKey;
@@ -94,6 +97,17 @@ function createMockFetch(capture = null) {
                     license_key: { id: 1, status: 'active', activation_limit: 1, activation_usage: 0 },
                     meta: { variant_id: 'pro' },
                     instance: { id: 'inst-1' },
+                }),
+            };
+        }
+        if (key === 'OTHER-PRODUCT-KEY') {
+            return {
+                ok: true,
+                json: async () => ({
+                    valid: true,
+                    license_key: { id: 9, status: 'active', activation_limit: 1, activation_usage: 0 },
+                    meta: { variant_id: 'unknown-variant' },
+                    instance: { id: 'inst-foreign' },
                 }),
             };
         }
@@ -236,6 +250,18 @@ describe('/verify endpoint', () => {
         strictEqual(res.status, 403);
         const data = await res.json();
         strictEqual(data.error, 'invalid');
+    });
+
+    it('9b. licencia válida de otro variant/producto → 403 product_mismatch', async () => {
+        const res = await fetch(`${baseURL}/verify`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ license_key: 'OTHER-PRODUCT-KEY' }),
+        });
+        strictEqual(res.status, 403);
+        const data = await res.json();
+        strictEqual(data.ok, false);
+        strictEqual(data.error, 'product_mismatch');
     });
 });
 

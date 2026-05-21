@@ -21,6 +21,7 @@ build/
 .env
 .env.local
 .env.production
+checkout-config.json
 *.key
 *.pem
 secrets.json

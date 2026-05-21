@@ -19,6 +19,9 @@ let testDb;
 let jtiStoreInjected;
 
 before(async () => {
+    process.env.LEMONSQUEEZY_VARIANT_PRO = 'pro';
+    process.env.LEMONSQUEEZY_VARIANT_PRO_PLUS = 'pro_plus';
+
     const kp = await generateKeyPair('EdDSA', { crv: 'Ed25519' });
     signingKey = kp.privateKey;
     const spki = await exportSPKI(kp.publicKey);

@@ -50,8 +50,18 @@
 ## 4. Obtener URL de checkout
 
 1. Products → EsperantAI → **Payment Links**
-2. Copiar la URL del checkout
-3. Pegar las URLs en `js/landing.js`, reemplazando `REEMPLAZAR_CON_URL_LEMONSQUEEZY_PRO` y `REEMPLAZAR_CON_URL_LEMONSQUEEZY_PRO_PLUS`
+2. Copiar la URL original que contiene `/checkout/buy/` para cada variant. No copiar la URL convertida que contiene `/checkout/?cart=`, porque esa URL es de un solo uso.
+3. Crear en producción un archivo `checkout-config.json` a partir de `checkout-config.example.json`:
+
+```json
+{
+  "pro": "https://TU-TIENDA.lemonsqueezy.com/checkout/buy/VARIANT_ID_PRO",
+  "pro_plus": "https://TU-TIENDA.lemonsqueezy.com/checkout/buy/VARIANT_ID_PRO_PLUS"
+}
+```
+
+4. No commitear `checkout-config.json`: puede publicarse como configuración del servidor o del deploy. `js/landing.js` lo carga desde el mismo dominio y cae al fallback de reserva si el archivo no existe.
+5. Si usas checkout URLs con query params, puedes agregar `checkout[custom][plan]=pro` o `checkout[custom][plan]=pro_plus`. LemonSqueezy devuelve esos datos en `meta.custom_data` de webhooks y eventos relacionados.
 
 ## 5. Configurar webhooks
 
@@ -61,7 +71,8 @@
    - `license_key_activated`
    - `license_key_deactivated`
    - `order_created`
-3. URL del webhook: endpoint del backend de licencias de EsperantAI
+3. URL del webhook: `https://license.edugame.digital/webhook`
+4. Generar y guardar el **Signing Secret**. LemonSqueezy firma cada webhook con `X-Signature`; el backend de EsperantAI compara ese HMAC con `LEMONSQUEEZY_WEBHOOK_SECRET`.
 
 ## 6. Configurar reembolsos
 
@@ -82,12 +93,35 @@ La app no debe llamar LemonSqueezy directamente desde el navegador. `core/licens
 
 Solo el backend llama endpoints de LemonSqueezy como `/v1/licenses/activate`, `/v1/licenses/validate` o `/v1/licenses/deactivate`, usando credenciales server-side.
 
+### Valores exactos que Joel debe obtener de LemonSqueezy
+
+Enviar estos valores al configurar producción. Nunca poner el API key en `landing.html`, `js/landing.js`, `checkout-config.json` ni otro archivo frontend.
+
+```env
+LEMONSQUEEZY_API_KEY=
+LEMONSQUEEZY_WEBHOOK_SECRET=
+LEMONSQUEEZY_VARIANT_PRO=
+LEMONSQUEEZY_VARIANT_PRO_PLUS=
+```
+
+Y estos valores públicos para el checkout:
+
+```json
+{
+  "pro": "",
+  "pro_plus": ""
+}
+```
+
+El backend rechaza licencias de variants desconocidos con `product_mismatch`; por eso los IDs `LEMONSQUEEZY_VARIANT_PRO` y `LEMONSQUEEZY_VARIANT_PRO_PLUS` son obligatorios.
+
 ## 8. Checklist pre-lanzamiento
 
 - [ ] Cuenta LemonSqueezy verificada
 - [ ] Producto creado con License Key habilitado
 - [ ] Checkout personalizado con marca
-- [ ] URL de checkout configurada en `landing.html`
+- [ ] `checkout-config.json` publicado con las URLs `/checkout/buy/`
+- [ ] `LEMONSQUEEZY_API_KEY`, `LEMONSQUEEZY_WEBHOOK_SECRET` y variant IDs configurados sólo en backend
 - [ ] Página de ventas revisada en móvil y desktop
 - [ ] Flujo de compra probado con tarjeta de prueba
 - [ ] Email de confirmación personalizado
