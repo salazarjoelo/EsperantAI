@@ -87,6 +87,7 @@ copyDir('css', 'css');
 copyDir('js', 'js');
 copyDir('assets', 'assets');
 copyDir('docs', 'docs');
+copyDir('locales', 'locales');
 
 // App bajo /app/.
 copyFile('index.html', 'app/index.html');
