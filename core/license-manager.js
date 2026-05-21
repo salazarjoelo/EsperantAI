@@ -399,10 +399,14 @@ class LicenseManager {
         }
         this._operationLock = true;
         try {
+            const requestBody = { license_key: this.state.licenseKey };
+            if (this.state.instanceId) {
+                requestBody.instance_id = this.state.instanceId;
+            }
             const res = await fetch(`${LICENSE_BACKEND_URL}/verify`, {
                 method: 'POST',
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify({ license_key: this.state.licenseKey }),
+                body: JSON.stringify(requestBody),
             });
             const data = await res.json();
             if (!data.ok) {

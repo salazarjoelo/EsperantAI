@@ -54,6 +54,23 @@ function inferTierFromMeta(meta) {
     return VARIANT_MAP[variantId] || null;
 }
 
+function mapLicenseError(error) {
+    const raw = String(error || 'invalid');
+    const normalized = raw.toLowerCase();
+    const exact = {
+        license_key_not_found: 'invalid',
+        license_key_expired: 'expired',
+        license_key_disabled: 'revoked',
+        too_many_activations: 'limit_reached',
+    }[raw];
+    if (exact) return exact;
+    if (normalized.includes('activation limit')) return 'limit_reached';
+    if (normalized.includes('expired')) return 'expired';
+    if (normalized.includes('disabled') || normalized.includes('revoked')) return 'revoked';
+    if (normalized.includes('not found')) return 'invalid';
+    return 'invalid';
+}
+
 function safeEqual(a, b) {
     if (typeof a !== 'string' || typeof b !== 'string' || a.length !== b.length) return false;
     try {
@@ -307,7 +324,7 @@ export function createApp(deps = {}) {
             return res.status(429).json({ ok: false, error: 'rate_limited' });
         }
 
-        const { license_key, instance_name } = req.body || {};
+        const { license_key, instance_name, instance_id } = req.body || {};
 
         if (!license_key || typeof license_key !== 'string') {
             return res.status(400).json({ ok: false, error: 'missing_license_key' });
@@ -319,18 +336,23 @@ export function createApp(deps = {}) {
 
         const fetchFn = lemonSqueezyFetch || fetch;
         let lemonResponse;
+        const isActivation = typeof instance_name === 'string' && instance_name.trim().length > 0;
+        const endpoint = isActivation ? 'activate' : 'validate';
+        const body = new URLSearchParams({ license_key });
+        if (isActivation) {
+            body.set('instance_name', instance_name.trim());
+        } else if (typeof instance_id === 'string' && instance_id.trim().length > 0) {
+            body.set('instance_id', instance_id.trim());
+        }
         try {
-            const lsRes = await fetchFn('https://api.lemonsqueezy.com/v1/licenses/validate', {
+            const lsRes = await fetchFn(`https://api.lemonsqueezy.com/v1/licenses/${endpoint}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Authorization': `Bearer ${lemonSqueezyApiKey}`,
                 },
-                body: new URLSearchParams({
-                    license_key,
-                    ...(instance_name ? { instance_name } : {}),
-                }).toString(),
+                body: body.toString(),
             });
             lemonResponse = await lsRes.json();
         } catch (e) {
@@ -338,18 +360,17 @@ export function createApp(deps = {}) {
             return res.status(502).json({ ok: false, error: 'upstream_error' });
         }
 
-        if (!lemonResponse.valid) {
-            const errorCode = lemonResponse.error || 'invalid';
-            const mapped = {
-                'license_key_not_found': 'invalid',
-                'license_key_expired': 'expired',
-                'license_key_disabled': 'revoked',
-                'too_many_activations': 'limit_reached',
-            }[errorCode] || 'invalid';
-            return res.status(403).json({ ok: false, error: mapped });
+        const lemonOk = isActivation ? lemonResponse.activated : lemonResponse.valid;
+        if (!lemonOk) {
+            return res.status(403).json({ ok: false, error: mapLicenseError(lemonResponse.error) });
         }
 
         const license = lemonResponse.license_key || {};
+        const status = String(license.status || '').toLowerCase();
+        if (status === 'disabled' || status === 'expired') {
+            return res.status(403).json({ ok: false, error: status === 'expired' ? 'expired' : 'revoked' });
+        }
+
         const meta = lemonResponse.meta || {};
         const tier = inferTierFromMeta(meta);
         if (!tier) {
@@ -496,12 +517,21 @@ export function createApp(deps = {}) {
             return res.sendStatus(400);
         }
         const eventName = req.headers['x-event-name'] || event.meta?.event_name;
-        if (eventName === 'license_key_disabled' || eventName === 'license_key_revoked') {
-            const key = event.data?.attributes?.key;
+        const attrs = event.data?.attributes || {};
+        const key = attrs.key;
+        const status = String(attrs.status || '').toLowerCase();
+        if (
+            eventName === 'license_key_disabled'
+            || eventName === 'license_key_revoked'
+            || (eventName === 'license_key_updated' && (status === 'disabled' || status === 'expired'))
+        ) {
             if (key) {
-                addRevocation(db, key, 'revoked_via_webhook');
+                addRevocation(db, key, `revoked_via_${eventName}:${status || 'unknown'}`);
                 logger.log(`[webhook] License revoked: ${key.slice(0, 8)}...`);
             }
+        } else if (eventName === 'license_key_updated' && key && (status === 'active' || status === 'inactive')) {
+            removeRevocation(db, key);
+            logger.log(`[webhook] License unrevoked: ${key.slice(0, 8)}...`);
         }
         return res.sendStatus(200);
     });

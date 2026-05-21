@@ -17,12 +17,34 @@ import {
   rmSync,
   statSync,
 } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { dirname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = join(ROOT, '_site');
 const MANIFEST = join(ROOT, '.deploy-targets.json');
+const LANDING_LOCALES = [
+  'es-es', 'es-mx', 'en-us', 'pt-br', 'fr-fr', 'de-de', 'ja-jp',
+  'ru-ru', 'zh-cn', 'it-it', 'pl-pl', 'ar-sa', 'ko-kr', 'hi-in', 'id-id',
+];
+
+function buildLocalizedLanding() {
+  const script = join(ROOT, 'scripts', 'build_i18n_html.py');
+  const candidates = process.platform === 'win32'
+    ? [['python', [script]], ['py', ['-3', script]]]
+    : [['python3', [script]], ['python', [script]]];
+  let lastError = null;
+  for (const [cmd, args] of candidates) {
+    try {
+      execFileSync(cmd, args, { cwd: ROOT, stdio: 'inherit' });
+      return;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError || new Error('No se pudo generar dist/landing-i18n');
+}
 
 function ensureParent(dest) {
   mkdirSync(dirname(dest), { recursive: true });
@@ -71,6 +93,8 @@ function validateDeployTargets() {
   console.log(`OK deploy targets: ${(manifest.urls || []).length} URL(s) cubiertas en _site`);
 }
 
+buildLocalizedLanding();
+
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 
@@ -88,6 +112,10 @@ copyDir('js', 'js');
 copyDir('assets', 'assets');
 copyDir('docs', 'docs');
 copyDir('locales', 'locales');
+copyFile('dist/landing-i18n/sitemap.xml', 'sitemap.xml', true);
+for (const locale of LANDING_LOCALES) {
+  copyDir(`dist/landing-i18n/${locale}`, locale);
+}
 
 // App bajo /app/.
 copyFile('index.html', 'app/index.html');

@@ -8,6 +8,7 @@
 import { describe, it, before, after } from 'node:test';
 import { strictEqual, ok } from 'node:assert';
 import { generateKeyPair, exportSPKI, jwtVerify, importSPKI } from 'jose';
+import { createHmac } from 'node:crypto';
 import Database from 'better-sqlite3';
 import { createApp } from './server.js';
 
@@ -82,14 +83,27 @@ after(async () => {
 // ─── Mock de LemonSqueezy ────────────────────────────────────────────────
 function createMockFetch(capture = null) {
     return async (url, options) => {
+        const endpoint = String(url).split('/').pop();
+        const body = new URLSearchParams(options.body);
         if (capture) {
             capture.url = url;
             capture.authHeader = options.headers?.Authorization;
+            capture.body = body;
         }
-        const body = new URLSearchParams(options.body);
         const key = body.get('license_key');
 
         if (key === 'VALID-KEY') {
+            if (endpoint === 'activate') {
+                return {
+                    ok: true,
+                    json: async () => ({
+                        activated: true,
+                        license_key: { id: 1, status: 'active', activation_limit: 1, activation_usage: 1 },
+                        meta: { variant_id: 'pro' },
+                        instance: { id: 'inst-1' },
+                    }),
+                };
+            }
             return {
                 ok: true,
                 json: async () => ({
@@ -97,6 +111,17 @@ function createMockFetch(capture = null) {
                     license_key: { id: 1, status: 'active', activation_limit: 1, activation_usage: 0 },
                     meta: { variant_id: 'pro' },
                     instance: { id: 'inst-1' },
+                }),
+            };
+        }
+        if (key === 'LIMIT-KEY') {
+            return {
+                ok: true,
+                json: async () => ({
+                    activated: false,
+                    error: 'This license key has reached the activation limit.',
+                    license_key: { id: 2, status: 'active', activation_limit: 1, activation_usage: 1 },
+                    meta: { variant_id: 'pro' },
                 }),
             };
         }
@@ -139,6 +164,13 @@ describe('/verify endpoint', () => {
         ok(typeof data.token === 'string');
         ok(typeof data.tier === 'string');
         ok(typeof data.expires === 'number');
+        const pubSPKI = await exportSPKI(publicKey);
+        const importedPub = await importSPKI(pubSPKI, 'EdDSA');
+        const { payload } = await jwtVerify(data.token, importedPub, {
+            issuer: 'license.edugame.digital',
+            audience: 'esperantai-client',
+        });
+        strictEqual(payload.ls_instance, 'inst-1');
     });
 
     it('2. key inválida → 403', async () => {
@@ -184,6 +216,56 @@ describe('/verify endpoint', () => {
         });
         strictEqual(capture.url, 'https://api.lemonsqueezy.com/v1/licenses/validate');
         strictEqual(capture.authHeader, 'Bearer CUSTOM-API-KEY-FOR-TEST-4');
+        strictEqual(capture.body.get('instance_name'), null);
+        strictEqual(capture.body.get('instance_id'), null);
+        server.close();
+    });
+
+    it('4b. verify con instance_name usa /licenses/activate', async () => {
+        const capture = {};
+        const testApp = createApp({
+            signKey: privateKey,
+            lemonSqueezyApiKey: 'test-key',
+            lemonSqueezyFetch: createMockFetch(capture),
+            rateLimiterFactory: () => ({ consume: async () => {} }),
+            db: createInMemoryRevocationsDb(),
+        });
+        const server = await new Promise((resolve) => {
+            const s = testApp.listen(0, () => resolve(s));
+        });
+        const url = `http://127.0.0.1:${server.address().port}`;
+        await fetch(`${url}/verify`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ license_key: 'VALID-KEY', instance_name: 'test-instance' }),
+        });
+        strictEqual(capture.url, 'https://api.lemonsqueezy.com/v1/licenses/activate');
+        strictEqual(capture.body.get('instance_name'), 'test-instance');
+        strictEqual(capture.body.get('instance_id'), null);
+        server.close();
+    });
+
+    it('4c. verify con instance_id usa /licenses/validate', async () => {
+        const capture = {};
+        const testApp = createApp({
+            signKey: privateKey,
+            lemonSqueezyApiKey: 'test-key',
+            lemonSqueezyFetch: createMockFetch(capture),
+            rateLimiterFactory: () => ({ consume: async () => {} }),
+            db: createInMemoryRevocationsDb(),
+        });
+        const server = await new Promise((resolve) => {
+            const s = testApp.listen(0, () => resolve(s));
+        });
+        const url = `http://127.0.0.1:${server.address().port}`;
+        await fetch(`${url}/verify`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ license_key: 'VALID-KEY', instance_id: 'inst-1' }),
+        });
+        strictEqual(capture.url, 'https://api.lemonsqueezy.com/v1/licenses/validate');
+        strictEqual(capture.body.get('instance_id'), 'inst-1');
+        strictEqual(capture.body.get('instance_name'), null);
         server.close();
     });
 
@@ -263,6 +345,18 @@ describe('/verify endpoint', () => {
         strictEqual(data.ok, false);
         strictEqual(data.error, 'product_mismatch');
     });
+
+    it('9c. límite de activaciones de LS → 403 limit_reached', async () => {
+        const res = await fetch(`${baseURL}/verify`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ license_key: 'LIMIT-KEY', instance_name: 'test-instance' }),
+        });
+        strictEqual(res.status, 403);
+        const data = await res.json();
+        strictEqual(data.ok, false);
+        strictEqual(data.error, 'limit_reached');
+    });
 });
 
 describe('rate limiting', () => {
@@ -314,6 +408,33 @@ describe('health + deactivate + webhook', () => {
             body,
         });
         strictEqual(res.status, 401);
+    });
+
+    it('12b. license_key_updated disabled → revoca la key persistida', async () => {
+        const body = JSON.stringify({
+            meta: { event_name: 'license_key_updated' },
+            data: { attributes: { key: 'VALID-KEY', status: 'disabled' } },
+        });
+        const signature = createHmac('sha256', 'test-webhook-secret').update(body).digest('hex');
+        const webhookRes = await fetch(`${baseURL}/webhook`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-signature': signature,
+                'x-event-name': 'license_key_updated',
+            },
+            body,
+        });
+        strictEqual(webhookRes.status, 200);
+
+        const verifyRes = await fetch(`${baseURL}/verify`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ license_key: 'VALID-KEY', instance_name: 'test-instance' }),
+        });
+        strictEqual(verifyRes.status, 403);
+        const data = await verifyRes.json();
+        strictEqual(data.error, 'revoked');
     });
 });
 

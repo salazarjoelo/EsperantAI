@@ -14,7 +14,7 @@ import { readdirSync, statSync } from 'node:fs';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-const SKIP_DIRS = new Set(['node_modules', '.git', 'libs', 'models', '.vps-work', 'dist']);
+const SKIP_DIRS = new Set(['node_modules', '.git', 'libs', 'models', '.vps-work', 'dist', 'coverage']);
 
 function* walkHtml(dir) {
   let entries;

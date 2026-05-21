@@ -69,11 +69,12 @@
 1. Settings → **Webhooks**
 2. Agregar endpoint para recibir notificaciones de:
    - `license_key_created`
-   - `license_key_activated`
-   - `license_key_deactivated`
+   - `license_key_updated`
    - `order_created`
+   - `order_refunded`
 3. URL del webhook: `https://license.edugame.digital/webhook`
 4. Generar y guardar el **Signing Secret**. LemonSqueezy firma cada webhook con `X-Signature`; el backend de EsperantAI compara ese HMAC con `LEMONSQUEEZY_WEBHOOK_SECRET`.
+5. Nota crítica: en el selector actual de Lemon Squeezy, los cambios de una licencia se notifican como `license_key_updated`; no hay que depender de eventos `license_key_activated`, `license_key_deactivated`, `license_key_disabled` o `license_key_revoked` para el lanzamiento.
 
 ## 6. Configurar reembolsos
 

@@ -121,7 +121,8 @@ curl https://license.edugame.digital/health
 LemonSqueezy Dashboard → Settings → Webhooks → New webhook:
 - URL: `https://license.edugame.digital/webhook`
 - Signing secret: copiarlo a `LEMONSQUEEZY_WEBHOOK_SECRET` en `.env`
-- Eventos: `license_key_created`, `license_key_disabled`, `license_key_revoked`
+- Eventos mínimos para venta de pago único: `order_created`, `order_refunded`, `license_key_created`, `license_key_updated`
+- Nota: Lemon Squeezy no expone eventos `license_key_disabled` / `license_key_revoked` en el selector actual. Una desactivación manual llega como `license_key_updated` con `status=disabled`; el backend mantiene compatibilidad defensiva con los nombres antiguos si alguna integración los enviara.
 
 ## Endpoints
 
@@ -163,7 +164,7 @@ Response error:
 - **Rate limiting**: 10 intentos `/verify` por IP / 5 min, 10 min bloqueo.
 - **HMAC-SHA256** para validar webhooks (timing-safe compare).
 - **CORS** estricto: solo orígenes whitelisted.
-- **Sin DB** por ahora: revoked keys en memoria. Si server reinicia, se reciben de nuevo via webhook re-sync (Joel puede llamar manualmente a LemonSqueezy API y poblar al startup).
+- **SQLite para revocaciones**: `revoked_keys` persiste licencias deshabilitadas por webhook y sobrevive reinicios del VPS.
 
 ## Para Claude / futuras IAs
 
